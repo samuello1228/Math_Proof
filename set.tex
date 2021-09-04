@@ -1,0 +1,152 @@
+\chapter{Set theory}
+Set theory have one primitive notion, called set, and one binary relation, called set membership, denoted by $\in$.
+
+\begin{defn}
+Definition of $\notin$.
+\begin{align*}
+& A \notin B \\
+\iff & \lnot (A \in B) \\
+\end{align*}
+\end{defn}
+
+\begin{defn}
+\label{Definition:universal_quantifier_in_set}
+\begin{align*}
+& \forall x \in S, P(x) \\
+\iff & \forall x (x \in S \implies P(x))
+\end{align*}
+\end{defn}
+
+\begin{defn}
+\label{Definition:existential_quantifier_in_set}
+\begin{align*}
+& \exists x \in S, P(x) \\
+\iff & \exists x (x \in S \land P(x))
+\end{align*}
+\end{defn}
+
+\begin{prop}
+\begin{align*}
+\lnot (\forall x \in S, P(x)) \iff \exists x \in S, \lnot (P(x))
+\end{align*} 
+Proof: \\ \\
+\begin{align*}
+& \lnot (\forall x \in S, P(x)) \\
+\iff & \lnot ( \forall x (x \in S \implies P(x)) )
+&& \text{Definition \ref{Definition:universal_quantifier_in_set}} \\
+\iff & \lnot ( \forall x (\lnot(x \in S) \lor P(x)) )
+&& \text{Definition \ref{Definition:implies}} \\
+\iff & \exists x, \lnot (\lnot(x \in S) \lor P(x))
+&& \text{Axiom \ref{axiom:De_Morgan_1}} \\
+\iff & \exists x, \lnot (\lnot(x \in S)) \land \lnot (P(x))
+&& \text{Proposition \ref{Proposition:De_Morgan_2}} \\
+\iff & \exists x, x \in S \land \lnot (P(x))
+&& \text{Proposition \ref{Proposition:double_negation}} \\
+\iff & \exists x \in S, \lnot (P(x))
+&& \text{Definition \ref{Definition:existential_quantifier_in_set}} \\
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\begin{align*}
+\lnot (\exists x \in S, P(x)) \iff \forall x \in S, \lnot (P(x))
+\end{align*} 
+Proof: \\ \\
+\begin{align*}
+& \lnot (\exists x \in S, P(x)) \\
+\iff & \lnot ( \exists x (x \in S \land P(x)) )
+&& \text{Definition \ref{Definition:existential_quantifier_in_set}} \\
+\iff & \forall x, \lnot (x \in S \land P(x))
+&& \text{Axiom \ref{axiom:De_Morgan_2}} \\
+\iff & \forall x, (\lnot(x \in S)) \lor (\lnot (P(x))
+&& \text{Proposition \ref{Proposition:De_Morgan_1}} \\
+\iff & \forall x, x \in S \implies \lnot (P(x))
+&& \text{Definition \ref{Definition:implies}} \\
+\iff & \forall x \in S, \lnot (P(x))
+&& \text{Definition \ref{Definition:universal_quantifier_in_set}} \\
+\end{align*}
+\end{prop}
+
+\section{Equality of sets}
+\begin{defn}
+\label{Definition:equality}
+Definition of $=$.
+\begin{align*}
+& A = B \\
+\iff & \forall x (x \in A \iff x \in B) \\
+\end{align*}
+\end{defn}
+
+\begin{defn}
+Definition of $\neq$.
+\begin{align*}
+& A \neq B \\
+\iff & \lnot (A = B) \\
+\end{align*}
+\end{defn}
+
+\begin{prop}
+Reflexive property of equality
+\begin{align*}
+\forall x (x = x)
+\end{align*}
+Proof:
+\begin{align*}
+& \forall x ( \\
+& \quad &&  && x = x \\
+& \quad && \iff && \forall y (y \in x \iff y \in x)
+&& \text{Definition \ref{Definition:equality}} \\
+& \quad && \iff && \text{True}
+&& \text{Proposition \ref{Proposition:iff_reflexive}} \\
+& )
+\end{align*}
+\end{prop}
+
+\begin{prop}
+Symmetric property of equality
+\begin{align*}
+\forall x \forall y ((x = y) \implies (y=x))
+\end{align*}
+Proof:
+\begin{align*}
+& \forall x \forall y ( \\
+& \quad &&  &&  x = y \\
+& \quad && \implies &&  \forall z (z \in x \iff z \in y)
+&& \text{Definition \ref{Definition:equality}} \\
+& \quad && \implies &&  \forall z (z \in y \iff z \in x)
+&& \text{Proposition \ref{Proposition:iff_symmetric}} \\
+& \quad && \implies && y = x
+&& \text{Definition \ref{Definition:equality}} \\
+& )
+\end{align*}
+\end{prop}
+
+\begin{prop}
+Transitive property of equality
+\begin{align*}
+\forall x \forall y \forall z ((x = y) \land (y=z) \implies (x=z))
+\end{align*}
+Proof:
+\begin{align*}
+& \forall x \forall y \forall z ( \\
+& \quad &&  &&  (x = y) \land (y=z) \\
+& \quad && \implies && ( \forall w (w \in x \iff w \in y)) \land ( \forall w (w \in y \iff w \in z))
+&& \text{Definition \ref{Definition:equality}} \\
+& \quad && \implies && \forall w ((w \in x \iff w \in y) \land (w \in y \iff w \in z))
+&& \text{Axiom \ref{axiom:forall_land_distributive}} \\
+& \quad && \implies && \forall w (w \in x \iff w \in z)
+&& \text{Proposition \ref{Proposition:iff_Transitive}} \\
+& \quad && \implies && x = z
+&& \text{Definition \ref{Definition:equality}} \\
+& )
+\end{align*}
+\end{prop}
+
+\begin{axm}
+Axiom of Substitution
+\begin{align*}
+& \forall x \forall y ( \\
+& x = y \implies \forall A (x \in A  \iff y \in A) \\
+& )
+\end{align*}
+\end{axm}

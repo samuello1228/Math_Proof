@@ -1,0 +1,188 @@
+\chapter{Logic}
+\begin{defn}
+Proposition is a statement that is either true or false, but not both.
+\end{defn}
+
+\section{Logical operations}
+
+\begin{defn}
+Definition of $\lnot$. \\ \\
+\begin{tabular}{|c|c|}
+\hline
+$p$ & $\lnot p$  \\
+\hline
+T & F \\
+\hline
+F & T \\
+\hline
+\end{tabular}
+\end{defn}
+
+\begin{defn}
+Definition of $\land$. \\ \\
+\begin{tabular}{|c|c|c|}
+\hline
+$p$ & $q$ & $p \land q$ \\
+\hline
+T & T & T \\
+\hline
+T & F & F \\
+\hline
+F & T & F \\
+\hline
+F & F & F \\
+\hline
+\end{tabular}
+\end{defn}
+
+\begin{defn}
+Definition of $\lor$. \\ \\
+\begin{tabular}{|c|c|c|}
+\hline
+$p$ & $q$ & $p \lor q$ \\
+\hline
+T & T & T \\
+\hline
+T & F & T \\
+\hline
+F & T & T \\
+\hline
+F & F & F \\
+\hline
+\end{tabular}
+\end{defn}
+
+\begin{defn}
+Definition of $\iff$. \\ \\
+\begin{tabular}{|c|c|c|}
+\hline
+$p$ & $q$ & $p \iff q$ \\
+\hline
+T & T & T \\
+\hline
+T & F & F \\
+\hline
+F & T & F \\
+\hline
+F & F & T \\
+\hline
+\end{tabular}
+\end{defn}
+
+\begin{defn}
+\label{Definition:implies}
+Definition of $\implies$.
+\begin{align*}
+& p \implies q \\
+\iff & (\lnot p) \lor q
+\end{align*}
+\end{defn}
+
+\section{Quantifiers}
+\begin{defn}
+Universal quantifier is denoted by $\forall$.
+\begin{align*}
+\forall x, P(x)
+\end{align*}
+\end{defn}
+
+\begin{defn}
+Existential quantifier is denoted by $\exists$.
+\begin{align*}
+\exists x, P(x)
+\end{align*}
+\end{defn}
+
+\begin{axm}
+\label{axiom:forall_land_distributive}
+\begin{align*}
+\forall x, (P(x) \land Q(x)) \iff (\forall x, P(x)) \land (\forall x, Q(x))
+\end{align*}
+\end{axm}
+
+\begin{axm}
+\label{axiom:De_Morgan_1}
+De Morgan's law
+\begin{align*}
+\lnot (\forall x, P(x)) \iff \exists x, \lnot (P(x))
+\end{align*}
+\end{axm}
+
+\begin{axm}
+\label{axiom:De_Morgan_2}
+De Morgan's law
+\begin{align*}
+\lnot (\exists x, P(x)) \iff \forall x, \lnot (P(x))
+\end{align*}
+\end{axm}
+
+\begin{defn}
+Uniqueness quantifier is denoted by $!\exists$.
+\begin{align*}
+& !\exists x, P(x) \\
+\iff & (\exists x, P(x)) \land (\forall y \forall z (P(y) \land P(z) \implies y = z))
+\end{align*}
+\end{defn}
+
+\section{Proposition}
+Let $P = P(x_1, x_2, \dots, x_n)$.
+Let $Q = Q(x_1, x_2, \dots, x_n)$.
+etc
+
+\begin{prop}
+\label{Proposition:double_negation}
+Double negation
+\begin{align*}
+\lnot (\lnot P) \iff P
+\end{align*} 
+\end{prop}
+
+\begin{prop}
+\label{Proposition:iff_reflexive}
+Reflexive property of iff.
+\begin{align*}
+P \iff P
+\end{align*} 
+Proof: \\ \\
+\begin{tabular}{|c|c|}
+\hline
+$P$ & $P \iff P$ \\
+\hline
+T & T \\
+\hline
+F & T \\
+\hline
+\end{tabular}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:iff_symmetric}
+Symmetric property of iff.
+\begin{align*}
+(P \iff Q) \iff (Q \iff P) 
+\end{align*} 
+\end{prop}
+
+\begin{prop}
+\label{Proposition:iff_Transitive}
+Transitive property of iff.
+\begin{align*}
+((P \iff Q) \land (Q \iff R)) \implies (P \iff R)
+\end{align*} 
+\end{prop}
+
+\begin{prop}
+\label{Proposition:De_Morgan_1}
+De Morgan's law
+\begin{align*}
+\lnot (P \land Q) \iff (\lnot P) \lor (\lnot Q) \\
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:De_Morgan_2}
+De Morgan's law
+\begin{align*}
+\lnot (P \lor Q) \iff (\lnot P) \land (\lnot Q) \\
+\end{align*}
+\end{prop}

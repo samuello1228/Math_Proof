@@ -1,0 +1,28 @@
+\documentclass[12pt,a4paper]{report}
+\oddsidemargin=-40pt
+\topmargin=-35pt
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{hyperref}
+\hypersetup{
+colorlinks=true, %set true if you want colored links
+linktoc=all,     %set to all if you want both sections and subsections linked
+linkcolor=blue,  %choose some color, e.g. blue, if you want links to stand out
+}
+
+\theoremstyle{definition}
+\newtheorem{axm}{Axiom}[chapter]
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lemma}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{examp}[thm]{Example}
+\newtheorem{rmk}[thm]{Remark}
+
+\begin{document}
+
+\include{logic}
+\include{set}
+
+\end{document}
