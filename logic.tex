@@ -94,14 +94,14 @@ Existential quantifier is denoted by $\exists$.
 \end{defn}
 
 \begin{axm}
-\label{axiom:forall_land_distributive}
+\label{Axiom:forall_land_distributive}
 \begin{align*}
 \forall x, (P(x) \land Q(x)) \iff (\forall x, P(x)) \land (\forall x, Q(x))
 \end{align*}
 \end{axm}
 
 \begin{axm}
-\label{axiom:De_Morgan_1}
+\label{Axiom:De_Morgan_1}
 De Morgan's law
 \begin{align*}
 \lnot (\forall x, P(x)) \iff \exists x, \lnot (P(x))
@@ -109,7 +109,7 @@ De Morgan's law
 \end{axm}
 
 \begin{axm}
-\label{axiom:De_Morgan_2}
+\label{Axiom:De_Morgan_2}
 De Morgan's law
 \begin{align*}
 \lnot (\exists x, P(x)) \iff \forall x, \lnot (P(x))
@@ -117,12 +117,15 @@ De Morgan's law
 \end{axm}
 
 \begin{defn}
+\label{Definition:uniqueness_quantifier}
 Uniqueness quantifier is denoted by $!\exists$.
 \begin{align*}
 & !\exists x, P(x) \\
-\iff & (\exists x, P(x)) \land (\forall y \forall z (P(y) \land P(z) \implies y = z))
+\iff & (\exists x, P(x)) \land (\forall x \forall y (P(x) \land P(y) \implies x = y))
 \end{align*}
 \end{defn}
+
+\section{Proof technique}
 
 \section{Proposition}
 Let $P = P(x_1, x_2, \dots, x_n)$.
@@ -184,5 +187,19 @@ De Morgan's law
 De Morgan's law
 \begin{align*}
 \lnot (P \lor Q) \iff (\lnot P) \land (\lnot Q) \\
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:land_implies_iff}
+\begin{align*}
+(P \land Q) \implies  (P \iff Q) \\
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:iff_contraposition}
+\begin{align*}
+(\lnot P \iff \lnot Q) \iff (P \iff Q) \\
 \end{align*}
 \end{prop}

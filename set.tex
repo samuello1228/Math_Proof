@@ -2,6 +2,7 @@
 Set theory have one primitive notion, called set, and one binary relation, called set membership, denoted by $\in$.
 
 \begin{defn}
+\label{Definition:notin}
 Definition of $\notin$.
 \begin{align*}
 & A \notin B \\
@@ -37,7 +38,7 @@ Proof: \\ \\
 \iff & \lnot ( \forall x (\lnot(x \in S) \lor P(x)) )
 && \text{Definition \ref{Definition:implies}} \\
 \iff & \exists x, \lnot (\lnot(x \in S) \lor P(x))
-&& \text{Axiom \ref{axiom:De_Morgan_1}} \\
+&& \text{Axiom \ref{Axiom:De_Morgan_1}} \\
 \iff & \exists x, \lnot (\lnot(x \in S)) \land \lnot (P(x))
 && \text{Proposition \ref{Proposition:De_Morgan_2}} \\
 \iff & \exists x, x \in S \land \lnot (P(x))
@@ -57,7 +58,7 @@ Proof: \\ \\
 \iff & \lnot ( \exists x (x \in S \land P(x)) )
 && \text{Definition \ref{Definition:existential_quantifier_in_set}} \\
 \iff & \forall x, \lnot (x \in S \land P(x))
-&& \text{Axiom \ref{axiom:De_Morgan_2}} \\
+&& \text{Axiom \ref{Axiom:De_Morgan_2}} \\
 \iff & \forall x, (\lnot(x \in S)) \lor (\lnot (P(x))
 && \text{Proposition \ref{Proposition:De_Morgan_1}} \\
 \iff & \forall x, x \in S \implies \lnot (P(x))
@@ -133,7 +134,7 @@ Proof:
 & \quad && \implies && ( \forall w (w \in x \iff w \in y)) \land ( \forall w (w \in y \iff w \in z))
 && \text{Definition \ref{Definition:equality}} \\
 & \quad && \implies && \forall w ((w \in x \iff w \in y) \land (w \in y \iff w \in z))
-&& \text{Axiom \ref{axiom:forall_land_distributive}} \\
+&& \text{Axiom \ref{Axiom:forall_land_distributive}} \\
 & \quad && \implies && \forall w (w \in x \iff w \in z)
 && \text{Proposition \ref{Proposition:iff_Transitive}} \\
 & \quad && \implies && x = z
@@ -150,3 +151,47 @@ Axiom of Substitution
 & )
 \end{align*}
 \end{axm}
+
+\begin{axm}
+\label{Axiom:existence_of_empty_set}
+Existence of empty set
+\begin{align*}
+\exists x \forall y (y \notin x)
+\end{align*}
+\end{axm}
+
+\begin{prop}
+\label{Proposition:uniqueness_of_empty_set}
+Uniqueness of empty set
+\begin{align*}
+!\exists x \forall y (y \notin x)
+\end{align*}
+Proof: \\
+Let $P(x) = \forall y (y \notin x)$
+\begin{align*}
+& \exists x \forall y (y \notin x) && \text{Axiom \ref{Axiom:existence_of_empty_set}} \\
+\implies & \exists x, P(x) && \text{Definition of P(x)}
+\end{align*}
+\begin{align*}
+& \forall x \forall y ( \\
+& \quad && &&  P(x) \land P(y) \\
+& \quad && \implies &&  (\forall z (z \notin x)) \land (\forall z (z \notin y))
+&& \text{Definition of P(x)} \\
+& \quad && \implies && \forall z ((z \notin x) \land (z \notin y))
+&& \text{Axiom \ref{Axiom:forall_land_distributive}} \\
+& \quad && \implies && \forall z (z \notin x \iff z \notin y)
+&& \text{Proposition \ref{Proposition:land_implies_iff}} \\
+& \quad && \implies && \forall z (\lnot(z \in x) \iff \lnot (z \in y))
+&& \text{Definition \ref{Definition:notin}} \\
+& \quad && \implies && \forall z (z \in x \iff z \in y)
+&& \text{Proposition \ref{Proposition:iff_contraposition}} \\
+& \quad && \implies && x = y
+&& \text{Definition \ref{Definition:equality}} \\
+& )
+\end{align*}
+\begin{align*}
+& (\exists x, P(x)) \land \forall x \forall y ( (P(x) \land P(y)) \implies (x=y) ) \\
+\implies & !\exists x, P(x) && \text{Definition \ref{Definition:uniqueness_quantifier}} \\
+\implies & !\exists x \forall y (y \notin x) && \text{Definition of P(x)} \\
+\end{align*}
+\end{prop}
