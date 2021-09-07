@@ -101,6 +101,14 @@ Existential quantifier is denoted by $\exists$.
 \end{axm}
 
 \begin{axm}
+\label{Axiom:forall_independent_variable}
+P does not depend on x.
+\begin{align*}
+(\forall x, P(y)) \iff P(y)
+\end{align*}
+\end{axm}
+
+\begin{axm}
 \label{Axiom:De_Morgan_1}
 De Morgan's law
 \begin{align*}
@@ -126,6 +134,25 @@ Uniqueness quantifier is denoted by $!\exists$.
 \end{defn}
 
 \section{Proof technique}
+\begin{prop}
+\begin{align*}
+(P \iff Q) \iff ((P \implies Q) \land (Q \implies P))
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\begin{align*}
+((P \implies Q) \land (Q \implies R)) \implies (P \implies R)
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:contrapositive}
+contrapositive
+\begin{align*}
+(P \implies Q) \iff (\lnot Q \implies \lnot P)
+\end{align*}
+\end{prop}
 
 \section{Proposition}
 Let $P = P(x_1, x_2, \dots, x_n)$.
@@ -137,7 +164,7 @@ etc
 Double negation
 \begin{align*}
 \lnot (\lnot P) \iff P
-\end{align*} 
+\end{align*}
 \end{prop}
 
 \begin{prop}
@@ -145,7 +172,7 @@ Double negation
 Reflexive property of iff.
 \begin{align*}
 P \iff P
-\end{align*} 
+\end{align*}
 Proof: \\ \\
 \begin{tabular}{|c|c|}
 \hline
@@ -162,8 +189,8 @@ F & T \\
 \label{Proposition:iff_symmetric}
 Symmetric property of iff.
 \begin{align*}
-(P \iff Q) \iff (Q \iff P) 
-\end{align*} 
+(P \iff Q) \iff (Q \iff P)
+\end{align*}
 \end{prop}
 
 \begin{prop}
@@ -171,7 +198,7 @@ Symmetric property of iff.
 Transitive property of iff.
 \begin{align*}
 ((P \iff Q) \land (Q \iff R)) \implies (P \iff R)
-\end{align*} 
+\end{align*}
 \end{prop}
 
 \begin{prop}
@@ -198,8 +225,22 @@ De Morgan's law
 \end{prop}
 
 \begin{prop}
-\label{Proposition:iff_contraposition}
+\label{Proposition:iff_contrapositive}
 \begin{align*}
 (\lnot P \iff \lnot Q) \iff (P \iff Q) \\
 \end{align*}
 \end{prop}
+
+\begin{prop}
+\label{Proposition:land_omit}
+\begin{align*}
+(P \land Q) \implies P \\
+\end{align*}
+\end{prop}
+
+\begin{lemma}
+\label{Lemma:uniqueness}
+\begin{align*}
+(P \land ((Q \land P) \implies R)) \implies (Q \implies R) \\
+\end{align*}
+\end{lemma}

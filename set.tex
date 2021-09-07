@@ -29,7 +29,7 @@ Definition of $\notin$.
 \begin{prop}
 \begin{align*}
 \lnot (\forall x \in S, P(x)) \iff \exists x \in S, \lnot (P(x))
-\end{align*} 
+\end{align*}
 Proof: \\ \\
 \begin{align*}
 & \lnot (\forall x \in S, P(x)) \\
@@ -51,7 +51,7 @@ Proof: \\ \\
 \begin{prop}
 \begin{align*}
 \lnot (\exists x \in S, P(x)) \iff \forall x \in S, \lnot (P(x))
-\end{align*} 
+\end{align*}
 Proof: \\ \\
 \begin{align*}
 & \lnot (\exists x \in S, P(x)) \\
@@ -79,6 +79,7 @@ Definition of $=$.
 \end{defn}
 
 \begin{defn}
+\label{Definition:neq}
 Definition of $\neq$.
 \begin{align*}
 & A \neq B \\
@@ -162,7 +163,7 @@ Existence of empty set
 
 \begin{prop}
 \label{Proposition:uniqueness_of_empty_set}
-Uniqueness of empty set
+Uniqueness of empty set.
 \begin{align*}
 !\exists x \forall y (y \notin x)
 \end{align*}
@@ -184,7 +185,7 @@ Let $P(x) = \forall y (y \notin x)$
 & \quad && \implies && \forall z (\lnot(z \in x) \iff \lnot (z \in y))
 && \text{Definition \ref{Definition:notin}} \\
 & \quad && \implies && \forall z (z \in x \iff z \in y)
-&& \text{Proposition \ref{Proposition:iff_contraposition}} \\
+&& \text{Proposition \ref{Proposition:iff_contrapositive}} \\
 & \quad && \implies && x = y
 && \text{Definition \ref{Definition:equality}} \\
 & )
@@ -193,5 +194,77 @@ Let $P(x) = \forall y (y \notin x)$
 & (\exists x, P(x)) \land \forall x \forall y ( (P(x) \land P(y)) \implies (x=y) ) \\
 \implies & !\exists x, P(x) && \text{Definition \ref{Definition:uniqueness_quantifier}} \\
 \implies & !\exists x \forall y (y \notin x) && \text{Definition of P(x)} \\
+\end{align*}
+\end{prop}
+
+\begin{defn}
+\label{Definition:emptyset}
+The unique empty set is denoted by $\emptyset$. \\
+\begin{align*}
+\forall x (x \notin \emptyset)
+\end{align*}
+Proof: \\
+Let $P(x) = \forall y (y \notin x)$
+\begin{align*}
+& !\exists x \forall y (y \notin x) && \text{Proposition \ref{Proposition:uniqueness_of_empty_set}} \\
+\implies & !\exists x, P(x)
+&& \text{Definition of P(x)} \\
+\implies & (\exists x, P(x)) \land \forall x \forall y ( (P(x) \land P(y)) \implies (x=y) )
+&& \text{Definition \ref{Definition:uniqueness_quantifier}} \\
+\implies & P(\emptyset) \land \forall x ( (P(x) \land P(\emptyset)) \implies (x=\emptyset) )
+&& \text{Definition \ref{Definition:emptyset}} \\
+\implies & P(\emptyset)
+&& \text{Proposition \ref{Proposition:land_omit}} \\
+\implies & \forall y (y \notin \emptyset)
+&& \text{Definition of P(x)} \\
+\end{align*}
+\end{defn}
+
+\begin{prop}
+\label{Proposition:uniqueness_of_emptyset}
+Uniqueness of $\emptyset$
+\begin{align*}
+\forall x (\forall y (y \notin x) \implies (x=\emptyset))
+\end{align*}
+Proof: \\
+Let $P(x) = \forall y (y \notin x)$
+\begin{align*}
+& !\exists x \forall y (y \notin x) && \text{Proposition \ref{Proposition:uniqueness_of_empty_set}} \\
+\implies & !\exists x, P(x)
+&& \text{Definition of P(x)} \\
+\implies & (\exists x, P(x)) \land \forall x \forall y ( (P(x) \land P(y)) \implies (x=y) )
+&& \text{Definition \ref{Definition:uniqueness_quantifier}} \\
+\implies & P(\emptyset) \land \forall x ( (P(x) \land P(\emptyset)) \implies (x=\emptyset) )
+&& \text{Definition \ref{Definition:emptyset}} \\
+\implies & (\forall x, P(\emptyset)) \land \forall x ( (P(x) \land P(\emptyset)) \implies (x=\emptyset) )
+&& \text{Axiom \ref{Axiom:forall_independent_variable}} \\
+\implies & \forall x ( P(\emptyset) \land ((P(x) \land P(\emptyset)) \implies (x=\emptyset)) )
+&& \text{Axiom \ref{Axiom:forall_land_distributive}} \\
+\implies & \forall x (P(x) \implies (x=\emptyset))
+&& \text{Lemma \ref{Lemma:uniqueness}} \\
+\implies & \forall x (\forall y (y \notin x) \implies (x=\emptyset))
+&& \text{Definition of P(x)} \\
+\end{align*}
+\end{prop}
+
+
+\begin{prop}
+Single choice
+\begin{align*}
+\forall x((x \neq \emptyset) \implies (\exists y, y \in x))
+\end{align*}
+Proof:
+\begin{align*}
+& \forall x (\forall y (y \notin x) \implies (x=\emptyset)) \\
+\implies & \forall x ( \lnot(x=\emptyset) \implies \lnot (\forall y (y \notin x)) )
+&& \text{Proposition \ref{Proposition:contrapositive}} \\
+\implies & \forall x ( (x \neq \emptyset) \implies \lnot (\forall y (y \notin x)) )
+&& \text{Definition \ref{Definition:neq}} \\
+\implies & \forall x ( (x \neq \emptyset) \implies (\exists y, \lnot(y \notin x)) )
+&& \text{Axiom \ref{Axiom:De_Morgan_1}} \\
+\implies & \forall x ( (x \neq \emptyset) \implies (\exists y, \lnot( \lnot (y \in x))) )
+&& \text{Definition \ref{Definition:notin}} \\
+\implies & \forall x ( (x \neq \emptyset) \implies (\exists y, y \in x ))
+&& \text{Proposition \ref{Proposition:double_negation}} \\
 \end{align*}
 \end{prop}
