@@ -137,7 +137,7 @@ Proof:
 & \quad && \implies && \forall w ((w \in x \iff w \in y) \land (w \in y \iff w \in z))
 && \text{Axiom \ref{Axiom:forall_land_distributive}} \\
 & \quad && \implies && \forall w (w \in x \iff w \in z)
-&& \text{Proposition \ref{Proposition:iff_Transitive}} \\
+&& \text{Proposition \ref{Proposition:iff_transitive}} \\
 & \quad && \implies && x = z
 && \text{Definition \ref{Definition:equality}} \\
 & )
@@ -247,7 +247,6 @@ Let $P(x) = \forall y (y \notin x)$
 \end{align*}
 \end{prop}
 
-
 \begin{prop}
 Single choice
 \begin{align*}
@@ -268,3 +267,94 @@ Proof:
 && \text{Proposition \ref{Proposition:double_negation}} \\
 \end{align*}
 \end{prop}
+
+\begin{axm}
+\label{Axiom:axiom_of_pairing}
+Axiom of pairing. Existence of pair set.
+\begin{align*}
+\forall x \forall y \exists A \forall z (z \in A \iff ((z=x) \lor (z=y)))
+\end{align*}
+\end{axm}
+
+\begin{prop}
+\label{Proposition:uniqueness_of_pairing_set}
+Uniqueness of pairing set.
+\begin{align*}
+\forall x \forall y !\exists A \forall z (z \in A \iff ((z=x) \lor (z=y)))
+\end{align*}
+Proof: \\
+Let $P(A,x,y) =  \forall z (z \in A \iff ((z=x) \lor (z=y)))$
+\begin{align*}
+& \forall x \forall y \forall A \forall B ( \\
+& \quad && &&  P(A,x,y) \land P(B,x,y) \\
+& \quad && \implies &&  (\forall z (z \in A \iff ((z=x) \lor (z=y)))) \\
+& \quad && && \land      (\forall z (z \in B \iff ((z=x) \lor (z=y))))
+&& \text{Definition of P(A,x,y)} \\
+& \quad && \implies &&  \forall z ((z \in A \iff ((z=x) \lor (z=y))) \\
+& \quad && && \land                    (z \in B \iff ((z=x) \lor (z=y))))
+&& \text{Axiom \ref{Axiom:forall_land_distributive}} \\
+& \quad && \implies && \forall z (z \in A \iff z \in B)
+&& \text{Proposition \ref{Proposition:iff_transitive}} \\
+& \quad && \implies && A = B
+&& \text{Definition \ref{Definition:equality}} \\
+& )
+\end{align*}
+\begin{align*}
+& \forall x \forall y !\exists A, P(A,x,y)
+&& \text{Similar to the proof of the Proposition \ref{Proposition:uniqueness_of_empty_set}} \\
+\implies & \forall x \forall y !\exists A \forall z (z \in A \iff ((z=x) \lor (z=y))) && \text{Definition of P(A,x,y)} \\
+\end{align*}
+\end{prop}
+
+\begin{defn}
+\label{Definition:pair_set}
+The unique pair set of x and y is denoted by $\{ x,y \}$. \\
+Let $P(A,x,y) =  \forall z (z \in A \iff ((z=x) \lor (z=y)))$ \\
+Similar to the proof of Definition \ref{Definition:emptyset},
+\begin{align*}
+\forall x \forall y P(\{ x,y \} ,x,y)
+\end{align*}
+Similar to the proof of Proposition \ref{Proposition:uniqueness_of_emptyset},
+\begin{align*}
+\forall x \forall y \forall A (P(A,x,y) \implies (A=\{ x,y \}))
+\end{align*}
+\end{defn}
+
+\begin{prop}
+\label{Proposition:existence_of_singleton_set}
+Existence of singleton set.
+\begin{align*}
+\forall x \exists A \forall y (y \in A \iff (y=x))
+\end{align*}
+Proof:
+\begin{align*}
+& \forall x \exists A \forall y (y \in A \iff ((y=x) \lor (y=x)))
+&& \text{Axiom \ref{Axiom:axiom_of_pairing}} \\
+\implies & \forall x \exists A \forall y (y \in A \iff (y=x))
+&& \text{Proposition \ref{Proposition:lor_itself}} \
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:uniqueness_of_singleton_set}
+Uniqueness of singleton set.
+\begin{align*}
+\forall x !\exists A \forall y (y \in A \iff (x=y))
+\end{align*}
+Let $P(A,x) =  \forall y (y \in A \iff (x=y))$ \\
+The proof is similar to the proof of Proposition \ref{Proposition:uniqueness_of_pairing_set}.
+\end{prop}
+
+\begin{defn}
+\label{Definition:singleton_set}
+The unique singleton set of x is denoted by $\{ x\}$. \\
+Let $P(A,x) =  \forall y (y \in A \iff (x=y))$ \\
+Similar to the proof of Definition \ref{Definition:emptyset},
+\begin{align*}
+\forall x P(\{ x \} ,x)
+\end{align*}
+Similar to the proof of Proposition \ref{Proposition:uniqueness_of_emptyset},
+\begin{align*}
+\forall x \forall A (P(A,x) \implies (A=\{ x \}))
+\end{align*}
+\end{defn}
