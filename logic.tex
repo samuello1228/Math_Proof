@@ -54,6 +54,10 @@ F & F & F \\
 
 \begin{defn}
 Definition of $\iff$. \\ \\
+\begin{align*}
+& p \iff q \\
+\overset{\operatorname{def}}{\iff} & ((p \land q) \lor (\lnot p \land \lnot q))
+\end{align*}
 \begin{tabular}{|c|c|c|}
 \hline
 $p$ & $q$ & $p \iff q$ \\
@@ -74,37 +78,197 @@ F & F & T \\
 Definition of $\implies$.
 \begin{align*}
 & p \implies q \\
-\iff & (\lnot p) \lor q
+\overset{\operatorname{def}}{\iff} & (\lnot p) \lor q
 \end{align*}
 \end{defn}
+
+\section{Boolean algebra}
+\begin{prop}
+\label{Proposition:lor_associativity}
+Associativity of $\lor$.
+\begin{align*}
+((P \lor Q) \lor R) \iff (P \lor (Q \lor R))
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:land_associativity}
+Associativity of $\land$.
+\begin{align*}
+((P \land Q) \land R) \iff (P \land (Q \land R))
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:lor_commutativity}
+Commutativity of $\lor$.
+\begin{align*}
+(P \lor Q) \iff (Q \lor P)
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:land_commutativity}
+Commutativity of $\land$.
+\begin{align*}
+(P \land Q) \iff (Q \land P)
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:lor_identity}
+Identity of $\lor$.
+\begin{align*}
+(P \lor \text{False}) \iff P
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:land_identity}
+Identity of $\land$.
+\begin{align*}
+(P \land \text{True}) \iff P
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:lor_annihilator}
+Annihilator of $\lor$.
+\begin{align*}
+(P \lor \text{True}) \iff \text{True}
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:land_annihilator}
+Annihilator of $\land$.
+\begin{align*}
+(P \land \text{False}) \iff \text{False}
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:lor_idempotence}
+Idempotence of $\lor$.
+\begin{align*}
+(P \lor P) \iff P
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:land_idempotence}
+Idempotence of $\land$.
+\begin{align*}
+(P \land P) \iff P
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:lor_complement}
+Complement of $\lor$.
+\begin{align*}
+(P \lor (\lnot P)) \iff \text{True}
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:land_complement}
+Complement of $\land$.
+\begin{align*}
+(P \land (\lnot P)) \iff \text{False}
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:lor_land_absorption}
+Absorption.
+\begin{align*}
+(P \lor (P \land Q)) \iff P
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:land_lor_absorption}
+Absorption.
+\begin{align*}
+(P \land (P \lor Q)) \iff P
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:lor_land_distributivity}
+Distributivity.
+\begin{align*}
+(P \lor (Q \land R)) \iff ((P \lor Q) \land (P \lor R))
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:land_lor_distributivity}
+Distributivity.
+\begin{align*}
+(P \land (Q \lor R)) \iff ((P \land Q) \lor (P \land R))
+\end{align*}
+\end{prop}
 
 \section{Quantifiers}
 \begin{defn}
 Universal quantifier is denoted by $\forall$.
 \begin{align*}
-\forall x, P(x)
+& \forall x, P(x) \\
+\overset{\operatorname{def}}{\iff} & (P(x_1) \land P(x_2) \land \dots)
 \end{align*}
 \end{defn}
 
 \begin{defn}
 Existential quantifier is denoted by $\exists$.
 \begin{align*}
-\exists x, P(x)
+& \exists x, P(x) \\
+\overset{\operatorname{def}}{\iff} & (P(x_1) \lor P(x_2) \lor \dots)
 \end{align*}
 \end{defn}
 
-\begin{axm}
-\label{Axiom:forall_land_distributive}
+\begin{prop}
+\label{Proposition:forall_land_commutativity}
 \begin{align*}
-\forall x, (P(x) \land Q(x)) \iff (\forall x, P(x)) \land (\forall x, Q(x))
+(\forall x (P(x) \land Q(x))) \iff (\forall x, P(x)) \land (\forall x, Q(x))
 \end{align*}
-\end{axm}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:exists_lor_commutativity}
+\begin{align*}
+(\exists x, P(x)) \lor (\exists x, Q(x)) \iff (\exists x, (P(x) \lor Q(x)))
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:lor_forall_distributivity}
+\begin{align*}
+(P \lor (\forall x, Q(x))) \iff (\forall x (P \lor Q(x)))
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:land_exists_distributivity}
+\begin{align*}
+(P \land (\exists x, Q(x))) \iff (\exists x (P \land Q(x)))
+\end{align*}
+\end{prop}
 
 \begin{axm}
 \label{Axiom:forall_independent_variable}
 P does not depend on x.
 \begin{align*}
 (\forall x, P(y)) \iff P(y)
+\end{align*}
+\end{axm}
+
+\begin{axm}
+\label{Axiom:exists_independent_variable}
+P does not depend on x.
+\begin{align*}
+(\exists x, P(y)) \iff P(y)
 \end{align*}
 \end{axm}
 
@@ -129,9 +293,17 @@ De Morgan's law
 Uniqueness quantifier is denoted by $!\exists$.
 \begin{align*}
 & !\exists x, P(x) \\
-\iff & (\exists x, P(x)) \land (\forall x \forall y (P(x) \land P(y) \implies x = y))
+\overset{\operatorname{def}}{\iff} & (\exists x, P(x)) \land (\forall x \forall y (P(x) \land P(y) \implies x = y))
 \end{align*}
 \end{defn}
+
+\begin{axm}
+\label{Axiom:axiom_of_substitution}
+Axiom of Substitution
+\begin{align*}
+\forall x( (\exists y((y = x) \land P(y))) \iff P(x) )
+\end{align*}
+\end{axm}
 
 \section{Proof technique}
 \begin{prop}
@@ -143,6 +315,20 @@ Uniqueness quantifier is denoted by $!\exists$.
 \begin{prop}
 \begin{align*}
 ((P \implies Q) \land (Q \implies R)) \implies (P \implies R)
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:lor_implies_lor}
+\begin{align*}
+(P \implies Q) \implies ((P \lor R) \implies (Q \lor R))
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:lor_iff_lor}
+\begin{align*}
+(P \iff Q) \implies ((P \lor R) \iff (Q \lor R))
 \end{align*}
 \end{prop}
 
@@ -246,8 +432,15 @@ De Morgan's law
 \end{lemma}
 
 \begin{prop}
-\label{Proposition:lor_itself}
+\label{Proposition:implies_satisfy}
 \begin{align*}
-(P \lor P) \iff P \\
+(P \land (P \implies Q)) \implies Q \\
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:iff_satisfy}
+\begin{align*}
+(P \land (P \iff Q)) \implies Q \\
 \end{align*}
 \end{prop}

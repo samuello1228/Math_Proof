@@ -6,7 +6,7 @@ Set theory have one primitive notion, called set, and one binary relation, calle
 Definition of $\notin$.
 \begin{align*}
 & A \notin B \\
-\iff & \lnot (A \in B) \\
+\overset{\operatorname{def}}{\iff} & \lnot (A \in B) \\
 \end{align*}
 \end{defn}
 
@@ -14,7 +14,7 @@ Definition of $\notin$.
 \label{Definition:universal_quantifier_in_set}
 \begin{align*}
 & \forall x \in S, P(x) \\
-\iff & \forall x (x \in S \implies P(x))
+\overset{\operatorname{def}}{\iff} & \forall x (x \in S \implies P(x))
 \end{align*}
 \end{defn}
 
@@ -22,7 +22,7 @@ Definition of $\notin$.
 \label{Definition:existential_quantifier_in_set}
 \begin{align*}
 & \exists x \in S, P(x) \\
-\iff & \exists x (x \in S \land P(x))
+\overset{\operatorname{def}}{\iff} & \exists x (x \in S \land P(x))
 \end{align*}
 \end{defn}
 
@@ -74,7 +74,7 @@ Proof: \\ \\
 Definition of $=$.
 \begin{align*}
 & A = B \\
-\iff & \forall x (x \in A \iff x \in B) \\
+\overset{\operatorname{def}}{\iff} & \forall x (x \in A \iff x \in B) \\
 \end{align*}
 \end{defn}
 
@@ -83,7 +83,7 @@ Definition of $=$.
 Definition of $\neq$.
 \begin{align*}
 & A \neq B \\
-\iff & \lnot (A = B) \\
+\overset{\operatorname{def}}{\iff} & \lnot (A = B) \\
 \end{align*}
 \end{defn}
 
@@ -135,7 +135,7 @@ Proof:
 & \quad && \implies && ( \forall w (w \in x \iff w \in y)) \land ( \forall w (w \in y \iff w \in z))
 && \text{Definition \ref{Definition:equality}} \\
 & \quad && \implies && \forall w ((w \in x \iff w \in y) \land (w \in y \iff w \in z))
-&& \text{Axiom \ref{Axiom:forall_land_distributive}} \\
+&& \text{Proposition \ref{Proposition:forall_land_commutativity}} \\
 & \quad && \implies && \forall w (w \in x \iff w \in z)
 && \text{Proposition \ref{Proposition:iff_transitive}} \\
 & \quad && \implies && x = z
@@ -145,7 +145,7 @@ Proof:
 \end{prop}
 
 \begin{axm}
-Axiom of Substitution
+Axiom of extensionality
 \begin{align*}
 & \forall x \forall y ( \\
 & x = y \implies \forall A (x \in A  \iff y \in A) \\
@@ -179,7 +179,7 @@ Let $P(x) = \forall y (y \notin x)$
 & \quad && \implies &&  (\forall z (z \notin x)) \land (\forall z (z \notin y))
 && \text{Definition of P(x)} \\
 & \quad && \implies && \forall z ((z \notin x) \land (z \notin y))
-&& \text{Axiom \ref{Axiom:forall_land_distributive}} \\
+&& \text{Proposition \ref{Proposition:forall_land_commutativity}} \\
 & \quad && \implies && \forall z (z \notin x \iff z \notin y)
 && \text{Proposition \ref{Proposition:land_implies_iff}} \\
 & \quad && \implies && \forall z (\lnot(z \in x) \iff \lnot (z \in y))
@@ -239,7 +239,7 @@ Let $P(x) = \forall y (y \notin x)$
 \implies & (\forall x, P(\emptyset)) \land \forall x ( (P(x) \land P(\emptyset)) \implies (x=\emptyset) )
 && \text{Axiom \ref{Axiom:forall_independent_variable}} \\
 \implies & \forall x ( P(\emptyset) \land ((P(x) \land P(\emptyset)) \implies (x=\emptyset)) )
-&& \text{Axiom \ref{Axiom:forall_land_distributive}} \\
+&& \text{Proposition \ref{Proposition:forall_land_commutativity}} \\
 \implies & \forall x (P(x) \implies (x=\emptyset))
 && \text{Lemma \ref{Lemma:uniqueness}} \\
 \implies & \forall x (\forall y (y \notin x) \implies (x=\emptyset))
@@ -292,7 +292,7 @@ Let $P(A,x,y) =  \forall z (z \in A \iff ((z=x) \lor (z=y)))$
 && \text{Definition of P(A,x,y)} \\
 & \quad && \implies &&  \forall z ((z \in A \iff ((z=x) \lor (z=y))) \\
 & \quad && && \land                    (z \in B \iff ((z=x) \lor (z=y))))
-&& \text{Axiom \ref{Axiom:forall_land_distributive}} \\
+&& \text{Proposition \ref{Proposition:forall_land_commutativity}} \\
 & \quad && \implies && \forall z (z \in A \iff z \in B)
 && \text{Proposition \ref{Proposition:iff_transitive}} \\
 & \quad && \implies && A = B
@@ -331,7 +331,7 @@ Proof:
 & \forall x \exists A \forall y (y \in A \iff ((y=x) \lor (y=x)))
 && \text{Axiom \ref{Axiom:axiom_of_pairing}} \\
 \implies & \forall x \exists A \forall y (y \in A \iff (y=x))
-&& \text{Proposition \ref{Proposition:lor_itself}} \
+&& \text{Proposition \ref{Proposition:lor_idempotence}} \
 \end{align*}
 \end{prop}
 
@@ -356,5 +356,107 @@ Similar to the proof of Definition \ref{Definition:emptyset},
 Similar to the proof of Proposition \ref{Proposition:uniqueness_of_emptyset},
 \begin{align*}
 \forall x \forall A (P(A,x) \implies (A=\{ x \}))
+\end{align*}
+\end{defn}
+
+\begin{axm}
+\label{Axiom:axiom_of_union}
+Axiom of union. Existence of union set.
+\begin{align*}
+\forall F \exists A \forall x (x \in A \iff (\exists Y ((x \in Y) \land (Y \in F))))
+\end{align*}
+\end{axm}
+
+\begin{prop}
+\label{Proposition:uniqueness_of_union_set}
+Uniqueness of union set.
+\begin{align*}
+\forall F !\exists A \forall x (x \in A \iff (\exists Y ((x \in Y) \land (Y \in F))))
+\end{align*}
+Proof: \\
+Let $P(A,F) =  \forall x (x \in A \iff (\exists Y ((x \in Y) \land (Y \in F))))$
+\begin{align*}
+& \forall F \forall A \forall B ( \\
+& \quad && &&  P(A,F) \land P(B,F) \\
+& \quad && \implies &&  ( \forall x (x \in A \iff (\exists Y ((x \in Y) \land (Y \in F)))) ) \\
+& \quad && && \land      ( \forall x (x \in B \iff (\exists Y ((x \in Y) \land (Y \in F)))) )
+&& \text{Definition of P(A,F)} \\
+& \quad && \implies &&  \forall x ( (x \in A \iff (\exists Y ((x \in Y) \land (Y \in F)))) \\
+& \quad && && \land                    (x \in B \iff (\exists Y ((x \in Y) \land (Y \in F)))) )
+&& \text{Proposition \ref{Proposition:forall_land_commutativity}} \\
+& \quad && \implies && \forall x (x \in A \iff x \in B)
+&& \text{Proposition \ref{Proposition:iff_transitive}} \\
+& \quad && \implies && A = B
+&& \text{Definition \ref{Definition:equality}} \\
+& )
+\end{align*}
+\begin{align*}
+& \forall F !\exists A, P(A,F)
+&& \text{Similar to the proof of the Proposition \ref{Proposition:uniqueness_of_empty_set}} \\
+\implies & \forall F !\exists A \forall x (x \in A \iff (\exists Y ((x \in Y) \land (Y \in F)))) && \text{Definition of P(A,F)} \\
+\end{align*}
+\end{prop}
+
+\begin{defn}
+\label{Definition:union_set}
+The unique union set of F is denoted by $\bigcup F$. \\
+Let $P(A,F) =  \forall x (x \in A \iff (\exists Y ((x \in Y) \land (Y \in F))))$ \\
+Similar to the proof of Definition \ref{Definition:emptyset},
+\begin{align*}
+\forall F P(\bigcup F, F)
+\end{align*}
+Similar to the proof of Proposition \ref{Proposition:uniqueness_of_emptyset},
+\begin{align*}
+\forall F \forall A (P(A,F) \implies (A= \bigcup F ))
+\end{align*}
+\end{defn}
+
+\begin{defn}
+\label{Definition:zero}
+Definition of 0.
+\begin{align*}
+0 \overset{\operatorname{def}}{=} \emptyset
+\end{align*}
+\end{defn}
+
+\begin{defn}
+\label{Definition:successor}
+Definition of successor $S(x)$.
+\begin{align*}
+\forall x ( S(x) = \bigcup \{x, \{ x \} \} )
+\end{align*}
+\end{defn}
+
+\begin{prop}
+\label{Proposition:pairwise_union}
+Pairwise union.
+\begin{align*}
+\forall A \forall B \forall x (x \in \bigcup \{ A,B \} \iff ((x \in A) \lor (x \in B)))
+\end{align*}
+Proof:
+\begin{align*}
+& \forall A \forall B \forall x ( \\
+& \quad && &&  x \in  \bigcup \{ A,B \} \\
+& \quad && \iff && \exists Y ((x \in Y) \land (Y \in \{ A,B \} ))
+&& \text{Definition \ref{Definition:union_set}} \\
+& \quad && \iff && \exists Y ((x \in Y) \land ((Y = A) \lor (Y = B) ))
+&& \text{Definition \ref{Definition:pair_set}} \\
+& \quad && \iff && \exists Y( ((x \in Y) \land (Y = A)) \lor ((x \in Y) \land (Y = B)) )
+&& \text{Proposition \ref{Proposition:land_lor_distributivity}} \\
+& \quad && \iff && (\exists Y ((x \in Y) \land (Y = A))) \lor (\exists Y ((x \in Y) \land (Y = B)))
+&& \text{Proposition \ref{Proposition:exists_lor_commutativity}} \\
+& \quad && \iff && ((x \in A) \lor (x \in B)) \\
+& \quad && && \text{Proposition \ref{Proposition:lor_iff_lor} and Axiom \ref{Axiom:axiom_of_substitution} with $P(A,x) = (x \in A)$} \\
+& )
+\end{align*}
+\end{prop}
+
+\begin{defn}
+\label{Definition:one}
+Definition of 1.
+\begin{align*}
+1 \overset{\operatorname{def}}{=} & S(0) \\
+= & \bigcup \{0, \{ 0 \} \} && \text{Definition \ref{Definition:successor}} \\
+= & \bigcup \{\emptyset, \{ \emptyset \} \} && \text{Definition \ref{Definition:zero}} \\
 \end{align*}
 \end{defn}
