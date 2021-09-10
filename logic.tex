@@ -6,6 +6,7 @@ Proposition is a statement that is either true or false, but not both.
 \section{Logical operations}
 
 \begin{defn}
+\label{Definition:lnot}
 Definition of $\lnot$. \\ \\
 \begin{tabular}{|c|c|}
 \hline
@@ -321,14 +322,14 @@ Axiom of Substitution
 \begin{prop}
 \label{Proposition:lor_implies_lor}
 \begin{align*}
-(P \implies Q) \implies ((P \lor R) \implies (Q \lor R))
+(x \implies y) \implies ((P(x,z)) \implies P(y,z))
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:lor_iff_lor}
 \begin{align*}
-(P \iff Q) \implies ((P \lor R) \iff (Q \lor R))
+(x \iff y) \implies ((P(x,z)) \iff P(y,z))
 \end{align*}
 \end{prop}
 
@@ -337,6 +338,12 @@ Axiom of Substitution
 contrapositive
 \begin{align*}
 (P \implies Q) \iff (\lnot Q \implies \lnot P)
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\begin{align*}
+(P \iff \text{True}) \iff P
 \end{align*}
 \end{prop}
 

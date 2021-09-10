@@ -412,31 +412,26 @@ Similar to the proof of Proposition \ref{Proposition:uniqueness_of_emptyset},
 \end{defn}
 
 \begin{defn}
-\label{Definition:zero}
-Definition of 0.
+\label{Definition:pairwise_union}
+Definition of pairwise union $A \cup B$.
 \begin{align*}
-0 \overset{\operatorname{def}}{=} \emptyset
-\end{align*}
-\end{defn}
-
-\begin{defn}
-\label{Definition:successor}
-Definition of successor $S(x)$.
-\begin{align*}
-\forall x ( S(x) = \bigcup \{x, \{ x \} \} )
+& A \cup B \\
+\overset{\operatorname{def}}{=} & \bigcup \{ A,B \}
 \end{align*}
 \end{defn}
 
 \begin{prop}
-\label{Proposition:pairwise_union}
-Pairwise union.
+\label{Proposition:pairwise_union_property}
+Property of pairwise union.
 \begin{align*}
-\forall A \forall B \forall x (x \in \bigcup \{ A,B \} \iff ((x \in A) \lor (x \in B)))
+\forall A \forall B \forall x (x \in (A \cup B) \iff ((x \in A) \lor (x \in B)))
 \end{align*}
 Proof:
 \begin{align*}
 & \forall A \forall B \forall x ( \\
-& \quad && &&  x \in  \bigcup \{ A,B \} \\
+& \quad && && x \in (A \cup B) \\
+& \quad && \iff && x \in  \bigcup \{ A,B \}
+&& \text{Definition \ref{Definition:equality} and \ref{Definition:pairwise_union}} \\
 & \quad && \iff && \exists Y ((x \in Y) \land (Y \in \{ A,B \} ))
 && \text{Definition \ref{Definition:union_set}} \\
 & \quad && \iff && \exists Y ((x \in Y) \land ((Y = A) \lor (Y = B) ))
@@ -451,12 +446,83 @@ Proof:
 \end{align*}
 \end{prop}
 
+\begin{prop}
+\label{Proposition:union_commutativity}
+Commutativity of $\cup$.
+\begin{align*}
+\forall x \forall y ((x \cup y) = (y \cup x))
+\end{align*}
+Proof:
+\begin{align*}
+& \forall x \forall y ( \\
+& \quad && && (x \cup y) = (y \cup x) \\
+& \quad && \iff && \forall z (z \in (x \cup y) \iff z \in (y \cup x))
+&& \text{Definition \ref{Definition:equality}} \\
+& \quad && \iff && \forall z( ((z \in x) \lor (z \in y)) \iff ((z \in y) \lor (z \in x)) )
+&& \text{Proposition \ref{Proposition:pairwise_union_property}} \\
+& \quad && \iff && \forall z( ((z \in x) \lor (z \in y)) \iff ((z \in x) \lor (z \in y)) )
+&& \text{Proposition \ref{Proposition:lor_commutativity}} \\
+& \quad && \iff && \text{True}
+&& \text{Proposition \ref{Proposition:iff_reflexive}} \\
+& )
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:union_identity}
+Identity of $\cup$.
+\begin{align*}
+\forall x ((x \cup \emptyset) = x)
+\end{align*}
+Proof:
+\begin{align*}
+& \forall x ( \\
+& \quad && && (x \cup \emptyset) = x \\
+& \quad && \iff && \forall y(y \in (x \cup \emptyset) \iff (y \in x))
+&& \text{Definition \ref{Definition:equality}} \\
+& \quad && \iff && \forall y(((y \in x) \lor (y \in \emptyset)) \iff (y \in x))
+&& \text{Proposition \ref{Proposition:pairwise_union_property}} \\
+& \quad && \iff && \forall y(((y \in x) \lor ( \lnot (\lnot (y \in \emptyset))) ) \iff (y \in x))
+&& \text{Proposition \ref{Proposition:double_negation}} \\
+& \quad && \iff && \forall y(((y \in x) \lor ( \lnot (y \notin \emptyset))) \iff (y \in x))
+&& \text{Definition \ref{Definition:notin}} \\
+& \quad && \iff && \forall y(((y \in x) \lor ( \lnot (\text{True}))) \iff (y \in x))
+&& \text{Definition \ref{Definition:emptyset}} \\
+& \quad && \iff && \forall y(((y \in x) \lor (\text{False})) \iff (y \in x))
+&& \text{Definition \ref{Definition:lnot}} \\
+& \quad && \iff && \forall y((y \in x) \iff (y \in x))
+&& \text{Proposition \ref{Proposition:lor_identity}} \\
+& \quad && \iff && \text{True}
+&& \text{Proposition \ref{Proposition:iff_reflexive}} \\
+& )
+\end{align*}
+\end{prop}
+
+\begin{defn}
+\label{Definition:zero}
+Definition of 0.
+\begin{align*}
+0 \overset{\operatorname{def}}{=} \emptyset
+\end{align*}
+\end{defn}
+
+\begin{defn}
+\label{Definition:successor}
+Definition of successor $S(x)$.
+\begin{align*}
+& S(x) \\
+\overset{\operatorname{def}}{=} & x \cup \{ x \}
+\end{align*}
+\end{defn}
+
 \begin{defn}
 \label{Definition:one}
 Definition of 1.
 \begin{align*}
 1 \overset{\operatorname{def}}{=} & S(0) \\
-= & \bigcup \{0, \{ 0 \} \} && \text{Definition \ref{Definition:successor}} \\
-= & \bigcup \{\emptyset, \{ \emptyset \} \} && \text{Definition \ref{Definition:zero}} \\
+= & 0 \cup \{ 0 \} && \text{Definition \ref{Definition:successor}} \\
+= & \emptyset \cup \{ \emptyset \} && \text{Definition \ref{Definition:zero}} \\
+= & \{ \emptyset \} \cup \emptyset && \text{Proposition \ref{Proposition:union_commutativity}} \\
+= & \{ \emptyset \} && \text{Proposition \ref{Proposition:union_identity}} \\
 \end{align*}
 \end{defn}
