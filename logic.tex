@@ -4,211 +4,526 @@ Proposition is a statement that is either true or false, but not both.
 \end{defn}
 
 \section{Logical operations}
-
+\subsection{Definition of $\lnot$}
 \begin{defn}
-\label{Definition:lnot}
-Definition of $\lnot$. \\ \\
-\begin{tabular}{|c|c|}
-\hline
-$p$ & $\lnot p$  \\
-\hline
-T & F \\
-\hline
-F & T \\
-\hline
-\end{tabular}
-\end{defn}
-
-\begin{defn}
-Definition of $\land$. \\ \\
-\begin{tabular}{|c|c|c|}
-\hline
-$p$ & $q$ & $p \land q$ \\
-\hline
-T & T & T \\
-\hline
-T & F & F \\
-\hline
-F & T & F \\
-\hline
-F & F & F \\
-\hline
-\end{tabular}
-\end{defn}
-
-\begin{defn}
-Definition of $\lor$. \\ \\
-\begin{tabular}{|c|c|c|}
-\hline
-$p$ & $q$ & $p \lor q$ \\
-\hline
-T & T & T \\
-\hline
-T & F & T \\
-\hline
-F & T & T \\
-\hline
-F & F & F \\
-\hline
-\end{tabular}
-\end{defn}
-
-\begin{defn}
-Definition of $\iff$. \\ \\
+\label{Definition:lnot_True}
 \begin{align*}
-& p \iff q \\
-\overset{\operatorname{def}}{\iff} & ((p \land q) \lor (\lnot p \land \lnot q))
+& \lnot(\text{True}) \\
+\overset{\operatorname{def}}{\iff} & \text{False}
 \end{align*}
-\begin{tabular}{|c|c|c|}
-\hline
-$p$ & $q$ & $p \iff q$ \\
-\hline
-T & T & T \\
-\hline
-T & F & F \\
-\hline
-F & T & F \\
-\hline
-F & F & T \\
-\hline
-\end{tabular}
 \end{defn}
 
+\begin{defn}
+\label{Definition:lnot_False}
+\begin{align*}
+& \lnot(\text{False}) \\
+\overset{\operatorname{def}}{\iff} & \text{True}
+\end{align*}
+\end{defn}
+
+\subsection{Definition of $\lor$}
+\begin{defn}
+\label{Definition:lor_True_True}
+\begin{align*}
+& (\text{True}) \lor (\text{True}) \\
+\overset{\operatorname{def}}{\iff} & \text{True}
+\end{align*}
+\end{defn}
+
+\begin{defn}
+\label{Definition:lor_True_False}
+\begin{align*}
+& (\text{True}) \lor (\text{False}) \\
+\overset{\operatorname{def}}{\iff} & \text{True}
+\end{align*}
+\end{defn}
+
+\begin{defn}
+\label{Definition:lor_False_True}
+\begin{align*}
+& (\text{False}) \lor (\text{True}) \\
+\overset{\operatorname{def}}{\iff} & \text{True}
+\end{align*}
+\end{defn}
+
+\begin{defn}
+\label{Definition:lor_False_False}
+\begin{align*}
+& (\text{False}) \lor (\text{False}) \\
+\overset{\operatorname{def}}{\iff} & \text{False}
+\end{align*}
+\end{defn}
+
+\subsection{Definition of $\land$}
+\begin{defn}
+\label{Definition:land_True_True}
+\begin{align*}
+& (\text{True}) \land (\text{True}) \\
+\overset{\operatorname{def}}{\iff} & \text{True}
+\end{align*}
+\end{defn}
+
+\begin{defn}
+\label{Definition:land_True_False}
+\begin{align*}
+& (\text{True}) \land (\text{False}) \\
+\overset{\operatorname{def}}{\iff} & \text{False}
+\end{align*}
+\end{defn}
+
+\begin{defn}
+\label{Definition:land_False_True}
+\begin{align*}
+& (\text{False}) \land (\text{True}) \\
+\overset{\operatorname{def}}{\iff} & \text{False}
+\end{align*}
+\end{defn}
+
+\begin{defn}
+\label{Definition:land_False_False}
+\begin{align*}
+& (\text{False}) \land (\text{False}) \\
+\overset{\operatorname{def}}{\iff} & \text{False}
+\end{align*}
+\end{defn}
+
+\subsection{Definition of $\iff$}
+\begin{defn}
+\label{Definition:iff}
+\begin{align*}
+& x \iff y \\
+\overset{\operatorname{def}}{\iff} & (x \land y) \lor (\lnot x \land \lnot y)
+\end{align*}
+\end{defn}
+
+\subsection{Definition of $\implies$}
 \begin{defn}
 \label{Definition:implies}
-Definition of $\implies$.
 \begin{align*}
-& p \implies q \\
-\overset{\operatorname{def}}{\iff} & (\lnot p) \lor q
+& x \implies y \\
+\overset{\operatorname{def}}{\iff} & (\lnot x) \lor y
 \end{align*}
 \end{defn}
 
 \section{Boolean algebra}
+\subsection{Associativity of $\lor$}
 \begin{prop}
 \label{Proposition:lor_associativity}
-Associativity of $\lor$.
 \begin{align*}
-((P \lor Q) \lor R) \iff (P \lor (Q \lor R))
+((x \lor y) \lor z) \iff (x \lor (y \lor z))
 \end{align*}
 \end{prop}
 
+\subsection{Associativity of $\land$}
 \begin{prop}
 \label{Proposition:land_associativity}
-Associativity of $\land$.
 \begin{align*}
-((P \land Q) \land R) \iff (P \land (Q \land R))
+((x \land y) \land z) \iff (x \land (y \land z))
 \end{align*}
 \end{prop}
 
+\subsection{Commutativity of $\lor$}
 \begin{prop}
 \label{Proposition:lor_commutativity}
-Commutativity of $\lor$.
 \begin{align*}
-(P \lor Q) \iff (Q \lor P)
+(x \lor y) \iff (y \lor x)
 \end{align*}
 \end{prop}
 
+\subsection{Commutativity of $\land$}
 \begin{prop}
 \label{Proposition:land_commutativity}
-Commutativity of $\land$.
 \begin{align*}
-(P \land Q) \iff (Q \land P)
+(x \land y) \iff (y \land x)
+\end{align*}
+\end{prop}
+
+\subsection{Identity of $\lor$}
+\begin{prop}
+\label{Proposition:lor_identity_1}
+\begin{align*}
+(x \lor (\text{False})) \iff x
 \end{align*}
 \end{prop}
 
 \begin{prop}
-\label{Proposition:lor_identity}
-Identity of $\lor$.
+\label{Proposition:lor_identity_2}
 \begin{align*}
-(P \lor \text{False}) \iff P
+((\text{False}) \lor x) \iff x
+\end{align*}
+\end{prop}
+
+\subsection{Identity of $\land$}
+\begin{prop}
+\label{Proposition:land_identity_1}
+\begin{align*}
+(x \land (\text{True})) \iff x
 \end{align*}
 \end{prop}
 
 \begin{prop}
-\label{Proposition:land_identity}
-Identity of $\land$.
+\label{Proposition:land_identity_2}
 \begin{align*}
-(P \land \text{True}) \iff P
+((\text{True}) \land x) \iff x
+\end{align*}
+\end{prop}
+
+\subsection{Annihilator of $\lor$}
+\begin{prop}
+\label{Proposition:lor_annihilator_1}
+\begin{align*}
+(x \lor (\text{True})) \iff (\text{True})
 \end{align*}
 \end{prop}
 
 \begin{prop}
-\label{Proposition:lor_annihilator}
-Annihilator of $\lor$.
+\label{Proposition:lor_annihilator_2}
 \begin{align*}
-(P \lor \text{True}) \iff \text{True}
+((\text{True}) \lor x) \iff (\text{True})
+\end{align*}
+\end{prop}
+
+\subsection{Annihilator of $\land$}
+\begin{prop}
+\label{Proposition:land_annihilator_1}
+\begin{align*}
+(x \land (\text{False})) \iff (\text{False})
 \end{align*}
 \end{prop}
 
 \begin{prop}
-\label{Proposition:land_annihilator}
-Annihilator of $\land$.
+\label{Proposition:land_annihilator_2}
 \begin{align*}
-(P \land \text{False}) \iff \text{False}
+((\text{False}) \land x) \iff (\text{False})
 \end{align*}
 \end{prop}
 
+\subsection{Idempotence of $\lor$}
 \begin{prop}
 \label{Proposition:lor_idempotence}
-Idempotence of $\lor$.
 \begin{align*}
-(P \lor P) \iff P
+(x \lor x) \iff x
 \end{align*}
 \end{prop}
 
+\subsection{Idempotence of $\land$}
 \begin{prop}
 \label{Proposition:land_idempotence}
-Idempotence of $\land$.
 \begin{align*}
-(P \land P) \iff P
+(x \land x) \iff x
+\end{align*}
+\end{prop}
+
+\subsection{Complement of $\lor$}
+\begin{prop}
+\label{Proposition:lor_complement_1}
+\begin{align*}
+(x \lor (\lnot x)) \iff (\text{True})
 \end{align*}
 \end{prop}
 
 \begin{prop}
-\label{Proposition:lor_complement}
-Complement of $\lor$.
+\label{Proposition:lor_complement_2}
 \begin{align*}
-(P \lor (\lnot P)) \iff \text{True}
+((\lnot x) \lor x) \iff (\text{True})
+\end{align*}
+\end{prop}
+
+\subsection{Complement of $\land$}
+\begin{prop}
+\label{Proposition:land_complement_1}
+\begin{align*}
+(x \land (\lnot x)) \iff (\text{False})
 \end{align*}
 \end{prop}
 
 \begin{prop}
-\label{Proposition:land_complement}
-Complement of $\land$.
+\label{Proposition:land_complement_2}
 \begin{align*}
-(P \land (\lnot P)) \iff \text{False}
+((\lnot x) \land x) \iff (\text{False})
+\end{align*}
+\end{prop}
+
+\subsection{Absorption of $\lor$ over $\land$}
+\begin{prop}
+\label{Proposition:lor_land_absorption_1}
+\begin{align*}
+(x \lor (x \land y)) \iff x
 \end{align*}
 \end{prop}
 
 \begin{prop}
-\label{Proposition:lor_land_absorption}
-Absorption.
+\label{Proposition:lor_land_absorption_2}
 \begin{align*}
-(P \lor (P \land Q)) \iff P
+(x \lor (y \land x)) \iff x
 \end{align*}
 \end{prop}
 
 \begin{prop}
-\label{Proposition:land_lor_absorption}
-Absorption.
+\label{Proposition:lor_land_absorption_3}
 \begin{align*}
-(P \land (P \lor Q)) \iff P
+((x \land y) \lor x) \iff x
 \end{align*}
 \end{prop}
 
 \begin{prop}
-\label{Proposition:lor_land_distributivity}
-Distributivity.
+\label{Proposition:lor_land_absorption_4}
 \begin{align*}
-(P \lor (Q \land R)) \iff ((P \lor Q) \land (P \lor R))
+((y \land x) \lor x) \iff x
+\end{align*}
+\end{prop}
+
+\subsection{Absorption of $\land$ over $\lor$}
+\begin{prop}
+\label{Proposition:land_lor_absorption_1}
+\begin{align*}
+(x \land (x \lor y)) \iff x
 \end{align*}
 \end{prop}
 
 \begin{prop}
-\label{Proposition:land_lor_distributivity}
-Distributivity.
+\label{Proposition:land_lor_absorption_2}
 \begin{align*}
-(P \land (Q \lor R)) \iff ((P \land Q) \lor (P \land R))
+(x \land (y \lor x)) \iff x
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:land_lor_absorption_3}
+\begin{align*}
+((x \lor y) \land x) \iff x
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:land_lor_absorption_4}
+\begin{align*}
+((y \lor x) \land x) \iff x
+\end{align*}
+\end{prop}
+
+\subsection{Distributivity of $\lor$ over $\land$}
+\begin{prop}
+\label{Proposition:lor_land_distributivity_1}
+\begin{align*}
+(x \lor (y \land z)) \iff ((x \lor y) \land (x \lor z))
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:lor_land_distributivity_2}
+\begin{align*}
+((x \land y) \lor z) \iff ((x \lor z) \land (y \lor z))
+\end{align*}
+\end{prop}
+
+\subsection{Distributivity of $\land$ over $\lor$}
+\begin{prop}
+\label{Proposition:land_lor_distributivity_1}
+\begin{align*}
+(x \land (y \lor z)) \iff ((x \land y) \lor (x \land z))
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:land_lor_distributivity_2}
+\begin{align*}
+((x \lor y) \land z) \iff ((x \land z) \lor (y \land z))
+\end{align*}
+\end{prop}
+
+\subsection{Double negation}
+\begin{prop}
+\label{Proposition:double_negation}
+\begin{align*}
+(\lnot (\lnot x)) \iff x
+\end{align*}
+\end{prop}
+
+\subsection{De Morgan's laws}
+\begin{prop}
+\label{Proposition:De_Morgan_lor}
+\begin{align*}
+(\lnot (x \lor y)) \iff ((\lnot x) \land (\lnot y)) \\
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:De_Morgan_land}
+\begin{align*}
+(\lnot (x \land y)) \iff ((\lnot x) \lor (\lnot y)) \\
+\end{align*}
+\end{prop}
+
+\section{Basic Proposition}
+\begin{prop}
+\label{Proposition:x_lor_y_complement}
+\begin{align*}
+((x \land (\lnot y)) \lor y) \iff (x \lor y)
+\end{align*}
+Proof:
+\begin{align*}
+& (x \land (\lnot y)) \lor y \\
+\iff & (x \lor y) \land ((\lnot y) \lor y)
+&& \text{Proposition \ref{Proposition:lor_land_distributivity_2}} \\
+\iff & (x \lor y) \land (\text{True})
+&& \text{Proposition \ref{Proposition:lor_complement_2}} \\
+\iff & x \lor y
+&& \text{Proposition \ref{Proposition:land_identity_1}} \\
+\end{align*}
+\end{prop}
+
+\section{Proof technique}
+\begin{prop}
+\begin{align*}
+(x \iff (\text{True})) \iff x
+\end{align*}
+Proof:
+\begin{align*}
+& x \iff (\text{True}) \\
+\iff & (x \land (\text{True})) \lor ((\lnot x) \land (\lnot (\text{True})))
+&& \text{Definition \ref{Definition:iff}} \\
+\iff & (x \land (\text{True})) \lor ((\lnot x) \land (\text{False}))
+&& \text{Definition \ref{Definition:lnot_True}} \\
+\iff & x \lor ((\lnot x) \land (\text{False}))
+&& \text{Proposition \ref{Proposition:land_identity_1}} \\
+\iff & x \lor (\text{False})
+&& \text{Proposition \ref{Proposition:land_annihilator_1}} \\
+\iff & x
+&& \text{Proposition \ref{Proposition:lor_identity_1}} \\
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:implies_lor}
+\begin{align*}
+(x \implies y) \implies ((x \lor z) \implies (y \lor z))
+\end{align*}
+Proof:
+\begin{align*}
+& (x \implies y) \implies ((x \lor z) \implies (y \lor z)) \\
+\iff & ((\lnot x) \lor y) \implies ((x \lor z) \implies (y \lor z))
+&& \text{Definition \ref{Definition:implies}} \\
+\iff & ((\lnot x) \lor y) \implies ((\lnot (x \lor z)) \lor (y \lor z))
+&& \text{Definition \ref{Definition:implies}} \\
+\iff & (\lnot ((\lnot x) \lor y)) \lor ((\lnot (x \lor z)) \lor (y \lor z))
+&& \text{Definition \ref{Definition:implies}} \\
+\iff & ((\lnot(\lnot x)) \land (\lnot y)) \lor ((\lnot (x \lor z)) \lor (y \lor z))
+&& \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
+\iff & (x \land (\lnot y)) \lor ((\lnot (x \lor z)) \lor (y \lor z))
+&& \text{Proposition \ref{Proposition:double_negation}} \\
+\iff & (x \land (\lnot y)) \lor (((\lnot x) \land (\lnot z)) \lor (y \lor z))
+&& \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
+\iff & (x \land (\lnot y)) \lor (((\lnot x) \land (\lnot z)) \lor (z \lor y))
+&& \text{Proposition \ref{Proposition:lor_commutativity}} \\
+\iff & (x \land (\lnot y)) \lor ((((\lnot x) \land (\lnot z)) \lor z) \lor y)
+&& \text{Proposition \ref{Proposition:lor_associativity}} \\
+\iff & (x \land (\lnot y)) \lor (y \lor (((\lnot x) \land (\lnot z)) \lor z))
+&& \text{Proposition \ref{Proposition:lor_commutativity}} \\
+\iff & ((x \land (\lnot y)) \lor y) \lor (((\lnot x) \land (\lnot z)) \lor z)
+&& \text{Proposition \ref{Proposition:lor_associativity}} \\
+\iff & (x \lor y) \lor (((\lnot x) \land (\lnot z)) \lor z)
+&& \text{Proposition \ref{Proposition:x_lor_y_complement}} \\
+\iff & (x \lor y) \lor ((\lnot x) \lor z)
+&& \text{Proposition \ref{Proposition:x_lor_y_complement}} \\
+\iff & ((x \lor y) \lor (\lnot x)) \lor z
+&& \text{Proposition \ref{Proposition:lor_associativity}} \\
+\iff & ((\lnot x) \lor (x \lor y)) \lor z
+&& \text{Proposition \ref{Proposition:lor_commutativity}} \\
+\iff & (((\lnot x) \lor x) \lor y) \lor z
+&& \text{Proposition \ref{Proposition:lor_associativity}} \\
+\iff & ((\text{True}) \lor y) \lor z
+&& \text{Proposition \ref{Proposition:lor_complement_2}} \\
+\iff & (\text{True}) \lor z
+&& \text{Proposition \ref{Proposition:lor_annihilator_2}} \\
+\iff & \text{True}
+&& \text{Proposition \ref{Proposition:lor_annihilator_2}} \\
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:implies_land}
+\begin{align*}
+(x \implies y) \implies ((x \land z) \implies (y \land z))
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:contrapositive}
+Contrapositive
+\begin{align*}
+(x \implies y) \iff ((\lnot y) \implies (\lnot x))
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:implies_transitive}
+Transitive property of $\implies$.
+\begin{align*}
+((x \implies y) \land (y \implies z)) \implies (x \implies z)
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\begin{align*}
+(x \iff y) \iff ((x \implies y) \land (y \implies x))
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:iff_lor}
+\begin{align*}
+(x \iff y) \implies ((x \lor z) \iff (y \lor z))
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:iff_land}
+\begin{align*}
+(x \iff y) \implies ((x \land z) \iff (y \land z))
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:iff_symmetric}
+Symmetric property of $\iff$.
+\begin{align*}
+(x \iff y) \iff (y \iff x)
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:iff_lnot}
+\begin{align*}
+(x \iff y) \implies ((\lnot x) \iff (\lnot y))
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:iff_transitive}
+Transitive property of $\iff$.
+\begin{align*}
+((x \iff y) \land (y \iff z)) \implies (x \iff z)
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:iff_reflexive}
+Reflexive property of $\iff$.
+\begin{align*}
+x \iff x
+\end{align*}
+Proof:
+\begin{align*}
+& x \iff x \\
+\iff & (x \land x) \lor ((\lnot x) \land (\lnot x))
+&& \text{Definition \ref{Definition:iff}} \\
+\iff & x \lor ((\lnot x) \land (\lnot x))
+&& \text{Proposition \ref{Proposition:land_idempotence}} \\
+\iff & x \lor (\lnot x)
+&& \text{Proposition \ref{Proposition:land_idempotence}} \\
+\iff & \text{True}
+&& \text{Proposition \ref{Proposition:lor_complement_1}} \\
 \end{align*}
 \end{prop}
 
@@ -306,110 +621,7 @@ Axiom of Substitution
 \end{align*}
 \end{axm}
 
-\section{Proof technique}
-\begin{prop}
-\begin{align*}
-(P \iff Q) \iff ((P \implies Q) \land (Q \implies P))
-\end{align*}
-\end{prop}
-
-\begin{prop}
-\begin{align*}
-((P \implies Q) \land (Q \implies R)) \implies (P \implies R)
-\end{align*}
-\end{prop}
-
-\begin{prop}
-\label{Proposition:lor_implies_lor}
-\begin{align*}
-(x \implies y) \implies ((P(x,z)) \implies P(y,z))
-\end{align*}
-\end{prop}
-
-\begin{prop}
-\label{Proposition:lor_iff_lor}
-\begin{align*}
-(x \iff y) \implies ((P(x,z)) \iff P(y,z))
-\end{align*}
-\end{prop}
-
-\begin{prop}
-\label{Proposition:contrapositive}
-contrapositive
-\begin{align*}
-(P \implies Q) \iff (\lnot Q \implies \lnot P)
-\end{align*}
-\end{prop}
-
-\begin{prop}
-\begin{align*}
-(P \iff \text{True}) \iff P
-\end{align*}
-\end{prop}
-
 \section{Proposition}
-Let $P = P(x_1, x_2, \dots, x_n)$.
-Let $Q = Q(x_1, x_2, \dots, x_n)$.
-etc
-
-\begin{prop}
-\label{Proposition:double_negation}
-Double negation
-\begin{align*}
-\lnot (\lnot P) \iff P
-\end{align*}
-\end{prop}
-
-\begin{prop}
-\label{Proposition:iff_reflexive}
-Reflexive property of iff.
-\begin{align*}
-P \iff P
-\end{align*}
-Proof: \\ \\
-\begin{tabular}{|c|c|}
-\hline
-$P$ & $P \iff P$ \\
-\hline
-T & T \\
-\hline
-F & T \\
-\hline
-\end{tabular}
-\end{prop}
-
-\begin{prop}
-\label{Proposition:iff_symmetric}
-Symmetric property of iff.
-\begin{align*}
-(P \iff Q) \iff (Q \iff P)
-\end{align*}
-\end{prop}
-
-\begin{prop}
-\label{Proposition:iff_transitive}
-Transitive property of iff.
-\begin{align*}
-((P \iff Q) \land (Q \iff R)) \implies (P \iff R)
-\end{align*}
-\end{prop}
-
-\begin{prop}
-\label{Proposition:De_Morgan_1}
-De Morgan's law
-\begin{align*}
-\lnot (P \land Q) \iff (\lnot P) \lor (\lnot Q) \\
-\end{align*}
-\end{prop}
-
-\begin{prop}
-\label{Proposition:De_Morgan_2}
-De Morgan's law
-\begin{align*}
-\lnot (P \lor Q) \iff (\lnot P) \land (\lnot Q) \\
-\end{align*}
-\end{prop}
-
 \begin{prop}
 \label{Proposition:land_implies_iff}
 \begin{align*}

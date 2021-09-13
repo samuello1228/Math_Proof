@@ -40,7 +40,7 @@ Proof: \\ \\
 \iff & \exists x, \lnot (\lnot(x \in S) \lor P(x))
 && \text{Axiom \ref{Axiom:De_Morgan_1}} \\
 \iff & \exists x, \lnot (\lnot(x \in S)) \land \lnot (P(x))
-&& \text{Proposition \ref{Proposition:De_Morgan_2}} \\
+&& \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
 \iff & \exists x, x \in S \land \lnot (P(x))
 && \text{Proposition \ref{Proposition:double_negation}} \\
 \iff & \exists x \in S, \lnot (P(x))
@@ -60,7 +60,7 @@ Proof: \\ \\
 \iff & \forall x, \lnot (x \in S \land P(x))
 && \text{Axiom \ref{Axiom:De_Morgan_2}} \\
 \iff & \forall x, (\lnot(x \in S)) \lor (\lnot (P(x))
-&& \text{Proposition \ref{Proposition:De_Morgan_1}} \\
+&& \text{Proposition \ref{Proposition:De_Morgan_land}} \\
 \iff & \forall x, x \in S \implies \lnot (P(x))
 && \text{Definition \ref{Definition:implies}} \\
 \iff & \forall x \in S, \lnot (P(x))
@@ -437,11 +437,11 @@ Proof:
 & \quad && \iff && \exists Y ((x \in Y) \land ((Y = A) \lor (Y = B) ))
 && \text{Definition \ref{Definition:pair_set}} \\
 & \quad && \iff && \exists Y( ((x \in Y) \land (Y = A)) \lor ((x \in Y) \land (Y = B)) )
-&& \text{Proposition \ref{Proposition:land_lor_distributivity}} \\
+&& \text{Proposition \ref{Proposition:land_lor_distributivity_1}} \\
 & \quad && \iff && (\exists Y ((x \in Y) \land (Y = A))) \lor (\exists Y ((x \in Y) \land (Y = B)))
 && \text{Proposition \ref{Proposition:exists_lor_commutativity}} \\
 & \quad && \iff && ((x \in A) \lor (x \in B)) \\
-& \quad && && \text{Proposition \ref{Proposition:lor_iff_lor} and Axiom \ref{Axiom:axiom_of_substitution} with $P(A,x) = (x \in A)$} \\
+& \quad && && \text{Axiom \ref{Axiom:axiom_of_substitution} with $P(A,x) = (x \in A)$} \\
 & )
 \end{align*}
 \end{prop}
@@ -489,9 +489,9 @@ Proof:
 & \quad && \iff && \forall y(((y \in x) \lor ( \lnot (\text{True}))) \iff (y \in x))
 && \text{Definition \ref{Definition:emptyset}} \\
 & \quad && \iff && \forall y(((y \in x) \lor (\text{False})) \iff (y \in x))
-&& \text{Definition \ref{Definition:lnot}} \\
+&& \text{Definition \ref{Definition:lnot_True}} \\
 & \quad && \iff && \forall y((y \in x) \iff (y \in x))
-&& \text{Proposition \ref{Proposition:lor_identity}} \\
+&& \text{Proposition \ref{Proposition:lor_identity_1}} \\
 & \quad && \iff && \text{True}
 && \text{Proposition \ref{Proposition:iff_reflexive}} \\
 & )
