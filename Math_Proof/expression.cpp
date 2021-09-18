@@ -104,13 +104,19 @@ expression* expression::createFromLatex(string latex, variable_type var_type)
             {
                 if(latex[index] == ' ')
                 {
-                    elements.push_back(element);
-                    element.clear();
+                    if(element.size() != 0)
+                    {
+                        elements.push_back(element);
+                        element.clear();
+                    }
                 }
                 else if(latex[index] == '(')
                 {
-                    elements.push_back(element);
-                    element.clear();
+                    if(element.size() != 0)
+                    {
+                        elements.push_back(element);
+                        element.clear();
+                    }
                     parenthesisLevel++;
                 }
                 else if(latex[index] == ')')
@@ -122,8 +128,11 @@ expression* expression::createFromLatex(string latex, variable_type var_type)
             }
             else if(latex[index] == ')' && parenthesisLevel == 1)
             {
-                elements.push_back(element);
-                element.clear();
+                if(element.size() != 0)
+                {
+                    elements.push_back(element);
+                    element.clear();
+                }
                 parenthesisLevel--;
             }
             else
@@ -135,29 +144,14 @@ expression* expression::createFromLatex(string latex, variable_type var_type)
             
             if(index == latex.size()-1)
             {
-                elements.push_back(element);
-                element.clear();
+                if(element.size() != 0)
+                {
+                    elements.push_back(element);
+                    element.clear();
+                }
                 break;
             }
             else index++;
-        }
-    }
-    
-    //remove empty element
-    {
-        long index = 0;
-        while(true)
-        {
-            if(elements[index].size() == 0)
-            {
-                elements.erase(elements.begin()+index);
-            }
-            else index++;
-            
-            if(index >= elements.size())
-            {
-                break;
-            }
         }
     }
     
