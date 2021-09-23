@@ -100,7 +100,7 @@ class compound_set : public Set
 public:
 };
 
-class quantifier : public expression
+class quantifier : public compound_logic
 {
 public:
     variable* var;
@@ -108,20 +108,20 @@ public:
 
     quantifier(variable*, logic_value*);
     virtual ~quantifier();
+    
+    string getLatex();
 };
 
 class universal_quantifier : public quantifier
 {
 public:
     universal_quantifier(variable*, logic_value*);
-    string getLatex();
 };
 
 class existential_quantifier : public quantifier
 {
 public:
     existential_quantifier(variable*, logic_value*);
-    string getLatex();
 };
 
 class logic_unary_operator_logic : public compound_logic

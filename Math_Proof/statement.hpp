@@ -9,32 +9,48 @@
 #ifndef statement_hpp
 #define statement_hpp
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 #include "expression.hpp"
 
 class statement
 {
+public:
+    string label;
+    
+    statement(string);
+    virtual ~statement();
 };
 
 class Definition : public statement
 {
 public:
-    string defining_operator;
-    expression* operand1;
-    expression* operand2;
+    compound_logic* content;
+    
+    Definition(string, variable_type, string);
+    ~Definition();
+    
+    string getLatex();
+    static void addDefinition(vector<Definition*>&, ofstream&, Definition*);
 };
 
 class Axiom : public statement
 {
 public:
     compound_logic* content;
+    
+    Axiom(string, compound_logic*);
+    ~Axiom();
 };
 
 class Proposition : public statement
 {
 public:
     compound_logic* content;
+    
+    Proposition(string, compound_logic*);
+    ~Proposition();
 };
 
 #endif /* statement_hpp */

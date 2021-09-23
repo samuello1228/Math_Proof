@@ -8,7 +8,7 @@ Proposition is a statement that is either true or false, but not both.
 \begin{defn}
 \label{Definition:lnot_True}
 \begin{align*}
-& \lnot(\text{True}) \\
+& \lnot (\text{True}) \\
 \overset{\operatorname{def}}{\iff} & \text{False}
 \end{align*}
 \end{defn}
@@ -16,7 +16,7 @@ Proposition is a statement that is either true or false, but not both.
 \begin{defn}
 \label{Definition:lnot_False}
 \begin{align*}
-& \lnot(\text{False}) \\
+& \lnot (\text{False}) \\
 \overset{\operatorname{def}}{\iff} & \text{True}
 \end{align*}
 \end{defn}
@@ -91,8 +91,10 @@ Proposition is a statement that is either true or false, but not both.
 \begin{defn}
 \label{Definition:iff}
 \begin{align*}
-& x \iff y \\
-\overset{\operatorname{def}}{\iff} & (x \land y) \lor (\lnot x \land \lnot y)
+& \forall x \forall y ( \\
+& \quad && && x \iff y \\
+& \quad && \overset{\operatorname{def}}{\iff} && (x \land y) \lor ((\lnot x) \land (\lnot y)) \\
+& )
 \end{align*}
 \end{defn}
 
@@ -100,8 +102,10 @@ Proposition is a statement that is either true or false, but not both.
 \begin{defn}
 \label{Definition:implies}
 \begin{align*}
-& x \implies y \\
-\overset{\operatorname{def}}{\iff} & (\lnot x) \lor y
+& \forall x \forall y ( \\
+& \quad && && x \implies y \\
+& \quad && \overset{\operatorname{def}}{\iff} && (\lnot x) \lor y \\
+& )
 \end{align*}
 \end{defn}
 

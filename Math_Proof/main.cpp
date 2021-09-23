@@ -9,15 +9,28 @@
 #include <iostream>
 using namespace std;
 
-#include "statement.hpp"
+#include "logic.hpp"
 
 int main()
 {
-    //expression* x = expression::createFromLatex("(\\text{True} ) \\lor (\\lnot (\\text{False}))", LOGIC);
-    expression* x = expression::createFromLatex("\\forall x (x \\land (\\lnot (\\text{False})))", LOGIC);
-    if(x != nullptr)
+    vector<Definition*> All_Definition;
+    vector<Axiom*> All_Axiom;
+    vector<Proposition*> All_Proposition;
+    
+    logic(All_Definition, All_Axiom, All_Proposition);
+    
+    for(long i=0;i<All_Definition.size();i++)
     {
-        cout<< x->getLatex() <<endl;
-        delete x;
+        delete All_Definition[i];
+    }
+    
+    for(long i=0;i<All_Axiom.size();i++)
+    {
+        delete All_Axiom[i];
+    }
+    
+    for(long i=0;i<All_Proposition.size();i++)
+    {
+        delete All_Proposition[i];
     }
 }

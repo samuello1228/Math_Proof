@@ -144,6 +144,12 @@ expression* expression::createFromLatex(string latex, variable_type var_type)
             
             if(index == latex.size()-1)
             {
+                if(parenthesisLevel != 0)
+                {
+                    cout<<"Error: "<< parenthesisLevel <<" closing parenthesis is missing."<<endl;
+                    return nullptr;
+                }
+                
                 if(element.size() != 0)
                 {
                     elements.push_back(element);
@@ -204,7 +210,12 @@ expression* expression::createFromLatex(string latex, variable_type var_type)
     }
     else if(elements.size() == 3)
     {
-        if(elements[1] == "\\lor" || elements[1] == "\\land")
+        if(elements[1] == "\\overset{\\operatorname{def}}{\\iff}" ||
+           elements[1] == "\\lor"  ||
+           elements[1] == "\\land" ||
+           elements[1] == "\\iff" ||
+           elements[1] == "\\implies"
+           )
         {
             //For logical OR/AND
             logic_value* operand1 = dynamic_cast<logic_value*>(expression::createFromLatex(elements[0], var_type));
@@ -218,37 +229,72 @@ expression* expression::createFromLatex(string latex, variable_type var_type)
             expression* output = new logic_binary_operator_logic_logic(elements[1], operand1, operand2);
             return output;
         }
-        else if(elements[0] == "\\forall" || elements[0] == "\\exists")
+    }
+    
+    //For quantifier
+    if(elements.size() >= 3 && elements.size() % 2 == 1)
+    {
+        bool isQuantifier = true;
+        for(long i=0;i<= elements.size()-2;i++)
         {
-            //For quantifier
-            variable* var = nullptr;
-            if(!isEnglishLetter(elements[1]))
+            if(i%2==0)
             {
-                cout<<"Variale Error: the variable for the quantifier is not English letter: "<<elements[1]<<endl;
+                if(elements[i] != "\\forall" && elements[i] != "\\exists") isQuantifier = false;
             }
-            else
+        }
+        
+        if(isQuantifier)
+        {
+            vector<string> quantifier_list;
+            vector<variable*> var_list;
+            for(long i=0;i<= elements.size()-2;i++)
             {
-                if(var_type == LOGIC) var = new logic_variable(elements[1]);
-                else if(var_type == SET) var = new set_variable(elements[1]);
+                if(i%2==0)
+                {
+                    quantifier_list.push_back(elements[i]);
+                }
+                else
+                {
+                    variable* var = nullptr;
+                    if(!isEnglishLetter(elements[i]))
+                    {
+                        cout<<"Variale Error: the variable for the quantifier is not English letter: "<<elements[i]<<endl;
+                        return nullptr;
+                    }
+                    else
+                    {
+                        if(var_type == LOGIC) var = new logic_variable(elements[i]);
+                        else if(var_type == SET) var = new set_variable(elements[i]);
+                    }
+                    var_list.push_back(var);
+                }
             }
             
-            logic_value* operand = dynamic_cast<logic_value*>(expression::createFromLatex(elements[2], var_type));
+            logic_value* operand = dynamic_cast<logic_value*>(expression::createFromLatex(elements[elements.size()-1], var_type));
             if(!operand)
             {
-                cout<<"Type Error: the operand is not logic value: "<<elements[2]<<endl;
+                cout<<"Type Error: the operand is not logic value: "<<elements[elements.size()-1]<<endl;
                 return nullptr;
             }
             
-            if(elements[0] == "\\forall")
+            long index = quantifier_list.size() -1;
+            while(true)
             {
-                expression* output = new universal_quantifier(var, operand);
-                return output;
+                if(quantifier_list[index] == "\\forall")
+                {
+                    operand = new universal_quantifier(var_list[index], operand);
+                    
+                }
+                else if(quantifier_list[index] == "\\exists")
+                {
+                    operand = new existential_quantifier(var_list[index], operand);
+                }
+                
+                if(index == 0) break;
+                else index --;
             }
-            else if(elements[0] == "\\exists")
-            {
-                expression* output = new existential_quantifier(var, operand);
-                return output;
-            }
+            
+            return operand;
         }
     }
     
@@ -333,26 +379,38 @@ quantifier::~quantifier()
     delete operand;
 }
 
+string quantifier::getLatex()
+{
+    string output = "";
+    logic_value* x = this;
+    while(true)
+    {
+        universal_quantifier* y = dynamic_cast<universal_quantifier*>(x);
+        existential_quantifier* z = dynamic_cast<existential_quantifier*>(x);
+        if(y)
+        {
+            output += "\\forall " + y->var->getLatex() + " ";
+            x = y->operand;
+        }
+        else if(z)
+        {
+            output += "\\exists " + z->var->getLatex() + " ";
+            x = z->operand;
+        }
+        else break;
+    }
+    
+    string operand_latex = x->getLatex();
+    output += "(" + operand_latex + ")";
+    return output;
+}
+
 universal_quantifier::universal_quantifier(variable* x, logic_value* y) : quantifier(x,y)
 {
 }
 
-string universal_quantifier::getLatex()
-{
-    string operand_latex = operand->getLatex();
-    string output = "\\forall " + var->getLatex() + " (" + operand_latex + ")";
-    return output;
-}
-
 existential_quantifier::existential_quantifier(variable* x, logic_value* y) : quantifier(x,y)
 {
-}
-
-string existential_quantifier::getLatex()
-{
-    string operand_latex = operand->getLatex();
-    string output = "\\exists " + var->getLatex() + " (" + operand_latex + ")";
-    return output;
 }
 
 logic_unary_operator_logic::logic_unary_operator_logic(const string& newLatex, logic_value* x)
@@ -418,7 +476,12 @@ string logic_binary_operator_logic_logic::getLatex()
         operand2_latex = "(" + operand2_latex + ")";
     }
     
-    if(operator_latex == "\\lor" || operator_latex == "\\land")
+    if(operator_latex == "\\overset{\\operatorname{def}}{\\iff}" ||
+       operator_latex == "\\lor"  ||
+       operator_latex == "\\land" ||
+       operator_latex == "\\iff" ||
+       operator_latex == "\\implies"
+       )
     {
         //For logical OR/AND
         string output = operand1_latex + " " + operator_latex + " " + operand2_latex;
