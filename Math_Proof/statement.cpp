@@ -41,9 +41,14 @@ string Definition::getLatex()
         universal_quantifier* y = dynamic_cast<universal_quantifier*>(x);
         if(y)
         {
-            quantifier_latex += "\\forall ";
-            quantifier_latex += y->var->getLatex();
-            quantifier_latex += " ";
+            set_variable* z = dynamic_cast<set_variable*>(y->var);
+            if(z)
+            {
+                quantifier_latex += "\\forall ";
+                quantifier_latex += z->getLatex();
+                quantifier_latex += " ";
+            }
+
             x = y->operand;
         }
         else break;
