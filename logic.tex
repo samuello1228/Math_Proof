@@ -110,7 +110,8 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:lor_associativity}
 \begin{align*}
-((x \lor y) \lor z) \iff (x \lor (y \lor z))
+& (x \lor y) \lor z \\
+\iff & x \lor (y \lor z)
 \end{align*}
 \end{prop}
 
@@ -118,7 +119,8 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:land_associativity}
 \begin{align*}
-((x \land y) \land z) \iff (x \land (y \land z))
+& (x \land y) \land z \\
+\iff & x \land (y \land z)
 \end{align*}
 \end{prop}
 
@@ -126,7 +128,8 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:lor_commutativity}
 \begin{align*}
-(x \lor y) \iff (y \lor x)
+& x \lor y \\
+\iff & y \lor x
 \end{align*}
 \end{prop}
 
@@ -134,7 +137,8 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:land_commutativity}
 \begin{align*}
-(x \land y) \iff (y \land x)
+& x \land y \\
+\iff & y \land x
 \end{align*}
 \end{prop}
 
@@ -142,14 +146,16 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:lor_identity_1}
 \begin{align*}
-(x \lor (\text{False})) \iff x
+& x \lor (\text{False}) \\
+\iff & x
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:lor_identity_2}
 \begin{align*}
-((\text{False}) \lor x) \iff x
+& (\text{False}) \lor x \\
+\iff & x
 \end{align*}
 \end{prop}
 
@@ -157,14 +163,16 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:land_identity_1}
 \begin{align*}
-(x \land (\text{True})) \iff x
+& x \land (\text{True}) \\
+\iff & x
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:land_identity_2}
 \begin{align*}
-((\text{True}) \land x) \iff x
+& (\text{True}) \land x \\
+\iff & x
 \end{align*}
 \end{prop}
 
@@ -172,14 +180,16 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:lor_annihilator_1}
 \begin{align*}
-(x \lor (\text{True})) \iff (\text{True})
+& x \lor (\text{True}) \\
+\iff & \text{True}
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:lor_annihilator_2}
 \begin{align*}
-((\text{True}) \lor x) \iff (\text{True})
+& (\text{True}) \lor x \\
+\iff & \text{True}
 \end{align*}
 \end{prop}
 
@@ -187,14 +197,16 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:land_annihilator_1}
 \begin{align*}
-(x \land (\text{False})) \iff (\text{False})
+& x \land (\text{False}) \\
+\iff & \text{False}
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:land_annihilator_2}
 \begin{align*}
-((\text{False}) \land x) \iff (\text{False})
+& (\text{False}) \land x \\
+\iff & \text{False}
 \end{align*}
 \end{prop}
 
@@ -202,7 +214,8 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:lor_idempotence}
 \begin{align*}
-(x \lor x) \iff x
+& x \lor x \\
+\iff & x
 \end{align*}
 \end{prop}
 
@@ -210,7 +223,8 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:land_idempotence}
 \begin{align*}
-(x \land x) \iff x
+& x \land x \\
+\iff & x
 \end{align*}
 \end{prop}
 
@@ -218,14 +232,16 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:lor_complement_1}
 \begin{align*}
-(x \lor (\lnot x)) \iff (\text{True})
+& x \lor (\lnot x) \\
+\iff & \text{True}
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:lor_complement_2}
 \begin{align*}
-((\lnot x) \lor x) \iff (\text{True})
+& (\lnot x) \lor x \\
+\iff & \text{True}
 \end{align*}
 \end{prop}
 
@@ -233,14 +249,16 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:land_complement_1}
 \begin{align*}
-(x \land (\lnot x)) \iff (\text{False})
+& x \land (\lnot x) \\
+\iff & \text{False}
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:land_complement_2}
 \begin{align*}
-((\lnot x) \land x) \iff (\text{False})
+& (\lnot x) \land x \\
+\iff & \text{False}
 \end{align*}
 \end{prop}
 
@@ -248,28 +266,32 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:lor_land_absorption_1}
 \begin{align*}
-(x \lor (x \land y)) \iff x
+& x \lor (x \land y) \\
+\iff & x
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:lor_land_absorption_2}
 \begin{align*}
-(x \lor (y \land x)) \iff x
+& x \lor (y \land x) \\
+\iff & x
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:lor_land_absorption_3}
 \begin{align*}
-((x \land y) \lor x) \iff x
+& (x \land y) \lor x \\
+\iff & x
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:lor_land_absorption_4}
 \begin{align*}
-((y \land x) \lor x) \iff x
+& (y \land x) \lor x \\
+\iff & x
 \end{align*}
 \end{prop}
 
@@ -277,28 +299,32 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:land_lor_absorption_1}
 \begin{align*}
-(x \land (x \lor y)) \iff x
+& x \land (x \lor y) \\
+\iff & x
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:land_lor_absorption_2}
 \begin{align*}
-(x \land (y \lor x)) \iff x
+& x \land (y \lor x) \\
+\iff & x
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:land_lor_absorption_3}
 \begin{align*}
-((x \lor y) \land x) \iff x
+& (x \lor y) \land x \\
+\iff & x
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:land_lor_absorption_4}
 \begin{align*}
-((y \lor x) \land x) \iff x
+& (y \lor x) \land x \\
+\iff & x
 \end{align*}
 \end{prop}
 
@@ -306,14 +332,16 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:lor_land_distributivity_1}
 \begin{align*}
-(x \lor (y \land z)) \iff ((x \lor y) \land (x \lor z))
+& x \lor (y \land z) \\
+\iff & (x \lor y) \land (x \lor z)
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:lor_land_distributivity_2}
 \begin{align*}
-((x \land y) \lor z) \iff ((x \lor z) \land (y \lor z))
+& (x \land y) \lor z \\
+\iff & (x \lor z) \land (y \lor z)
 \end{align*}
 \end{prop}
 
@@ -321,14 +349,16 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:land_lor_distributivity_1}
 \begin{align*}
-(x \land (y \lor z)) \iff ((x \land y) \lor (x \land z))
+& x \land (y \lor z) \\
+\iff & (x \land y) \lor (x \land z)
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:land_lor_distributivity_2}
 \begin{align*}
-((x \lor y) \land z) \iff ((x \land z) \lor (y \land z))
+& (x \lor y) \land z \\
+\iff & (x \land z) \lor (y \land z)
 \end{align*}
 \end{prop}
 
@@ -336,7 +366,8 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:double_negation}
 \begin{align*}
-(\lnot (\lnot x)) \iff x
+& \lnot (\lnot x) \\
+\iff & x
 \end{align*}
 \end{prop}
 
@@ -344,14 +375,16 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:De_Morgan_lor}
 \begin{align*}
-(\lnot (x \lor y)) \iff ((\lnot x) \land (\lnot y)) \\
+& \lnot (x \lor y) \\
+\iff & (\lnot x) \land (\lnot y)
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:De_Morgan_land}
 \begin{align*}
-(\lnot (x \land y)) \iff ((\lnot x) \lor (\lnot y)) \\
+& \lnot (x \land y) \\
+\iff & (\lnot x) \lor (\lnot y)
 \end{align*}
 \end{prop}
 

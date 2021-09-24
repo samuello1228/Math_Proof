@@ -348,16 +348,6 @@ string logic_variable::getLatex()
     return latex;
 }
 
-bool compound_logic::isIff()
-{
-    return false;
-}
-
-bool compound_logic::isImplies()
-{
-    return false;
-}
-
 set_variable::set_variable(const string& newLatex) : variable(newLatex)
 {
 }
@@ -369,8 +359,15 @@ string set_variable::getLatex()
 
 quantifier::quantifier(variable* x, logic_value* y)
 {
+    compound_logic* z = dynamic_cast<compound_logic*>(y);
+    if(!z)
+    {
+        cout<<"Error: the expression is not compound logic."<<endl;
+        return;
+    }
+    
     var = x;
-    operand = y;
+    operand = z;
 }
 
 quantifier::~quantifier()
@@ -493,16 +490,4 @@ string logic_binary_operator_logic_logic::getLatex()
         string output = "";
         return output;
     }
-}
-
-bool logic_binary_operator_logic_logic::isIff()
-{
-    if(operator_latex == "\\iff") return true;
-    else return false;
-}
-
-bool logic_binary_operator_logic_logic::isImplies()
-{
-    if(operator_latex == "\\implies") return true;
-    else return false;
 }

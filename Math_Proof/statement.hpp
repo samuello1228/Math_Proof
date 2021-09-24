@@ -18,39 +18,48 @@ class statement
 {
 public:
     string label;
+    compound_logic* content;
+    variable_type var_type;
     
-    statement(string);
+    //for \\forall quantifier
+    vector<variable*> forall_variable;
+    
+    //for operator like \\iff, \\implies
+    string operator_latex;
+    expression* operand1;
+    expression* operand2;
+    
+    statement(string, variable_type, string);
     virtual ~statement();
+    
+    string getLatex();
 };
 
 class Definition : public statement
 {
 public:
-    compound_logic* content;
-    
     Definition(string, variable_type, string);
     ~Definition();
     
-    string getLatex();
     static void addDefinition(vector<Definition*>&, ofstream&, Definition*);
 };
 
 class Axiom : public statement
 {
 public:
-    compound_logic* content;
-    
-    Axiom(string, compound_logic*);
+    Axiom(string, variable_type, string);
     ~Axiom();
+    
+    static void addAxiom(vector<Axiom*>&, ofstream&, Axiom*);
 };
 
 class Proposition : public statement
 {
 public:
-    compound_logic* content;
-    
-    Proposition(string, compound_logic*);
+    Proposition(string, variable_type, string);
     ~Proposition();
+    
+    static void addProposition(vector<Proposition*>&, ofstream&, Proposition*);
 };
 
 #endif /* statement_hpp */

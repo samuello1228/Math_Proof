@@ -69,8 +69,6 @@ public:
 class compound_logic : public logic_value
 {
 public:
-    virtual bool isIff();
-    virtual bool isImplies();
 };
 
 class Set : public expression
@@ -104,7 +102,7 @@ class quantifier : public compound_logic
 {
 public:
     variable* var;
-    logic_value* operand;
+    compound_logic* operand;
 
     quantifier(variable*, logic_value*);
     virtual ~quantifier();
@@ -147,8 +145,6 @@ public:
     ~logic_binary_operator_logic_logic();
     
     string getLatex();
-    bool isIff();
-    bool isImplies();
 };
 
 class set_unary_operator_set : public compound_set

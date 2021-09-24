@@ -8,63 +8,77 @@
 
 #include "statement.hpp"
 
-statement::statement(string newLabel)
+statement::statement(string newLabel, variable_type new_var_type, string input_latex)
 {
+    compound_logic* x = dynamic_cast<compound_logic*>(expression::createFromLatex(input_latex, new_var_type));
+    if(!x)
+    {
+        content = nullptr;
+        label = "";
+        cout<<"Error: the expression is not compound logic."<<endl;
+        return;
+    }
+    
     label = newLabel;
-}
-
-statement::~statement()
-{
-}
-
-Definition::Definition(string newLabel, variable_type var_type, string x) : statement(newLabel)
-{
-    compound_logic* y = dynamic_cast<compound_logic*>(expression::createFromLatex(x, var_type));
+    content = x;
+    var_type = new_var_type;
     
-    if(y) content = y;
-    else cout<<"Error: the expression is not compound logic."<<endl;
-}
-
-Definition::~Definition()
-{
-    delete content;
-}
-
-string Definition::getLatex()
-{
-    string output = "";
-    
-    string quantifier_latex = "";
-    logic_value* x = content;
     while(true)
     {
         universal_quantifier* y = dynamic_cast<universal_quantifier*>(x);
         if(y)
         {
-            set_variable* z = dynamic_cast<set_variable*>(y->var);
-            if(z)
-            {
-                quantifier_latex += "\\forall ";
-                quantifier_latex += z->getLatex();
-                quantifier_latex += " ";
-            }
-
+            forall_variable.push_back(y->var);
             x = y->operand;
         }
         else break;
     }
     
-    string operator_latex = "";
-    string operand1;
-    string operand2;
     logic_binary_operator_logic_logic* y = dynamic_cast<logic_binary_operator_logic_logic*>(x);
     if(y)
     {
-        if(y->operator_latex == "\\overset{\\operatorname{def}}{\\iff}")
+        if(y->operator_latex == "\\overset{\\operatorname{def}}{\\iff}" ||
+           y->operator_latex == "\\iff" ||
+           y->operator_latex == "\\implies"
+           )
         {
             operator_latex = y->operator_latex;
-            operand1 = y->operand1->getLatex();
-            operand2 = y->operand2->getLatex();
+            operand1 = y->operand1;
+            operand2 = y->operand2;
+        }
+        else
+        {
+            operator_latex = "";
+        }
+    }
+    else
+    {
+        operator_latex = "";
+    }
+    
+    if(input_latex != content->getLatex())
+    {
+        cout<<"Error: the input latex format is not standard."<<endl;
+    }
+}
+
+statement::~statement()
+{
+    delete content;
+}
+
+string statement::getLatex()
+{
+    string output = "";
+    
+    string quantifier_latex = "";
+    if(var_type == SET)
+    {
+        for(long i=0;i<forall_variable.size();i++)
+        {
+            quantifier_latex += "\\forall ";
+            quantifier_latex += forall_variable[i]->getLatex();
+            quantifier_latex += " ";
         }
     }
     
@@ -72,12 +86,12 @@ string Definition::getLatex()
     {
         if(operator_latex == "")
         {
-            output = x->getLatex();
+            output = content->getLatex();
         }
         else
         {
-            output += "& " + operand1 + " \\\\" + "\n";
-            output += operator_latex + " & " + operand2 + "\n";
+            output += "& " + operand1->getLatex() + " \\\\" + "\n";
+            output += operator_latex + " & " + operand2->getLatex() + "\n";
         }
     }
     else
@@ -85,14 +99,14 @@ string Definition::getLatex()
         if(operator_latex == "")
         {
             output += "& " + quantifier_latex + "( \\\\" + "\n";
-            output += "& \\quad && " + x->getLatex() + " \\\\" + "\n";
+            output += "& \\quad && " + content->getLatex() + " \\\\" + "\n";
             output = output + "& )" + "\n";
         }
         else
         {
             output += "& " + quantifier_latex + "( \\\\" + "\n";
-            output += "& \\quad && && " + operand1 + " \\\\" + "\n";
-            output += "& \\quad && " + operator_latex + " && " + operand2 + " \\\\" + "\n";
+            output += "& \\quad && && " + operand1->getLatex() + " \\\\" + "\n";
+            output += "& \\quad && " + operator_latex + " && " + operand2->getLatex() + " \\\\" + "\n";
             output = output + "& )" + "\n";
         }
     }
@@ -100,14 +114,33 @@ string Definition::getLatex()
     return output;
 }
 
+Definition::Definition(string newLabel, variable_type var_type, string x) : statement(newLabel, var_type, x)
+{
+}
+
+Definition::~Definition()
+{
+}
+
 void Definition::addDefinition(vector<Definition*>& All_Definition, ofstream& fout, Definition* x)
 {
+    //check whether the label is distinct
+    for(long i=0;i<All_Definition.size();i++)
+    {
+        if(x->label == All_Definition[i]->label)
+        {
+            cout<<"Error: the label is not distinct: "<<x->label<<endl;
+            return;
+        }
+    }
+    
     All_Definition.push_back(x);
     
     cout<< "Definition:" << x->label <<endl;
     cout<< x->content->getLatex() <<endl;
     cout<<endl;
     
+    //write to file
     fout<<"\\begin{defn}"<<endl;
     fout<<"\\label{Definition:"<<x->label<<"}"<<endl;
     fout<<"\\begin{align*}"<<endl;
@@ -117,22 +150,74 @@ void Definition::addDefinition(vector<Definition*>& All_Definition, ofstream& fo
     fout<<endl;
 }
 
-Axiom::Axiom(string newLabel, compound_logic* x) : statement(newLabel)
+Axiom::Axiom(string newLabel, variable_type var_type, string x) : statement(newLabel, var_type, x)
 {
-    content = x;
 }
 
 Axiom::~Axiom()
 {
-    delete content;
 }
 
-Proposition::Proposition(string newLabel, compound_logic* x) : statement(newLabel)
+void Axiom::addAxiom(vector<Axiom*>& All_Axiom, ofstream& fout, Axiom* x)
 {
-    content = x;
+    //check whether the label is distinct
+    for(long i=0;i<All_Axiom.size();i++)
+    {
+        if(x->label == All_Axiom[i]->label)
+        {
+            cout<<"Error: the label is not distinct: "<<x->label<<endl;
+            return;
+        }
+    }
+    
+    All_Axiom.push_back(x);
+    
+    cout<< "Axiom:" << x->label <<endl;
+    cout<< x->content->getLatex() <<endl;
+    cout<<endl;
+    
+    //write to file
+    fout<<"\\begin{axm}"<<endl;
+    fout<<"\\label{Axiom:"<<x->label<<"}"<<endl;
+    fout<<"\\begin{align*}"<<endl;
+    fout<< x->getLatex();
+    fout<<"\\end{align*}"<<endl;
+    fout<<"\\end{axm}"<<endl;
+    fout<<endl;
+}
+
+Proposition::Proposition(string newLabel, variable_type var_type, string x) : statement(newLabel, var_type, x)
+{
 }
 
 Proposition::~Proposition()
 {
-    delete content;
+}
+
+void Proposition::addProposition(vector<Proposition*>& All_Proposition, ofstream& fout, Proposition* x)
+{
+    //check whether the label is distinct
+    for(long i=0;i<All_Proposition.size();i++)
+    {
+        if(x->label == All_Proposition[i]->label)
+        {
+            cout<<"Error: the label is not distinct: "<<x->label<<endl;
+            return;
+        }
+    }
+    
+    All_Proposition.push_back(x);
+    
+    cout<< "Proposition:" << x->label <<endl;
+    cout<< x->content->getLatex() <<endl;
+    cout<<endl;
+    
+    //write to file
+    fout<<"\\begin{prop}"<<endl;
+    fout<<"\\label{Proposition:"<<x->label<<"}"<<endl;
+    fout<<"\\begin{align*}"<<endl;
+    fout<< x->getLatex();
+    fout<<"\\end{align*}"<<endl;
+    fout<<"\\end{prop}"<<endl;
+    fout<<endl;
 }
