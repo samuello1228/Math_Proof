@@ -321,11 +321,6 @@ variable::~variable()
 {
 }
 
-string variable::getLatex()
-{
-    return latex;
-}
-
 logic_element::logic_element(bool x)
 {
     value = x;

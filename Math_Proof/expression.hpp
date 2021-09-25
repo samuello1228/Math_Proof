@@ -23,24 +23,22 @@ class expression
 public:
     virtual ~expression();
     
-    virtual string getLatex();
+    virtual string getLatex()=0;
     static expression* createFromLatex(string, variable_type);
     //map<variable*, expression*> replacement;
     //set<variable*> dependence;
 };
 
-class variable
+class variable : virtual public expression
 {
 public:
     string latex;
     
     variable(const string&);
     virtual ~variable();
-    
-    virtual string getLatex();
 };
 
-class logic_value : public expression
+class logic_value : virtual public expression
 {
 public:
 };
@@ -56,6 +54,7 @@ public:
     bool value;
     
     logic_element(bool);
+    
     string getLatex();
 };
 
@@ -63,6 +62,7 @@ class logic_variable : public elementary_logic, public variable
 {
 public:
     logic_variable(const string&);
+    
     string getLatex();
 };
 
@@ -71,7 +71,7 @@ class compound_logic : public logic_value
 public:
 };
 
-class Set : public expression
+class Set : virtual public expression
 {
 public:
 };
@@ -81,15 +81,17 @@ class elementary_set : public Set
 public:
 };
 
-class emptySet : public elementary_set
+class set_element : public elementary_set
 {
 public:
+    string latex;
 };
 
 class set_variable : public elementary_set, public variable
 {
 public:
     set_variable(const string&);
+    
     string getLatex();
 };
 
@@ -103,7 +105,7 @@ class quantifier : public compound_logic
 public:
     variable* var;
     compound_logic* operand;
-
+    
     quantifier(variable*, logic_value*);
     virtual ~quantifier();
     
