@@ -4,6 +4,10 @@ cmake_minimum_required(VERSION 3.10)
 # Set the project name
 project(Math_Proof)
 
+# specify the C++ standard
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
 # Build the library:
 add_library(expression Math_Proof/expression.hpp Math_Proof/expression.cpp)
 target_include_directories(expression PUBLIC Math_Proof)

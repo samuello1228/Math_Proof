@@ -66,8 +66,7 @@ statement::statement(string newLabel, variable_type new_var_type, string input_l
     }
     
     //check variable
-    vector<variable*> var_list;
-    if(!content->check_variable(var_type, var_list))
+    if(!content->check_variable(var_type, {}))
     {
         cout<<"Error: Check fail for variable."<<endl;
     }

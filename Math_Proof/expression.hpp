@@ -21,14 +21,16 @@ class variable;
 class expression
 {
 public:
-    virtual ~expression();
+    virtual ~expression() {}
     
     virtual string getLatex()=0;
     static expression* createFromLatex(string, variable_type);
     //map<variable*, expression*> replacement;
     
     virtual bool isEqual(expression*)=0;
-    virtual bool check_variable(variable_type, vector<variable*>&)=0;
+    virtual bool check_variable(variable_type, vector<variable*>)=0;
+    virtual expression* getPart(vector<int>)=0;
+    //vector<variable*> getPartDependence(vector<int>&);
 };
 
 class variable : virtual public expression
@@ -37,9 +39,9 @@ public:
     string latex;
     
     variable(const string&);
-    virtual ~variable();
+    virtual ~variable() {}
     
-    bool check_variable(variable_type, vector<variable*>&);
+    bool check_variable(variable_type, vector<variable*>);
 };
 
 class logic_value : virtual public expression
@@ -50,6 +52,7 @@ public:
 class elementary_logic : public logic_value
 {
 public:
+    expression* getPart(vector<int>) {return this;}
 };
 
 class logic_element : public elementary_logic
@@ -61,7 +64,7 @@ public:
     
     string getLatex();
     bool isEqual(expression*);
-    bool check_variable(variable_type, vector<variable*>&);
+    bool check_variable(variable_type, vector<variable*>);
 };
 
 class logic_variable : public elementary_logic, public variable
@@ -86,6 +89,7 @@ public:
 class elementary_set : public Set
 {
 public:
+    expression* getPart(vector<int>) {return this;}
 };
 
 class set_element : public elementary_set
@@ -118,7 +122,8 @@ public:
     virtual ~quantifier();
     
     string getLatex();
-    bool check_variable(variable_type, vector<variable*>&);
+    bool check_variable(variable_type, vector<variable*>);
+    expression* getPart(vector<int>);
 };
 
 class universal_quantifier : public quantifier
@@ -148,7 +153,8 @@ public:
     
     string getLatex();
     bool isEqual(expression*);
-    bool check_variable(variable_type, vector<variable*>&);
+    bool check_variable(variable_type, vector<variable*>);
+    expression* getPart(vector<int>);
 };
 
 class logic_binary_operator_logic_logic : public compound_logic
@@ -163,7 +169,8 @@ public:
     
     string getLatex();
     bool isEqual(expression*);
-    bool check_variable(variable_type, vector<variable*>&);
+    bool check_variable(variable_type, vector<variable*>);
+    expression* getPart(vector<int>);
 };
 
 class set_unary_operator_set : public compound_set

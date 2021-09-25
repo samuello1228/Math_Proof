@@ -302,20 +302,12 @@ expression* expression::createFromLatex(string latex, variable_type var_type)
     return nullptr;
 }
 
-expression::~expression()
-{
-}
-
 variable::variable(const string& newLatex)
 {
     latex = newLatex;
 }
 
-variable::~variable()
-{
-}
-
-bool variable::check_variable(variable_type T, vector<variable*>& var_list)
+bool variable::check_variable(variable_type T, vector<variable*> var_list)
 {
     for(long i=0;i<var_list.size();i++)
     {
@@ -348,7 +340,7 @@ bool logic_element::isEqual(expression* x)
     return true;
 }
 
-bool logic_element::check_variable(variable_type T, vector<variable*>& var_list)
+bool logic_element::check_variable(variable_type T, vector<variable*> var_list)
 {
     return true;
 }
@@ -432,7 +424,7 @@ string quantifier::getLatex()
     return output;
 }
 
-bool quantifier::check_variable(variable_type T, vector<variable*>& var_list)
+bool quantifier::check_variable(variable_type T, vector<variable*> var_list)
 {
     //check whether the variable name is distinct
     for(long i=0;i<var_list.size();i++)
@@ -457,6 +449,14 @@ bool quantifier::check_variable(variable_type T, vector<variable*>& var_list)
     //add the variable to the list
     var_list.push_back(var);
     return operand->check_variable(T, var_list);
+}
+
+expression* quantifier::getPart(vector<int> path)
+{
+    if(path.size() == 0) return this;
+    
+    path.erase(path.begin());
+    return operand->getPart(path);
 }
 
 universal_quantifier::universal_quantifier(variable* x, logic_value* y) : quantifier(x,y)
@@ -528,9 +528,17 @@ bool logic_unary_operator_logic::isEqual(expression* x)
     return true;
 }
 
-bool logic_unary_operator_logic::check_variable(variable_type T, vector<variable*>& var_list)
+bool logic_unary_operator_logic::check_variable(variable_type T, vector<variable*> var_list)
 {
     return operand->check_variable(T, var_list);
+}
+
+expression* logic_unary_operator_logic::getPart(vector<int> path)
+{
+    if(path.size() == 0) return this;
+    
+    path.erase(path.begin());
+    return operand->getPart(path);
 }
 
 logic_binary_operator_logic_logic::logic_binary_operator_logic_logic(const string& newLatex, logic_value* x, logic_value* y)
@@ -591,9 +599,19 @@ bool logic_binary_operator_logic_logic::isEqual(expression* x)
     return true;
 }
 
-bool logic_binary_operator_logic_logic::check_variable(variable_type T, vector<variable*>& var_list)
+bool logic_binary_operator_logic_logic::check_variable(variable_type T, vector<variable*> var_list)
 {
-    vector<variable*>var_list1 = var_list;
-    vector<variable*>var_list2 = var_list;
-    return (operand1->check_variable(T, var_list1) && operand2->check_variable(T, var_list2));
+    return (operand1->check_variable(T, var_list) && operand2->check_variable(T, var_list));
+}
+
+expression* logic_binary_operator_logic_logic::getPart(vector<int> path)
+{
+    if(path.size() == 0) return this;
+    
+    int x = path[0];
+    path.erase(path.begin());
+    
+    if(x == 1) return operand1->getPart(path);
+    else if(x == 2) return operand2->getPart(path);
+    return nullptr;
 }
