@@ -334,8 +334,24 @@ string logic_element::getLatex()
     return x;
 }
 
+bool logic_element::isEqual(expression* x)
+{
+    logic_element* y = dynamic_cast<logic_element*>(x);
+    if(!y) return false;
+    if(y->value != value) return false;
+    return true;
+}
+
 logic_variable::logic_variable(const string& newLatex) : variable(newLatex)
 {
+}
+
+bool logic_variable::isEqual(expression* x)
+{
+    logic_variable* y = dynamic_cast<logic_variable*>(x);
+    if(!y) return false;
+    if(y->latex != latex) return false;
+    return true;
 }
 
 string logic_variable::getLatex()
@@ -350,6 +366,14 @@ set_variable::set_variable(const string& newLatex) : variable(newLatex)
 string set_variable::getLatex()
 {
     return latex;
+}
+
+bool set_variable::isEqual(expression* x)
+{
+    set_variable* y = dynamic_cast<set_variable*>(x);
+    if(!y) return false;
+    if(y->latex != latex) return false;
+    return true;
 }
 
 quantifier::quantifier(variable* x, logic_value* y)
@@ -401,14 +425,37 @@ universal_quantifier::universal_quantifier(variable* x, logic_value* y) : quanti
 {
 }
 
+bool universal_quantifier::isEqual(expression* x)
+{
+    universal_quantifier* y = dynamic_cast<universal_quantifier*>(x);
+    if(!y) return false;
+    if(!y->var->isEqual(var)) return false;
+    if(!y->operand->isEqual(operand)) return false;
+    return true;
+}
+
 existential_quantifier::existential_quantifier(variable* x, logic_value* y) : quantifier(x,y)
 {
+}
+
+bool existential_quantifier::isEqual(expression* x)
+{
+    existential_quantifier* y = dynamic_cast<existential_quantifier*>(x);
+    if(!y) return false;
+    if(!y->var->isEqual(var)) return false;
+    if(!y->operand->isEqual(operand)) return false;
+    return true;
 }
 
 logic_unary_operator_logic::logic_unary_operator_logic(const string& newLatex, logic_value* x)
 {
     operator_latex = newLatex;
     operand = x;
+}
+
+logic_unary_operator_logic::~logic_unary_operator_logic()
+{
+    delete operand;
 }
 
 string logic_unary_operator_logic::getLatex()
@@ -434,9 +481,13 @@ string logic_unary_operator_logic::getLatex()
     }
 }
 
-logic_unary_operator_logic::~logic_unary_operator_logic()
+bool logic_unary_operator_logic::isEqual(expression* x)
 {
-    delete operand;
+    logic_unary_operator_logic* y = dynamic_cast<logic_unary_operator_logic*>(x);
+    if(!y) return false;
+    if(y->operator_latex != operator_latex) return false;
+    if(!y->operand->isEqual(operand)) return false;
+    return true;
 }
 
 logic_binary_operator_logic_logic::logic_binary_operator_logic_logic(const string& newLatex, logic_value* x, logic_value* y)
@@ -485,4 +536,14 @@ string logic_binary_operator_logic_logic::getLatex()
         string output = "";
         return output;
     }
+}
+
+bool logic_binary_operator_logic_logic::isEqual(expression* x)
+{
+    logic_binary_operator_logic_logic* y = dynamic_cast<logic_binary_operator_logic_logic*>(x);
+    if(!y) return false;
+    if(y->operator_latex != operator_latex) return false;
+    if(!y->operand1->isEqual(operand1)) return false;
+    if(!y->operand2->isEqual(operand2)) return false;
+    return true;
 }

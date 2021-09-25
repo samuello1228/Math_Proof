@@ -10,6 +10,7 @@
 
 statement::statement(string newLabel, variable_type new_var_type, string input_latex)
 {
+    //check whether the contend is compound_logic
     compound_logic* x = dynamic_cast<compound_logic*>(expression::createFromLatex(input_latex, new_var_type));
     if(!x)
     {
@@ -23,6 +24,7 @@ statement::statement(string newLabel, variable_type new_var_type, string input_l
     content = x;
     var_type = new_var_type;
     
+    //set the forall_variable
     while(true)
     {
         universal_quantifier* y = dynamic_cast<universal_quantifier*>(x);
@@ -34,6 +36,7 @@ statement::statement(string newLabel, variable_type new_var_type, string input_l
         else break;
     }
     
+    //set the operator_latex, operand1 and operand2
     logic_binary_operator_logic_logic* y = dynamic_cast<logic_binary_operator_logic_logic*>(x);
     if(y)
     {
@@ -56,6 +59,7 @@ statement::statement(string newLabel, variable_type new_var_type, string input_l
         operator_latex = "";
     }
     
+    //check whether the input latex format is standard
     if(input_latex != content->getLatex())
     {
         cout<<"Error: the input latex format is not standard."<<endl;

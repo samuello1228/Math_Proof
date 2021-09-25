@@ -26,7 +26,8 @@ public:
     virtual string getLatex()=0;
     static expression* createFromLatex(string, variable_type);
     //map<variable*, expression*> replacement;
-    //set<variable*> dependence;
+    
+    virtual bool isEqual(expression*) {return false;}
 };
 
 class variable : virtual public expression
@@ -56,6 +57,7 @@ public:
     logic_element(bool);
     
     string getLatex();
+    bool isEqual(expression*);
 };
 
 class logic_variable : public elementary_logic, public variable
@@ -64,6 +66,7 @@ public:
     logic_variable(const string&);
     
     string getLatex();
+    bool isEqual(expression*);
 };
 
 class compound_logic : public logic_value
@@ -93,6 +96,7 @@ public:
     set_variable(const string&);
     
     string getLatex();
+    bool isEqual(expression*);
 };
 
 class compound_set : public Set
@@ -116,12 +120,16 @@ class universal_quantifier : public quantifier
 {
 public:
     universal_quantifier(variable*, logic_value*);
+    
+    bool isEqual(expression*);
 };
 
 class existential_quantifier : public quantifier
 {
 public:
     existential_quantifier(variable*, logic_value*);
+    
+    bool isEqual(expression*);
 };
 
 class logic_unary_operator_logic : public compound_logic
@@ -134,6 +142,7 @@ public:
     ~logic_unary_operator_logic();
     
     string getLatex();
+    bool isEqual(expression*);
 };
 
 class logic_binary_operator_logic_logic : public compound_logic
@@ -147,6 +156,7 @@ public:
     ~logic_binary_operator_logic_logic();
     
     string getLatex();
+    bool isEqual(expression*);
 };
 
 class set_unary_operator_set : public compound_set
