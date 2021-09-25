@@ -27,7 +27,8 @@ public:
     static expression* createFromLatex(string, variable_type);
     //map<variable*, expression*> replacement;
     
-    virtual bool isEqual(expression*) {return false;}
+    virtual bool isEqual(expression*)=0;
+    virtual bool check_variable(variable_type, vector<variable*>&)=0;
 };
 
 class variable : virtual public expression
@@ -37,6 +38,8 @@ public:
     
     variable(const string&);
     virtual ~variable();
+    
+    bool check_variable(variable_type, vector<variable*>&);
 };
 
 class logic_value : virtual public expression
@@ -58,6 +61,7 @@ public:
     
     string getLatex();
     bool isEqual(expression*);
+    bool check_variable(variable_type, vector<variable*>&);
 };
 
 class logic_variable : public elementary_logic, public variable
@@ -114,6 +118,7 @@ public:
     virtual ~quantifier();
     
     string getLatex();
+    bool check_variable(variable_type, vector<variable*>&);
 };
 
 class universal_quantifier : public quantifier
@@ -143,6 +148,7 @@ public:
     
     string getLatex();
     bool isEqual(expression*);
+    bool check_variable(variable_type, vector<variable*>&);
 };
 
 class logic_binary_operator_logic_logic : public compound_logic
@@ -157,6 +163,7 @@ public:
     
     string getLatex();
     bool isEqual(expression*);
+    bool check_variable(variable_type, vector<variable*>&);
 };
 
 class set_unary_operator_set : public compound_set

@@ -306,12 +306,6 @@ expression::~expression()
 {
 }
 
-string expression::getLatex()
-{
-    string x = "";
-    return x;
-}
-
 variable::variable(const string& newLatex)
 {
     latex = newLatex;
@@ -319,6 +313,18 @@ variable::variable(const string& newLatex)
 
 variable::~variable()
 {
+}
+
+bool variable::check_variable(variable_type T, vector<variable*>& var_list)
+{
+    for(long i=0;i<var_list.size();i++)
+    {
+        if(isEqual(var_list[i]))
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 logic_element::logic_element(bool x)
@@ -342,8 +348,18 @@ bool logic_element::isEqual(expression* x)
     return true;
 }
 
+bool logic_element::check_variable(variable_type T, vector<variable*>& var_list)
+{
+    return true;
+}
+
 logic_variable::logic_variable(const string& newLatex) : variable(newLatex)
 {
+}
+
+string logic_variable::getLatex()
+{
+    return latex;
 }
 
 bool logic_variable::isEqual(expression* x)
@@ -352,11 +368,6 @@ bool logic_variable::isEqual(expression* x)
     if(!y) return false;
     if(y->latex != latex) return false;
     return true;
-}
-
-string logic_variable::getLatex()
-{
-    return latex;
 }
 
 set_variable::set_variable(const string& newLatex) : variable(newLatex)
@@ -419,6 +430,33 @@ string quantifier::getLatex()
     string operand_latex = x->getLatex();
     output += "(" + operand_latex + ")";
     return output;
+}
+
+bool quantifier::check_variable(variable_type T, vector<variable*>& var_list)
+{
+    //check whether the variable name is distinct
+    for(long i=0;i<var_list.size();i++)
+    {
+        if(var_list[i]->isEqual(var))
+        {
+            cout<<"Error: Two quantifiers have the same variable name."<<endl;
+            return false;
+        }
+    }
+    
+    //check whether the variable type is correct
+    if(T == LOGIC)
+    {
+        if(!dynamic_cast<logic_variable*>(var)) return false;
+    }
+    else if(T == SET)
+    {
+        if(!dynamic_cast<set_variable*>(var)) return false;
+    }
+    
+    //add the variable to the list
+    var_list.push_back(var);
+    return operand->check_variable(T, var_list);
 }
 
 universal_quantifier::universal_quantifier(variable* x, logic_value* y) : quantifier(x,y)
@@ -490,6 +528,11 @@ bool logic_unary_operator_logic::isEqual(expression* x)
     return true;
 }
 
+bool logic_unary_operator_logic::check_variable(variable_type T, vector<variable*>& var_list)
+{
+    return operand->check_variable(T, var_list);
+}
+
 logic_binary_operator_logic_logic::logic_binary_operator_logic_logic(const string& newLatex, logic_value* x, logic_value* y)
 {
     operator_latex = newLatex;
@@ -546,4 +589,11 @@ bool logic_binary_operator_logic_logic::isEqual(expression* x)
     if(!y->operand1->isEqual(operand1)) return false;
     if(!y->operand2->isEqual(operand2)) return false;
     return true;
+}
+
+bool logic_binary_operator_logic_logic::check_variable(variable_type T, vector<variable*>& var_list)
+{
+    vector<variable*>var_list1 = var_list;
+    vector<variable*>var_list2 = var_list;
+    return (operand1->check_variable(T, var_list1) && operand2->check_variable(T, var_list2));
 }
