@@ -381,15 +381,8 @@ bool set_variable::isEqual(expression* x)
 
 quantifier::quantifier(variable* x, logic_value* y)
 {
-    compound_logic* z = dynamic_cast<compound_logic*>(y);
-    if(!z)
-    {
-        cout<<"Error: the expression is not compound logic."<<endl;
-        return;
-    }
-    
     var = x;
-    operand = z;
+    operand = y;
 }
 
 quantifier::~quantifier()

@@ -11,8 +11,8 @@
 statement::statement(string newLabel, variable_type new_var_type, string input_latex)
 {
     //check whether the contend is compound_logic
-    compound_logic* x = dynamic_cast<compound_logic*>(expression::createFromLatex(input_latex, new_var_type));
-    if(!x)
+    content = dynamic_cast<compound_logic*>(expression::createFromLatex(input_latex, new_var_type));
+    if(!content)
     {
         content = nullptr;
         label = "";
@@ -21,10 +21,10 @@ statement::statement(string newLabel, variable_type new_var_type, string input_l
     }
     
     label = newLabel;
-    content = x;
     var_type = new_var_type;
     
     //set the forall_variable
+    logic_value* x = content;
     while(true)
     {
         universal_quantifier* y = dynamic_cast<universal_quantifier*>(x);

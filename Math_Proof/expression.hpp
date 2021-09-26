@@ -121,7 +121,7 @@ class quantifier : public compound_logic
 {
 public:
     variable* var;
-    compound_logic* operand;
+    logic_value* operand;
     
     quantifier(variable*, logic_value*);
     virtual ~quantifier();
