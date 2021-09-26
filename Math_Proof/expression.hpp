@@ -30,7 +30,7 @@ public:
     virtual bool isEqual(expression*)=0;
     virtual bool check_variable(variable_type, vector<variable*>)=0;
     virtual expression* getPart(vector<int>)=0;
-    //vector<variable*> getPartDependence(vector<int>&);
+    virtual void getPartDependence(vector<int>, vector<variable*>&)=0;
 };
 
 class variable : virtual public expression
@@ -53,6 +53,7 @@ class elementary_logic : public logic_value
 {
 public:
     expression* getPart(vector<int>) {return this;}
+    void getPartDependence(vector<int>, vector<variable*>&) {}
 };
 
 class logic_element : public elementary_logic
@@ -90,6 +91,7 @@ class elementary_set : public Set
 {
 public:
     expression* getPart(vector<int>) {return this;}
+    void getPartDependence(vector<int>, vector<variable*>&) {}
 };
 
 class set_element : public elementary_set
@@ -124,6 +126,7 @@ public:
     string getLatex();
     bool check_variable(variable_type, vector<variable*>);
     expression* getPart(vector<int>);
+    void getPartDependence(vector<int>, vector<variable*>&);
 };
 
 class universal_quantifier : public quantifier
@@ -155,6 +158,7 @@ public:
     bool isEqual(expression*);
     bool check_variable(variable_type, vector<variable*>);
     expression* getPart(vector<int>);
+    void getPartDependence(vector<int>, vector<variable*>&);
 };
 
 class logic_binary_operator_logic_logic : public compound_logic
@@ -171,6 +175,7 @@ public:
     bool isEqual(expression*);
     bool check_variable(variable_type, vector<variable*>);
     expression* getPart(vector<int>);
+    void getPartDependence(vector<int>, vector<variable*>&);
 };
 
 class set_unary_operator_set : public compound_set

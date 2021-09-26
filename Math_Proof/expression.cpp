@@ -459,6 +459,15 @@ expression* quantifier::getPart(vector<int> path)
     return operand->getPart(path);
 }
 
+void quantifier::getPartDependence(vector<int> path, vector<variable*>& dependence)
+{
+    if(path.size() == 0) return;
+    path.erase(path.begin());
+    
+    dependence.push_back(var);
+    operand->getPartDependence(path, dependence);
+}
+
 universal_quantifier::universal_quantifier(variable* x, logic_value* y) : quantifier(x,y)
 {
 }
@@ -541,6 +550,14 @@ expression* logic_unary_operator_logic::getPart(vector<int> path)
     return operand->getPart(path);
 }
 
+void logic_unary_operator_logic::getPartDependence(vector<int> path, vector<variable*>& dependence)
+{
+    if(path.size() == 0) return;
+    path.erase(path.begin());
+    
+    operand->getPartDependence(path, dependence);
+}
+
 logic_binary_operator_logic_logic::logic_binary_operator_logic_logic(const string& newLatex, logic_value* x, logic_value* y)
 {
     operator_latex = newLatex;
@@ -613,5 +630,17 @@ expression* logic_binary_operator_logic_logic::getPart(vector<int> path)
     
     if(x == 1) return operand1->getPart(path);
     else if(x == 2) return operand2->getPart(path);
-    return nullptr;
+    else return nullptr;
+}
+
+void logic_binary_operator_logic_logic::getPartDependence(vector<int> path, vector<variable*>& dependence)
+{
+    if(path.size() == 0) return;
+    
+    int x = path[0];
+    path.erase(path.begin());
+    
+    if(x == 1) operand1->getPartDependence(path, dependence);
+    else if(x == 2) operand2->getPartDependence(path, dependence);
+    else return;
 }
