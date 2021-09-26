@@ -459,13 +459,27 @@ expression* quantifier::getPart(vector<int> path)
     return operand->getPart(path);
 }
 
-void quantifier::getPartDependence(vector<int> path, vector<variable*>& dependence)
+void quantifier::getPartExternalDependence(vector<int> path, vector<variable*>& dependence)
 {
     if(path.size() == 0) return;
     path.erase(path.begin());
     
     dependence.push_back(var);
-    operand->getPartDependence(path, dependence);
+    operand->getPartExternalDependence(path, dependence);
+}
+
+void quantifier::getInternalDependence(vector<variable*>& dependence)
+{
+    for(long i=0;i<dependence.size();i++)
+    {
+        if(var->isEqual(dependence[i]))
+        {
+            return;
+        }
+    }
+    
+    dependence.push_back(var);
+    operand->getInternalDependence(dependence);
 }
 
 universal_quantifier::universal_quantifier(variable* x, logic_value* y) : quantifier(x,y)
@@ -550,12 +564,17 @@ expression* logic_unary_operator_logic::getPart(vector<int> path)
     return operand->getPart(path);
 }
 
-void logic_unary_operator_logic::getPartDependence(vector<int> path, vector<variable*>& dependence)
+void logic_unary_operator_logic::getPartExternalDependence(vector<int> path, vector<variable*>& dependence)
 {
     if(path.size() == 0) return;
     path.erase(path.begin());
     
-    operand->getPartDependence(path, dependence);
+    operand->getPartExternalDependence(path, dependence);
+}
+
+void logic_unary_operator_logic::getInternalDependence(vector<variable*>& dependence)
+{
+    operand->getInternalDependence(dependence);
 }
 
 logic_binary_operator_logic_logic::logic_binary_operator_logic_logic(const string& newLatex, logic_value* x, logic_value* y)
@@ -633,14 +652,20 @@ expression* logic_binary_operator_logic_logic::getPart(vector<int> path)
     else return nullptr;
 }
 
-void logic_binary_operator_logic_logic::getPartDependence(vector<int> path, vector<variable*>& dependence)
+void logic_binary_operator_logic_logic::getPartExternalDependence(vector<int> path, vector<variable*>& dependence)
 {
     if(path.size() == 0) return;
     
     int x = path[0];
     path.erase(path.begin());
     
-    if(x == 1) operand1->getPartDependence(path, dependence);
-    else if(x == 2) operand2->getPartDependence(path, dependence);
+    if(x == 1) operand1->getPartExternalDependence(path, dependence);
+    else if(x == 2) operand2->getPartExternalDependence(path, dependence);
     else return;
+}
+
+void logic_binary_operator_logic_logic::getInternalDependence(vector<variable*>& dependence)
+{
+    operand1->getInternalDependence(dependence);
+    operand2->getInternalDependence(dependence);
 }
