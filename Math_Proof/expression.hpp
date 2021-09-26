@@ -28,6 +28,7 @@ public:
     //map<variable*, expression*> replacement;
     
     virtual bool isEqual(expression*)=0;
+    virtual expression* getCopy()=0;
     virtual bool check_variable(variable_type, vector<variable*>)=0;
     virtual expression* getPart(vector<int>)=0;
     virtual void getPartExternalDependence(vector<int>, vector<variable*>&)=0;
@@ -67,6 +68,7 @@ public:
     
     string getLatex();
     bool isEqual(expression*);
+    expression* getCopy();
     bool check_variable(variable_type, vector<variable*>);
 };
 
@@ -77,6 +79,7 @@ public:
     
     string getLatex();
     bool isEqual(expression*);
+    expression* getCopy();
 };
 
 class compound_logic : public logic_value
@@ -110,6 +113,7 @@ public:
     
     string getLatex();
     bool isEqual(expression*);
+    expression* getCopy();
 };
 
 class compound_set : public Set
@@ -139,6 +143,7 @@ public:
     universal_quantifier(variable*, logic_value*);
     
     bool isEqual(expression*);
+    expression* getCopy();
 };
 
 class existential_quantifier : public quantifier
@@ -147,6 +152,7 @@ public:
     existential_quantifier(variable*, logic_value*);
     
     bool isEqual(expression*);
+    expression* getCopy();
 };
 
 class logic_unary_operator_logic : public compound_logic
@@ -160,6 +166,7 @@ public:
     
     string getLatex();
     bool isEqual(expression*);
+    expression* getCopy();
     bool check_variable(variable_type, vector<variable*>);
     expression* getPart(vector<int>);
     void getPartExternalDependence(vector<int>, vector<variable*>&);
@@ -178,6 +185,7 @@ public:
     
     string getLatex();
     bool isEqual(expression*);
+    expression* getCopy();
     bool check_variable(variable_type, vector<variable*>);
     expression* getPart(vector<int>);
     void getPartExternalDependence(vector<int>, vector<variable*>&);

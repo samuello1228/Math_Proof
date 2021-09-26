@@ -340,6 +340,12 @@ bool logic_element::isEqual(expression* x)
     return true;
 }
 
+expression* logic_element::getCopy()
+{
+    logic_element* x = new logic_element(value);
+    return x;
+}
+
 bool logic_element::check_variable(variable_type T, vector<variable*> var_list)
 {
     return true;
@@ -362,6 +368,12 @@ bool logic_variable::isEqual(expression* x)
     return true;
 }
 
+expression* logic_variable::getCopy()
+{
+    logic_variable* x = new logic_variable(latex);
+    return x;
+}
+
 set_variable::set_variable(const string& newLatex) : variable(newLatex)
 {
 }
@@ -377,6 +389,12 @@ bool set_variable::isEqual(expression* x)
     if(!y) return false;
     if(y->latex != latex) return false;
     return true;
+}
+
+expression* set_variable::getCopy()
+{
+    set_variable* x = new set_variable(latex);
+    return x;
 }
 
 quantifier::quantifier(variable* x, logic_value* y)
@@ -488,6 +506,14 @@ bool universal_quantifier::isEqual(expression* x)
     return true;
 }
 
+expression* universal_quantifier::getCopy()
+{
+    variable* var_copy = dynamic_cast<variable*>(var->getCopy());
+    logic_value* operand_copy = dynamic_cast<logic_value*>(operand->getCopy());
+    universal_quantifier* x = new universal_quantifier(var_copy, operand_copy);
+    return x;
+}
+
 existential_quantifier::existential_quantifier(variable* x, logic_value* y) : quantifier(x,y)
 {
 }
@@ -499,6 +525,14 @@ bool existential_quantifier::isEqual(expression* x)
     if(!y->var->isEqual(var)) return false;
     if(!y->operand->isEqual(operand)) return false;
     return true;
+}
+
+expression* existential_quantifier::getCopy()
+{
+    variable* var_copy = dynamic_cast<variable*>(var->getCopy());
+    logic_value* operand_copy = dynamic_cast<logic_value*>(operand->getCopy());
+    existential_quantifier* x = new existential_quantifier(var_copy, operand_copy);
+    return x;
 }
 
 logic_unary_operator_logic::logic_unary_operator_logic(const string& newLatex, logic_value* x)
@@ -542,6 +576,13 @@ bool logic_unary_operator_logic::isEqual(expression* x)
     if(y->operator_latex != operator_latex) return false;
     if(!y->operand->isEqual(operand)) return false;
     return true;
+}
+
+expression* logic_unary_operator_logic::getCopy()
+{
+    logic_value* operand_copy = dynamic_cast<logic_value*>(operand->getCopy());
+    logic_unary_operator_logic* x = new logic_unary_operator_logic(operator_latex, operand_copy);
+    return x;
 }
 
 bool logic_unary_operator_logic::check_variable(variable_type T, vector<variable*> var_list)
@@ -626,6 +667,14 @@ bool logic_binary_operator_logic_logic::isEqual(expression* x)
     if(!y->operand1->isEqual(operand1)) return false;
     if(!y->operand2->isEqual(operand2)) return false;
     return true;
+}
+
+expression* logic_binary_operator_logic_logic::getCopy()
+{
+    logic_value* operand1_copy = dynamic_cast<logic_value*>(operand1->getCopy());
+    logic_value* operand2_copy = dynamic_cast<logic_value*>(operand2->getCopy());
+    logic_binary_operator_logic_logic* x = new logic_binary_operator_logic_logic(operator_latex, operand1_copy, operand2_copy);
+    return x;
 }
 
 bool logic_binary_operator_logic_logic::check_variable(variable_type T, vector<variable*> var_list)
