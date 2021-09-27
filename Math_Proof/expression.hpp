@@ -18,6 +18,14 @@ using namespace std;
 enum variable_type {LOGIC, SET};
 
 class variable;
+class expression;
+
+struct substitution
+{
+    variable* x;
+    expression* y;
+};
+
 class expression
 {
 public:
@@ -25,10 +33,11 @@ public:
     
     virtual string getLatex()=0;
     static expression* createFromLatex(string, variable_type);
-    //map<variable*, expression*> replacement;
     
     virtual bool isEqual(expression*)=0;
     virtual expression* getCopy()=0;
+    virtual void replace_variable(vector<substitution>)=0;
+    
     virtual bool check_variable(variable_type, vector<variable*>)=0;
     virtual expression* getPart(vector<int>)=0;
     virtual void getPartExternalDependence(vector<int>, vector<variable*>&)=0;
@@ -43,6 +52,7 @@ public:
     variable(const string&);
     virtual ~variable() {}
     
+    void replace_variable(vector<substitution>);
     bool check_variable(variable_type, vector<variable*>);
 };
 
@@ -69,6 +79,8 @@ public:
     string getLatex();
     bool isEqual(expression*);
     expression* getCopy();
+    void replace_variable(vector<substitution>) {return;}
+    
     bool check_variable(variable_type, vector<variable*>);
 };
 
@@ -131,6 +143,8 @@ public:
     virtual ~quantifier();
     
     string getLatex();
+    void replace_variable(vector<substitution>);
+    
     bool check_variable(variable_type, vector<variable*>);
     expression* getPart(vector<int>);
     void getPartExternalDependence(vector<int>, vector<variable*>&);
@@ -167,6 +181,8 @@ public:
     string getLatex();
     bool isEqual(expression*);
     expression* getCopy();
+    void replace_variable(vector<substitution>);
+    
     bool check_variable(variable_type, vector<variable*>);
     expression* getPart(vector<int>);
     void getPartExternalDependence(vector<int>, vector<variable*>&);
@@ -186,6 +202,8 @@ public:
     string getLatex();
     bool isEqual(expression*);
     expression* getCopy();
+    void replace_variable(vector<substitution>);
+    
     bool check_variable(variable_type, vector<variable*>);
     expression* getPart(vector<int>);
     void getPartExternalDependence(vector<int>, vector<variable*>&);

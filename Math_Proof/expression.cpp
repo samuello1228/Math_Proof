@@ -307,6 +307,18 @@ variable::variable(const string& newLatex)
     latex = newLatex;
 }
 
+void variable::replace_variable(vector<substitution> replacement)
+{
+    for(long i=0;i<replacement.size();i++)
+    {
+        if(replacement[i].x->isEqual(this))
+        {
+            variable* z = dynamic_cast<variable*>(replacement[i].y);
+            latex = z->latex;
+        }
+    }
+}
+
 bool variable::check_variable(variable_type T, vector<variable*> var_list)
 {
     for(long i=0;i<var_list.size();i++)
@@ -435,6 +447,20 @@ string quantifier::getLatex()
     return output;
 }
 
+void quantifier::replace_variable(vector<substitution> replacement)
+{
+    for(long i=0;i<replacement.size();i++)
+    {
+        if(replacement[i].x->isEqual(var))
+        {
+            variable* z = dynamic_cast<variable*>(replacement[i].y);
+            var->latex = z->latex;
+        }
+    }
+    
+    operand->replace_variable(replacement);
+}
+
 bool quantifier::check_variable(variable_type T, vector<variable*> var_list)
 {
     //check whether the variable name is distinct
@@ -481,15 +507,16 @@ void quantifier::getPartExternalDependence(vector<int> path, vector<variable*>& 
 
 void quantifier::getInternalDependence(vector<variable*>& dependence)
 {
+    bool duplicate = false;
     for(long i=0;i<dependence.size();i++)
     {
         if(var->isEqual(dependence[i]))
         {
-            return;
+            duplicate = true;
         }
     }
     
-    dependence.push_back(var);
+    if(!duplicate) dependence.push_back(var);
     operand->getInternalDependence(dependence);
 }
 
@@ -585,6 +612,11 @@ expression* logic_unary_operator_logic::getCopy()
     return x;
 }
 
+void logic_unary_operator_logic::replace_variable(vector<substitution> replacement)
+{
+    operand->replace_variable(replacement);
+}
+
 bool logic_unary_operator_logic::check_variable(variable_type T, vector<variable*> var_list)
 {
     return operand->check_variable(T, var_list);
@@ -675,6 +707,12 @@ expression* logic_binary_operator_logic_logic::getCopy()
     logic_value* operand2_copy = dynamic_cast<logic_value*>(operand2->getCopy());
     logic_binary_operator_logic_logic* x = new logic_binary_operator_logic_logic(operator_latex, operand1_copy, operand2_copy);
     return x;
+}
+
+void logic_binary_operator_logic_logic::replace_variable(vector<substitution> replacement)
+{
+    operand1->replace_variable(replacement);
+    operand2->replace_variable(replacement);
 }
 
 bool logic_binary_operator_logic_logic::check_variable(variable_type T, vector<variable*> var_list)
