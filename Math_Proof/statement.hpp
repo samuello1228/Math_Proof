@@ -12,9 +12,12 @@
 #include <fstream>
 using namespace std;
 
+class statement;
+
 #include "expression.hpp"
 
-vector<substitution*> createSubstitution(vector<variable*>, vector<variable*>);
+vector<substitution*> createReplacement(vector<variable*>, vector<variable*>);
+vector<substitution*> createSubstitution(vector<variable*> ,expression*, vector<vector<int> >);
 
 class statement
 {
@@ -35,6 +38,7 @@ public:
     virtual ~statement();
     
     string getLatex();
+    void applyLeftToRight(expression*, vector<int>, vector<substitution*>);
 };
 
 class Definition : public statement
@@ -63,5 +67,18 @@ public:
     
     static void addProposition(vector<Proposition*>&, ofstream&, Proposition*);
 };
+
+template <class T>
+T* FindByRef (vector<T*> v, string Name)
+{
+    for(long i=0;i<v.size();i++)
+    {
+        if(v[i]->label == Name)
+        {
+            return v[i];
+        }
+    }
+    return nullptr;
+}
 
 #endif /* statement_hpp */

@@ -33,4 +33,6 @@ int main()
     {
         delete All_Proposition[i];
     }
+    
+    //while(true) {}
 }

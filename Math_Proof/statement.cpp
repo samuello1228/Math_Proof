@@ -8,7 +8,7 @@
 
 #include "statement.hpp"
 
-vector<substitution*> createSubstitution(vector<variable*> original_variable, vector<variable*> exclude)
+vector<substitution*> createReplacement(vector<variable*> original_variable, vector<variable*> exclude)
 {
     vector<substitution*> replacement;
     char letter = 'a';
@@ -54,6 +54,19 @@ vector<substitution*> createSubstitution(vector<variable*> original_variable, ve
     }
     
     return replacement;
+}
+
+vector<substitution*> createSubstitution(vector<variable*> forall_variable, expression* target_part, vector<vector<int> > path)
+{
+    vector<substitution*> sub;
+    for(long i=0;i<forall_variable.size();i++)
+    {
+        variable* x = dynamic_cast<variable*>(forall_variable[i]->getCopy());
+        expression* y = target_part->getPart(path[i])->getCopy();
+        sub.push_back(new substitution(x,y));
+    }
+    
+    return sub;
 }
 
 statement::statement(string newLabel, variable_type new_var_type, string input_latex)
@@ -168,6 +181,98 @@ string statement::getLatex()
     }
     
     return output;
+}
+
+void statement::applyLeftToRight(expression* input, vector<int> path, vector<substitution*> sub)
+{
+    if(operator_latex == "")
+    {
+        cout<<"Error: cannot use applyLeftToRight."<<endl;
+        return;
+    }
+    
+    //get external dependence of target part
+    vector<variable*> external_dependence_target_part;
+    input->getPartExternalDependence(path, external_dependence_target_part);
+    cout<<"External dependence of target part:"<<endl;
+    for(long i=0;i<external_dependence_target_part.size();i++)
+    {
+        cout<<external_dependence_target_part[i]->getLatex()<<" ";
+    }
+    cout<<endl;
+    
+    //get all dependence of target part
+    expression* target_part = input->getPart(path);
+    vector<variable*> all_dependence_target_part = external_dependence_target_part;
+    target_part->getInternalDependence(all_dependence_target_part);
+    cout<<"All dependence of target part:"<<endl;
+    for(long i=0;i<all_dependence_target_part.size();i++)
+    {
+        cout<<all_dependence_target_part[i]->getLatex()<<" ";
+    }
+    cout<<endl;
+    
+    //get internal dependence of source
+    vector<variable*> internal_dependence_source;
+    content->getInternalDependence(internal_dependence_source);
+    cout<<"Internal dependence of source:"<<endl;
+    for(long i=0;i<internal_dependence_source.size();i++)
+    {
+        cout<<internal_dependence_source[i]->getLatex()<<" ";
+    }
+    cout<<endl;
+    
+    //create substitution by exclusion
+    vector<substitution*> replacement = createReplacement(internal_dependence_source,all_dependence_target_part);
+    cout<<"Replacement:"<<endl;
+    for(long i=0;i<replacement.size();i++)
+    {
+        cout<<replacement[i]->x->getLatex()<<" is replaced by "<<replacement[i]->y->getLatex()<<endl;
+    }
+    cout<<endl;
+    
+    //do replacement for source_copy
+    compound_logic* source_copy = dynamic_cast<compound_logic*>(content->getCopy());
+    source_copy->replace_variable(replacement);
+    cout<<source_copy->getLatex()<<endl;
+    
+    //do replacement for sub
+    for(long i=0;i<sub.size();i++)
+    {
+        for(long j=0;j<replacement.size();j++)
+        {
+            if(replacement[j]->x->isEqual(sub[i]->x))
+            {
+                delete sub[i]->x;
+                sub[i]->x = dynamic_cast<variable*>(replacement[j]->y->getCopy());
+            }
+        }
+    }
+    for(long i=0;i<sub.size();i++)
+    {
+        cout<<sub[i]->x->getLatex()<<" is replaced by "<<sub[i]->y->getLatex()<<endl;
+    }
+    cout<<endl;
+    
+    //delete replacement
+    for(long i=0;i<replacement.size();i++)
+    {
+        delete replacement[i];
+    }
+    
+    //add universal quantifier at the beginning
+    for(long i = external_dependence_target_part.size()-1; i>=0; i--)
+    {
+        variable* variable_copy = dynamic_cast<variable*>(external_dependence_target_part[i]->getCopy());
+        source_copy = new universal_quantifier(variable_copy, source_copy);
+    }
+    cout<<source_copy->getLatex()<<endl;
+
+    //do substitution
+    expression* output = expression::substitute_forall_variable(source_copy, sub);
+    cout<<output->getLatex()<<endl;
+    
+    delete output;
 }
 
 Definition::Definition(string newLabel, variable_type var_type, string x) : statement(newLabel, var_type, x)

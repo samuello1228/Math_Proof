@@ -130,5 +130,34 @@ void logic(vector<Definition*>& All_Definition, vector<Axiom*>& All_Axiom, vecto
     Proposition::addProposition(All_Proposition, fout, new Proposition("De_Morgan_lor", LOGIC, "\\forall x \\forall y ((\\lnot (x \\lor y)) \\iff ((\\lnot x) \\land (\\lnot y)))"));
     Proposition::addProposition(All_Proposition, fout, new Proposition("De_Morgan_land", LOGIC, "\\forall x \\forall y ((\\lnot (x \\land y)) \\iff ((\\lnot x) \\lor (\\lnot y)))"));
     
+    //Basic Proposition
+    //x_lor_y_complement
+    fout<<"\\section{Basic Proposition}"<<endl;
+    Proposition::addProposition(All_Proposition, fout, new Proposition("x_lor_y_complement", LOGIC, "\\forall x \\forall y (((x \\land (\\lnot y)) \\lor y) \\iff (x \\lor y))"));
+    
+    //Proof
+    Proposition* x = FindByRef<Proposition>(All_Proposition, "x_lor_y_complement");
+    cout<<x->content->getLatex()<<endl;
+    Proposition* y = FindByRef<Proposition>(All_Proposition, "lor_land_distributivity_2");
+    cout<<y->content->getLatex()<<endl;
+    
+    vector<int> path = {1,1,1};
+    expression* target_part = x->content->getPart(path);
+    vector<substitution*> sub = createSubstitution(y->forall_variable, target_part, {{1,1},{1,2},{2}});
+    
+    for(long i=0;i<sub.size();i++)
+    {
+        cout<<sub[i]->x->getLatex()<<" is replaced by "<<sub[i]->y->getLatex()<<endl;
+    }
+    cout<<endl;
+    
+    y->applyLeftToRight(x->content, path, sub);
+    
+    //delete sub
+    for(long i=0;i<sub.size();i++)
+    {
+        delete sub[i];
+    }
+    
     fout.close();
 }

@@ -10,15 +10,16 @@
 #define expression_hpp
 
 #include <iostream>
-#include <map>
-#include <set>
 #include <vector>
 using namespace std;
 
 enum variable_type {LOGIC, SET};
-
-class variable;
+class substitution;
 class expression;
+class variable;
+class compound_logic;
+
+#include "statement.hpp"
 
 class substitution
 {
@@ -47,6 +48,8 @@ public:
     virtual expression* getPart(vector<int>)=0;
     virtual void getPartExternalDependence(vector<int>, vector<variable*>&)=0;
     virtual void getInternalDependence(vector<variable*>&)=0;
+    
+    virtual void reverse_construction(statement*,int) {return;}
 };
 
 class variable : virtual public expression
