@@ -84,6 +84,33 @@ statement::statement(string newLabel, variable_type new_var_type, string input_l
     label = newLabel;
     var_type = new_var_type;
     
+    //check whether the input latex format is standard
+    if(input_latex != content->getLatex())
+    {
+        cout<<"Error: the input latex format is not standard."<<endl;
+    }
+    
+    constructor_aux();
+}
+
+statement::statement(string newLabel, variable_type new_var_type, expression* x)
+{
+    content = dynamic_cast<compound_logic*>(x);
+    if(!content)
+    {
+        content = nullptr;
+        label = "";
+        cout<<"Error: the expression is not compound logic."<<endl;
+        return;
+    }
+    
+    label = newLabel;
+    var_type = new_var_type;
+    constructor_aux();
+}
+
+void statement::constructor_aux()
+{
     //set the forall_variable
     logic_value* x = content;
     while(true)
@@ -116,12 +143,6 @@ statement::statement(string newLabel, variable_type new_var_type, string input_l
     else
     {
         operator_latex = "";
-    }
-    
-    //check whether the input latex format is standard
-    if(input_latex != content->getLatex())
-    {
-        cout<<"Error: the input latex format is not standard."<<endl;
     }
     
     //check variable
@@ -180,6 +201,12 @@ string statement::getLatex()
         }
     }
     
+    return output;
+}
+
+statement* statement::getCopy()
+{
+    statement* output = new statement(label, var_type, content->getCopy());
     return output;
 }
 

@@ -35,9 +35,12 @@ public:
     expression* operand2;
     
     statement(string, variable_type, string);
+    statement(string, variable_type, expression*);
+    void constructor_aux();
     virtual ~statement();
     
     string getLatex();
+    statement* getCopy();
     expression* applyLeftToRight(statement*, vector<int>, vector<vector<int> >);
 };
 
