@@ -14,6 +14,8 @@ using namespace std;
 
 #include "expression.hpp"
 
+vector<substitution*> createSubstitution(vector<variable*>, vector<variable*>);
+
 class statement
 {
 public:

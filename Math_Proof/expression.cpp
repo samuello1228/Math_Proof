@@ -10,6 +10,29 @@
 
 substitution::substitution(variable* new_x, expression* new_y)
 {
+    if(logic_variable* var = dynamic_cast<logic_variable*>(new_x))
+    {
+        logic_value* z = dynamic_cast<logic_value*>(new_y);
+        if(!z)
+        {
+            cout<<"Error: the variable type is not matched."<<endl;
+            x = nullptr;
+            y = nullptr;
+            return;
+        }
+    }
+    else if(set_variable* var = dynamic_cast<set_variable*>(new_x))
+    {
+        Set* z = dynamic_cast<Set*>(new_y);
+        if(!z)
+        {
+            cout<<"Error: the variable type is not matched."<<endl;
+            x = nullptr;
+            y = nullptr;
+            return;
+        }
+    }
+    
     x = new_x;
     y = new_y;
 }
@@ -312,6 +335,52 @@ expression* expression::createFromLatex(string latex, variable_type var_type)
     
     cout<<"Syntax Error: the expression cannot be processed: "<<latex<<endl;
     return nullptr;
+}
+
+expression* expression::substitute_forall_variable(expression* x, vector<substitution*> sub)
+{
+    if(variable* y = dynamic_cast<variable*>(x))
+    {
+        for(long i=0;i<sub.size();i++)
+        {
+            if(y->isEqual(sub[i]->x))
+            {
+                expression* output = sub[i]->y->getCopy();
+                delete x;
+                return output;
+            }
+        }
+    }
+    else if(universal_quantifier* y = dynamic_cast<universal_quantifier*>(x))
+    {
+        for(long i=0;i<sub.size();i++)
+        {
+            if(y->var->isEqual(sub[i]->x))
+            {
+                expression* operand_copy = y->operand->getCopy();
+                expression* output = expression::substitute_forall_variable(operand_copy, sub);
+                delete x;
+                return output;
+            }
+        }
+        
+        y->operand = dynamic_cast<logic_value*>(expression::substitute_forall_variable(y->operand, sub));
+    }
+    else if(existential_quantifier* y = dynamic_cast<existential_quantifier*>(x))
+    {
+        y->operand = dynamic_cast<logic_value*>(expression::substitute_forall_variable(y->operand, sub));
+    }
+    else if(logic_unary_operator_logic* y = dynamic_cast<logic_unary_operator_logic*>(x))
+    {
+        y->operand = dynamic_cast<logic_value*>(expression::substitute_forall_variable(y->operand, sub));
+    }
+    else if(logic_binary_operator_logic_logic* y = dynamic_cast<logic_binary_operator_logic_logic*>(x))
+    {
+        y->operand1 = dynamic_cast<logic_value*>(expression::substitute_forall_variable(y->operand1, sub));
+        y->operand2 = dynamic_cast<logic_value*>(expression::substitute_forall_variable(y->operand2, sub));
+    }
+    
+    return x;
 }
 
 variable::variable(const string& newLatex)

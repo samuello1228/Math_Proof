@@ -8,6 +8,54 @@
 
 #include "statement.hpp"
 
+vector<substitution*> createSubstitution(vector<variable*> original_variable, vector<variable*> exclude)
+{
+    vector<substitution*> replacement;
+    char letter = 'a';
+    int index = 0;
+    while(true)
+    {
+        if(index == original_variable.size()) break;
+        
+        if(letter == '{')
+        {
+            cout<<"Error: all letter have been already used."<<endl;
+            return replacement;
+        }
+        
+        string latex;
+        latex.push_back(letter);
+        
+        //exclude the variable
+        bool duplicate = false;
+        for(long i=0;i<exclude.size();i++)
+        {
+            if(latex == exclude[i]->latex)
+            {
+                duplicate = true;
+            }
+        }
+        
+        if(duplicate)
+        {
+            letter += 1;
+            continue;
+        }
+        
+        //create substitution
+        variable* x = dynamic_cast<variable*>(original_variable[index]->getCopy());
+        substitution* element = new substitution(x, original_variable[index]->getCopy());
+        variable* y = dynamic_cast<variable*>(element->y);
+        y->latex = latex;
+        replacement.push_back(element);
+        
+        index++;
+        letter += 1;
+    }
+    
+    return replacement;
+}
+
 statement::statement(string newLabel, variable_type new_var_type, string input_latex)
 {
     //check whether the contend is compound_logic

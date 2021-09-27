@@ -41,6 +41,7 @@ public:
     virtual bool isEqual(expression*)=0;
     virtual expression* getCopy()=0;
     virtual void replace_variable(vector<substitution*>)=0;
+    static expression* substitute_forall_variable(expression* ,vector<substitution*>);
     
     virtual bool check_variable(variable_type, vector<variable*>)=0;
     virtual expression* getPart(vector<int>)=0;
