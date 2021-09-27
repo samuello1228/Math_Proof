@@ -183,17 +183,27 @@ string statement::getLatex()
     return output;
 }
 
-void statement::applyLeftToRight(expression* input, vector<int> path, vector<substitution*> sub)
+expression* statement::applyLeftToRight(statement* s, vector<int> path, vector<vector<int> > sub_path)
 {
     if(operator_latex == "")
     {
         cout<<"Error: cannot use applyLeftToRight."<<endl;
-        return;
+        return nullptr;
     }
+    
+    //create substitution
+    expression* target_part = s->content->getPart(path);
+    vector<substitution*> sub = createSubstitution(forall_variable, target_part, sub_path);
+    cout<<"Substitution:"<<endl;
+    for(long i=0;i<sub.size();i++)
+    {
+        cout<<sub[i]->x->getLatex()<<" is replaced by "<<sub[i]->y->getLatex()<<endl;
+    }
+    cout<<endl;
     
     //get external dependence of target part
     vector<variable*> external_dependence_target_part;
-    input->getPartExternalDependence(path, external_dependence_target_part);
+    s->content->getPartExternalDependence(path, external_dependence_target_part);
     cout<<"External dependence of target part:"<<endl;
     for(long i=0;i<external_dependence_target_part.size();i++)
     {
@@ -202,7 +212,6 @@ void statement::applyLeftToRight(expression* input, vector<int> path, vector<sub
     cout<<endl;
     
     //get all dependence of target part
-    expression* target_part = input->getPart(path);
     vector<variable*> all_dependence_target_part = external_dependence_target_part;
     target_part->getInternalDependence(all_dependence_target_part);
     cout<<"All dependence of target part:"<<endl;
@@ -222,7 +231,7 @@ void statement::applyLeftToRight(expression* input, vector<int> path, vector<sub
     }
     cout<<endl;
     
-    //create substitution by exclusion
+    //create replacement by exclusion
     vector<substitution*> replacement = createReplacement(internal_dependence_source,all_dependence_target_part);
     cout<<"Replacement:"<<endl;
     for(long i=0;i<replacement.size();i++)
@@ -272,7 +281,15 @@ void statement::applyLeftToRight(expression* input, vector<int> path, vector<sub
     expression* output = expression::substitute_forall_variable(source_copy, sub);
     cout<<output->getLatex()<<endl;
     
-    delete output;
+    //delete sub
+    for(long i=0;i<sub.size();i++)
+    {
+        delete sub[i];
+    }
+    
+    //reverse construction
+    
+    return output;
 }
 
 Definition::Definition(string newLabel, variable_type var_type, string x) : statement(newLabel, var_type, x)

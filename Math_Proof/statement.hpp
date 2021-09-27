@@ -38,7 +38,7 @@ public:
     virtual ~statement();
     
     string getLatex();
-    void applyLeftToRight(expression*, vector<int>, vector<substitution*>);
+    expression* applyLeftToRight(statement*, vector<int>, vector<vector<int> >);
 };
 
 class Definition : public statement

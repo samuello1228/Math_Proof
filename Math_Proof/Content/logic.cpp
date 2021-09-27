@@ -140,24 +140,10 @@ void logic(vector<Definition*>& All_Definition, vector<Axiom*>& All_Axiom, vecto
     cout<<x->content->getLatex()<<endl;
     Proposition* y = FindByRef<Proposition>(All_Proposition, "lor_land_distributivity_2");
     cout<<y->content->getLatex()<<endl;
-    
-    vector<int> path = {1,1,1};
-    expression* target_part = x->content->getPart(path);
-    vector<substitution*> sub = createSubstitution(y->forall_variable, target_part, {{1,1},{1,2},{2}});
-    
-    for(long i=0;i<sub.size();i++)
-    {
-        cout<<sub[i]->x->getLatex()<<" is replaced by "<<sub[i]->y->getLatex()<<endl;
-    }
     cout<<endl;
     
-    y->applyLeftToRight(x->content, path, sub);
-    
-    //delete sub
-    for(long i=0;i<sub.size();i++)
-    {
-        delete sub[i];
-    }
+    expression* z = y->applyLeftToRight(x, {1,1,1}, {{1,1},{1,2},{2}});
+    delete z;
     
     fout.close();
 }
