@@ -8,6 +8,18 @@
 
 #include "expression.hpp"
 
+substitution::substitution(variable* new_x, expression* new_y)
+{
+    x = new_x;
+    y = new_y;
+}
+
+substitution::~substitution()
+{
+    delete x;
+    delete y;
+}
+
 bool isEnglishLetter(string x)
 {
     if(x.size() != 1) return false;
@@ -307,13 +319,13 @@ variable::variable(const string& newLatex)
     latex = newLatex;
 }
 
-void variable::replace_variable(vector<substitution> replacement)
+void variable::replace_variable(vector<substitution*> replacement)
 {
     for(long i=0;i<replacement.size();i++)
     {
-        if(replacement[i].x->isEqual(this))
+        if(replacement[i]->x->isEqual(this))
         {
-            variable* z = dynamic_cast<variable*>(replacement[i].y);
+            variable* z = dynamic_cast<variable*>(replacement[i]->y);
             latex = z->latex;
         }
     }
@@ -447,13 +459,13 @@ string quantifier::getLatex()
     return output;
 }
 
-void quantifier::replace_variable(vector<substitution> replacement)
+void quantifier::replace_variable(vector<substitution*> replacement)
 {
     for(long i=0;i<replacement.size();i++)
     {
-        if(replacement[i].x->isEqual(var))
+        if(replacement[i]->x->isEqual(var))
         {
-            variable* z = dynamic_cast<variable*>(replacement[i].y);
+            variable* z = dynamic_cast<variable*>(replacement[i]->y);
             var->latex = z->latex;
         }
     }
@@ -612,7 +624,7 @@ expression* logic_unary_operator_logic::getCopy()
     return x;
 }
 
-void logic_unary_operator_logic::replace_variable(vector<substitution> replacement)
+void logic_unary_operator_logic::replace_variable(vector<substitution*> replacement)
 {
     operand->replace_variable(replacement);
 }
@@ -709,7 +721,7 @@ expression* logic_binary_operator_logic_logic::getCopy()
     return x;
 }
 
-void logic_binary_operator_logic_logic::replace_variable(vector<substitution> replacement)
+void logic_binary_operator_logic_logic::replace_variable(vector<substitution*> replacement)
 {
     operand1->replace_variable(replacement);
     operand2->replace_variable(replacement);

@@ -20,10 +20,14 @@ enum variable_type {LOGIC, SET};
 class variable;
 class expression;
 
-struct substitution
+class substitution
 {
+public:
     variable* x;
     expression* y;
+    
+    substitution(variable*, expression*);
+    ~substitution();
 };
 
 class expression
@@ -36,7 +40,7 @@ public:
     
     virtual bool isEqual(expression*)=0;
     virtual expression* getCopy()=0;
-    virtual void replace_variable(vector<substitution>)=0;
+    virtual void replace_variable(vector<substitution*>)=0;
     
     virtual bool check_variable(variable_type, vector<variable*>)=0;
     virtual expression* getPart(vector<int>)=0;
@@ -52,7 +56,7 @@ public:
     variable(const string&);
     virtual ~variable() {}
     
-    void replace_variable(vector<substitution>);
+    void replace_variable(vector<substitution*>);
     bool check_variable(variable_type, vector<variable*>);
 };
 
@@ -79,7 +83,7 @@ public:
     string getLatex();
     bool isEqual(expression*);
     expression* getCopy();
-    void replace_variable(vector<substitution>) {return;}
+    void replace_variable(vector<substitution*>) {return;}
     
     bool check_variable(variable_type, vector<variable*>);
 };
@@ -143,7 +147,7 @@ public:
     virtual ~quantifier();
     
     string getLatex();
-    void replace_variable(vector<substitution>);
+    void replace_variable(vector<substitution*>);
     
     bool check_variable(variable_type, vector<variable*>);
     expression* getPart(vector<int>);
@@ -181,7 +185,7 @@ public:
     string getLatex();
     bool isEqual(expression*);
     expression* getCopy();
-    void replace_variable(vector<substitution>);
+    void replace_variable(vector<substitution*>);
     
     bool check_variable(variable_type, vector<variable*>);
     expression* getPart(vector<int>);
@@ -202,7 +206,7 @@ public:
     string getLatex();
     bool isEqual(expression*);
     expression* getCopy();
-    void replace_variable(vector<substitution>);
+    void replace_variable(vector<substitution*>);
     
     bool check_variable(variable_type, vector<variable*>);
     expression* getPart(vector<int>);
