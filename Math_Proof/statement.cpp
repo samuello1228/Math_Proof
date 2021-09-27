@@ -27,8 +27,7 @@ statement::statement(string newLabel, variable_type new_var_type, string input_l
     logic_value* x = content;
     while(true)
     {
-        universal_quantifier* y = dynamic_cast<universal_quantifier*>(x);
-        if(y)
+        if(universal_quantifier* y = dynamic_cast<universal_quantifier*>(x))
         {
             forall_variable.push_back(y->var);
             x = y->operand;
@@ -37,8 +36,7 @@ statement::statement(string newLabel, variable_type new_var_type, string input_l
     }
     
     //set the operator_latex, operand1 and operand2
-    logic_binary_operator_logic_logic* y = dynamic_cast<logic_binary_operator_logic_logic*>(x);
-    if(y)
+    if(logic_binary_operator_logic_logic* y = dynamic_cast<logic_binary_operator_logic_logic*>(x))
     {
         if(y->operator_latex == "\\overset{\\operatorname{def}}{\\iff}" ||
            y->operator_latex == "\\iff" ||

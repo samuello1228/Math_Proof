@@ -439,17 +439,15 @@ string quantifier::getLatex()
     logic_value* x = this;
     while(true)
     {
-        universal_quantifier* y = dynamic_cast<universal_quantifier*>(x);
-        existential_quantifier* z = dynamic_cast<existential_quantifier*>(x);
-        if(y)
+        if(universal_quantifier* y = dynamic_cast<universal_quantifier*>(x))
         {
             output += "\\forall " + y->var->getLatex() + " ";
             x = y->operand;
         }
-        else if(z)
+        else if(existential_quantifier* y = dynamic_cast<existential_quantifier*>(x))
         {
-            output += "\\exists " + z->var->getLatex() + " ";
-            x = z->operand;
+            output += "\\exists " + y->var->getLatex() + " ";
+            x = y->operand;
         }
         else break;
     }
