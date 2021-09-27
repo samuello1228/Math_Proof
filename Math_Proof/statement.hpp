@@ -30,9 +30,8 @@ public:
     vector<variable*> forall_variable;
     
     //for operator like \\iff, \\implies
+    logic_binary_operator_logic_logic* binary_operator;
     string operator_latex;
-    expression* operand1;
-    expression* operand2;
     
     statement(string, variable_type, string);
     statement(string, variable_type, expression*);

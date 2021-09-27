@@ -18,6 +18,7 @@ class substitution;
 class expression;
 class variable;
 class compound_logic;
+class logic_binary_operator_logic_logic;
 
 #include "statement.hpp"
 

@@ -123,25 +123,26 @@ void statement::constructor_aux()
         else break;
     }
     
-    //set the operator_latex, operand1 and operand2
-    if(logic_binary_operator_logic_logic* y = dynamic_cast<logic_binary_operator_logic_logic*>(x))
+    //set the binary_operator, operator_latex
+    binary_operator = dynamic_cast<logic_binary_operator_logic_logic*>(x);
+    if(binary_operator)
     {
-        if(y->operator_latex == "\\overset{\\operatorname{def}}{\\iff}" ||
-           y->operator_latex == "\\iff" ||
-           y->operator_latex == "\\implies"
+        if(binary_operator->operator_latex == "\\overset{\\operatorname{def}}{\\iff}" ||
+           binary_operator->operator_latex == "\\iff" ||
+           binary_operator->operator_latex == "\\implies"
            )
         {
-            operator_latex = y->operator_latex;
-            operand1 = y->operand1;
-            operand2 = y->operand2;
+            operator_latex = binary_operator->operator_latex;
         }
         else
         {
+            binary_operator = nullptr;
             operator_latex = "";
         }
     }
     else
     {
+        binary_operator = nullptr;
         operator_latex = "";
     }
     
@@ -180,8 +181,8 @@ string statement::getLatex()
         }
         else
         {
-            output += "& " + operand1->getLatex() + " \\\\" + "\n";
-            output += operator_latex + " & " + operand2->getLatex() + "\n";
+            output += "& " + binary_operator->operand1->getLatex() + " \\\\" + "\n";
+            output += operator_latex + " & " + binary_operator->operand2->getLatex() + "\n";
         }
     }
     else
@@ -195,8 +196,8 @@ string statement::getLatex()
         else
         {
             output += "& " + quantifier_latex + "( \\\\" + "\n";
-            output += "& \\quad && && " + operand1->getLatex() + " \\\\" + "\n";
-            output += "& \\quad && " + operator_latex + " && " + operand2->getLatex() + " \\\\" + "\n";
+            output += "& \\quad && && " + binary_operator->operand1->getLatex() + " \\\\" + "\n";
+            output += "& \\quad && " + operator_latex + " && " + binary_operator->operand2->getLatex() + " \\\\" + "\n";
             output = output + "& )" + "\n";
         }
     }
@@ -307,6 +308,7 @@ expression* statement::applyLeftToRight(statement* s, vector<int> path, vector<v
     //do substitution
     expression* output = expression::substitute_forall_variable(source_copy, sub);
     cout<<output->getLatex()<<endl;
+    cout<<endl;
     
     //delete sub
     for(long i=0;i<sub.size();i++)
