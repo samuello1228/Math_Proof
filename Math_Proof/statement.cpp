@@ -211,7 +211,7 @@ statement* statement::getCopy()
     return output;
 }
 
-statement* statement::apply_binary_operator(statement* target, vector<int> path, vector<vector<int> > substitute_path)
+statement* statement::apply_binary_operator(statement* target, vector<int> path, vector<vector<int> > substitute_path, direction dir, bool isPrint)
 {
     if(operator_latex == "")
     {
@@ -222,56 +222,71 @@ statement* statement::apply_binary_operator(statement* target, vector<int> path,
     //create substitution
     expression* target_part = target->content->getPart(path);
     vector<substitution*> sub = createSubstitution(forall_variable, target_part, substitute_path);
-    cout<<"Substitution:"<<endl;
-    for(long i=0;i<sub.size();i++)
+    if(isPrint)
     {
-        cout<<sub[i]->x->getLatex()<<" is replaced by "<<sub[i]->y->getLatex()<<endl;
+        cout<<"Substitution:"<<endl;
+        for(long i=0;i<sub.size();i++)
+        {
+            cout<<sub[i]->x->getLatex()<<" is replaced by "<<sub[i]->y->getLatex()<<endl;
+        }
+        cout<<endl;
     }
-    cout<<endl;
     
     //get external dependence of target part
     vector<variable*> external_dependence_target_part;
     target->content->getPartExternalDependence(path, external_dependence_target_part);
-    cout<<"External dependence of target part:"<<endl;
-    for(long i=0;i<external_dependence_target_part.size();i++)
+    if(isPrint)
     {
-        cout<<external_dependence_target_part[i]->getLatex()<<" ";
+        cout<<"External dependence of target part:"<<endl;
+        for(long i=0;i<external_dependence_target_part.size();i++)
+        {
+            cout<<external_dependence_target_part[i]->getLatex()<<" ";
+        }
+        cout<<endl;
     }
-    cout<<endl;
     
     //get all dependence of target part
     vector<variable*> all_dependence_target_part = external_dependence_target_part;
     target_part->getInternalDependence(all_dependence_target_part);
-    cout<<"All dependence of target part:"<<endl;
-    for(long i=0;i<all_dependence_target_part.size();i++)
+    if(isPrint)
     {
-        cout<<all_dependence_target_part[i]->getLatex()<<" ";
+        cout<<"All dependence of target part:"<<endl;
+        for(long i=0;i<all_dependence_target_part.size();i++)
+        {
+            cout<<all_dependence_target_part[i]->getLatex()<<" ";
+        }
+        cout<<endl;
     }
-    cout<<endl;
     
     //get internal dependence of source
     vector<variable*> internal_dependence_source;
     content->getInternalDependence(internal_dependence_source);
-    cout<<"Internal dependence of source:"<<endl;
-    for(long i=0;i<internal_dependence_source.size();i++)
+    if(isPrint)
     {
-        cout<<internal_dependence_source[i]->getLatex()<<" ";
+        cout<<"Internal dependence of source:"<<endl;
+        for(long i=0;i<internal_dependence_source.size();i++)
+        {
+            cout<<internal_dependence_source[i]->getLatex()<<" ";
+        }
+        cout<<endl;
     }
-    cout<<endl;
     
     //create replacement by exclusion
     vector<substitution*> replacement = createReplacement(internal_dependence_source,all_dependence_target_part);
-    cout<<"Replacement:"<<endl;
-    for(long i=0;i<replacement.size();i++)
+    if(isPrint)
     {
-        cout<<replacement[i]->x->getLatex()<<" is replaced by "<<replacement[i]->y->getLatex()<<endl;
+        cout<<"Replacement:"<<endl;
+        for(long i=0;i<replacement.size();i++)
+        {
+            cout<<replacement[i]->x->getLatex()<<" is replaced by "<<replacement[i]->y->getLatex()<<endl;
+        }
+        cout<<endl;
     }
-    cout<<endl;
     
     //do replacement for source_copy
     compound_logic* source_copy = dynamic_cast<compound_logic*>(content->getCopy());
     source_copy->replace_variable(replacement);
-    cout<<source_copy->getLatex()<<endl;
+    if(isPrint) cout<<source_copy->getLatex()<<endl;
     
     //do replacement for sub
     for(long i=0;i<sub.size();i++)
@@ -285,11 +300,14 @@ statement* statement::apply_binary_operator(statement* target, vector<int> path,
             }
         }
     }
-    for(long i=0;i<sub.size();i++)
+    if(isPrint)
     {
-        cout<<sub[i]->x->getLatex()<<" is replaced by "<<sub[i]->y->getLatex()<<endl;
+        for(long i=0;i<sub.size();i++)
+        {
+            cout<<sub[i]->x->getLatex()<<" is replaced by "<<sub[i]->y->getLatex()<<endl;
+        }
+        cout<<endl;
     }
-    cout<<endl;
     
     //delete replacement
     for(long i=0;i<replacement.size();i++)
@@ -303,12 +321,11 @@ statement* statement::apply_binary_operator(statement* target, vector<int> path,
         variable* variable_copy = dynamic_cast<variable*>(external_dependence_target_part[i]->getCopy());
         source_copy = new universal_quantifier(variable_copy, source_copy);
     }
-    cout<<source_copy->getLatex()<<endl;
+    if(isPrint) cout<<source_copy->getLatex()<<endl;
 
     //do substitution
     expression* x = expression::substitute_forall_variable(source_copy, sub);
-    cout<<x->getLatex()<<endl;
-    cout<<endl;
+    if(isPrint) cout<<x->getLatex()<<endl<<endl;
     
     //delete sub
     for(long i=0;i<sub.size();i++)
@@ -318,6 +335,7 @@ statement* statement::apply_binary_operator(statement* target, vector<int> path,
     
     //assemble to the original source
     statement* output = new statement("", target->var_type, x);
+    output->forall_variable.clear();
     while(true)
     {
         if(path.size() == 0) break;
@@ -326,9 +344,9 @@ statement* statement::apply_binary_operator(statement* target, vector<int> path,
         path.erase(path.end() -1);
         
         expression::assemble(output, target->content->getPart(path), p);
-        cout<<output->content->getLatex()<<endl;;
+        if(isPrint) cout<<output->content->getLatex()<<endl;;
     }
-    cout<<endl;;
+    if(isPrint) cout<<endl;;
     
     //check whether the output->operand1 is equal to the source
     if(logic_binary_operator_logic_logic* output_content = dynamic_cast<logic_binary_operator_logic_logic*>(output->content))
