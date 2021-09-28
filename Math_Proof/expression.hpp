@@ -50,7 +50,7 @@ public:
     virtual void getPartExternalDependence(vector<int>, vector<variable*>&)=0;
     virtual void getInternalDependence(vector<variable*>&)=0;
     
-    virtual void reverse_construction(statement*,int) {return;}
+    static void assemble(statement*, expression*, int);
 };
 
 class variable : virtual public expression

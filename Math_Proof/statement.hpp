@@ -40,7 +40,7 @@ public:
     
     string getLatex();
     statement* getCopy();
-    expression* applyLeftToRight(statement*, vector<int>, vector<vector<int> >);
+    statement* apply_binary_operator(statement*, vector<int>, vector<vector<int> >);
 };
 
 class Definition : public statement

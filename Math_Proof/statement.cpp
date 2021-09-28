@@ -211,7 +211,7 @@ statement* statement::getCopy()
     return output;
 }
 
-expression* statement::applyLeftToRight(statement* s, vector<int> path, vector<vector<int> > sub_path)
+statement* statement::apply_binary_operator(statement* target, vector<int> path, vector<vector<int> > substitute_path)
 {
     if(operator_latex == "")
     {
@@ -220,8 +220,8 @@ expression* statement::applyLeftToRight(statement* s, vector<int> path, vector<v
     }
     
     //create substitution
-    expression* target_part = s->content->getPart(path);
-    vector<substitution*> sub = createSubstitution(forall_variable, target_part, sub_path);
+    expression* target_part = target->content->getPart(path);
+    vector<substitution*> sub = createSubstitution(forall_variable, target_part, substitute_path);
     cout<<"Substitution:"<<endl;
     for(long i=0;i<sub.size();i++)
     {
@@ -231,7 +231,7 @@ expression* statement::applyLeftToRight(statement* s, vector<int> path, vector<v
     
     //get external dependence of target part
     vector<variable*> external_dependence_target_part;
-    s->content->getPartExternalDependence(path, external_dependence_target_part);
+    target->content->getPartExternalDependence(path, external_dependence_target_part);
     cout<<"External dependence of target part:"<<endl;
     for(long i=0;i<external_dependence_target_part.size();i++)
     {
@@ -306,8 +306,8 @@ expression* statement::applyLeftToRight(statement* s, vector<int> path, vector<v
     cout<<source_copy->getLatex()<<endl;
 
     //do substitution
-    expression* output = expression::substitute_forall_variable(source_copy, sub);
-    cout<<output->getLatex()<<endl;
+    expression* x = expression::substitute_forall_variable(source_copy, sub);
+    cout<<x->getLatex()<<endl;
     cout<<endl;
     
     //delete sub
@@ -316,8 +316,28 @@ expression* statement::applyLeftToRight(statement* s, vector<int> path, vector<v
         delete sub[i];
     }
     
-    //reverse construction
+    //assemble to the original source
+    statement* output = new statement("", target->var_type, x);
+    while(true)
+    {
+        if(path.size() == 0) break;
+        
+        int p = path[path.size() -1];
+        path.erase(path.end() -1);
+        
+        expression::assemble(output, target->content->getPart(path), p);
+        cout<<output->content->getLatex()<<endl;;
+    }
+    cout<<endl;;
     
+    //check whether the output->operand1 is equal to the source
+    if(logic_binary_operator_logic_logic* output_content = dynamic_cast<logic_binary_operator_logic_logic*>(output->content))
+    {
+        if(!output_content->operand1->isEqual(target->content))
+        {
+            cout<<"Error: the output and the source are different."<<endl;
+        }
+    }
     return output;
 }
 

@@ -142,7 +142,7 @@ void logic(vector<Definition*>& All_Definition, vector<Axiom*>& All_Axiom, vecto
     cout<<y->content->getLatex()<<endl;
     cout<<endl;
     
-    expression* z = y->applyLeftToRight(x, {1,1,1}, {{1,1},{1,2},{2}});
+    statement* z = y->apply_binary_operator(x, {1,1,1}, {{1,1},{1,2},{2}});
     delete z;
     
     fout.close();
