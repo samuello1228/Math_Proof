@@ -335,7 +335,6 @@ statement* statement::apply_binary_operator(statement* target, vector<int> path,
     
     //assemble to the original source
     statement* output = new statement("", target->var_type, x);
-    output->forall_variable.clear();
     if(isPrint) cout<<"Do the assembly:"<<endl;
     while(true)
     {
@@ -344,8 +343,8 @@ statement* statement::apply_binary_operator(statement* target, vector<int> path,
         int p = path[path.size() -1];
         path.erase(path.end() -1);
         
-        expression::assemble(output, target->content->getPart(path), p);
-        if(isPrint) cout<<output->content->getLatex()<<endl;
+        bool isChanged = expression::assemble(output, target->content->getPart(path), p, target->forall_variable);
+        if(isPrint && isChanged) cout<<output->content->getLatex()<<endl;
     }
     if(isPrint) cout<<endl;
     

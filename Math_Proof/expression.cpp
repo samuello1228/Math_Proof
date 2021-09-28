@@ -383,10 +383,15 @@ expression* expression::substitute_forall_variable(expression* x, vector<substit
     return x;
 }
 
-void expression::assemble(statement* source, expression* target, int p)
+bool expression::assemble(statement* source, expression* target, int p, vector<variable*> target_forall_variable)
 {
     if(quantifier* targer_part = dynamic_cast<quantifier*>(target))
     {
+        for(long i=0;i<target_forall_variable.size();i++)
+        {
+            if(targer_part->var->isEqual(target_forall_variable[i])) return false;
+        }
+        
         bool condition = (source->operator_latex == "\\iff" ||
                           source->operator_latex == "\\overset{\\operatorname{def}}{\\iff}" ||
                           source->operator_latex == "\\implies");
@@ -408,7 +413,7 @@ void expression::assemble(statement* source, expression* target, int p)
                 else
                 {
                     cout<<"Error: Impossible case."<<endl;
-                    return;
+                    return false;
                 }
             }
             
@@ -416,7 +421,7 @@ void expression::assemble(statement* source, expression* target, int p)
             if(binary_operator != source->binary_operator)
             {
                 cout<<"Error: Impossible case."<<endl;
-                return;
+                return false;
             }
             
             variable* var1 = dynamic_cast<variable*>(targer_part->var->getCopy());
@@ -425,6 +430,18 @@ void expression::assemble(statement* source, expression* target, int p)
             {
                 source->binary_operator->operand1 = new universal_quantifier(var1, source->binary_operator->operand1);
                 source->binary_operator->operand2 = new universal_quantifier(var2, source->binary_operator->operand2);
+                
+                //remove this variable from the forall_variable of the target
+                long last_index = source->forall_variable.size() -1;
+                variable* last_element = source->forall_variable[last_index];
+                if(targer_part->var->isEqual(last_element))
+                {
+                    source->forall_variable.erase(source->forall_variable.end() -1);
+                }
+                else
+                {
+                    cout<<"Error: Impossible case."<<endl;
+                }
             }
             else if(existential_quantifier* z = dynamic_cast<existential_quantifier*>(target))
             {
@@ -444,6 +461,8 @@ void expression::assemble(statement* source, expression* target, int p)
                 delete y;
                 x->operand = source->binary_operator;
             }
+            
+            return true;
         }
     }
     else if(logic_unary_operator_logic* targer_part = dynamic_cast<logic_unary_operator_logic*>(target))
@@ -458,6 +477,7 @@ void expression::assemble(statement* source, expression* target, int p)
             logic_value* copy2 = dynamic_cast<logic_value*>(targer_part->operand->getCopy());
             source->binary_operator->operand1 = new logic_unary_operator_logic(targer_part->operator_latex, copy1);
             source->binary_operator->operand2 = new logic_unary_operator_logic(targer_part->operator_latex, copy2);
+            return true;
         }
     }
     else if(logic_binary_operator_logic_logic* targer_part = dynamic_cast<logic_binary_operator_logic_logic*>(target))
@@ -487,6 +507,7 @@ void expression::assemble(statement* source, expression* target, int p)
             logic_value* copy2 = dynamic_cast<logic_value*>(targer_part->operand2->getCopy());
             source->binary_operator->operand1 = new logic_binary_operator_logic_logic(targer_part->operator_latex, source->binary_operator->operand1, copy1);
             source->binary_operator->operand2 = new logic_binary_operator_logic_logic(targer_part->operator_latex, source->binary_operator->operand2, copy2);
+            return true;
         }
         else if(p==2 && (condition_iff || condition_implies_1 || condition_implies_2))
         {
@@ -494,12 +515,16 @@ void expression::assemble(statement* source, expression* target, int p)
             logic_value* copy2 = dynamic_cast<logic_value*>(targer_part->operand1->getCopy());
             source->binary_operator->operand1 = new logic_binary_operator_logic_logic(targer_part->operator_latex, copy1, source->binary_operator->operand1);
             source->binary_operator->operand2 = new logic_binary_operator_logic_logic(targer_part->operator_latex, copy2, source->binary_operator->operand2);
+            return true;
         }
         else
         {
             cout<<"Error: it is not allowed."<<endl;
+            return false;
         }
     }
+    
+    return false;
 }
 
 variable::variable(const string& newLatex)

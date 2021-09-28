@@ -50,7 +50,7 @@ public:
     virtual void getPartExternalDependence(vector<int>, vector<variable*>&)=0;
     virtual void getInternalDependence(vector<variable*>&)=0;
     
-    static void assemble(statement*, expression*, int);
+    static bool assemble(statement*, expression*, int, vector<variable*>);
 };
 
 class variable : virtual public expression
