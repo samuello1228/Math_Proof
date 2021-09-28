@@ -16,7 +16,6 @@ class statement;
 
 #include "expression.hpp"
 
-
 enum direction {LeftToRight, RightToLeft};
 vector<substitution*> createReplacement(vector<variable*>, vector<variable*>);
 vector<substitution*> createSubstitution(vector<variable*> ,expression*, vector<vector<int> >);

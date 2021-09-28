@@ -336,6 +336,7 @@ statement* statement::apply_binary_operator(statement* target, vector<int> path,
     //assemble to the original source
     statement* output = new statement("", target->var_type, x);
     output->forall_variable.clear();
+    if(isPrint) cout<<"Do the assembly:"<<endl;
     while(true)
     {
         if(path.size() == 0) break;
@@ -344,9 +345,31 @@ statement* statement::apply_binary_operator(statement* target, vector<int> path,
         path.erase(path.end() -1);
         
         expression::assemble(output, target->content->getPart(path), p);
-        if(isPrint) cout<<output->content->getLatex()<<endl;;
+        if(isPrint) cout<<output->content->getLatex()<<endl;
     }
-    if(isPrint) cout<<endl;;
+    if(isPrint) cout<<endl;
+    
+    //for direction Right to Left
+    if(dir == RightToLeft)
+    {
+        if(output->binary_operator->operator_latex == "\\overset{\\operatorname{def}}{\\iff}" ||
+           output->binary_operator->operator_latex == "\\iff" )
+        {
+            //swap
+            logic_value* temp = output->binary_operator->operand1;
+            output->binary_operator->operand1 = output->binary_operator->operand2;
+            output->binary_operator->operand2 = temp;
+            if(isPrint)
+            {
+                cout<<"Swap two operands for the direction RightToLeft"<<endl;
+                cout<<output->content->getLatex()<<endl;
+            }
+        }
+        else
+        {
+            cout<<"Error: cannot apply for the RightToLeft direction."<<endl;
+        }
+    }
     
     //check whether the output->operand1 is equal to the source
     if(logic_binary_operator_logic_logic* output_content = dynamic_cast<logic_binary_operator_logic_logic*>(output->content))
