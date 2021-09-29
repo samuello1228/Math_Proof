@@ -82,8 +82,11 @@ public:
 class Proposition : public statement
 {
 public:
+    vector<proof_block*> proof;
+    
     Proposition(string, variable_type, string);
     ~Proposition();
+    void append(proof_block*, bool isFinished = true);
     
     static void addProposition(vector<Proposition*>&, ofstream&, Proposition*);
 };

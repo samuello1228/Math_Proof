@@ -627,6 +627,10 @@ Proposition::Proposition(string newLabel, variable_type var_type, string x) : st
 
 Proposition::~Proposition()
 {
+    for(long i=0;i<proof.size();i++)
+    {
+        delete proof[i];
+    }
 }
 
 void Proposition::addProposition(vector<Proposition*>& All_Proposition, ofstream& fout, Proposition* x)
@@ -655,4 +659,17 @@ void Proposition::addProposition(vector<Proposition*>& All_Proposition, ofstream
     fout<<"\\end{align*}"<<endl;
     fout<<"\\end{prop}"<<endl;
     fout<<endl;
+}
+
+void Proposition::append(proof_block* x, bool isFinished)
+{
+    if(isFinished)
+    {
+        if(!x->target->content->isEqual(content))
+        {
+            cout<<"Error: The proof does not matched the content."<<endl;
+        }
+    }
+    
+    proof.push_back(x);
 }
