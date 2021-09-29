@@ -132,18 +132,15 @@ void statement::constructor_aux()
            binary_operator->operator_latex == "\\implies"
            )
         {
-            operator_latex = binary_operator->operator_latex;
         }
         else
         {
             binary_operator = nullptr;
-            operator_latex = "";
         }
     }
     else
     {
         binary_operator = nullptr;
-        operator_latex = "";
     }
     
     //check variable
@@ -175,19 +172,19 @@ string statement::getLatex()
     
     if(quantifier_latex == "")
     {
-        if(operator_latex == "")
+        if(binary_operator == nullptr)
         {
             output = content->getLatex();
         }
         else
         {
             output += "& " + binary_operator->operand1->getLatex() + " \\\\" + "\n";
-            output += operator_latex + " & " + binary_operator->operand2->getLatex() + "\n";
+            output += binary_operator->operator_latex + " & " + binary_operator->operand2->getLatex() + "\n";
         }
     }
     else
     {
-        if(operator_latex == "")
+        if(binary_operator == nullptr)
         {
             output += "& " + quantifier_latex + "( \\\\" + "\n";
             output += "& \\quad && " + content->getLatex() + " \\\\" + "\n";
@@ -197,7 +194,7 @@ string statement::getLatex()
         {
             output += "& " + quantifier_latex + "( \\\\" + "\n";
             output += "& \\quad && && " + binary_operator->operand1->getLatex() + " \\\\" + "\n";
-            output += "& \\quad && " + operator_latex + " && " + binary_operator->operand2->getLatex() + " \\\\" + "\n";
+            output += "& \\quad && " + binary_operator->operator_latex + " && " + binary_operator->operand2->getLatex() + " \\\\" + "\n";
             output = output + "& )" + "\n";
         }
     }
@@ -246,7 +243,7 @@ void statement::delete_the_last_universal_quantifier()
 
 statement* statement::apply_binary_operator(statement* target, vector<int> path, vector<vector<int> > substitute_path, direction dir, bool isPrint)
 {
-    if(operator_latex == "")
+    if(binary_operator == nullptr)
     {
         cout<<"Error: cannot use applyLeftToRight."<<endl;
         return nullptr;

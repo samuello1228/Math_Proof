@@ -32,7 +32,6 @@ public:
     
     //for operator like \\iff, \\implies
     logic_binary_operator_logic_logic* binary_operator;
-    string operator_latex;
     
     statement(string, variable_type, string);
     statement(string, variable_type, expression*);

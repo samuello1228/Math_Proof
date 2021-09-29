@@ -392,9 +392,9 @@ bool expression::assemble(statement* source, expression* target, int p, vector<v
             if(targer_part->var->isEqual(target_forall_variable[i])) return false;
         }
         
-        bool condition = (source->operator_latex == "\\iff" ||
-                          source->operator_latex == "\\overset{\\operatorname{def}}{\\iff}" ||
-                          source->operator_latex == "\\implies");
+        bool condition = (source->binary_operator->operator_latex == "\\iff" ||
+                          source->binary_operator->operator_latex == "\\overset{\\operatorname{def}}{\\iff}" ||
+                          source->binary_operator->operator_latex == "\\implies");
         
         if(condition)
         {
@@ -429,8 +429,8 @@ bool expression::assemble(statement* source, expression* target, int p, vector<v
     }
     else if(logic_unary_operator_logic* targer_part = dynamic_cast<logic_unary_operator_logic*>(target))
     {
-        bool condition_iff = (source->operator_latex == "\\iff" ||
-                              source->operator_latex == "\\overset{\\operatorname{def}}{\\iff}");
+        bool condition_iff = (source->binary_operator->operator_latex == "\\iff" ||
+                              source->binary_operator->operator_latex == "\\overset{\\operatorname{def}}{\\iff}");
         condition_iff = condition_iff && (targer_part->operator_latex == "\\lnot");
         
         if(condition_iff)
@@ -444,21 +444,21 @@ bool expression::assemble(statement* source, expression* target, int p, vector<v
     }
     else if(logic_binary_operator_logic_logic* targer_part = dynamic_cast<logic_binary_operator_logic_logic*>(target))
     {
-        bool condition_iff = (source->operator_latex == "\\iff" ||
-                              source->operator_latex == "\\overset{\\operatorname{def}}{\\iff}");
+        bool condition_iff = (source->binary_operator->operator_latex == "\\iff" ||
+                              source->binary_operator->operator_latex == "\\overset{\\operatorname{def}}{\\iff}");
         condition_iff = condition_iff && (targer_part->operator_latex == "\\overset{\\operatorname{def}}{\\iff}" ||
                                           targer_part->operator_latex == "\\lor"  ||
                                           targer_part->operator_latex == "\\land" ||
                                           targer_part->operator_latex == "\\iff" ||
                                           targer_part->operator_latex == "\\implies");
         
-        bool condition_implies_1 = (source->operator_latex == "\\implies");
+        bool condition_implies_1 = (source->binary_operator->operator_latex == "\\implies");
         condition_implies_1 = condition_implies_1 && (targer_part->operator_latex == "\\lor"  ||
                                                       targer_part->operator_latex == "\\land" );
         //Counter example for \\iff
         //(F \\implies T) \implies ( (F \\iff F) \implies (T \\iff F) )
         
-        bool condition_implies_2 = (source->operator_latex == "\\implies");
+        bool condition_implies_2 = (source->binary_operator->operator_latex == "\\implies");
         condition_implies_2 = condition_implies_2 && (targer_part->operator_latex == "\\implies");
         //Counter example for \\implies and p == 1
         //(F \\implies T) \implies ( (F \\implies F) \implies (T \\implies F) )
