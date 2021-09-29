@@ -398,32 +398,6 @@ bool expression::assemble(statement* source, expression* target, int p, vector<v
         
         if(condition)
         {
-            universal_quantifier* source_content = dynamic_cast<universal_quantifier*>(source->content);
-            
-            universal_quantifier* x = nullptr;
-            universal_quantifier* y = source_content;
-            while(true)
-            {
-                if(y)
-                {
-                    if(y->var->isEqual(targer_part->var)) break;
-                    x = y;
-                    y = dynamic_cast<universal_quantifier*>(y->operand);
-                }
-                else
-                {
-                    cout<<"Error: Impossible case."<<endl;
-                    return false;
-                }
-            }
-            
-            logic_binary_operator_logic_logic* binary_operator = dynamic_cast<logic_binary_operator_logic_logic*>(y->operand);
-            if(binary_operator != source->binary_operator)
-            {
-                cout<<"Error: Impossible case."<<endl;
-                return false;
-            }
-            
             variable* var1 = dynamic_cast<variable*>(targer_part->var->getCopy());
             variable* var2 = dynamic_cast<variable*>(targer_part->var->getCopy());
             if(universal_quantifier* z = dynamic_cast<universal_quantifier*>(target))
@@ -449,19 +423,7 @@ bool expression::assemble(statement* source, expression* target, int p, vector<v
                 source->binary_operator->operand2 = new existential_quantifier(var2, source->binary_operator->operand2);
             }
             
-            if(x == nullptr)
-            {
-                source_content->operand = dynamic_cast<logic_value*>(expression::createFromLatex("\\text{True}", LOGIC));
-                delete source_content;
-                source->content = source->binary_operator;
-            }
-            else
-            {
-                y->operand = dynamic_cast<logic_value*>(expression::createFromLatex("\\text{True}", LOGIC));
-                delete y;
-                x->operand = source->binary_operator;
-            }
-            
+            source->delete_the_last_universal_quantifier();
             return true;
         }
     }

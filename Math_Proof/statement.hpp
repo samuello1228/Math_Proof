@@ -41,6 +41,7 @@ public:
     
     string getLatex();
     statement* getCopy();
+    void delete_the_last_universal_quantifier();
     statement* apply_binary_operator(statement*, vector<int>, vector<vector<int> >, direction, bool isPrint = false);
 };
 

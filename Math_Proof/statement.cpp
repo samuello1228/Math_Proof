@@ -211,6 +211,39 @@ statement* statement::getCopy()
     return output;
 }
 
+void statement::delete_the_last_universal_quantifier()
+{
+    universal_quantifier* x = nullptr;
+    universal_quantifier* y = dynamic_cast<universal_quantifier*>(content);
+    if(!y)
+    {
+        cout<<"Error: There does not exist any universal quantifier. cannot delete."<<endl;
+        return;
+    }
+    
+    while(true)
+    {
+        if(universal_quantifier* z = dynamic_cast<universal_quantifier*>(y->operand))
+        {
+            x = y;
+            y = z;
+        }
+        else break;
+    }
+    
+    y->operand = dynamic_cast<logic_value*>(expression::createFromLatex("\\text{True}", LOGIC));
+    delete y;
+    
+    if(x == nullptr)
+    {
+        content = binary_operator;
+    }
+    else
+    {
+        x->operand = binary_operator;
+    }
+}
+
 statement* statement::apply_binary_operator(statement* target, vector<int> path, vector<vector<int> > substitute_path, direction dir, bool isPrint)
 {
     if(operator_latex == "")
