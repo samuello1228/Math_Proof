@@ -403,13 +403,28 @@ statement* statement::apply_binary_operator(statement* target, vector<int> path,
     }
     
     //check whether the output->operand1 is equal to the source
-    if(logic_binary_operator_logic_logic* output_content = dynamic_cast<logic_binary_operator_logic_logic*>(output->content))
+    statement* copy_object_1 = output->getCopy();
+    copy_object_1->collapse_to_operand(1);
+    if(!copy_object_1->content->isEqual(target->content))
     {
-        if(!output_content->operand1->isEqual(target->content))
+        cout<<"Error: the operand1 of output and the target are different."<<endl;
+    }
+    delete copy_object_1;
+    
+    //check forall_variable
+    if(output->forall_variable.size() != target->forall_variable.size())
+    {
+        cout<<"Error: The forall_variable doese not matched."<<endl;
+    }
+    
+    for(long i=0;i<output->forall_variable.size();i++)
+    {
+        if(! output->forall_variable[i]->isEqual(target->forall_variable[i]))
         {
-            cout<<"Error: the output and the source are different."<<endl;
+            cout<<"Error: The forall_variable does not matched."<<endl;
         }
     }
+    
     return output;
 }
 
