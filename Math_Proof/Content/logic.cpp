@@ -131,19 +131,22 @@ void logic(vector<Definition*>& All_Definition, vector<Axiom*>& All_Axiom, vecto
     Proposition::addProposition(All_Proposition, fout, new Proposition("De_Morgan_land", LOGIC, "\\forall x \\forall y ((\\lnot (x \\land y)) \\iff ((\\lnot x) \\lor (\\lnot y)))"));
     
     //Basic Proposition
-    //x_lor_y_complement
+    Proposition* x = nullptr;
+    Proposition* law = nullptr;
+    proof_block* block = nullptr;
     fout<<"\\section{Basic Proposition}"<<endl;
-    Proposition::addProposition(All_Proposition, fout, new Proposition("x_lor_y_complement", LOGIC, "\\forall x \\forall y (((x \\land (\\lnot y)) \\lor y) \\iff (x \\lor y))"));
     
-    //Proof
-    Proposition* x = FindByRef<Proposition>(All_Proposition, "x_lor_y_complement");
-    cout<<x->content->getLatex()<<endl;
-    Proposition* y = FindByRef<Proposition>(All_Proposition, "lor_land_distributivity_2");
-    cout<<y->content->getLatex()<<endl;
-    cout<<endl;
-    
-    statement* z = y->apply_binary_operator(x, {1,1,1}, {{1,1},{1,2},{2}}, LeftToRight, true);
-    delete z;
+    //x_lor_y_complement
+    x = new Proposition("x_lor_y_complement", LOGIC, "\\forall x \\forall y (((x \\land (\\lnot y)) \\lor y) \\iff (x \\lor y))");
+    block = new proof_block("", x, deduction);
+    law = FindByRef<Proposition>(All_Proposition, "lor_land_distributivity_2");
+    block->append_binary_operator({1,1}, law, {{1,1},{1,2},{2}}, LeftToRight, false, true);
+    law = FindByRef<Proposition>(All_Proposition, "lor_complement_2");
+    block->append_binary_operator({1,1,2}, law, {{2}}, LeftToRight, false, true);
+    law = FindByRef<Proposition>(All_Proposition, "land_identity_1");
+    block->append_binary_operator({1,1}, law, {{1}}, LeftToRight, true, true);
+    x->append(block, true);
+    Proposition::addProposition(All_Proposition, fout, x);
     
     fout.close();
 }
