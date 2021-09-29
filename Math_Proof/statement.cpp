@@ -547,6 +547,80 @@ void Axiom::addAxiom(vector<Axiom*>& All_Axiom, ofstream& fout, Axiom* x)
     fout<<endl;
 }
 
+proof_block::proof_block(string newLabel, statement* x, proof_method new_method)
+{
+    label = newLabel;
+    target = x->getCopy();
+    method = new_method;
+}
+
+proof_block::~proof_block()
+{
+    delete target;
+    for(long i=0;i<chain_of_deductive.size();i++)
+    {
+        delete chain_of_deductive[i];
+    }
+}
+
+void proof_block::getLatex()
+{
+    
+}
+
+void proof_block::append_binary_operator(vector<int> path, statement* law, vector<vector<int> > substitute_path, direction dir, bool isFinished, bool isPrint)
+{
+    if(isPrint) cout<<"New step:"<<endl;
+    if(method == deduction)
+    {
+        statement* source = nullptr;
+        if(chain_of_deductive.size() == 0)
+        {
+            source = target->getCopy();
+            source->collapse_to_operand(1);
+        }
+        else
+        {
+            long last_index = chain_of_deductive.size() -1;
+            source = chain_of_deductive[last_index]->getCopy();
+            source->collapse_to_operand(2);
+        }
+        
+        if(isPrint)
+        {
+            cout<<source->content->getLatex()<<endl;
+            cout<<law->content->getLatex()<<endl;
+            cout<<endl;
+        }
+        statement* step = law->apply_binary_operator(source, path, substitute_path, dir, isPrint);
+        delete source;
+        
+        if(step->binary_operator->operator_latex == "\\implies" && target->binary_operator->operator_latex == "\\iff")
+        {
+            cout<<"Error: The deduction cannot work for \\iff."<<endl;
+            return;
+        }
+        
+        if(isFinished)
+        {
+            statement* copy_target_2 = target->getCopy();
+            copy_target_2->collapse_to_operand(2);
+            
+            statement* copy_step_2 = step->getCopy();
+            copy_step_2->collapse_to_operand(2);
+            if(!copy_step_2->content->isEqual(copy_target_2->content))
+            {
+                cout<<"Error: The operand2 does not matched the operand2 of target."<<endl;
+            }
+            
+            delete copy_target_2;
+            delete copy_step_2;
+        }
+        
+        chain_of_deductive.push_back(step);
+    }
+}
+
 Proposition::Proposition(string newLabel, variable_type var_type, string x) : statement(newLabel, var_type, x)
 {
 }

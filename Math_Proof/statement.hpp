@@ -63,6 +63,22 @@ public:
     static void addAxiom(vector<Axiom*>&, ofstream&, Axiom*);
 };
 
+enum proof_method {direct, reverse, deduction};
+class proof_block
+{
+public:
+    string label;
+    statement* target;
+    proof_method method;
+    vector<statement*> chain_of_deductive;
+    
+    proof_block(string, statement*, proof_method);
+    ~proof_block();
+    
+    void getLatex();
+    void append_binary_operator(vector<int>, statement*, vector<vector<int> >, direction, bool isFinished = false, bool isPrint = false);
+};
+
 class Proposition : public statement
 {
 public:
