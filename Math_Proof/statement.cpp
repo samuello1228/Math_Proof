@@ -228,6 +228,8 @@ void statement::delete_the_last_universal_quantifier()
         else break;
     }
     
+    forall_variable.erase(forall_variable.end() -1);
+    
     y->operand = dynamic_cast<logic_value*>(expression::createFromLatex("\\text{True}", LOGIC));
     delete y;
     

@@ -404,18 +404,6 @@ bool expression::assemble(statement* source, expression* target, int p, vector<v
             {
                 source->binary_operator->operand1 = new universal_quantifier(var1, source->binary_operator->operand1);
                 source->binary_operator->operand2 = new universal_quantifier(var2, source->binary_operator->operand2);
-                
-                //remove this variable from the forall_variable of the target
-                long last_index = source->forall_variable.size() -1;
-                variable* last_element = source->forall_variable[last_index];
-                if(targer_part->var->isEqual(last_element))
-                {
-                    source->forall_variable.erase(source->forall_variable.end() -1);
-                }
-                else
-                {
-                    cout<<"Error: Impossible case."<<endl;
-                }
             }
             else if(existential_quantifier* z = dynamic_cast<existential_quantifier*>(target))
             {
