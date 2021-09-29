@@ -243,6 +243,53 @@ void statement::delete_the_last_universal_quantifier()
     }
 }
 
+void statement::collapse_to_operand(int p)
+{
+    if(binary_operator == nullptr)
+    {
+        cout<<"Error: There does not exist a binary operator. cannot collapse."<<endl;
+        return;
+    }
+    
+    universal_quantifier* x = nullptr;
+    universal_quantifier* y = dynamic_cast<universal_quantifier*>(content);
+    while(true)
+    {
+        if(y)
+        {
+            x = y;
+            y = dynamic_cast<universal_quantifier*>(y->operand);
+        }
+        else break;
+    }
+    
+    logic_value* operand = nullptr;
+    if(p==1) operand = binary_operator->operand1;
+    if(p==2) operand = binary_operator->operand2;
+    
+    if(x == nullptr)
+    {
+        if(compound_logic* z = dynamic_cast<compound_logic*>(operand))
+        {
+            content = z;
+        }
+        else
+        {
+            cout<<"Error: Impossible case."<<endl;
+            return;
+        }
+    }
+    else
+    {
+        x->operand = operand;
+    }
+    
+    if(p==1) binary_operator->operand1 = dynamic_cast<logic_value*>(expression::createFromLatex("\\text{True}", LOGIC));
+    if(p==2) binary_operator->operand2 = dynamic_cast<logic_value*>(expression::createFromLatex("\\text{True}", LOGIC));
+    delete binary_operator;
+    binary_operator = nullptr;
+}
+
 statement* statement::apply_binary_operator(statement* target, vector<int> path, vector<vector<int> > substitute_path, direction dir, bool isPrint)
 {
     if(binary_operator == nullptr)

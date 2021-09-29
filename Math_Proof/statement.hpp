@@ -16,7 +16,7 @@ class statement;
 
 #include "expression.hpp"
 
-enum direction {LeftToRight, RightToLeft};
+enum direction {direct_substitution, LeftToRight, RightToLeft};
 vector<substitution*> createReplacement(vector<variable*>, vector<variable*>);
 vector<substitution*> createSubstitution(vector<variable*> ,expression*, vector<vector<int> >);
 
@@ -41,6 +41,7 @@ public:
     string getLatex();
     statement* getCopy();
     void delete_the_last_universal_quantifier();
+    void collapse_to_operand(int);
     statement* apply_binary_operator(statement*, vector<int>, vector<vector<int> >, direction, bool isPrint = false);
 };
 
