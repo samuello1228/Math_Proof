@@ -562,6 +562,7 @@ void proof_block::append_binary_operator(vector<int> path, statement* law, vecto
 {
     if(isPrint) cout<<"New step:"<<endl;
     statement* source = nullptr;
+    vector<substitution*> sub;
     if(method == deduction)
     {
         if(chain_of_deductive.size() == 0)
@@ -575,6 +576,9 @@ void proof_block::append_binary_operator(vector<int> path, statement* law, vecto
             source = chain_of_deductive[last_index]->getCopy();
             source->collapse_to_operand(2);
         }
+        expression* source_part = source->content->getPart(path);
+        sub = createSubstitution(law->forall_variable, source_part, substitute_path);
+    }
         
         if(isPrint)
         {
@@ -583,8 +587,6 @@ void proof_block::append_binary_operator(vector<int> path, statement* law, vecto
             cout<<endl;
         }
         
-        expression* source_part = source->content->getPart(path);
-        vector<substitution*> sub = createSubstitution(law->forall_variable, source_part, substitute_path);
         statement* step = law->apply_binary_operator(source, path, sub, dir, isPrint);
         delete source;
         
@@ -596,6 +598,8 @@ void proof_block::append_binary_operator(vector<int> path, statement* law, vecto
         
         if(isFinished)
         {
+            if(method == deduction)
+            {
             statement* copy_target_2 = target->getCopy();
             copy_target_2->collapse_to_operand(2);
             
@@ -608,10 +612,10 @@ void proof_block::append_binary_operator(vector<int> path, statement* law, vecto
             
             delete copy_target_2;
             delete copy_step_2;
+            }
         }
         
         chain_of_deductive.push_back(step);
-    }
 }
 
 Proposition::Proposition(string newLabel, variable_type var_type, string x) : statement(newLabel, var_type, x)
