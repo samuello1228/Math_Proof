@@ -29,6 +29,7 @@ public:
     expression* y;
     
     substitution(variable*, expression*);
+    substitution(string, string, variable_type);
     ~substitution();
 };
 
