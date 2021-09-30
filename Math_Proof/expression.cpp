@@ -383,7 +383,7 @@ expression* expression::substitute_forall_variable(expression* x, vector<substit
     return x;
 }
 
-bool expression::assemble(statement* source, expression* target, int p, vector<variable*> target_forall_variable)
+bool expression::assemble(statement* step, expression* target, int p, vector<variable*> target_forall_variable)
 {
     if(quantifier* targer_part = dynamic_cast<quantifier*>(target))
     {
@@ -392,9 +392,9 @@ bool expression::assemble(statement* source, expression* target, int p, vector<v
             if(targer_part->var->isEqual(target_forall_variable[i])) return false;
         }
         
-        bool condition = (source->binary_operator->operator_latex == "\\iff" ||
-                          source->binary_operator->operator_latex == "\\overset{\\operatorname{def}}{\\iff}" ||
-                          source->binary_operator->operator_latex == "\\implies");
+        bool condition = (step->binary_operator->operator_latex == "\\iff" ||
+                          step->binary_operator->operator_latex == "\\overset{\\operatorname{def}}{\\iff}" ||
+                          step->binary_operator->operator_latex == "\\implies");
         
         if(condition)
         {
@@ -402,51 +402,51 @@ bool expression::assemble(statement* source, expression* target, int p, vector<v
             variable* var2 = dynamic_cast<variable*>(targer_part->var->getCopy());
             if(universal_quantifier* z = dynamic_cast<universal_quantifier*>(target))
             {
-                source->binary_operator->operand1 = new universal_quantifier(var1, source->binary_operator->operand1);
-                source->binary_operator->operand2 = new universal_quantifier(var2, source->binary_operator->operand2);
+                step->binary_operator->operand1 = new universal_quantifier(var1, step->binary_operator->operand1);
+                step->binary_operator->operand2 = new universal_quantifier(var2, step->binary_operator->operand2);
             }
             else if(existential_quantifier* z = dynamic_cast<existential_quantifier*>(target))
             {
-                source->binary_operator->operand1 = new existential_quantifier(var1, source->binary_operator->operand1);
-                source->binary_operator->operand2 = new existential_quantifier(var2, source->binary_operator->operand2);
+                step->binary_operator->operand1 = new existential_quantifier(var1, step->binary_operator->operand1);
+                step->binary_operator->operand2 = new existential_quantifier(var2, step->binary_operator->operand2);
             }
             
-            source->delete_the_last_universal_quantifier();
+            step->delete_the_last_universal_quantifier();
             return true;
         }
     }
     else if(logic_unary_operator_logic* targer_part = dynamic_cast<logic_unary_operator_logic*>(target))
     {
-        bool condition_iff = (source->binary_operator->operator_latex == "\\iff" ||
-                              source->binary_operator->operator_latex == "\\overset{\\operatorname{def}}{\\iff}");
+        bool condition_iff = (step->binary_operator->operator_latex == "\\iff" ||
+                              step->binary_operator->operator_latex == "\\overset{\\operatorname{def}}{\\iff}");
         condition_iff = condition_iff && (targer_part->operator_latex == "\\lnot");
         
         if(condition_iff)
         {
             logic_value* copy1 = dynamic_cast<logic_value*>(targer_part->operand->getCopy());
             logic_value* copy2 = dynamic_cast<logic_value*>(targer_part->operand->getCopy());
-            source->binary_operator->operand1 = new logic_unary_operator_logic(targer_part->operator_latex, copy1);
-            source->binary_operator->operand2 = new logic_unary_operator_logic(targer_part->operator_latex, copy2);
+            step->binary_operator->operand1 = new logic_unary_operator_logic(targer_part->operator_latex, copy1);
+            step->binary_operator->operand2 = new logic_unary_operator_logic(targer_part->operator_latex, copy2);
             return true;
         }
     }
     else if(logic_binary_operator_logic_logic* targer_part = dynamic_cast<logic_binary_operator_logic_logic*>(target))
     {
-        bool condition_iff = (source->binary_operator->operator_latex == "\\iff" ||
-                              source->binary_operator->operator_latex == "\\overset{\\operatorname{def}}{\\iff}");
+        bool condition_iff = (step->binary_operator->operator_latex == "\\iff" ||
+                              step->binary_operator->operator_latex == "\\overset{\\operatorname{def}}{\\iff}");
         condition_iff = condition_iff && (targer_part->operator_latex == "\\overset{\\operatorname{def}}{\\iff}" ||
                                           targer_part->operator_latex == "\\lor"  ||
                                           targer_part->operator_latex == "\\land" ||
                                           targer_part->operator_latex == "\\iff" ||
                                           targer_part->operator_latex == "\\implies");
         
-        bool condition_implies_1 = (source->binary_operator->operator_latex == "\\implies");
+        bool condition_implies_1 = (step->binary_operator->operator_latex == "\\implies");
         condition_implies_1 = condition_implies_1 && (targer_part->operator_latex == "\\lor"  ||
                                                       targer_part->operator_latex == "\\land" );
         //Counter example for \\iff
         //(F \\implies T) \implies ( (F \\iff F) \implies (T \\iff F) )
         
-        bool condition_implies_2 = (source->binary_operator->operator_latex == "\\implies");
+        bool condition_implies_2 = (step->binary_operator->operator_latex == "\\implies");
         condition_implies_2 = condition_implies_2 && (targer_part->operator_latex == "\\implies");
         //Counter example for \\implies and p == 1
         //(F \\implies T) \implies ( (F \\implies F) \implies (T \\implies F) )
@@ -455,16 +455,16 @@ bool expression::assemble(statement* source, expression* target, int p, vector<v
         {
             logic_value* copy1 = dynamic_cast<logic_value*>(targer_part->operand2->getCopy());
             logic_value* copy2 = dynamic_cast<logic_value*>(targer_part->operand2->getCopy());
-            source->binary_operator->operand1 = new logic_binary_operator_logic_logic(targer_part->operator_latex, source->binary_operator->operand1, copy1);
-            source->binary_operator->operand2 = new logic_binary_operator_logic_logic(targer_part->operator_latex, source->binary_operator->operand2, copy2);
+            step->binary_operator->operand1 = new logic_binary_operator_logic_logic(targer_part->operator_latex, step->binary_operator->operand1, copy1);
+            step->binary_operator->operand2 = new logic_binary_operator_logic_logic(targer_part->operator_latex, step->binary_operator->operand2, copy2);
             return true;
         }
         else if(p==2 && (condition_iff || condition_implies_1 || condition_implies_2))
         {
             logic_value* copy1 = dynamic_cast<logic_value*>(targer_part->operand1->getCopy());
             logic_value* copy2 = dynamic_cast<logic_value*>(targer_part->operand1->getCopy());
-            source->binary_operator->operand1 = new logic_binary_operator_logic_logic(targer_part->operator_latex, copy1, source->binary_operator->operand1);
-            source->binary_operator->operand2 = new logic_binary_operator_logic_logic(targer_part->operator_latex, copy2, source->binary_operator->operand2);
+            step->binary_operator->operand1 = new logic_binary_operator_logic_logic(targer_part->operator_latex, copy1, step->binary_operator->operand1);
+            step->binary_operator->operand2 = new logic_binary_operator_logic_logic(targer_part->operator_latex, copy2, step->binary_operator->operand2);
             return true;
         }
         else
