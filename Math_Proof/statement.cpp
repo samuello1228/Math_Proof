@@ -404,7 +404,7 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
     }
     
     //assemble to the original source
-    statement* output = new statement("", source->var_type, x);
+    statement* step = new statement("", source->var_type, x);
     if(isPrint) cout<<"Do the assembly:"<<endl;
     while(true)
     {
@@ -413,25 +413,25 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
         int p = path[path.size() -1];
         path.erase(path.end() -1);
         
-        bool isChanged = expression::assemble(output, source->content->getPart(path), p, source->forall_variable);
-        if(isPrint && isChanged) cout<<output->content->getLatex()<<endl;
+        bool isChanged = expression::assemble(step, source->content->getPart(path), p, source->forall_variable);
+        if(isPrint && isChanged) cout<<step->content->getLatex()<<endl;
     }
     if(isPrint) cout<<endl;
     
     //for direction Right to Left
     if(dir == RightToLeft)
     {
-        if(output->binary_operator->operator_latex == "\\overset{\\operatorname{def}}{\\iff}" ||
-           output->binary_operator->operator_latex == "\\iff" )
+        if(step->binary_operator->operator_latex == "\\overset{\\operatorname{def}}{\\iff}" ||
+           step->binary_operator->operator_latex == "\\iff" )
         {
             //swap
-            logic_value* temp = output->binary_operator->operand1;
-            output->binary_operator->operand1 = output->binary_operator->operand2;
-            output->binary_operator->operand2 = temp;
+            logic_value* temp = step->binary_operator->operand1;
+            step->binary_operator->operand1 = step->binary_operator->operand2;
+            step->binary_operator->operand2 = temp;
             if(isPrint)
             {
                 cout<<"Swap two operands for the direction RightToLeft"<<endl;
-                cout<<output->content->getLatex()<<endl;
+                cout<<step->content->getLatex()<<endl;
             }
         }
         else
@@ -440,30 +440,30 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
         }
     }
     
-    //check whether the output->operand1 is equal to the source
-    statement* copy_object_1 = output->getCopy();
-    copy_object_1->collapse_to_operand(1);
-    if(!copy_object_1->content->isEqual(source->content))
+    //check whether the step->operand1 is equal to the source
+    statement* copy_step_1 = step->getCopy();
+    copy_step_1->collapse_to_operand(1);
+    if(!copy_step_1->content->isEqual(source->content))
     {
-        cout<<"Error: the operand1 of output and the source are different."<<endl;
+        cout<<"Error: the operand1 of step and the source are different."<<endl;
     }
-    delete copy_object_1;
+    delete copy_step_1;
     
     //check forall_variable
-    if(output->forall_variable.size() != source->forall_variable.size())
+    if(step->forall_variable.size() != source->forall_variable.size())
     {
         cout<<"Error: The forall_variable doese not matched."<<endl;
     }
     
-    for(long i=0;i<output->forall_variable.size();i++)
+    for(long i=0;i<step->forall_variable.size();i++)
     {
-        if(! output->forall_variable[i]->isEqual(source->forall_variable[i]))
+        if(! step->forall_variable[i]->isEqual(source->forall_variable[i]))
         {
             cout<<"Error: The forall_variable does not matched."<<endl;
         }
     }
     
-    return output;
+    return step;
 }
 
 Definition::Definition(string newLabel, variable_type var_type, string x) : statement(newLabel, var_type, x)
