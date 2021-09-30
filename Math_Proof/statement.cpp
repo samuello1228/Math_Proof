@@ -328,21 +328,21 @@ statement* statement::apply_binary_operator(statement* target, vector<int> path,
         cout<<endl;
     }
     
-    //get internal dependence of source
-    vector<variable*> internal_dependence_source;
-    content->getInternalDependence(internal_dependence_source);
+    //get internal dependence of law
+    vector<variable*> internal_dependence_law;
+    content->getInternalDependence(internal_dependence_law);
     if(isPrint)
     {
-        cout<<"Internal dependence of source:"<<endl;
-        for(long i=0;i<internal_dependence_source.size();i++)
+        cout<<"Internal dependence of law:"<<endl;
+        for(long i=0;i<internal_dependence_law.size();i++)
         {
-            cout<<internal_dependence_source[i]->getLatex()<<" ";
+            cout<<internal_dependence_law[i]->getLatex()<<" ";
         }
         cout<<endl;
     }
     
     //create replacement by exclusion
-    vector<substitution*> replacement = createReplacement(internal_dependence_source,all_dependence_target_part);
+    vector<substitution*> replacement = createReplacement(internal_dependence_law,all_dependence_target_part);
     if(isPrint)
     {
         cout<<"Replacement:"<<endl;
@@ -353,10 +353,10 @@ statement* statement::apply_binary_operator(statement* target, vector<int> path,
         cout<<endl;
     }
     
-    //do replacement for source_copy
-    logic_value* source_copy = dynamic_cast<logic_value*>(content->getCopy());
-    source_copy->replace_variable(replacement);
-    if(isPrint) cout<<source_copy->getLatex()<<endl;
+    //do replacement for law_copy
+    logic_value* law_copy = dynamic_cast<logic_value*>(content->getCopy());
+    law_copy->replace_variable(replacement);
+    if(isPrint) cout<<law_copy->getLatex()<<endl;
     
     //do replacement for sub
     for(long i=0;i<sub.size();i++)
@@ -389,12 +389,12 @@ statement* statement::apply_binary_operator(statement* target, vector<int> path,
     for(long i = external_dependence_target_part.size()-1; i>=0; i--)
     {
         variable* variable_copy = dynamic_cast<variable*>(external_dependence_target_part[i]->getCopy());
-        source_copy = new universal_quantifier(variable_copy, source_copy);
+        law_copy = new universal_quantifier(variable_copy, law_copy);
     }
-    if(isPrint) cout<<source_copy->getLatex()<<endl;
+    if(isPrint) cout<<law_copy->getLatex()<<endl;
 
     //do substitution
-    expression* x = expression::substitute_forall_variable(source_copy, sub);
+    expression* x = expression::substitute_forall_variable(law_copy, sub);
     if(isPrint) cout<<x->getLatex()<<endl<<endl;
     
     //delete sub
