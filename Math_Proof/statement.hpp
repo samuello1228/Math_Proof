@@ -24,7 +24,7 @@ class statement
 {
 public:
     string label;
-    compound_logic* content;
+    logic_value* content;
     variable_type var_type;
     
     //for \\forall quantifier

@@ -71,13 +71,13 @@ vector<substitution*> createSubstitution(vector<variable*> forall_variable, expr
 
 statement::statement(string newLabel, variable_type new_var_type, string input_latex)
 {
-    //check whether the contend is compound_logic
-    content = dynamic_cast<compound_logic*>(expression::createFromLatex(input_latex, new_var_type));
+    //check whether the contend is logic_value
+    content = dynamic_cast<logic_value*>(expression::createFromLatex(input_latex, new_var_type));
     if(!content)
     {
         content = nullptr;
         label = "";
-        cout<<"Error: the expression is not compound logic."<<endl;
+        cout<<"Error: the expression is not logic_value."<<endl;
         return;
     }
     
@@ -95,12 +95,12 @@ statement::statement(string newLabel, variable_type new_var_type, string input_l
 
 statement::statement(string newLabel, variable_type new_var_type, expression* x)
 {
-    content = dynamic_cast<compound_logic*>(x);
+    content = dynamic_cast<logic_value*>(x);
     if(!content)
     {
         content = nullptr;
         label = "";
-        cout<<"Error: the expression is not compound logic."<<endl;
+        cout<<"Error: the expression is not logic_value."<<endl;
         return;
     }
     
@@ -228,11 +228,6 @@ void statement::delete_the_last_universal_quantifier()
         else break;
     }
     
-    forall_variable.erase(forall_variable.end() -1);
-    
-    y->operand = dynamic_cast<logic_value*>(expression::createFromLatex("\\text{True}", LOGIC));
-    delete y;
-    
     if(x == nullptr)
     {
         content = binary_operator;
@@ -241,6 +236,10 @@ void statement::delete_the_last_universal_quantifier()
     {
         x->operand = binary_operator;
     }
+    
+    y->operand = dynamic_cast<logic_value*>(expression::createFromLatex("\\text{True}", LOGIC));
+    delete y;
+    forall_variable.erase(forall_variable.end() -1);
 }
 
 void statement::collapse_to_operand(int p)
@@ -269,15 +268,7 @@ void statement::collapse_to_operand(int p)
     
     if(x == nullptr)
     {
-        if(compound_logic* z = dynamic_cast<compound_logic*>(operand))
-        {
-            content = z;
-        }
-        else
-        {
-            cout<<"Error: Impossible case."<<endl;
-            return;
-        }
+        content = operand;
     }
     else
     {
@@ -363,7 +354,7 @@ statement* statement::apply_binary_operator(statement* target, vector<int> path,
     }
     
     //do replacement for source_copy
-    compound_logic* source_copy = dynamic_cast<compound_logic*>(content->getCopy());
+    logic_value* source_copy = dynamic_cast<logic_value*>(content->getCopy());
     source_copy->replace_variable(replacement);
     if(isPrint) cout<<source_copy->getLatex()<<endl;
     

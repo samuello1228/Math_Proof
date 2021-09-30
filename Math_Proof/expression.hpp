@@ -17,7 +17,7 @@ enum variable_type {LOGIC, SET};
 class substitution;
 class expression;
 class variable;
-class compound_logic;
+class logic_value;
 class logic_binary_operator_logic_logic;
 
 #include "statement.hpp"
