@@ -281,7 +281,7 @@ void statement::collapse_to_operand(int p)
     binary_operator = nullptr;
 }
 
-statement* statement::apply_binary_operator(statement* source, vector<int> path, vector<vector<int> > substitute_path, direction dir, bool isPrint)
+statement* statement::apply_binary_operator(statement* source, vector<int> path, vector<substitution*> sub, direction dir, bool isPrint)
 {
     if(binary_operator == nullptr)
     {
@@ -289,9 +289,7 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
         return nullptr;
     }
     
-    //create substitution
-    expression* source_part = source->content->getPart(path);
-    vector<substitution*> sub = createSubstitution(forall_variable, source_part, substitute_path);
+    //print substitution
     if(isPrint)
     {
         cout<<"Substitution:"<<endl;
@@ -316,6 +314,7 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
     }
     
     //get all dependence of source part
+    expression* source_part = source->content->getPart(path);
     vector<variable*> all_dependence_source_part = external_dependence_source_part;
     source_part->getInternalDependence(all_dependence_source_part);
     if(isPrint)
@@ -562,9 +561,9 @@ void proof_block::getLatex()
 void proof_block::append_binary_operator(vector<int> path, statement* law, vector<vector<int> > substitute_path, direction dir, bool isFinished, bool isPrint)
 {
     if(isPrint) cout<<"New step:"<<endl;
+    statement* source = nullptr;
     if(method == deduction)
     {
-        statement* source = nullptr;
         if(chain_of_deductive.size() == 0)
         {
             source = target->getCopy();
@@ -583,7 +582,10 @@ void proof_block::append_binary_operator(vector<int> path, statement* law, vecto
             cout<<law->content->getLatex()<<endl;
             cout<<endl;
         }
-        statement* step = law->apply_binary_operator(source, path, substitute_path, dir, isPrint);
+        
+        expression* source_part = source->content->getPart(path);
+        vector<substitution*> sub = createSubstitution(law->forall_variable, source_part, substitute_path);
+        statement* step = law->apply_binary_operator(source, path, sub, dir, isPrint);
         delete source;
         
         if(step->binary_operator->operator_latex == "\\implies" && target->binary_operator->operator_latex == "\\iff")

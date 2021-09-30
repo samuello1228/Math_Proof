@@ -42,7 +42,7 @@ public:
     statement* getCopy();
     void delete_the_last_universal_quantifier();
     void collapse_to_operand(int);
-    statement* apply_binary_operator(statement*, vector<int>, vector<vector<int> >, direction, bool isPrint = false);
+    statement* apply_binary_operator(statement*, vector<int>, vector<substitution*>, direction, bool isPrint = false);
 };
 
 class Definition : public statement
