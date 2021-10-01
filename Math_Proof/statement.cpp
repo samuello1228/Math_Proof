@@ -281,6 +281,61 @@ void statement::collapse_to_operand(int p)
     binary_operator = nullptr;
 }
 
+void statement::collapse_to_true()
+{
+    universal_quantifier* x = nullptr;
+    universal_quantifier* y = dynamic_cast<universal_quantifier*>(content);
+    while(true)
+    {
+        if(y)
+        {
+            x = y;
+            y = dynamic_cast<universal_quantifier*>(y->operand);
+        }
+        else break;
+    }
+    
+    if(x == nullptr)
+    {
+        delete content;
+        content = dynamic_cast<logic_value*>(expression::createFromLatex("\\text{True}", LOGIC));
+    }
+    else
+    {
+        delete x->operand;
+        x->operand = dynamic_cast<logic_value*>(expression::createFromLatex("\\text{True}", LOGIC));
+    }
+}
+
+void statement::upgrade_to_true(direction dir)
+{
+    universal_quantifier* x = nullptr;
+    universal_quantifier* y = dynamic_cast<universal_quantifier*>(content);
+    while(true)
+    {
+        if(y)
+        {
+            x = y;
+            y = dynamic_cast<universal_quantifier*>(y->operand);
+        }
+        else break;
+    }
+    
+    logic_value* True = dynamic_cast<logic_value*>(expression::createFromLatex("\\text{True}", LOGIC));
+    if(x == nullptr)
+    {
+        if(dir == LeftToRight) binary_operator = new logic_binary_operator_logic_logic("\\iff", True, content);
+        if(dir == RightToLeft) binary_operator = new logic_binary_operator_logic_logic("\\iff", content, True);
+        content = binary_operator;
+    }
+    else
+    {
+        if(dir == LeftToRight) binary_operator = new logic_binary_operator_logic_logic("\\iff", True, x->operand);
+        if(dir == RightToLeft) binary_operator = new logic_binary_operator_logic_logic("\\iff", x->operand, True);
+        x->operand = binary_operator;
+    }
+}
+
 statement* statement::apply_binary_operator(statement* source, vector<int> path, vector<substitution*> sub, direction dir, bool isPrint)
 {
     if(binary_operator == nullptr)
@@ -391,7 +446,7 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
         law_copy = new universal_quantifier(variable_copy, law_copy);
     }
     if(isPrint) cout<<law_copy->getLatex()<<endl;
-
+    
     //do substitution
     expression* x = expression::substitute_forall_variable(law_copy, sub);
     if(isPrint) cout<<x->getLatex()<<endl<<endl;
@@ -558,35 +613,73 @@ void proof_block::getLatex()
     
 }
 
-void proof_block::append_binary_operator(vector<int> path, statement* law, vector<vector<int> > substitute_path, direction dir, bool isFinished, bool isPrint)
+statement* proof_block::get_next_source()
 {
-    if(isPrint) cout<<"New step:"<<endl;
     statement* source = nullptr;
-    vector<substitution*> sub;
-    if(method == deduction)
+    if(chain_of_deductive.size() == 0)
     {
-        if(chain_of_deductive.size() == 0)
+        if(method == deduction)
         {
             source = target->getCopy();
             source->collapse_to_operand(1);
         }
-        else
+        else if(method == direct)
         {
-            long last_index = chain_of_deductive.size() -1;
-            source = chain_of_deductive[last_index]->getCopy();
-            source->collapse_to_operand(2);
+            source = target->getCopy();
+            source->collapse_to_true();
         }
-        expression* source_part = source->content->getPart(path);
-        sub = createSubstitution(law->forall_variable, source_part, substitute_path);
     }
+    else
+    {
+        long last_index = chain_of_deductive.size() -1;
+        source = chain_of_deductive[last_index]->getCopy();
+        source->collapse_to_operand(2);
+    }
+    
+    return source;
+}
+
+void proof_block::check_finished(statement* step)
+{
+    if(method == deduction || method == direct)
+    {
+        statement* copy_target_2 = target->getCopy();
+        if(method == deduction) copy_target_2->collapse_to_operand(2);
+        
+        statement* copy_step_2 = step->getCopy();
+        copy_step_2->collapse_to_operand(2);
+        if(!copy_step_2->content->isEqual(copy_target_2->content))
+        {
+            cout<<"Error: The operand2 does not matched the target."<<endl;
+        }
+        
+        delete copy_target_2;
+        delete copy_step_2;
+    }
+}
+
+void proof_block::append_binary_operator(vector<int> path, statement* law, vector<vector<int> > substitute_path, direction dir, bool isFinished, bool isPrint)
+{
+    if(method == direct && chain_of_deductive.size() == 0)
+    {
+        cout<<"Error: cannot do this. please use the advanced version."<<endl;
+        return;
+    }
+    
+    if(isPrint) cout<<"New step:"<<endl;
+    statement* source = get_next_source();
     
     if(isPrint)
     {
+        cout<<"source:"<<endl;
         cout<<source->content->getLatex()<<endl;
+        cout<<"law:"<<endl;
         cout<<law->content->getLatex()<<endl;
         cout<<endl;
     }
     
+    expression* source_part = source->content->getPart(path);
+    vector<substitution*> sub = createSubstitution(law->forall_variable, source_part, substitute_path);
     statement* step = law->apply_binary_operator(source, path, sub, dir, isPrint);
     delete source;
     
@@ -596,25 +689,41 @@ void proof_block::append_binary_operator(vector<int> path, statement* law, vecto
         return;
     }
     
-    if(isFinished)
+    if(isFinished) check_finished(step);
+    chain_of_deductive.push_back(step);
+}
+
+void proof_block::append_binary_operator_advanced(vector<int> path, statement* law, vector<substitution*> sub, direction dir, bool isFinished, bool isPrint)
+{
+    if(isPrint) cout<<"New step:"<<endl;
+    statement* source = get_next_source();
+    
+    if(method == direct && chain_of_deductive.size() == 0)
     {
-        if(method == deduction)
-        {
-            statement* copy_target_2 = target->getCopy();
-            copy_target_2->collapse_to_operand(2);
-            
-            statement* copy_step_2 = step->getCopy();
-            copy_step_2->collapse_to_operand(2);
-            if(!copy_step_2->content->isEqual(copy_target_2->content))
-            {
-                cout<<"Error: The operand2 does not matched the operand2 of target."<<endl;
-            }
-            
-            delete copy_target_2;
-            delete copy_step_2;
-        }
+        law = law->getCopy();
+        law->upgrade_to_true(LeftToRight);
     }
     
+    if(isPrint)
+    {
+        cout<<"source:"<<endl;
+        cout<<source->content->getLatex()<<endl;
+        cout<<"law:"<<endl;
+        cout<<law->content->getLatex()<<endl;
+        cout<<endl;
+    }
+    
+    statement* step = law->apply_binary_operator(source, path, sub, dir, isPrint);
+    delete source;
+    if(method == direct && chain_of_deductive.size() == 0) delete law;
+    
+    if(step->binary_operator->operator_latex == "\\implies" && target->binary_operator->operator_latex == "\\iff")
+    {
+        cout<<"Error: The deduction cannot work for \\iff."<<endl;
+        return;
+    }
+    
+    if(isFinished) check_finished(step);
     chain_of_deductive.push_back(step);
 }
 

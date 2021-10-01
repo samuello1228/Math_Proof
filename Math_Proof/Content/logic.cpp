@@ -50,6 +50,10 @@ void logic(vector<Definition*>& All_Definition, vector<Axiom*>& All_Axiom, vecto
     Definition::addDefinition(All_Definition, fout, new Definition("implies", LOGIC, "\\forall x \\forall y ((x \\implies y) \\overset{\\operatorname{def}}{\\iff} ((\\lnot x) \\lor y))"));
     
     //Boolean algebra
+    Proposition* x = nullptr;
+    Proposition* law = nullptr;
+    proof_block* block = nullptr;
+    vector<substitution*> sub;
     fout<<"\\section{Boolean algebra}"<<endl;
     //Associativity
     fout<<"\\subsection{Associativity of $\\lor$}"<<endl;
@@ -68,7 +72,15 @@ void logic(vector<Definition*>& All_Definition, vector<Axiom*>& All_Axiom, vecto
     //Identity
     fout<<"\\subsection{Identity of $\\lor$}"<<endl;
     Proposition::addProposition(All_Proposition, fout, new Proposition("lor_identity_1", LOGIC, "\\forall x ((x \\lor (\\text{False})) \\iff x)"));
-    Proposition::addProposition(All_Proposition, fout, new Proposition("lor_identity_2", LOGIC, "\\forall x (((\\text{False}) \\lor x) \\iff x)"));
+    
+    x = new Proposition("lor_identity_2", LOGIC, "\\forall x (((\\text{False}) \\lor x) \\iff x)");
+    block = new proof_block("", x, direct);
+    law = FindByRef<Proposition>(All_Proposition, "lor_identity_1");
+    sub.clear(); sub.push_back(new substitution("x", "x", LOGIC));
+    block->append_binary_operator_advanced({1}, law, sub, LeftToRight, false, true);
+    law = FindByRef<Proposition>(All_Proposition, "lor_commutativity");
+    block->append_binary_operator({1,1}, law, {{1},{2}}, LeftToRight, true, true);
+    Proposition::addProposition(All_Proposition, fout, x);
     
     fout<<"\\subsection{Identity of $\\land$}"<<endl;
     Proposition::addProposition(All_Proposition, fout, new Proposition("land_identity_1", LOGIC, "\\forall x ((x \\land (\\text{True})) \\iff x)"));
@@ -131,9 +143,6 @@ void logic(vector<Definition*>& All_Definition, vector<Axiom*>& All_Axiom, vecto
     Proposition::addProposition(All_Proposition, fout, new Proposition("De_Morgan_land", LOGIC, "\\forall x \\forall y ((\\lnot (x \\land y)) \\iff ((\\lnot x) \\lor (\\lnot y)))"));
     
     //Basic Proposition
-    Proposition* x = nullptr;
-    Proposition* law = nullptr;
-    proof_block* block = nullptr;
     fout<<"\\section{Basic Proposition}"<<endl;
     
     //x_lor_y_complement

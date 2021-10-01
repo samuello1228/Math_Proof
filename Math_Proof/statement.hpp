@@ -42,6 +42,8 @@ public:
     statement* getCopy();
     void delete_the_last_universal_quantifier();
     void collapse_to_operand(int);
+    void collapse_to_true();
+    void upgrade_to_true(direction);
     statement* apply_binary_operator(statement*, vector<int>, vector<substitution*>, direction, bool isPrint = false);
 };
 
@@ -76,7 +78,10 @@ public:
     ~proof_block();
     
     void getLatex();
+    statement* get_next_source();
+    void check_finished(statement*);
     void append_binary_operator(vector<int>, statement*, vector<vector<int> >, direction, bool isFinished = false, bool isPrint = false);
+    void append_binary_operator_advanced(vector<int>, statement*, vector<substitution*>, direction, bool isFinished = false, bool isPrint = false);
 };
 
 class Proposition : public statement
