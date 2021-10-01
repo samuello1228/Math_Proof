@@ -240,5 +240,121 @@ void logic()
     x->append(block, true);
     Proposition::addProposition(fout, x, description);
     
+    //Quantifiers
+    fout<<"\\section{Quantifiers}"<<endl;
+    
+    //Universal quantifier
+    fout<<"\\begin{defn}"<<endl;
+    fout<<"Universal quantifier is denoted by $\\forall$."<<endl;
+    fout<<"\\begin{align*}"<<endl;
+    fout<<"& \\forall x (P(x)) \\\\"<<endl;
+    fout<<"\\overset{\\operatorname{def}}{\\iff} & (P(x_1) \\land P(x_2) \\land \\dots)"<<endl;
+    fout<<"\\end{align*}"<<endl;
+    fout<<"\\end{defn}"<<endl;
+    fout<<endl;
+    
+    //Existential quantifier
+    fout<<"\\begin{defn}"<<endl;
+    fout<<"Existential quantifier is denoted by $\\exists$."<<endl;
+    fout<<"\\begin{align*}"<<endl;
+    fout<<"& \\exists x (P(x)) \\\\"<<endl;
+    fout<<"\\overset{\\operatorname{def}}{\\iff} & (P(x_1) \\lor P(x_2) \\lor \\dots)"<<endl;
+    fout<<"\\end{align*}"<<endl;
+    fout<<"\\end{defn}"<<endl;
+    fout<<endl;
+    
+    fout<<"\\begin{prop}"<<endl;
+    fout<<"\\label{Proposition:forall_land_commutativity}"<<endl;
+    fout<<"\\begin{align*}"<<endl;
+    fout<<"& \\forall x (P(x) \\land Q(x)) \\\\"<<endl;
+    fout<<"\\iff & (\\forall x (P(x))) \\land (\\forall x (Q(x)))"<<endl;
+    fout<<"\\end{align*}"<<endl;
+    fout<<"\\end{prop}"<<endl;
+    fout<<endl;
+    
+    fout<<"\\begin{prop}"<<endl;
+    fout<<"\\label{Proposition:exists_lor_commutativity}"<<endl;
+    fout<<"\\begin{align*}"<<endl;
+    fout<<"& \\exists x (P(x) \\lor Q(x)) \\\\"<<endl;
+    fout<<"\\iff & (\\exists x (P(x))) \\lor (\\exists x (Q(x)))"<<endl;
+    fout<<"\\end{align*}"<<endl;
+    fout<<"\\end{prop}"<<endl;
+    fout<<endl;
+    
+    fout<<"\\begin{prop}"<<endl;
+    fout<<"\\label{Proposition:lor_forall_distributivity}"<<endl;
+    fout<<"\\begin{align*}"<<endl;
+    fout<<"& P \\lor (\\forall x (Q(x))) \\\\"<<endl;
+    fout<<"\\iff & \\forall x (P \\lor (Q(x)))"<<endl;
+    fout<<"\\end{align*}"<<endl;
+    fout<<"\\end{prop}"<<endl;
+    fout<<endl;
+    
+    fout<<"\\begin{prop}"<<endl;
+    fout<<"\\label{Proposition:land_exists_distributivity}"<<endl;
+    fout<<"\\begin{align*}"<<endl;
+    fout<<"& P \\land (\\exists x (Q(x))) \\\\"<<endl;
+    fout<<"\\iff & \\exists x (P \\land (Q(x)))"<<endl;
+    fout<<"\\end{align*}"<<endl;
+    fout<<"\\end{prop}"<<endl;
+    fout<<endl;
+    
+    fout<<"\\begin{axm}"<<endl;
+    fout<<"\\label{Axiom:forall_independent_variable}"<<endl;
+    fout<<"\\begin{align*}"<<endl;
+    fout<<"& \\forall x (P(y)) \\\\"<<endl;
+    fout<<"\\iff & P(y)"<<endl;
+    fout<<"\\end{align*}"<<endl;
+    fout<<"\\end{axm}"<<endl;
+    fout<<endl;
+    
+    fout<<"\\begin{axm}"<<endl;
+    fout<<"\\label{Axiom:exists_independent_variable}"<<endl;
+    fout<<"\\begin{align*}"<<endl;
+    fout<<"& \\exists x (P(y)) \\\\"<<endl;
+    fout<<"\\iff & P(y)"<<endl;
+    fout<<"\\end{align*}"<<endl;
+    fout<<"\\end{axm}"<<endl;
+    fout<<endl;
+    
+    fout<<"\\begin{axm}"<<endl;
+    fout<<"\\label{Axiom:De_Morgan_1}"<<endl;
+    fout<<"De Morgan's law"<<endl;
+    fout<<"\\begin{align*}"<<endl;
+    fout<<"& \\lnot (\\forall x (P(x))) \\\\"<<endl;
+    fout<<"\\iff & \\exists x (\\lnot (P(x)))"<<endl;
+    fout<<"\\end{align*}"<<endl;
+    fout<<"\\end{axm}"<<endl;
+    fout<<endl;
+    
+    fout<<"\\begin{axm}"<<endl;
+    fout<<"\\label{Axiom:De_Morgan_2}"<<endl;
+    fout<<"De Morgan's law"<<endl;
+    fout<<"\\begin{align*}"<<endl;
+    fout<<"& \\lnot (\\exists x (P(x))) \\\\"<<endl;
+    fout<<"\\iff & \\forall x (\\lnot (P(x)))"<<endl;
+    fout<<"\\end{align*}"<<endl;
+    fout<<"\\end{axm}"<<endl;
+    fout<<endl;
+    
+    fout<<"\\begin{defn}"<<endl;
+    fout<<"\\label{Definition:uniqueness_quantifier}"<<endl;
+    fout<<"Uniqueness quantifier is denoted by $!\\exists$."<<endl;
+    fout<<"\\begin{align*}"<<endl;
+    fout<<"& !\\exists x (P(x)) \\\\"<<endl;
+    fout<<"\\overset{\\operatorname{def}}{\\iff} & (\\exists x (P(x))) \\land (\\forall x \\forall y ((P(x) \\land P(y)) \\implies (x = y)))"<<endl;
+    fout<<"\\end{align*}"<<endl;
+    fout<<"\\end{defn}"<<endl;
+    fout<<endl;
+    
+    fout<<"\\begin{axm}"<<endl;
+    fout<<"\\label{Axiom:axiom_of_substitution}"<<endl;
+    fout<<"Axiom of Substitution"<<endl;
+    fout<<"\\begin{align*}"<<endl;
+    fout<<"\\forall x ((\\exists y ((y = x) \\land P(y))) \\iff P(x))"<<endl;
+    fout<<"\\end{align*}"<<endl;
+    fout<<"\\end{axm}"<<endl;
+    fout<<endl;
+    
     fout.close();
 }

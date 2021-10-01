@@ -579,7 +579,7 @@ Proof of Proposition \ref{Proposition:iff_reflexive}
 \begin{defn}
 Universal quantifier is denoted by $\forall$.
 \begin{align*}
-& \forall x, P(x) \\
+& \forall x (P(x)) \\
 \overset{\operatorname{def}}{\iff} & (P(x_1) \land P(x_2) \land \dots)
 \end{align*}
 \end{defn}
@@ -587,7 +587,7 @@ Universal quantifier is denoted by $\forall$.
 \begin{defn}
 Existential quantifier is denoted by $\exists$.
 \begin{align*}
-& \exists x, P(x) \\
+& \exists x (P(x)) \\
 \overset{\operatorname{def}}{\iff} & (P(x_1) \lor P(x_2) \lor \dots)
 \end{align*}
 \end{defn}
@@ -595,44 +595,48 @@ Existential quantifier is denoted by $\exists$.
 \begin{prop}
 \label{Proposition:forall_land_commutativity}
 \begin{align*}
-(\forall x (P(x) \land Q(x))) \iff (\forall x, P(x)) \land (\forall x, Q(x))
+& \forall x (P(x) \land Q(x)) \\
+\iff & (\forall x (P(x))) \land (\forall x (Q(x)))
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:exists_lor_commutativity}
 \begin{align*}
-(\exists x, P(x)) \lor (\exists x, Q(x)) \iff (\exists x, (P(x) \lor Q(x)))
+& \exists x (P(x) \lor Q(x)) \\
+\iff & (\exists x (P(x))) \lor (\exists x (Q(x)))
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:lor_forall_distributivity}
 \begin{align*}
-(P \lor (\forall x, Q(x))) \iff (\forall x (P \lor Q(x)))
+& P \lor (\forall x (Q(x))) \\
+\iff & \forall x (P \lor (Q(x)))
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:land_exists_distributivity}
 \begin{align*}
-(P \land (\exists x, Q(x))) \iff (\exists x (P \land Q(x)))
+& P \land (\exists x (Q(x))) \\
+\iff & \exists x (P \land (Q(x)))
 \end{align*}
 \end{prop}
 
 \begin{axm}
 \label{Axiom:forall_independent_variable}
-P does not depend on x.
 \begin{align*}
-(\forall x, P(y)) \iff P(y)
+& \forall x (P(y)) \\
+\iff & P(y)
 \end{align*}
 \end{axm}
 
 \begin{axm}
 \label{Axiom:exists_independent_variable}
-P does not depend on x.
 \begin{align*}
-(\exists x, P(y)) \iff P(y)
+& \exists x (P(y)) \\
+\iff & P(y)
 \end{align*}
 \end{axm}
 
@@ -640,7 +644,8 @@ P does not depend on x.
 \label{Axiom:De_Morgan_1}
 De Morgan's law
 \begin{align*}
-\lnot (\forall x, P(x)) \iff \exists x, \lnot (P(x))
+& \lnot (\forall x (P(x))) \\
+\iff & \exists x (\lnot (P(x)))
 \end{align*}
 \end{axm}
 
@@ -648,7 +653,8 @@ De Morgan's law
 \label{Axiom:De_Morgan_2}
 De Morgan's law
 \begin{align*}
-\lnot (\exists x, P(x)) \iff \forall x, \lnot (P(x))
+& \lnot (\exists x (P(x))) \\
+\iff & \forall x (\lnot (P(x)))
 \end{align*}
 \end{axm}
 
@@ -656,8 +662,8 @@ De Morgan's law
 \label{Definition:uniqueness_quantifier}
 Uniqueness quantifier is denoted by $!\exists$.
 \begin{align*}
-& !\exists x, P(x) \\
-\overset{\operatorname{def}}{\iff} & (\exists x, P(x)) \land (\forall x \forall y (P(x) \land P(y) \implies x = y))
+& !\exists x (P(x)) \\
+\overset{\operatorname{def}}{\iff} & (\exists x (P(x))) \land (\forall x \forall y ((P(x) \land P(y)) \implies (x = y)))
 \end{align*}
 \end{defn}
 
@@ -665,7 +671,7 @@ Uniqueness quantifier is denoted by $!\exists$.
 \label{Axiom:axiom_of_substitution}
 Axiom of Substitution
 \begin{align*}
-\forall x( (\exists y((y = x) \land P(y))) \iff P(x) )
+\forall x ((\exists y ((y = x) \land P(y))) \iff P(x))
 \end{align*}
 \end{axm}
 
