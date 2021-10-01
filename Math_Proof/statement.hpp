@@ -39,6 +39,7 @@ public:
     statement(string, variable_type, string);
     statement(string, variable_type, expression*);
     void constructor_aux();
+    logic_value* get_expression_without_forall_variable();
     void find_all_path_of_variable(bool);
     virtual ~statement();
     

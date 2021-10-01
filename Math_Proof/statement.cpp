@@ -150,7 +150,7 @@ void statement::constructor_aux()
     }
 }
 
-void statement::find_all_path_of_variable(bool isPrint)
+logic_value* statement::get_expression_without_forall_variable()
 {
     logic_value* x = content;
     while(true)
@@ -161,6 +161,13 @@ void statement::find_all_path_of_variable(bool isPrint)
         }
         else break;
     }
+    
+    return x;
+}
+
+void statement::find_all_path_of_variable(bool isPrint)
+{
+    logic_value*x = get_expression_without_forall_variable();
     
     vector<int> type;
     //0 for path_of_variable
