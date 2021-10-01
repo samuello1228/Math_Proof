@@ -538,7 +538,7 @@ Symmetric property of $\iff$.
 \end{prop}
 
 \begin{prop}
-\label{Proposition:iff_lnot}
+\label{Proposition:iff_contrapositive}
 \begin{align*}
 & x \iff y \\
 \iff & (\lnot x) \iff (\lnot y)
@@ -675,45 +675,44 @@ Axiom of Substitution
 \end{align*}
 \end{axm}
 
-\section{Proposition}
+\section{Logic proposition}
 \begin{prop}
 \label{Proposition:land_implies_iff}
 \begin{align*}
-(P \land Q) \implies  (P \iff Q) \\
-\end{align*}
-\end{prop}
-
-\begin{prop}
-\label{Proposition:iff_contrapositive}
-\begin{align*}
-(\lnot P \iff \lnot Q) \iff (P \iff Q) \\
+& x \land y \\
+\implies & x \iff y
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:land_omit}
 \begin{align*}
-(P \land Q) \implies P \\
+& x \land y \\
+\implies & x
 \end{align*}
 \end{prop}
 
-\begin{lemma}
-\label{Lemma:uniqueness}
+\begin{prop}
+\label{Proposition:lemma_uniqueness}
 \begin{align*}
-(P \land ((Q \land P) \implies R)) \implies (Q \implies R) \\
+& x \land ((y \land x) \implies z) \\
+\implies & y \implies z
 \end{align*}
-\end{lemma}
+\end{prop}
 
 \begin{prop}
 \label{Proposition:implies_satisfy}
 \begin{align*}
-(P \land (P \implies Q)) \implies Q \\
+& x \land (x \implies y) \\
+\implies & y
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:iff_satisfy}
 \begin{align*}
-(P \land (P \iff Q)) \implies Q \\
+& x \land (x \iff y) \\
+\implies & y
 \end{align*}
 \end{prop}
+

@@ -223,7 +223,7 @@ void logic()
     description = "Symmetric property of $\\iff$.";
     Proposition::addProposition(fout, x, description);
     
-    x = new Proposition("iff_lnot", LOGIC, "\\forall x \\forall y ((x \\iff y) \\iff ((\\lnot x) \\iff (\\lnot y)))");
+    x = new Proposition("iff_contrapositive", LOGIC, "\\forall x \\forall y ((x \\iff y) \\iff ((\\lnot x) \\iff (\\lnot y)))");
     Proposition::addProposition(fout, x);
     
     x = new Proposition("iff_transitive", LOGIC, "\\forall x \\forall y \\forall z (((x \\iff y) \\land (y \\iff z)) \\implies (x \\iff z))");
@@ -355,6 +355,24 @@ void logic()
     fout<<"\\end{align*}"<<endl;
     fout<<"\\end{axm}"<<endl;
     fout<<endl;
+    
+    //Logic proposition
+    fout<<"\\section{Logic proposition}"<<endl;
+    
+    x = new Proposition("land_implies_iff", LOGIC, "\\forall x \\forall y ((x \\land y) \\implies (x \\iff y))");
+    Proposition::addProposition(fout, x);
+    
+    x = new Proposition("land_omit", LOGIC, "\\forall x \\forall y ((x \\land y) \\implies x)");
+    Proposition::addProposition(fout, x);
+    
+    x = new Proposition("lemma_uniqueness", LOGIC, "\\forall x \\forall y \\forall z ((x \\land ((y \\land x) \\implies z)) \\implies (y \\implies z))");
+    Proposition::addProposition(fout, x);
+    
+    x = new Proposition("implies_satisfy", LOGIC, "\\forall x \\forall y ((x \\land (x \\implies y)) \\implies y)");
+    Proposition::addProposition(fout, x);
+    
+    x = new Proposition("iff_satisfy", LOGIC, "\\forall x \\forall y ((x \\land (x \\iff y)) \\implies y)");
+    Proposition::addProposition(fout, x);
     
     fout.close();
 }
