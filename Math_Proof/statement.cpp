@@ -1120,7 +1120,7 @@ void Proposition::addProposition(ofstream& fout, Proposition* x, string descript
         fout<< "Proof of Proposition \\ref{Proposition:" << x->proof[i]->label << "}" <<endl;
         fout<<"\\begin{align*}"<<endl;
         fout<<x->proof[i]->getLatex(x->var_type);
-        cout<<x->proof[i]->getLatex(x->var_type);
+        cout<<x->proof[i]->getLatex(x->var_type)<<endl;
         fout<<"\\end{align*}"<<endl;
     }
     

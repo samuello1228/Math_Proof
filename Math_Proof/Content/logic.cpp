@@ -78,8 +78,8 @@ void logic()
     /*
     block = new proof_block("lor_identity_2", x, direct);
     sub.clear(); sub.push_back(new substitution("x", "x", LOGIC));
-    block->append_binary_operator(input({}, "Proposition:lor_identity_1", LeftToRight, sub, false, true));
-    block->append_binary_operator(input({1}, "Proposition:lor_commutativity", LeftToRight, true, true));
+    block->append_binary_operator(input({}, "Proposition:lor_identity_1", LeftToRight, sub));
+    block->append_binary_operator(input({1}, "Proposition:lor_commutativity", LeftToRight, true));
     x->append(block);
     */
     Proposition::addProposition(fout, x);
@@ -150,9 +150,9 @@ void logic()
     //x_lor_y_complement
     x = new Proposition("x_lor_y_complement", LOGIC, "\\forall x \\forall y (((x \\land (\\lnot y)) \\lor y) \\iff (x \\lor y))");
     block = new proof_block("x_lor_y_complement", x, deduction);
-    block->append_binary_operator(input({}, "Proposition:lor_land_distributivity_2", LeftToRight, false, true));
-    block->append_binary_operator(input({2}, "Proposition:lor_complement_2", LeftToRight, false, true));
-    block->append_binary_operator(input({}, "Proposition:land_identity_1", LeftToRight, true, true));
+    block->append_binary_operator(input({}, "Proposition:lor_land_distributivity_2", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:lor_complement_2", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:land_identity_1", LeftToRight, true));
     x->append(block, true);
     Proposition::addProposition(fout, x);
     
@@ -160,10 +160,10 @@ void logic()
     x = new Proposition("iff_reflexive", LOGIC, "\\forall x (x \\iff x)");
     description = "Reflexive property of $\\iff$.";
     block = new proof_block("iff_reflexive", x, backward);
-    block->append_binary_operator(input({}, "Definition:iff", LeftToRight, false, true));
-    block->append_binary_operator(input({1}, "Proposition:land_idempotence", LeftToRight, false, true));
-    block->append_binary_operator(input({2}, "Proposition:land_idempotence", LeftToRight, false, true));
-    block->append_binary_operator(input({}, "Proposition:lor_complement_1", LeftToRight, true, true));
+    block->append_binary_operator(input({}, "Definition:iff", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:land_idempotence", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:land_idempotence", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_complement_1", LeftToRight, true));
     x->append(block, true);
     Proposition::addProposition(fout, x, description);
     
