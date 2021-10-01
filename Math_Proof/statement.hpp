@@ -121,6 +121,7 @@ public:
     proof_block(string, statement*, proof_method);
     ~proof_block();
     
+    string getLatex(variable_type);
     statement* get_next_source();
     void check_finished(statement*);
     void append_binary_operator(input x);

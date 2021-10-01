@@ -833,6 +833,42 @@ proof_block::~proof_block()
     }
 }
 
+string proof_block::getLatex(variable_type var_type)
+{
+    string output = "";
+    string quantifier_latex = "";
+    if(var_type == SET)
+    {
+        for(long i=0;i<target->forall_variable.size();i++)
+        {
+            quantifier_latex += "\\forall ";
+            quantifier_latex += target->forall_variable[i]->getLatex();
+            quantifier_latex += " ";
+        }
+        output += "& " + quantifier_latex + "( \\\\" + "\n";
+    }
+    
+    for(long i=0;i<chain_of_deductive.size();i++)
+    {
+        statement* element = chain_of_deductive[i];
+        
+        if(quantifier_latex == "")
+        {
+            if(i==0) output += "& " + element->binary_operator->operand1->getLatex() + " \\\\" + "\n";
+            output += element->binary_operator->operator_latex + " & " + element->binary_operator->operand2->getLatex() + "\n";
+        }
+        else
+        {
+            if(i==0) output += "& \\quad && && " + element->binary_operator->operand1->getLatex() + " \\\\" + "\n";
+            output += "& \\quad && " + element->binary_operator->operator_latex + " && " + element->binary_operator->operand2->getLatex() + "\n";
+        }
+        output += "&& \\text{" + ref_type[i] + " \\ref{" + ref_type[i] + ":" + ref[i] + "}} \\\\" + "\n";
+    }
+    
+    if(quantifier_latex != "") output = output + "& )" + "\n";
+    return output;
+}
+
 statement* proof_block::get_next_source()
 {
     statement* source = nullptr;
@@ -1083,39 +1119,8 @@ void Proposition::addProposition(ofstream& fout, Proposition* x, string descript
     {
         fout<< "Proof of Proposition \\ref{Proposition:" << x->proof[i]->label << "}" <<endl;
         fout<<"\\begin{align*}"<<endl;
-        
-        string quantifier_latex = "";
-        if(x->var_type == SET)
-        {
-            for(long j=0;j<x->forall_variable.size();j++)
-            {
-                quantifier_latex += "\\forall ";
-                quantifier_latex += x->forall_variable[j]->getLatex();
-                quantifier_latex += " ";
-            }
-            fout << "& " << quantifier_latex << "( \\\\" <<endl;
-        }
-        
-        for(long j=0;j<x->proof[i]->chain_of_deductive.size();j++)
-        {
-            statement* element = x->proof[i]->chain_of_deductive[j];
-            string ref_type = x->proof[i]->ref_type[j];
-            string ref = x->proof[i]->ref[j];
-            
-            if(quantifier_latex == "")
-            {
-                if(j==0) fout << "& " << element->binary_operator->operand1->getLatex() << " \\\\" <<endl;
-                fout<<element->binary_operator->operator_latex << " & " << element->binary_operator->operand2->getLatex() <<endl;
-            }
-            else
-            {
-                if(j==0) fout << "& \\quad && && " << element->binary_operator->operand1->getLatex() << " \\\\" <<endl;
-                fout << "& \\quad && " << element->binary_operator->operator_latex << " && " << element->binary_operator->operand2->getLatex() <<endl;
-            }
-            fout<< "&& \\text{" << ref_type << " \\ref{" << ref_type << ":" << ref << "}} \\\\" <<endl;
-        }
-        
-        if(quantifier_latex != "") fout << "& )" <<endl;
+        fout<<x->proof[i]->getLatex(x->var_type);
+        cout<<x->proof[i]->getLatex(x->var_type);
         fout<<"\\end{align*}"<<endl;
     }
     
