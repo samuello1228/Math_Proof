@@ -13,25 +13,21 @@ using namespace std;
 
 int main()
 {
-    vector<Definition*> All_Definition;
-    vector<Axiom*> All_Axiom;
-    vector<Proposition*> All_Proposition;
+    logic();
     
-    logic(All_Definition, All_Axiom, All_Proposition);
-    
-    for(long i=0;i<All_Definition.size();i++)
+    for(long i=0;i<Definition::All_Definition.size();i++)
     {
-        delete All_Definition[i];
+        delete Definition::All_Definition[i];
     }
     
-    for(long i=0;i<All_Axiom.size();i++)
+    for(long i=0;i<Axiom::All_Axiom.size();i++)
     {
-        delete All_Axiom[i];
+        delete Axiom::All_Axiom[i];
     }
     
-    for(long i=0;i<All_Proposition.size();i++)
+    for(long i=0;i<Proposition::All_Proposition.size();i++)
     {
-        delete All_Proposition[i];
+        delete Proposition::All_Proposition[i];
     }
     
     //while(true) {}

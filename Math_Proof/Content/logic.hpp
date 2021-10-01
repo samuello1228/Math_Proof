@@ -10,6 +10,6 @@
 #define logic_hpp
 
 #include "statement.hpp"
-void logic(vector<Definition*>& All_Definition, vector<Axiom*>& All_Axiom, vector<Proposition*>& All_Proposition);
+void logic();
 
 #endif /* logic_hpp */

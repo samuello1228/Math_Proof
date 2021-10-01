@@ -615,6 +615,7 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
     return step;
 }
 
+vector<Definition*> Definition::All_Definition;
 Definition::Definition(string newLabel, variable_type var_type, string x) : statement(newLabel, var_type, x)
 {
 }
@@ -623,7 +624,19 @@ Definition::~Definition()
 {
 }
 
-void Definition::addDefinition(vector<Definition*>& All_Definition, ofstream& fout, Definition* x)
+Definition* Definition::FindByRef(string Name)
+{
+    for(long i=0;i<All_Definition.size();i++)
+    {
+        if(All_Definition[i]->label == Name)
+        {
+            return All_Definition[i];
+        }
+    }
+    return nullptr;
+}
+
+void Definition::addDefinition(ofstream& fout, Definition* x)
 {
     //check whether the label is distinct
     for(long i=0;i<All_Definition.size();i++)
@@ -652,6 +665,7 @@ void Definition::addDefinition(vector<Definition*>& All_Definition, ofstream& fo
     fout<<endl;
 }
 
+vector<Axiom*> Axiom::All_Axiom;
 Axiom::Axiom(string newLabel, variable_type var_type, string x) : statement(newLabel, var_type, x)
 {
 }
@@ -660,7 +674,19 @@ Axiom::~Axiom()
 {
 }
 
-void Axiom::addAxiom(vector<Axiom*>& All_Axiom, ofstream& fout, Axiom* x)
+Axiom* Axiom::FindByRef(string Name)
+{
+    for(long i=0;i<All_Axiom.size();i++)
+    {
+        if(All_Axiom[i]->label == Name)
+        {
+            return All_Axiom[i];
+        }
+    }
+    return nullptr;
+}
+
+void Axiom::addAxiom(ofstream& fout, Axiom* x)
 {
     //check whether the label is distinct
     for(long i=0;i<All_Axiom.size();i++)
@@ -914,6 +940,7 @@ void proof_block::append_binary_operator(input x)
     ref.push_back(x.law->label);
 }
 
+vector<Proposition*> Proposition::All_Proposition;
 Proposition::Proposition(string newLabel, variable_type var_type, string x) : statement(newLabel, var_type, x)
 {
 }
@@ -926,7 +953,19 @@ Proposition::~Proposition()
     }
 }
 
-void Proposition::addProposition(vector<Proposition*>& All_Proposition, ofstream& fout, Proposition* x, string description)
+Proposition* Proposition::FindByRef(string Name)
+{
+    for(long i=0;i<All_Proposition.size();i++)
+    {
+        if(All_Proposition[i]->label == Name)
+        {
+            return All_Proposition[i];
+        }
+    }
+    return nullptr;
+}
+
+void Proposition::addProposition(ofstream& fout, Proposition* x, string description)
 {
     //check whether the label is distinct
     for(long i=0;i<All_Proposition.size();i++)

@@ -58,7 +58,9 @@ public:
     Definition(string, variable_type, string);
     ~Definition();
     
-    static void addDefinition(vector<Definition*>&, ofstream&, Definition*);
+    static vector<Definition*> All_Definition;
+    static Definition* FindByRef(string);
+    static void addDefinition(ofstream&, Definition*);
 };
 
 class Axiom : public statement
@@ -67,7 +69,9 @@ public:
     Axiom(string, variable_type, string);
     ~Axiom();
     
-    static void addAxiom(vector<Axiom*>&, ofstream&, Axiom*);
+    static vector<Axiom*> All_Axiom;
+    static Axiom* FindByRef(string);
+    static void addAxiom(ofstream&, Axiom*);
 };
 
 enum substitution_type {automatic, source_specified, full};
@@ -121,20 +125,9 @@ public:
     ~Proposition();
     void append(proof_block*, bool isFinished = true);
     
-    static void addProposition(vector<Proposition*>&, ofstream&, Proposition*, string description = "");
+    static vector<Proposition*> All_Proposition;
+    static Proposition* FindByRef(string);
+    static void addProposition(ofstream&, Proposition*, string description = "");
 };
-
-template <class T>
-T* FindByRef (vector<T*> v, string Name)
-{
-    for(long i=0;i<v.size();i++)
-    {
-        if(v[i]->label == Name)
-        {
-            return v[i];
-        }
-    }
-    return nullptr;
-}
 
 #endif /* statement_hpp */
