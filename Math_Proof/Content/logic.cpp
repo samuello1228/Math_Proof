@@ -194,7 +194,42 @@ void logic()
     x->append(block, true);
     Proposition::addProposition(fout, x);
     
-    //Reflexive property of \\iff
+    //implies_land
+    x = new Proposition("implies_land", LOGIC, "\\forall x \\forall y \\forall z ((x \\implies y) \\implies ((x \\land z) \\implies (y \\land z)))");
+    Proposition::addProposition(fout, x);
+    
+    //contrapositive
+    x = new Proposition("contrapositive", LOGIC, "\\forall x \\forall y ((x \\implies y) \\iff ((\\lnot y) \\implies (\\lnot x)))");
+    description = "Contrapositive";
+    Proposition::addProposition(fout, x, description);
+    
+    //Transitive property of implies
+    x = new Proposition("implies_transitive", LOGIC, "\\forall x \\forall y \\forall z (((x \\implies y) \\land (y \\implies z)) \\implies (x \\implies z))");
+    description = "Transitive property of $\\implies$.";
+    Proposition::addProposition(fout, x, description);
+    
+    //iff and implies
+    x = new Proposition("iff_implies", LOGIC, "\\forall x \\forall y ((x \\iff y) \\iff ((x \\implies y) \\land (y \\implies x)))");
+    Proposition::addProposition(fout, x);
+    
+    //iff
+    x = new Proposition("iff_lor", LOGIC, "\\forall x \\forall y \\forall z ((x \\iff y) \\implies ((x \\lor z) \\iff (y \\lor z)))");
+    Proposition::addProposition(fout, x);
+    
+    x = new Proposition("iff_land", LOGIC, "\\forall x \\forall y \\forall z ((x \\iff y) \\implies ((x \\land z) \\iff (y \\land z)))");
+    Proposition::addProposition(fout, x);
+    
+    x = new Proposition("iff_symmetric", LOGIC, "\\forall x \\forall y \\forall z ((x \\iff y) \\iff (y \\iff x))");
+    description = "Symmetric property of $\\iff$.";
+    Proposition::addProposition(fout, x, description);
+    
+    x = new Proposition("iff_lnot", LOGIC, "\\forall x \\forall y ((x \\iff y) \\iff ((\\lnot x) \\iff (\\lnot y)))");
+    Proposition::addProposition(fout, x);
+    
+    x = new Proposition("iff_transitive", LOGIC, "\\forall x \\forall y \\forall z (((x \\iff y) \\land (y \\iff z)) \\implies (x \\iff z))");
+    description = "Transitive property of $\\iff$.";
+    Proposition::addProposition(fout, x, description);
+    
     x = new Proposition("iff_reflexive", LOGIC, "\\forall x (x \\iff x)");
     description = "Reflexive property of $\\iff$.";
     block = new proof_block("iff_reflexive", x, backward);

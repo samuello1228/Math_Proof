@@ -481,7 +481,8 @@ Proof of Proposition \ref{Proposition:implies_lor}
 \begin{prop}
 \label{Proposition:implies_land}
 \begin{align*}
-(x \implies y) \implies ((x \land z) \implies (y \land z))
+& x \implies y \\
+\implies & (x \land z) \implies (y \land z)
 \end{align*}
 \end{prop}
 
@@ -489,7 +490,8 @@ Proof of Proposition \ref{Proposition:implies_lor}
 \label{Proposition:contrapositive}
 Contrapositive
 \begin{align*}
-(x \implies y) \iff ((\lnot y) \implies (\lnot x))
+& x \implies y \\
+\iff & (\lnot y) \implies (\lnot x)
 \end{align*}
 \end{prop}
 
@@ -497,27 +499,32 @@ Contrapositive
 \label{Proposition:implies_transitive}
 Transitive property of $\implies$.
 \begin{align*}
-((x \implies y) \land (y \implies z)) \implies (x \implies z)
+& (x \implies y) \land (y \implies z) \\
+\implies & x \implies z
 \end{align*}
 \end{prop}
 
 \begin{prop}
+\label{Proposition:iff_implies}
 \begin{align*}
-(x \iff y) \iff ((x \implies y) \land (y \implies x))
+& x \iff y \\
+\iff & (x \implies y) \land (y \implies x)
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:iff_lor}
 \begin{align*}
-(x \iff y) \implies ((x \lor z) \iff (y \lor z))
+& x \iff y \\
+\implies & (x \lor z) \iff (y \lor z)
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:iff_land}
 \begin{align*}
-(x \iff y) \implies ((x \land z) \iff (y \land z))
+& x \iff y \\
+\implies & (x \land z) \iff (y \land z)
 \end{align*}
 \end{prop}
 
@@ -525,14 +532,16 @@ Transitive property of $\implies$.
 \label{Proposition:iff_symmetric}
 Symmetric property of $\iff$.
 \begin{align*}
-(x \iff y) \iff (y \iff x)
+& x \iff y \\
+\iff & y \iff x
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:iff_lnot}
 \begin{align*}
-(x \iff y) \implies ((\lnot x) \iff (\lnot y))
+& x \iff y \\
+\iff & (\lnot x) \iff (\lnot y)
 \end{align*}
 \end{prop}
 
@@ -540,7 +549,8 @@ Symmetric property of $\iff$.
 \label{Proposition:iff_transitive}
 Transitive property of $\iff$.
 \begin{align*}
-((x \iff y) \land (y \iff z)) \implies (x \iff z)
+& (x \iff y) \land (y \iff z) \\
+\implies & x \iff z
 \end{align*}
 \end{prop}
 
