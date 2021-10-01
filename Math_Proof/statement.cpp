@@ -742,6 +742,21 @@ input::input(vector<int> new_relative_path, statement* new_law, direction new_di
     isPrint = new_isPrint;
 }
 
+input::input(vector<int> new_relative_path, string new_law_label, direction new_dir, bool new_isFinished, bool new_isPrint)
+{
+    relative_path = new_relative_path;
+    
+    law = nullptr;
+    law_label = new_law_label;
+    
+    dir = new_dir;
+    
+    sub_type = automatic;
+    
+    isFinished = new_isFinished;
+    isPrint = new_isPrint;
+}
+
 input::input(vector<int> new_relative_path, statement* new_law, direction new_dir, vector<vector<int> > sub, bool new_isFinished, bool new_isPrint)
 {
     relative_path = new_relative_path;
@@ -758,12 +773,44 @@ input::input(vector<int> new_relative_path, statement* new_law, direction new_di
     isPrint = new_isPrint;
 }
 
+input::input(vector<int> new_relative_path, string new_law_label, direction new_dir, vector<vector<int> > sub, bool new_isFinished, bool new_isPrint)
+{
+    relative_path = new_relative_path;
+    
+    law = nullptr;
+    law_label = new_law_label;
+    
+    dir = new_dir;
+    
+    sub_type = source_specified;
+    source_specified_substitution = sub;
+    
+    isFinished = new_isFinished;
+    isPrint = new_isPrint;
+}
+
 input::input(vector<int> new_relative_path, statement* new_law, direction new_dir, vector<substitution*> sub, bool new_isFinished, bool new_isPrint)
 {
     relative_path = new_relative_path;
     
     law = new_law;
     law_label = "";
+    
+    dir = new_dir;
+    
+    sub_type = full;
+    full_substitution = sub;
+    
+    isFinished = new_isFinished;
+    isPrint = new_isPrint;
+}
+
+input::input(vector<int> new_relative_path, string new_law_label, direction new_dir, vector<substitution*> sub, bool new_isFinished, bool new_isPrint)
+{
+    relative_path = new_relative_path;
+    
+    law = nullptr;
+    law_label = new_law_label;
     
     dir = new_dir;
     
@@ -853,14 +900,32 @@ void proof_block::append_binary_operator(input x)
         cout<<source->content->getLatex()<<endl;
     }
     
-    //fill the x->law
+    //fill the x.law
     if(x.law == nullptr)
     {
+        string statement_type;
+        string statement_label;
+        long index = x.law_label.find(":");
+        if(index != string::npos)
+        {
+            statement_type = x.law_label.substr(0, index);
+            statement_label = x.law_label.substr(index+1, x.law_label.size());
+        }
+        else
+        {
+            cout<<"Error: cannot process the law label: "<<x.law_label<<endl;
+            return;
+        }
         
-    }
-    else
-    {
-
+        if(statement_type == "Definition") x.law = Definition::FindByRef(statement_label);
+        else if(statement_type == "Axiom") x.law = Axiom::FindByRef(statement_label);
+        else if(statement_type == "Proposition") x.law = Proposition::FindByRef(statement_label);
+        
+        if(!x.law)
+        {
+            cout<<"Error: cannot find the law label: "<<x.law_label<<endl;
+            return;
+        }
     }
     
     if(method == direct && chain_of_deductive.size() == 0)

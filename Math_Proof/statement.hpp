@@ -97,8 +97,13 @@ public:
     bool isPrint;
     
     input(vector<int> relative_path, statement* law, direction dir, bool isFinished = false, bool isPrint = false);
+    input(vector<int> relative_path, string law_label, direction dir, bool isFinished = false, bool isPrint = false);
+    
     input(vector<int> relative_path, statement* law, direction dir, vector<vector<int> > sub, bool isFinished = false, bool isPrint = false);
+    input(vector<int> relative_path, string law_label, direction dir, vector<vector<int> > sub, bool isFinished = false, bool isPrint = false);
+    
     input(vector<int> relative_path, statement* law, direction dir, vector<substitution*> sub, bool isFinished = false, bool isPrint = false);
+    input(vector<int> relative_path, string law_label, direction dir, vector<substitution*> sub, bool isFinished = false, bool isPrint = false);
 };
 
 enum proof_method {direct, backward, deduction};
