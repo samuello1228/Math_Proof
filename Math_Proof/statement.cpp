@@ -289,12 +289,6 @@ string statement::getLatex()
     return output;
 }
 
-statement* statement::getCopy()
-{
-    statement* output = new statement(label, var_type, content->getCopy());
-    return output;
-}
-
 void statement::delete_the_last_universal_quantifier()
 {
     universal_quantifier* x = nullptr;
@@ -494,10 +488,11 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
         cout<<endl;
     }
     
-    //do replacement for law_copy
-    logic_value* law_copy = dynamic_cast<logic_value*>(content->getCopy());
-    law_copy->replace_variable(replacement);
-    if(isPrint) cout<<law_copy->getLatex()<<endl;
+    //do replacement for step
+    statement* step = getCopy();
+    step->var_type = source->var_type;
+    step->content->replace_variable(replacement);
+    if(isPrint) cout<<step->content->getLatex()<<endl;
     
     //do replacement for sub
     for(long i=0;i<sub.size();i++)
@@ -527,16 +522,18 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
     }
     
     //add universal quantifier at the beginning
+    step->forall_variable.clear();
     for(long i = external_dependence_source_part.size()-1; i>=0; i--)
     {
         variable* variable_copy = dynamic_cast<variable*>(external_dependence_source_part[i]->getCopy());
-        law_copy = new universal_quantifier(variable_copy, law_copy);
+        step->content = new universal_quantifier(variable_copy, step->content);
+        step->forall_variable.insert(step->forall_variable.begin(), variable_copy);
     }
-    if(isPrint) cout<<law_copy->getLatex()<<endl;
+    if(isPrint) cout<<step->content->getLatex()<<endl;
     
     //do substitution
-    expression* x = expression::substitute_forall_variable(law_copy, sub);
-    if(isPrint) cout<<x->getLatex()<<endl<<endl;
+    step->content = dynamic_cast<logic_value*>(expression::substitute_forall_variable(step->content, sub));
+    if(isPrint) cout<<step->content->getLatex()<<endl<<endl;
     
     //delete sub
     for(long i=0;i<sub.size();i++)
@@ -545,7 +542,6 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
     }
     
     //assemble to the original source
-    statement* step = new statement("", source->var_type, x);
     if(isPrint) cout<<"Do the assembly:"<<endl;
     while(true)
     {

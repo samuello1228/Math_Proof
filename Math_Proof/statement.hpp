@@ -43,7 +43,7 @@ public:
     virtual ~statement();
     
     string getLatex();
-    virtual statement* getCopy();
+    virtual statement* getCopy()=0;
     void delete_the_last_universal_quantifier();
     void collapse_to_operand(int);
     void collapse_to_true();
