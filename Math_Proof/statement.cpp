@@ -624,6 +624,12 @@ Definition::~Definition()
 {
 }
 
+statement* Definition::getCopy()
+{
+    Definition* output = new Definition(label, var_type, content->getLatex());
+    return output;
+}
+
 Definition* Definition::FindByRef(string Name)
 {
     for(long i=0;i<All_Definition.size();i++)
@@ -672,6 +678,12 @@ Axiom::Axiom(string newLabel, variable_type var_type, string x) : statement(newL
 
 Axiom::~Axiom()
 {
+}
+
+statement* Axiom::getCopy()
+{
+    Axiom* output = new Axiom(label, var_type, content->getLatex());
+    return output;
 }
 
 Axiom* Axiom::FindByRef(string Name)
@@ -875,7 +887,7 @@ void proof_block::append_binary_operator(input x)
         absolute_path.push_back(x.relative_path[i]);
     }
     
-    //fill the x->full_substitution
+    //fill the x.full_substitution
     if(method == direct && chain_of_deductive.size() == 0)
     {
         if(x.sub_type != full)
@@ -951,6 +963,12 @@ Proposition::~Proposition()
     {
         delete proof[i];
     }
+}
+
+statement* Proposition::getCopy()
+{
+    Proposition* output = new Proposition(label, var_type, content->getLatex());
+    return output;
 }
 
 Proposition* Proposition::FindByRef(string Name)

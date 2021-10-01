@@ -44,7 +44,7 @@ public:
     virtual ~statement();
     
     string getLatex();
-    statement* getCopy();
+    virtual statement* getCopy();
     void delete_the_last_universal_quantifier();
     void collapse_to_operand(int);
     void collapse_to_true();
@@ -58,6 +58,8 @@ public:
     Definition(string, variable_type, string);
     ~Definition();
     
+    statement* getCopy();
+    
     static vector<Definition*> All_Definition;
     static Definition* FindByRef(string);
     static void addDefinition(ofstream&, Definition*);
@@ -68,6 +70,8 @@ class Axiom : public statement
 public:
     Axiom(string, variable_type, string);
     ~Axiom();
+    
+    statement* getCopy();
     
     static vector<Axiom*> All_Axiom;
     static Axiom* FindByRef(string);
@@ -123,6 +127,7 @@ public:
     
     Proposition(string, variable_type, string);
     ~Proposition();
+    statement* getCopy();
     void append(proof_block*, bool isFinished = true);
     
     static vector<Proposition*> All_Proposition;
