@@ -55,6 +55,7 @@ class Definition : public statement
 {
 public:
     Definition(string, variable_type, string);
+    Definition(string, variable_type, expression*);
     ~Definition();
     
     statement* getCopy();
@@ -68,6 +69,7 @@ class Axiom : public statement
 {
 public:
     Axiom(string, variable_type, string);
+    Axiom(string, variable_type, expression*);
     ~Axiom();
     
     statement* getCopy();
@@ -130,6 +132,7 @@ public:
     vector<proof_block*> proof;
     
     Proposition(string, variable_type, string);
+    Proposition(string, variable_type, expression*);
     ~Proposition();
     
     statement* getCopy();

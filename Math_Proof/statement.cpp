@@ -604,7 +604,11 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
 }
 
 vector<Definition*> Definition::All_Definition;
-Definition::Definition(string newLabel, variable_type var_type, string x) : statement(newLabel, var_type, x)
+Definition::Definition(string newLabel, variable_type new_var_type, string x) : statement(newLabel, new_var_type, x)
+{
+}
+
+Definition::Definition(string newLabel, variable_type new_var_type, expression* x) : statement(newLabel, new_var_type, x)
 {
 }
 
@@ -614,7 +618,7 @@ Definition::~Definition()
 
 statement* Definition::getCopy()
 {
-    Definition* output = new Definition(label, var_type, content->getLatex());
+    Definition* output = new Definition(label, var_type, content->getCopy());
     return output;
 }
 
@@ -660,7 +664,11 @@ void Definition::addDefinition(ofstream& fout, Definition* x)
 }
 
 vector<Axiom*> Axiom::All_Axiom;
-Axiom::Axiom(string newLabel, variable_type var_type, string x) : statement(newLabel, var_type, x)
+Axiom::Axiom(string newLabel, variable_type new_var_type, string x) : statement(newLabel, new_var_type, x)
+{
+}
+
+Axiom::Axiom(string newLabel, variable_type new_var_type, expression* x) : statement(newLabel, new_var_type, x)
 {
 }
 
@@ -670,7 +678,7 @@ Axiom::~Axiom()
 
 statement* Axiom::getCopy()
 {
-    Axiom* output = new Axiom(label, var_type, content->getLatex());
+    Axiom* output = new Axiom(label, var_type, content->getCopy());
     return output;
 }
 
@@ -1009,7 +1017,11 @@ void proof_block::append_binary_operator(input x)
 }
 
 vector<Proposition*> Proposition::All_Proposition;
-Proposition::Proposition(string newLabel, variable_type var_type, string x) : statement(newLabel, var_type, x)
+Proposition::Proposition(string newLabel, variable_type new_var_type, string x) : statement(newLabel, new_var_type, x)
+{
+}
+
+Proposition::Proposition(string newLabel, variable_type new_var_type, expression* x) : statement(newLabel, new_var_type, x)
 {
 }
 
@@ -1023,7 +1035,7 @@ Proposition::~Proposition()
 
 statement* Proposition::getCopy()
 {
-    Proposition* output = new Proposition(label, var_type, content->getLatex());
+    Proposition* output = new Proposition(label, var_type, content->getCopy());
     return output;
 }
 
