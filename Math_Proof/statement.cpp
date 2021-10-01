@@ -936,8 +936,6 @@ void proof_block::append_binary_operator(input x)
     statement* step = x.law->apply_binary_operator(source, absolute_path, x.full_substitution, x.dir, x.isPrint);
     delete source;
     
-    if(method == direct && chain_of_deductive.size() == 0) delete x.law;
-    
     if(step->binary_operator->operator_latex == "\\implies" && target->binary_operator->operator_latex == "\\iff")
     {
         cout<<"Error: The deduction cannot work for \\iff."<<endl;
@@ -945,11 +943,16 @@ void proof_block::append_binary_operator(input x)
     }
     
     if(x.isFinished) check_finished(step);
-    chain_of_deductive.push_back(step);
+    
+    //fill ref_type and ref
     if(dynamic_cast<Definition*>(x.law)) ref_type.push_back("Definition");
     if(dynamic_cast<Axiom*>(x.law)) ref_type.push_back("Axiom");
     if(dynamic_cast<Proposition*>(x.law)) ref_type.push_back("Proposition");
     ref.push_back(x.law->label);
+    
+    if(method == direct && chain_of_deductive.size() == 0) delete x.law;
+    
+    chain_of_deductive.push_back(step);
 }
 
 vector<Proposition*> Proposition::All_Proposition;

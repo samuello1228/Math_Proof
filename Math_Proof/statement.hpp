@@ -127,6 +127,7 @@ public:
     
     Proposition(string, variable_type, string);
     ~Proposition();
+    
     statement* getCopy();
     void append(proof_block*, bool isFinished = true);
     
