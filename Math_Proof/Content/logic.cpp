@@ -156,6 +156,44 @@ void logic()
     x->append(block, true);
     Proposition::addProposition(fout, x);
     
+    //Proof technique
+    fout<<"\\section{Proof technique}"<<endl;
+    
+    //true statement
+    x = new Proposition("true_statement", LOGIC, "\\forall x ((x \\iff (\\text{True})) \\iff x)");
+    block = new proof_block("true_statement", x, deduction);
+    block->append_binary_operator(input({}, "Definition:iff", LeftToRight));
+    block->append_binary_operator(input({2,2}, "Definition:lnot_True", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:land_identity_1", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:land_annihilator_1", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_identity_1", LeftToRight, true));
+    x->append(block, true);
+    Proposition::addProposition(fout, x);
+    
+    //implies_lor
+    x = new Proposition("implies_lor", LOGIC, "\\forall x \\forall y \\forall z ((x \\implies y) \\implies ((x \\lor z) \\implies (y \\lor z)))");
+    block = new proof_block("implies_lor", x, backward);
+    block->append_binary_operator(input({1}, "Definition:implies", LeftToRight));
+    block->append_binary_operator(input({2}, "Definition:implies", LeftToRight));
+    block->append_binary_operator(input({}, "Definition:implies", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:De_Morgan_lor", LeftToRight));
+    block->append_binary_operator(input({1,1}, "Proposition:double_negation", LeftToRight));
+    block->append_binary_operator(input({2,1}, "Proposition:De_Morgan_lor", LeftToRight));
+    block->append_binary_operator(input({2,2}, "Proposition:lor_commutativity", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:lor_associativity", RightToLeft));
+    block->append_binary_operator(input({2}, "Proposition:lor_commutativity", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_associativity", RightToLeft));
+    block->append_binary_operator(input({1}, "Proposition:x_lor_y_complement", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:x_lor_y_complement", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_associativity", RightToLeft));
+    block->append_binary_operator(input({1}, "Proposition:lor_commutativity", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:lor_associativity", RightToLeft));
+    block->append_binary_operator(input({1,1}, "Proposition:lor_complement_2", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:lor_annihilator_2", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_annihilator_2", LeftToRight, true));
+    x->append(block, true);
+    Proposition::addProposition(fout, x);
+    
     //Reflexive property of \\iff
     x = new Proposition("iff_reflexive", LOGIC, "\\forall x (x \\iff x)");
     description = "Reflexive property of $\\iff$.";

@@ -409,15 +409,17 @@ Proof of Proposition \ref{Proposition:x_lor_y_complement}
 
 \section{Proof technique}
 \begin{prop}
-\begin{align*}
-(x \iff (\text{True})) \iff x
-\end{align*}
-Proof:
+\label{Proposition:true_statement}
 \begin{align*}
 & x \iff (\text{True}) \\
-\iff & (x \land (\text{True})) \lor ((\lnot x) \land (\lnot (\text{True})))
+\iff & x
+\end{align*}
+Proof of Proposition \ref{Proposition:true_statement}
+\begin{align*}
+& x \iff (\text{True}) \\
+\overset{\operatorname{def}}{\iff} & (x \land (\text{True})) \lor ((\lnot x) \land (\lnot (\text{True})))
 && \text{Definition \ref{Definition:iff}} \\
-\iff & (x \land (\text{True})) \lor ((\lnot x) \land (\text{False}))
+\overset{\operatorname{def}}{\iff} & (x \land (\text{True})) \lor ((\lnot x) \land (\text{False}))
 && \text{Definition \ref{Definition:lnot_True}} \\
 \iff & x \lor ((\lnot x) \land (\text{False}))
 && \text{Proposition \ref{Proposition:land_identity_1}} \\
@@ -431,18 +433,19 @@ Proof:
 \begin{prop}
 \label{Proposition:implies_lor}
 \begin{align*}
-(x \implies y) \implies ((x \lor z) \implies (y \lor z))
+& x \implies y \\
+\implies & (x \lor z) \implies (y \lor z)
 \end{align*}
-Proof:
+Proof of Proposition \ref{Proposition:implies_lor}
 \begin{align*}
 & (x \implies y) \implies ((x \lor z) \implies (y \lor z)) \\
-\iff & ((\lnot x) \lor y) \implies ((x \lor z) \implies (y \lor z))
+\overset{\operatorname{def}}{\iff} & ((\lnot x) \lor y) \implies ((x \lor z) \implies (y \lor z))
 && \text{Definition \ref{Definition:implies}} \\
-\iff & ((\lnot x) \lor y) \implies ((\lnot (x \lor z)) \lor (y \lor z))
+\overset{\operatorname{def}}{\iff} & ((\lnot x) \lor y) \implies ((\lnot (x \lor z)) \lor (y \lor z))
 && \text{Definition \ref{Definition:implies}} \\
-\iff & (\lnot ((\lnot x) \lor y)) \lor ((\lnot (x \lor z)) \lor (y \lor z))
+\overset{\operatorname{def}}{\iff} & (\lnot ((\lnot x) \lor y)) \lor ((\lnot (x \lor z)) \lor (y \lor z))
 && \text{Definition \ref{Definition:implies}} \\
-\iff & ((\lnot(\lnot x)) \land (\lnot y)) \lor ((\lnot (x \lor z)) \lor (y \lor z))
+\iff & ((\lnot (\lnot x)) \land (\lnot y)) \lor ((\lnot (x \lor z)) \lor (y \lor z))
 && \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
 \iff & (x \land (\lnot y)) \lor ((\lnot (x \lor z)) \lor (y \lor z))
 && \text{Proposition \ref{Proposition:double_negation}} \\
