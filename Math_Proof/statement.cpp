@@ -757,7 +757,7 @@ void proof_block::check_finished(statement* step)
     }
 }
 
-void proof_block::append_binary_operator(vector<int> path, statement* law, vector<vector<int> > substitute_path, direction dir, bool isFinished, bool isPrint)
+void proof_block::append_binary_operator(vector<int> relative_path, statement* law, vector<vector<int> > substitute_path, direction dir, bool isFinished, bool isPrint)
 {
     if(method == direct && chain_of_deductive.size() == 0)
     {
@@ -777,9 +777,19 @@ void proof_block::append_binary_operator(vector<int> path, statement* law, vecto
         cout<<endl;
     }
     
-    expression* source_part = source->content->getPart(path);
+    vector<int> absolute_path;
+    for(long i=0;i<source->forall_variable.size();i++)
+    {
+        absolute_path.push_back(1);
+    }
+    for(long i=0;i<relative_path.size();i++)
+    {
+        absolute_path.push_back(relative_path[i]);
+    }
+    
+    expression* source_part = source->content->getPart(absolute_path);
     vector<substitution*> sub = createSubstitution(law->forall_variable, source_part, substitute_path);
-    statement* step = law->apply_binary_operator(source, path, sub, dir, isPrint);
+    statement* step = law->apply_binary_operator(source, absolute_path, sub, dir, isPrint);
     delete source;
     
     if(step->binary_operator->operator_latex == "\\implies" && target->binary_operator->operator_latex == "\\iff")
@@ -796,7 +806,7 @@ void proof_block::append_binary_operator(vector<int> path, statement* law, vecto
     ref.push_back(law->label);
 }
 
-void proof_block::append_binary_operator_advanced(vector<int> path, statement* law, vector<substitution*> sub, direction dir, bool isFinished, bool isPrint)
+void proof_block::append_binary_operator_advanced(vector<int> relative_path, statement* law, vector<substitution*> sub, direction dir, bool isFinished, bool isPrint)
 {
     if(isPrint) cout<<"New step:"<<endl;
     statement* source = get_next_source();
@@ -816,7 +826,17 @@ void proof_block::append_binary_operator_advanced(vector<int> path, statement* l
         cout<<endl;
     }
     
-    statement* step = law->apply_binary_operator(source, path, sub, dir, isPrint);
+    vector<int> absolute_path;
+    for(long i=0;i<source->forall_variable.size();i++)
+    {
+        absolute_path.push_back(1);
+    }
+    for(long i=0;i<relative_path.size();i++)
+    {
+        absolute_path.push_back(relative_path[i]);
+    }
+    
+    statement* step = law->apply_binary_operator(source, absolute_path, sub, dir, isPrint);
     delete source;
     if(method == direct && chain_of_deductive.size() == 0) delete law;
     
