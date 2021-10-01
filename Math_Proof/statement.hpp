@@ -29,13 +29,17 @@ public:
     
     //for \\forall quantifier
     vector<variable*> forall_variable;
+    vector<vector<int> > path_of_variable;
     
     //for operator like \\iff, \\implies
     logic_binary_operator_logic_logic* binary_operator;
+    vector<vector<int> > path_of_variable_operand1;
+    vector<vector<int> > path_of_variable_operand2;
     
     statement(string, variable_type, string);
     statement(string, variable_type, expression*);
     void constructor_aux();
+    void find_all_path_of_variable(bool);
     virtual ~statement();
     
     string getLatex();

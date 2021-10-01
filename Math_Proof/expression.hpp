@@ -50,6 +50,7 @@ public:
     virtual expression* getPart(vector<int>)=0;
     virtual void getPartExternalDependence(vector<int>, vector<variable*>&)=0;
     virtual void getInternalDependence(vector<variable*>&)=0;
+    virtual void find_path_of_variable(variable*, vector<int>, vector<vector<int> >&)=0;
     
     static bool assemble(statement*, expression*, int, vector<variable*>);
 };
@@ -64,6 +65,7 @@ public:
     
     void replace_variable(vector<substitution*>);
     bool check_variable(variable_type, vector<variable*>);
+    void find_path_of_variable(variable*, vector<int>, vector<vector<int> >&);
 };
 
 class logic_value : virtual public expression
@@ -92,6 +94,7 @@ public:
     void replace_variable(vector<substitution*>) {return;}
     
     bool check_variable(variable_type, vector<variable*>);
+    void find_path_of_variable(variable*, vector<int>, vector<vector<int> >&) {return;}
 };
 
 class logic_variable : public elementary_logic, public variable
@@ -159,6 +162,7 @@ public:
     expression* getPart(vector<int>);
     void getPartExternalDependence(vector<int>, vector<variable*>&);
     void getInternalDependence(vector<variable*>&);
+    void find_path_of_variable(variable*, vector<int>, vector<vector<int> >&);
 };
 
 class universal_quantifier : public quantifier
@@ -197,6 +201,7 @@ public:
     expression* getPart(vector<int>);
     void getPartExternalDependence(vector<int>, vector<variable*>&);
     void getInternalDependence(vector<variable*>&);
+    void find_path_of_variable(variable*, vector<int>, vector<vector<int> >&);
 };
 
 class logic_binary_operator_logic_logic : public compound_logic
@@ -218,6 +223,7 @@ public:
     expression* getPart(vector<int>);
     void getPartExternalDependence(vector<int>, vector<variable*>&);
     void getInternalDependence(vector<variable*>&);
+    void find_path_of_variable(variable*, vector<int>, vector<vector<int> >&);
 };
 
 class set_unary_operator_set : public compound_set

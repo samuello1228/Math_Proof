@@ -150,6 +150,94 @@ void statement::constructor_aux()
     }
 }
 
+void statement::find_all_path_of_variable(bool isPrint)
+{
+    logic_value* x = content;
+    while(true)
+    {
+        if(universal_quantifier* y = dynamic_cast<universal_quantifier*>(x))
+        {
+            x = y->operand;
+        }
+        else break;
+    }
+    
+    vector<int> type;
+    //0 for path_of_variable
+    //1 for path_of_variable_operand1
+    //2 for path_of_variable_operand2
+    type.push_back(0);
+    if(binary_operator)
+    {
+        type.push_back(1);
+        type.push_back(2);
+    }
+    
+    for(long i=0;i<type.size();i++)
+    {
+        bool isFound = true;
+        for(long j=0;j<forall_variable.size();j++)
+        {
+            vector<vector<int> > all_path;
+            if(i==0) x->find_path_of_variable(forall_variable[j], {}, all_path);
+            else if(i==1) binary_operator->operand1->find_path_of_variable(forall_variable[j], {}, all_path);
+            else if(i==2) binary_operator->operand2->find_path_of_variable(forall_variable[j], {}, all_path);
+            
+            if(all_path.size() == 0)
+            {
+                if(i==0) cout<<"Error: Cannot find path of the variable: "<<forall_variable[j]->getLatex()<<endl;
+                else if(i==1)
+                {
+                    isFound = false;
+                    if(isPrint) cout<<"Info: Cannot do auto substitution for LeftToRight direction."<<endl;
+                    path_of_variable_operand1.clear();
+                    break;
+                }
+                else if(i==2)
+                {
+                    isFound = false;
+                    if(isPrint) cout<<"Info: Cannot do auto substitution for RightToLeft direction."<<endl;
+                    path_of_variable_operand2.clear();
+                    break;
+                }
+            }
+            
+            //find the minimum path
+            vector<int> min_path = all_path[0];
+            long min_depth = min_path.size();
+            for(long k=0;k<all_path.size();k++)
+            {
+                if(all_path[k].size() < min_depth)
+                {
+                    min_path = all_path[k];
+                    min_depth = min_path.size();
+                }
+            }
+            
+            if(i==0) path_of_variable.push_back(min_path);
+            else if(i==1) path_of_variable_operand1.push_back(min_path);
+            else if(i==2) path_of_variable_operand2.push_back(min_path);
+        }
+        
+        if(!isFound) continue;
+        
+        if(isPrint)
+        {
+            for(long j=0;j<forall_variable.size();j++)
+            {
+                cout<<"The path ";
+                if(i==1) cout<<"in operand1 ";
+                else if(i==2) cout<<"in operand2 ";
+                cout<<"of the variable "<<forall_variable[j]->getLatex()<<" is {";
+                if(i==0) for(long k=0;k<path_of_variable[j].size();k++) cout<<path_of_variable[j][k]<<" ";
+                else if(i==1) for(long k=0;k<path_of_variable_operand1[j].size();k++) cout<<path_of_variable_operand1[j][k]<<" ";
+                else if(i==2) for(long k=0;k<path_of_variable_operand2[j].size();k++) cout<<path_of_variable_operand2[j][k]<<" ";
+                cout<<"}"<<endl;
+            }
+        }
+    }
+}
+
 statement::~statement()
 {
     delete content;
@@ -544,6 +632,7 @@ void Definition::addDefinition(vector<Definition*>& All_Definition, ofstream& fo
     
     cout<< "Definition:" << x->label <<endl;
     cout<< x->content->getLatex() <<endl;
+    x->find_all_path_of_variable(false);
     cout<<endl;
     
     //write to file
@@ -580,6 +669,7 @@ void Axiom::addAxiom(vector<Axiom*>& All_Axiom, ofstream& fout, Axiom* x)
     
     cout<< "Axiom:" << x->label <<endl;
     cout<< x->content->getLatex() <<endl;
+    x->find_all_path_of_variable(false);
     cout<<endl;
     
     //write to file
@@ -765,6 +855,7 @@ void Proposition::addProposition(vector<Proposition*>& All_Proposition, ofstream
     
     cout<< "Proposition:" << x->label <<endl;
     cout<< x->content->getLatex() <<endl;
+    x->find_all_path_of_variable(false);
     cout<<endl;
     
     //write to file

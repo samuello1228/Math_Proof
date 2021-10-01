@@ -516,6 +516,11 @@ bool variable::check_variable(variable_type T, vector<variable*> var_list)
     return false;
 }
 
+void variable::find_path_of_variable(variable* var, vector<int> current_path, vector<vector<int> >& all_path)
+{
+    if(isEqual(var)) all_path.push_back(current_path);
+}
+
 logic_element::logic_element(bool x)
 {
     value = x;
@@ -703,6 +708,13 @@ void quantifier::getInternalDependence(vector<variable*>& dependence)
     operand->getInternalDependence(dependence);
 }
 
+void quantifier::find_path_of_variable(variable* var, vector<int> current_path, vector<vector<int> >& all_path)
+{
+    vector<int> current_path_1 = current_path;
+    current_path_1.push_back(1);
+    operand->find_path_of_variable(var, current_path_1, all_path);
+}
+
 universal_quantifier::universal_quantifier(variable* x, logic_value* y) : quantifier(x,y)
 {
 }
@@ -826,6 +838,13 @@ void logic_unary_operator_logic::getInternalDependence(vector<variable*>& depend
     operand->getInternalDependence(dependence);
 }
 
+void logic_unary_operator_logic::find_path_of_variable(variable* var, vector<int> current_path, vector<vector<int> >& all_path)
+{
+    vector<int> current_path_1 = current_path;
+    current_path_1.push_back(1);
+    operand->find_path_of_variable(var, current_path_1, all_path);
+}
+
 logic_binary_operator_logic_logic::logic_binary_operator_logic_logic(const string& newLatex, logic_value* x, logic_value* y)
 {
     operator_latex = newLatex;
@@ -931,4 +950,15 @@ void logic_binary_operator_logic_logic::getInternalDependence(vector<variable*>&
 {
     operand1->getInternalDependence(dependence);
     operand2->getInternalDependence(dependence);
+}
+
+void logic_binary_operator_logic_logic::find_path_of_variable(variable* var, vector<int> current_path, vector<vector<int> >& all_path)
+{
+    vector<int> current_path_1 = current_path;
+    current_path_1.push_back(1);
+    operand1->find_path_of_variable(var, current_path_1, all_path);
+    
+    vector<int> current_path_2 = current_path;
+    current_path_2.push_back(2);
+    operand2->find_path_of_variable(var, current_path_2, all_path);
 }
