@@ -367,9 +367,9 @@ expression* expression::substitute_forall_variable(expression* x, vector<substit
         {
             if(y->var->isEqual(sub[i]->x))
             {
-                expression* operand_copy = y->operand->getCopy();
-                expression* output = expression::substitute_forall_variable(operand_copy, sub);
-                delete x;
+                expression* output = expression::substitute_forall_variable(y->operand, sub);
+                y->operand = dynamic_cast<logic_value*>(expression::createFromLatex("\\text{True}", LOGIC));
+                delete y;
                 return output;
             }
         }
