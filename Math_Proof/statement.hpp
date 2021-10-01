@@ -72,12 +72,13 @@ public:
     string label;
     statement* target;
     proof_method method;
+    vector<string> ref_type;
+    vector<string> ref;
     vector<statement*> chain_of_deductive;
     
     proof_block(string, statement*, proof_method);
     ~proof_block();
     
-    void getLatex();
     statement* get_next_source();
     void check_finished(statement*);
     void append_binary_operator(vector<int>, statement*, vector<vector<int> >, direction, bool isFinished = false, bool isPrint = false);
@@ -93,7 +94,7 @@ public:
     ~Proposition();
     void append(proof_block*, bool isFinished = true);
     
-    static void addProposition(vector<Proposition*>&, ofstream&, Proposition*);
+    static void addProposition(vector<Proposition*>&, ofstream&, Proposition*, string description = "");
 };
 
 template <class T>

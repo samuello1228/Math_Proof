@@ -608,11 +608,6 @@ proof_block::~proof_block()
     }
 }
 
-void proof_block::getLatex()
-{
-    
-}
-
 statement* proof_block::get_next_source()
 {
     statement* source = nullptr;
@@ -698,6 +693,10 @@ void proof_block::append_binary_operator(vector<int> path, statement* law, vecto
     
     if(isFinished) check_finished(step);
     chain_of_deductive.push_back(step);
+    if(dynamic_cast<Definition*>(law)) ref_type.push_back("Definition");
+    if(dynamic_cast<Axiom*>(law)) ref_type.push_back("Axiom");
+    if(dynamic_cast<Proposition*>(law)) ref_type.push_back("Proposition");
+    ref.push_back(law->label);
 }
 
 void proof_block::append_binary_operator_advanced(vector<int> path, statement* law, vector<substitution*> sub, direction dir, bool isFinished, bool isPrint)
@@ -732,6 +731,10 @@ void proof_block::append_binary_operator_advanced(vector<int> path, statement* l
     
     if(isFinished) check_finished(step);
     chain_of_deductive.push_back(step);
+    if(dynamic_cast<Definition*>(law)) ref_type.push_back("Definition");
+    if(dynamic_cast<Axiom*>(law)) ref_type.push_back("Axiom");
+    if(dynamic_cast<Proposition*>(law)) ref_type.push_back("Proposition");
+    ref.push_back(law->label);
 }
 
 Proposition::Proposition(string newLabel, variable_type var_type, string x) : statement(newLabel, var_type, x)
@@ -746,7 +749,7 @@ Proposition::~Proposition()
     }
 }
 
-void Proposition::addProposition(vector<Proposition*>& All_Proposition, ofstream& fout, Proposition* x)
+void Proposition::addProposition(vector<Proposition*>& All_Proposition, ofstream& fout, Proposition* x, string description)
 {
     //check whether the label is distinct
     for(long i=0;i<All_Proposition.size();i++)
@@ -767,9 +770,52 @@ void Proposition::addProposition(vector<Proposition*>& All_Proposition, ofstream
     //write to file
     fout<<"\\begin{prop}"<<endl;
     fout<<"\\label{Proposition:"<<x->label<<"}"<<endl;
+    if(description != "") fout<< description <<endl;
     fout<<"\\begin{align*}"<<endl;
     fout<< x->getLatex();
     fout<<"\\end{align*}"<<endl;
+    
+    //Proof
+    for(long i=0;i<x->proof.size();i++)
+    {
+        fout<< "Proof of Proposition \\ref{Proposition:" << x->proof[i]->label << "}" <<endl;
+        fout<<"\\begin{align*}"<<endl;
+        
+        string quantifier_latex = "";
+        if(x->var_type == SET)
+        {
+            for(long j=0;j<x->forall_variable.size();j++)
+            {
+                quantifier_latex += "\\forall ";
+                quantifier_latex += x->forall_variable[j]->getLatex();
+                quantifier_latex += " ";
+            }
+            fout << "& " << quantifier_latex << "( \\\\" <<endl;
+        }
+        
+        for(long j=0;j<x->proof[i]->chain_of_deductive.size();j++)
+        {
+            statement* element = x->proof[i]->chain_of_deductive[j];
+            string ref_type = x->proof[i]->ref_type[j];
+            string ref = x->proof[i]->ref[j];
+            
+            if(quantifier_latex == "")
+            {
+                if(j==0) fout << "& " << element->binary_operator->operand1->getLatex() << " \\\\" <<endl;
+                fout<<element->binary_operator->operator_latex << " & " << element->binary_operator->operand2->getLatex() <<endl;
+            }
+            else
+            {
+                if(j==0) fout << "& \\quad && && " << element->binary_operator->operand1->getLatex() << " \\\\" <<endl;
+                fout << "& \\quad && " << element->binary_operator->operator_latex << " && " << element->binary_operator->operand2->getLatex() <<endl;
+            }
+            fout<< "&& \\text{" << ref_type << " \\ref{" << ref_type << ":" << ref << "}} \\\\" <<endl;
+        }
+        
+        if(quantifier_latex != "") fout << "& )" <<endl;
+        fout<<"\\end{align*}"<<endl;
+    }
+    
     fout<<"\\end{prop}"<<endl;
     fout<<endl;
 }

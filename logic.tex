@@ -395,7 +395,7 @@ Proposition is a statement that is either true or false, but not both.
 & (x \land (\lnot y)) \lor y \\
 \iff & x \lor y
 \end{align*}
-Proof:
+Proof of Proposition \ref{Proposition:x_lor_y_complement}
 \begin{align*}
 & (x \land (\lnot y)) \lor y \\
 \iff & (x \lor y) \land ((\lnot y) \lor y)
@@ -545,12 +545,13 @@ Transitive property of $\iff$.
 \label{Proposition:iff_reflexive}
 Reflexive property of $\iff$.
 \begin{align*}
-x \iff x
+& x \\
+\iff & x
 \end{align*}
-Proof:
+Proof of Proposition \ref{Proposition:iff_reflexive}
 \begin{align*}
 & x \iff x \\
-\iff & (x \land x) \lor ((\lnot x) \land (\lnot x))
+\overset{\operatorname{def}}{\iff} & (x \land x) \lor ((\lnot x) \land (\lnot x))
 && \text{Definition \ref{Definition:iff}} \\
 \iff & x \lor ((\lnot x) \land (\lnot x))
 && \text{Proposition \ref{Proposition:land_idempotence}} \\

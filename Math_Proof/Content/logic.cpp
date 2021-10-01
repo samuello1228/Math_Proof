@@ -54,6 +54,7 @@ void logic(vector<Definition*>& All_Definition, vector<Axiom*>& All_Axiom, vecto
     statement* law = nullptr;
     proof_block* block = nullptr;
     vector<substitution*> sub;
+    string description;
     fout<<"\\section{Boolean algebra}"<<endl;
     //Associativity
     fout<<"\\subsection{Associativity of $\\lor$}"<<endl;
@@ -74,13 +75,15 @@ void logic(vector<Definition*>& All_Definition, vector<Axiom*>& All_Axiom, vecto
     Proposition::addProposition(All_Proposition, fout, new Proposition("lor_identity_1", LOGIC, "\\forall x ((x \\lor (\\text{False})) \\iff x)"));
     
     x = new Proposition("lor_identity_2", LOGIC, "\\forall x (((\\text{False}) \\lor x) \\iff x)");
-    block = new proof_block("", x, direct);
+    /*
+    block = new proof_block("lor_identity_2", x, direct);
     law = FindByRef<Proposition>(All_Proposition, "lor_identity_1");
     sub.clear(); sub.push_back(new substitution("x", "x", LOGIC));
     block->append_binary_operator_advanced({1}, law, sub, LeftToRight, false, true);
     law = FindByRef<Proposition>(All_Proposition, "lor_commutativity");
     block->append_binary_operator({1,1}, law, {{1},{2}}, LeftToRight, true, true);
     x->append(block);
+    */
     Proposition::addProposition(All_Proposition, fout, x);
     
     fout<<"\\subsection{Identity of $\\land$}"<<endl;
@@ -148,7 +151,7 @@ void logic(vector<Definition*>& All_Definition, vector<Axiom*>& All_Axiom, vecto
     
     //x_lor_y_complement
     x = new Proposition("x_lor_y_complement", LOGIC, "\\forall x \\forall y (((x \\land (\\lnot y)) \\lor y) \\iff (x \\lor y))");
-    block = new proof_block("", x, deduction);
+    block = new proof_block("x_lor_y_complement", x, deduction);
     law = FindByRef<Proposition>(All_Proposition, "lor_land_distributivity_2");
     block->append_binary_operator({1,1}, law, {{1,1},{1,2},{2}}, LeftToRight, false, true);
     law = FindByRef<Proposition>(All_Proposition, "lor_complement_2");
@@ -160,7 +163,8 @@ void logic(vector<Definition*>& All_Definition, vector<Axiom*>& All_Axiom, vecto
     
     //Reflexive property of \\iff
     x = new Proposition("iff_reflexive", LOGIC, "\\forall x (x \\iff x)");
-    block = new proof_block("", x, backward);
+    description = "Reflexive property of $\\iff$.";
+    block = new proof_block("iff_reflexive", x, backward);
     law = FindByRef<Definition>(All_Definition, "iff");
     block->append_binary_operator({1}, law, {{1},{1}}, LeftToRight, false, true);
     law = FindByRef<Proposition>(All_Proposition, "land_idempotence");
@@ -169,7 +173,7 @@ void logic(vector<Definition*>& All_Definition, vector<Axiom*>& All_Axiom, vecto
     law = FindByRef<Proposition>(All_Proposition, "lor_complement_1");
     block->append_binary_operator({1}, law, {{1}}, LeftToRight, true, true);
     x->append(block, true);
-    Proposition::addProposition(All_Proposition, fout, x);
+    Proposition::addProposition(All_Proposition, fout, x, description);
     
     fout.close();
 }
