@@ -14,12 +14,19 @@ target_include_directories(expression PUBLIC Math_Proof)
 
 add_library(statement Math_Proof/statement.hpp Math_Proof/statement.cpp)
 target_include_directories(statement PUBLIC Math_Proof)
+
+target_link_libraries(expression statement)
 target_link_libraries(statement expression)
 
 add_library(logic Math_Proof/Content/logic.hpp Math_Proof/Content/logic.cpp)
 target_include_directories(logic PUBLIC Math_Proof/Content)
 target_link_libraries(logic statement)
 
+add_library(set Math_Proof/Content/set.hpp Math_Proof/Content/set.cpp)
+target_include_directories(set PUBLIC Math_Proof/Content)
+target_link_libraries(set statement)
+
 # Add the executable:
 add_executable(Math_Proof Math_Proof/main.cpp)
 target_link_libraries(Math_Proof logic)
+target_link_libraries(Math_Proof set)

@@ -10,10 +10,12 @@
 using namespace std;
 
 #include "logic.hpp"
+#include "set.hpp"
 
 int main()
 {
     logic();
+    set();
     
     for(long i=0;i<Definition::All_Definition.size();i++)
     {
