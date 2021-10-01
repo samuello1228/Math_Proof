@@ -79,9 +79,9 @@ void logic(vector<Definition*>& All_Definition, vector<Axiom*>& All_Axiom, vecto
     block = new proof_block("lor_identity_2", x, direct);
     law = FindByRef<Proposition>(All_Proposition, "lor_identity_1");
     sub.clear(); sub.push_back(new substitution("x", "x", LOGIC));
-    block->append_binary_operator_advanced({}, law, sub, LeftToRight, false, true);
+    block->append_binary_operator(input({}, law, LeftToRight, sub, false, true));
     law = FindByRef<Proposition>(All_Proposition, "lor_commutativity");
-    block->append_binary_operator({1}, law, LeftToRight, true, true);
+    block->append_binary_operator(input({1}, law, LeftToRight, true, true));
     x->append(block);
     */
     Proposition::addProposition(All_Proposition, fout, x);
@@ -153,11 +153,11 @@ void logic(vector<Definition*>& All_Definition, vector<Axiom*>& All_Axiom, vecto
     x = new Proposition("x_lor_y_complement", LOGIC, "\\forall x \\forall y (((x \\land (\\lnot y)) \\lor y) \\iff (x \\lor y))");
     block = new proof_block("x_lor_y_complement", x, deduction);
     law = FindByRef<Proposition>(All_Proposition, "lor_land_distributivity_2");
-    block->append_binary_operator({}, law, LeftToRight, false, true);
+    block->append_binary_operator(input({}, law, LeftToRight, false, true));
     law = FindByRef<Proposition>(All_Proposition, "lor_complement_2");
-    block->append_binary_operator({2}, law, LeftToRight, false, true);
+    block->append_binary_operator(input({2}, law, LeftToRight, false, true));
     law = FindByRef<Proposition>(All_Proposition, "land_identity_1");
-    block->append_binary_operator({}, law, LeftToRight, true, true);
+    block->append_binary_operator(input({}, law, LeftToRight, true, true));
     x->append(block, true);
     Proposition::addProposition(All_Proposition, fout, x);
     
@@ -166,12 +166,12 @@ void logic(vector<Definition*>& All_Definition, vector<Axiom*>& All_Axiom, vecto
     description = "Reflexive property of $\\iff$.";
     block = new proof_block("iff_reflexive", x, backward);
     law = FindByRef<Definition>(All_Definition, "iff");
-    block->append_binary_operator({}, law, LeftToRight, false, true);
+    block->append_binary_operator(input({}, law, LeftToRight, false, true));
     law = FindByRef<Proposition>(All_Proposition, "land_idempotence");
-    block->append_binary_operator({1}, law, LeftToRight, false, true);
-    block->append_binary_operator({2}, law, LeftToRight, false, true);
+    block->append_binary_operator(input({1}, law, LeftToRight, false, true));
+    block->append_binary_operator(input({2}, law, LeftToRight, false, true));
     law = FindByRef<Proposition>(All_Proposition, "lor_complement_1");
-    block->append_binary_operator({}, law, LeftToRight, true, true);
+    block->append_binary_operator(input({}, law, LeftToRight, true, true));
     x->append(block, true);
     Proposition::addProposition(All_Proposition, fout, x, description);
     

@@ -70,6 +70,29 @@ public:
     static void addAxiom(vector<Axiom*>&, ofstream&, Axiom*);
 };
 
+enum substitution_type {automatic, source_specified, full};
+class input
+{
+public:
+    vector<int> relative_path;
+    
+    statement* law;
+    string law_label;
+    
+    direction dir;
+    
+    substitution_type sub_type;
+    vector<vector<int> > source_specified_substitution;
+    vector<substitution*> full_substitution;
+    
+    bool isFinished;
+    bool isPrint;
+    
+    input(vector<int> relative_path, statement* law, direction dir, bool isFinished = false, bool isPrint = false);
+    input(vector<int> relative_path, statement* law, direction dir, vector<vector<int> > sub, bool isFinished = false, bool isPrint = false);
+    input(vector<int> relative_path, statement* law, direction dir, vector<substitution*> sub, bool isFinished = false, bool isPrint = false);
+};
+
 enum proof_method {direct, backward, deduction};
 class proof_block
 {
@@ -86,9 +109,7 @@ public:
     
     statement* get_next_source();
     void check_finished(statement*);
-    void append_binary_operator(vector<int>, statement*, direction, bool isFinished = false, bool isPrint = false);
-    void append_binary_operator_intermediate(vector<int>, statement*, vector<vector<int> >, direction, bool isFinished = false, bool isPrint = false);
-    void append_binary_operator_advanced(vector<int>, statement*, vector<substitution*>, direction, bool isFinished = false, bool isPrint = false);
+    void append_binary_operator(input x);
 };
 
 class Proposition : public statement
