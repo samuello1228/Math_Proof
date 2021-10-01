@@ -29,7 +29,6 @@ public:
     
     //for \\forall quantifier
     vector<variable*> forall_variable;
-    vector<vector<int> > path_of_variable;
     
     //for operator like \\iff, \\implies
     logic_binary_operator_logic_logic* binary_operator;

@@ -167,33 +167,27 @@ logic_value* statement::get_expression_without_forall_variable()
 
 void statement::find_all_path_of_variable(bool isPrint)
 {
-    logic_value*x = get_expression_without_forall_variable();
-    
     vector<int> type;
-    //0 for path_of_variable
     //1 for path_of_variable_operand1
     //2 for path_of_variable_operand2
-    type.push_back(0);
     if(binary_operator)
     {
         type.push_back(1);
         type.push_back(2);
     }
     
-    for(long i=0;i<type.size();i++)
+    for(long i=1;i<type.size();i++)
     {
         bool isFound = true;
         for(long j=0;j<forall_variable.size();j++)
         {
             vector<vector<int> > all_path;
-            if(i==0) x->find_path_of_variable(forall_variable[j], {}, all_path);
-            else if(i==1) binary_operator->operand1->find_path_of_variable(forall_variable[j], {}, all_path);
+            if(i==1) binary_operator->operand1->find_path_of_variable(forall_variable[j], {}, all_path);
             else if(i==2) binary_operator->operand2->find_path_of_variable(forall_variable[j], {}, all_path);
             
             if(all_path.size() == 0)
             {
-                if(i==0) cout<<"Error: Cannot find path of the variable: "<<forall_variable[j]->getLatex()<<endl;
-                else if(i==1)
+                if(i==1)
                 {
                     isFound = false;
                     if(isPrint) cout<<"Info: Cannot do auto substitution for LeftToRight direction."<<endl;
@@ -221,8 +215,7 @@ void statement::find_all_path_of_variable(bool isPrint)
                 }
             }
             
-            if(i==0) path_of_variable.push_back(min_path);
-            else if(i==1) path_of_variable_operand1.push_back(min_path);
+            if(i==1) path_of_variable_operand1.push_back(min_path);
             else if(i==2) path_of_variable_operand2.push_back(min_path);
         }
         
@@ -235,9 +228,8 @@ void statement::find_all_path_of_variable(bool isPrint)
                 cout<<"The path ";
                 if(i==1) cout<<"in operand1 ";
                 else if(i==2) cout<<"in operand2 ";
-                cout<<"of the variable "<<forall_variable[j]->getLatex()<<" is {";
-                if(i==0) for(long k=0;k<path_of_variable[j].size();k++) cout<<path_of_variable[j][k]<<" ";
-                else if(i==1) for(long k=0;k<path_of_variable_operand1[j].size();k++) cout<<path_of_variable_operand1[j][k]<<" ";
+                cout<<"of the variable "<<forall_variable[j]->getLatex()<<" is {";;
+                if(i==1) for(long k=0;k<path_of_variable_operand1[j].size();k++) cout<<path_of_variable_operand1[j][k]<<" ";
                 else if(i==2) for(long k=0;k<path_of_variable_operand2[j].size();k++) cout<<path_of_variable_operand2[j][k]<<" ";
                 cout<<"}"<<endl;
             }
