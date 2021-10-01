@@ -86,7 +86,8 @@ public:
     
     statement* get_next_source();
     void check_finished(statement*);
-    void append_binary_operator(vector<int>, statement*, vector<vector<int> >, direction, bool isFinished = false, bool isPrint = false);
+    void append_binary_operator(vector<int>, statement*, direction, bool isFinished = false, bool isPrint = false);
+    void append_binary_operator_intermediate(vector<int>, statement*, vector<vector<int> >, direction, bool isFinished = false, bool isPrint = false);
     void append_binary_operator_advanced(vector<int>, statement*, vector<substitution*>, direction, bool isFinished = false, bool isPrint = false);
 };
 

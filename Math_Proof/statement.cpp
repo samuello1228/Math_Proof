@@ -757,7 +757,79 @@ void proof_block::check_finished(statement* step)
     }
 }
 
-void proof_block::append_binary_operator(vector<int> relative_path, statement* law, vector<vector<int> > substitute_path, direction dir, bool isFinished, bool isPrint)
+void proof_block::append_binary_operator(vector<int> relative_path, statement* law, direction dir, bool isFinished, bool isPrint)
+{
+    if(method == direct && chain_of_deductive.size() == 0)
+    {
+        cout<<"Error: cannot do this. please use the advanced version."<<endl;
+        return;
+    }
+    
+    vector<vector<int> > substitute_path = {};
+    if(law->forall_variable.size() != 0)
+    {
+        if(dir == LeftToRight)
+        {
+            if(law->path_of_variable_operand1.size() == 0)
+            {
+                cout<<"Error: cannot do this. please use the intermediate version."<<endl;
+                return;
+            }
+            substitute_path = law->path_of_variable_operand1;
+        }
+        else if(dir == RightToLeft)
+        {
+            if(law->path_of_variable_operand2.size() == 0)
+            {
+                cout<<"Error: cannot do this. please use the intermediate version."<<endl;
+                return;
+            }
+            substitute_path = law->path_of_variable_operand2;
+        }
+    }
+    
+    if(isPrint) cout<<"New step:"<<endl;
+    statement* source = get_next_source();
+    
+    if(isPrint)
+    {
+        cout<<"source:"<<endl;
+        cout<<source->content->getLatex()<<endl;
+        cout<<"law:"<<endl;
+        cout<<law->content->getLatex()<<endl;
+        cout<<endl;
+    }
+    
+    vector<int> absolute_path;
+    for(long i=0;i<source->forall_variable.size();i++)
+    {
+        absolute_path.push_back(1);
+    }
+    for(long i=0;i<relative_path.size();i++)
+    {
+        absolute_path.push_back(relative_path[i]);
+    }
+    
+    expression* source_part = source->content->getPart(absolute_path);
+    vector<substitution*> sub = createSubstitution(law->forall_variable, source_part, substitute_path);
+    statement* step = law->apply_binary_operator(source, absolute_path, sub, dir, isPrint);
+    delete source;
+    
+    if(step->binary_operator->operator_latex == "\\implies" && target->binary_operator->operator_latex == "\\iff")
+    {
+        cout<<"Error: The deduction cannot work for \\iff."<<endl;
+        return;
+    }
+    
+    if(isFinished) check_finished(step);
+    chain_of_deductive.push_back(step);
+    if(dynamic_cast<Definition*>(law)) ref_type.push_back("Definition");
+    if(dynamic_cast<Axiom*>(law)) ref_type.push_back("Axiom");
+    if(dynamic_cast<Proposition*>(law)) ref_type.push_back("Proposition");
+    ref.push_back(law->label);
+}
+
+void proof_block::append_binary_operator_intermediate(vector<int> relative_path, statement* law, vector<vector<int> > substitute_path, direction dir, bool isFinished, bool isPrint)
 {
     if(method == direct && chain_of_deductive.size() == 0)
     {
