@@ -628,6 +628,10 @@ statement* proof_block::get_next_source()
             source = target->getCopy();
             source->collapse_to_true();
         }
+        else if(method == backward)
+        {
+            source = target->getCopy();
+        }
     }
     else
     {
@@ -641,16 +645,19 @@ statement* proof_block::get_next_source()
 
 void proof_block::check_finished(statement* step)
 {
-    if(method == deduction || method == direct)
+    if(method == deduction || method == direct || method == backward)
     {
         statement* copy_target_2 = target->getCopy();
         if(method == deduction) copy_target_2->collapse_to_operand(2);
+        if(method == backward) copy_target_2->collapse_to_true();
         
         statement* copy_step_2 = step->getCopy();
         copy_step_2->collapse_to_operand(2);
         if(!copy_step_2->content->isEqual(copy_target_2->content))
         {
-            cout<<"Error: The operand2 does not matched the target."<<endl;
+            if(method == deduction) cout<<"Error: The operand2 does not matched the operand2 of target."<<endl;
+            if(method == direct) cout<<"Error: The operand2 does not matched the target."<<endl;
+            if(method == backward) cout<<"Error: The operand2 is not True."<<endl;
         }
         
         delete copy_target_2;

@@ -51,7 +51,7 @@ void logic(vector<Definition*>& All_Definition, vector<Axiom*>& All_Axiom, vecto
     
     //Boolean algebra
     Proposition* x = nullptr;
-    Proposition* law = nullptr;
+    statement* law = nullptr;
     proof_block* block = nullptr;
     vector<substitution*> sub;
     fout<<"\\section{Boolean algebra}"<<endl;
@@ -80,6 +80,7 @@ void logic(vector<Definition*>& All_Definition, vector<Axiom*>& All_Axiom, vecto
     block->append_binary_operator_advanced({1}, law, sub, LeftToRight, false, true);
     law = FindByRef<Proposition>(All_Proposition, "lor_commutativity");
     block->append_binary_operator({1,1}, law, {{1},{2}}, LeftToRight, true, true);
+    x->append(block);
     Proposition::addProposition(All_Proposition, fout, x);
     
     fout<<"\\subsection{Identity of $\\land$}"<<endl;
@@ -154,6 +155,19 @@ void logic(vector<Definition*>& All_Definition, vector<Axiom*>& All_Axiom, vecto
     block->append_binary_operator({1,1,2}, law, {{2}}, LeftToRight, false, true);
     law = FindByRef<Proposition>(All_Proposition, "land_identity_1");
     block->append_binary_operator({1,1}, law, {{1}}, LeftToRight, true, true);
+    x->append(block, true);
+    Proposition::addProposition(All_Proposition, fout, x);
+    
+    //Reflexive property of \\iff
+    x = new Proposition("iff_reflexive", LOGIC, "\\forall x (x \\iff x)");
+    block = new proof_block("", x, backward);
+    law = FindByRef<Definition>(All_Definition, "iff");
+    block->append_binary_operator({1}, law, {{1},{1}}, LeftToRight, false, true);
+    law = FindByRef<Proposition>(All_Proposition, "land_idempotence");
+    block->append_binary_operator({1,1}, law, {{1}}, LeftToRight, false, true);
+    block->append_binary_operator({1,2}, law, {{1}}, LeftToRight, false, true);
+    law = FindByRef<Proposition>(All_Proposition, "lor_complement_1");
+    block->append_binary_operator({1}, law, {{1}}, LeftToRight, true, true);
     x->append(block, true);
     Proposition::addProposition(All_Proposition, fout, x);
     

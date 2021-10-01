@@ -16,7 +16,7 @@ class statement;
 
 #include "expression.hpp"
 
-enum direction {direct_substitution, LeftToRight, RightToLeft};
+enum direction {LeftToRight, RightToLeft};
 vector<substitution*> createReplacement(vector<variable*>, vector<variable*>);
 vector<substitution*> createSubstitution(vector<variable*> ,expression*, vector<vector<int> >);
 
@@ -65,7 +65,7 @@ public:
     static void addAxiom(vector<Axiom*>&, ofstream&, Axiom*);
 };
 
-enum proof_method {direct, reverse, deduction};
+enum proof_method {direct, backward, deduction};
 class proof_block
 {
 public:
