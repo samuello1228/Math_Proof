@@ -627,7 +627,7 @@ Definition* Definition::FindByRef(string Name)
     return nullptr;
 }
 
-void Definition::addDefinition(ofstream& fout, Definition* x)
+void Definition::addDefinition(ofstream& fout, Definition* x, string description)
 {
     //check whether the label is distinct
     for(long i=0;i<All_Definition.size();i++)
@@ -649,6 +649,7 @@ void Definition::addDefinition(ofstream& fout, Definition* x)
     //write to file
     fout<<"\\begin{defn}"<<endl;
     fout<<"\\label{Definition:"<<x->label<<"}"<<endl;
+    if(description != "") fout<< description <<endl;
     fout<<"\\begin{align*}"<<endl;
     fout<< x->getLatex();
     fout<<"\\end{align*}"<<endl;

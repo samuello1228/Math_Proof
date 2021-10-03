@@ -5,68 +5,26 @@ Set theory have one primitive notion, called set, and one binary relation, calle
 \label{Definition:notin}
 Definition of $\notin$.
 \begin{align*}
-& A \notin B \\
-\overset{\operatorname{def}}{\iff} & \lnot (A \in B) \\
+& \forall x \forall y ( \\
+& \quad && && x \notin y \\
+& \quad && \overset{\operatorname{def}}{\iff} && \lnot (x \in y) \\
+& )
 \end{align*}
 \end{defn}
 
 \begin{defn}
-\label{Definition:universal_quantifier_in_set}
 \begin{align*}
 & \forall x \in S, P(x) \\
-\overset{\operatorname{def}}{\iff} & \forall x (x \in S \implies P(x))
+\overset{\operatorname{def}}{\iff} & \forall x ((x \in S) \implies (P(x)))
 \end{align*}
 \end{defn}
 
 \begin{defn}
-\label{Definition:existential_quantifier_in_set}
 \begin{align*}
 & \exists x \in S, P(x) \\
-\overset{\operatorname{def}}{\iff} & \exists x (x \in S \land P(x))
+\overset{\operatorname{def}}{\iff} & \exists x ((x \in S) \land (P(x)))
 \end{align*}
 \end{defn}
-
-\begin{prop}
-\begin{align*}
-\lnot (\forall x \in S, P(x)) \iff \exists x \in S, \lnot (P(x))
-\end{align*}
-Proof: \\ \\
-\begin{align*}
-& \lnot (\forall x \in S, P(x)) \\
-\iff & \lnot ( \forall x (x \in S \implies P(x)) )
-&& \text{Definition \ref{Definition:universal_quantifier_in_set}} \\
-\iff & \lnot ( \forall x (\lnot(x \in S) \lor P(x)) )
-&& \text{Definition \ref{Definition:implies}} \\
-\iff & \exists x, \lnot (\lnot(x \in S) \lor P(x))
-&& \text{Axiom \ref{Axiom:De_Morgan_1}} \\
-\iff & \exists x, \lnot (\lnot(x \in S)) \land \lnot (P(x))
-&& \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
-\iff & \exists x, x \in S \land \lnot (P(x))
-&& \text{Proposition \ref{Proposition:double_negation}} \\
-\iff & \exists x \in S, \lnot (P(x))
-&& \text{Definition \ref{Definition:existential_quantifier_in_set}} \\
-\end{align*}
-\end{prop}
-
-\begin{prop}
-\begin{align*}
-\lnot (\exists x \in S, P(x)) \iff \forall x \in S, \lnot (P(x))
-\end{align*}
-Proof: \\ \\
-\begin{align*}
-& \lnot (\exists x \in S, P(x)) \\
-\iff & \lnot ( \exists x (x \in S \land P(x)) )
-&& \text{Definition \ref{Definition:existential_quantifier_in_set}} \\
-\iff & \forall x, \lnot (x \in S \land P(x))
-&& \text{Axiom \ref{Axiom:De_Morgan_2}} \\
-\iff & \forall x, (\lnot(x \in S)) \lor (\lnot (P(x))
-&& \text{Proposition \ref{Proposition:De_Morgan_land}} \\
-\iff & \forall x, x \in S \implies \lnot (P(x))
-&& \text{Definition \ref{Definition:implies}} \\
-\iff & \forall x \in S, \lnot (P(x))
-&& \text{Definition \ref{Definition:universal_quantifier_in_set}} \\
-\end{align*}
-\end{prop}
 
 \section{Equality of sets}
 \begin{defn}
