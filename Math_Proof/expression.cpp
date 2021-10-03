@@ -262,7 +262,6 @@ expression* expression::createFromLatex(string latex, variable_type var_type)
            elements[1] == "\\implies"
            )
         {
-            //For logical OR/AND
             logic_value* operand1 = dynamic_cast<logic_value*>(expression::createFromLatex(elements[0], var_type));
             logic_value* operand2 = dynamic_cast<logic_value*>(expression::createFromLatex(elements[2], var_type));
             if(!operand1 || !operand2)
@@ -768,6 +767,108 @@ logic_unary_operator_logic::~logic_unary_operator_logic()
     delete operand;
 }
 
+template <class T>
+bool isEqual_1_operand (T* x, expression* y)
+{
+    T* z = dynamic_cast<T*>(y);
+    if(!z) return false;
+    if(z->operator_latex != x->operator_latex) return false;
+    if(!z->operand->isEqual(x->operand)) return false;
+    return true;
+}
+
+template <class T>
+bool isEqual_2_operand (T* x, expression* y)
+{
+    T* z = dynamic_cast<T*>(y);
+    if(!z) return false;
+    if(z->operator_latex != x->operator_latex) return false;
+    if(!z->operand1->isEqual(x->operand1)) return false;
+    if(!z->operand2->isEqual(x->operand2)) return false;
+    return true;
+}
+
+template <class T, class value_type>
+expression* getCopy_1_operand(T* x)
+{
+    value_type* operand_copy = dynamic_cast<value_type*>(x->operand->getCopy());
+    T* y = new T(x->operator_latex, operand_copy);
+    return y;
+}
+
+template <class T, class value_type>
+expression* getCopy_2_operand(T* x)
+{
+    value_type* operand1_copy = dynamic_cast<value_type*>(x->operand1->getCopy());
+    value_type* operand2_copy = dynamic_cast<value_type*>(x->operand2->getCopy());
+    T* y = new T(x->operator_latex, operand1_copy, operand2_copy);
+    return y;
+}
+
+template <class T>
+expression* getPart_1_operand(T* x, vector<int>& path)
+{
+    if(path.size() == 0) return x;
+    
+    path.erase(path.begin());
+    return x->operand->getPart(path);
+}
+
+template <class T>
+expression* getPart_2_operand(T* x, vector<int>& path)
+{
+    if(path.size() == 0) return x;
+    
+    int p = path[0];
+    path.erase(path.begin());
+    
+    if(p == 1) return x->operand1->getPart(path);
+    else if(p == 2) return x->operand2->getPart(path);
+    else return nullptr;
+}
+
+template <class T>
+void getPartExternalDependence_1_operand(T* x, vector<int>& path, vector<variable*>& dependence)
+{
+    if(path.size() == 0) return;
+    path.erase(path.begin());
+    
+    x->operand->getPartExternalDependence(path, dependence);
+}
+
+template <class T>
+void getPartExternalDependence_2_operand(T* x, vector<int>& path, vector<variable*>& dependence)
+{
+    if(path.size() == 0) return;
+    
+    int p = path[0];
+    path.erase(path.begin());
+    
+    if(p == 1) x->operand1->getPartExternalDependence(path, dependence);
+    else if(p == 2) x->operand2->getPartExternalDependence(path, dependence);
+    else return;
+}
+
+template <class T>
+void find_path_of_variable_1_operand(T* x, variable* var, vector<int>& current_path, vector<vector<int> >& all_path)
+{
+    vector<int> current_path_1 = current_path;
+    current_path_1.push_back(1);
+    x->operand->find_path_of_variable(var, current_path_1, all_path);
+}
+
+template <class T>
+void find_path_of_variable_2_operand(T* x, variable* var, vector<int>& current_path, vector<vector<int> >& all_path)
+{
+    vector<int> current_path_1 = current_path;
+    current_path_1.push_back(1);
+    x->operand1->find_path_of_variable(var, current_path_1, all_path);
+    
+    vector<int> current_path_2 = current_path;
+    current_path_2.push_back(2);
+    x->operand2->find_path_of_variable(var, current_path_2, all_path);
+}
+
 string logic_unary_operator_logic::getLatex()
 {
     string operand_latex = operand->getLatex();
@@ -793,18 +894,12 @@ string logic_unary_operator_logic::getLatex()
 
 bool logic_unary_operator_logic::isEqual(expression* x)
 {
-    logic_unary_operator_logic* y = dynamic_cast<logic_unary_operator_logic*>(x);
-    if(!y) return false;
-    if(y->operator_latex != operator_latex) return false;
-    if(!y->operand->isEqual(operand)) return false;
-    return true;
+    return isEqual_1_operand<logic_unary_operator_logic>(this, x);
 }
 
 expression* logic_unary_operator_logic::getCopy()
 {
-    logic_value* operand_copy = dynamic_cast<logic_value*>(operand->getCopy());
-    logic_unary_operator_logic* x = new logic_unary_operator_logic(operator_latex, operand_copy);
-    return x;
+    return getCopy_1_operand<logic_unary_operator_logic, logic_value>(this);
 }
 
 void logic_unary_operator_logic::replace_variable(vector<substitution*> replacement)
@@ -819,18 +914,12 @@ bool logic_unary_operator_logic::check_variable(variable_type T, vector<variable
 
 expression* logic_unary_operator_logic::getPart(vector<int> path)
 {
-    if(path.size() == 0) return this;
-    
-    path.erase(path.begin());
-    return operand->getPart(path);
+    return getPart_1_operand<logic_unary_operator_logic>(this, path);
 }
 
 void logic_unary_operator_logic::getPartExternalDependence(vector<int> path, vector<variable*>& dependence)
 {
-    if(path.size() == 0) return;
-    path.erase(path.begin());
-    
-    operand->getPartExternalDependence(path, dependence);
+    getPartExternalDependence_1_operand<logic_unary_operator_logic>(this, path, dependence);
 }
 
 void logic_unary_operator_logic::getInternalDependence(vector<variable*>& dependence)
@@ -840,9 +929,7 @@ void logic_unary_operator_logic::getInternalDependence(vector<variable*>& depend
 
 void logic_unary_operator_logic::find_path_of_variable(variable* var, vector<int> current_path, vector<vector<int> >& all_path)
 {
-    vector<int> current_path_1 = current_path;
-    current_path_1.push_back(1);
-    operand->find_path_of_variable(var, current_path_1, all_path);
+    find_path_of_variable_1_operand<logic_unary_operator_logic>(this, var, current_path, all_path);
 }
 
 logic_binary_operator_logic_logic::logic_binary_operator_logic_logic(const string& newLatex, logic_value* x, logic_value* y)
@@ -881,7 +968,6 @@ string logic_binary_operator_logic_logic::getLatex()
        operator_latex == "\\implies"
        )
     {
-        //For logical OR/AND
         string output = operand1_latex + " " + operator_latex + " " + operand2_latex;
         return output;
     }
@@ -895,20 +981,12 @@ string logic_binary_operator_logic_logic::getLatex()
 
 bool logic_binary_operator_logic_logic::isEqual(expression* x)
 {
-    logic_binary_operator_logic_logic* y = dynamic_cast<logic_binary_operator_logic_logic*>(x);
-    if(!y) return false;
-    if(y->operator_latex != operator_latex) return false;
-    if(!y->operand1->isEqual(operand1)) return false;
-    if(!y->operand2->isEqual(operand2)) return false;
-    return true;
+    return isEqual_2_operand<logic_binary_operator_logic_logic>(this, x);
 }
 
 expression* logic_binary_operator_logic_logic::getCopy()
 {
-    logic_value* operand1_copy = dynamic_cast<logic_value*>(operand1->getCopy());
-    logic_value* operand2_copy = dynamic_cast<logic_value*>(operand2->getCopy());
-    logic_binary_operator_logic_logic* x = new logic_binary_operator_logic_logic(operator_latex, operand1_copy, operand2_copy);
-    return x;
+    return getCopy_2_operand<logic_binary_operator_logic_logic, logic_value>(this);
 }
 
 void logic_binary_operator_logic_logic::replace_variable(vector<substitution*> replacement)
@@ -924,26 +1002,12 @@ bool logic_binary_operator_logic_logic::check_variable(variable_type T, vector<v
 
 expression* logic_binary_operator_logic_logic::getPart(vector<int> path)
 {
-    if(path.size() == 0) return this;
-    
-    int x = path[0];
-    path.erase(path.begin());
-    
-    if(x == 1) return operand1->getPart(path);
-    else if(x == 2) return operand2->getPart(path);
-    else return nullptr;
+    return getPart_2_operand<logic_binary_operator_logic_logic>(this, path);
 }
 
 void logic_binary_operator_logic_logic::getPartExternalDependence(vector<int> path, vector<variable*>& dependence)
 {
-    if(path.size() == 0) return;
-    
-    int x = path[0];
-    path.erase(path.begin());
-    
-    if(x == 1) operand1->getPartExternalDependence(path, dependence);
-    else if(x == 2) operand2->getPartExternalDependence(path, dependence);
-    else return;
+    getPartExternalDependence_2_operand<logic_binary_operator_logic_logic>(this, path, dependence);
 }
 
 void logic_binary_operator_logic_logic::getInternalDependence(vector<variable*>& dependence)
@@ -954,11 +1018,5 @@ void logic_binary_operator_logic_logic::getInternalDependence(vector<variable*>&
 
 void logic_binary_operator_logic_logic::find_path_of_variable(variable* var, vector<int> current_path, vector<vector<int> >& all_path)
 {
-    vector<int> current_path_1 = current_path;
-    current_path_1.push_back(1);
-    operand1->find_path_of_variable(var, current_path_1, all_path);
-    
-    vector<int> current_path_2 = current_path;
-    current_path_2.push_back(2);
-    operand2->find_path_of_variable(var, current_path_2, all_path);
+    find_path_of_variable_2_operand<logic_binary_operator_logic_logic>(this, var, current_path, all_path);
 }
