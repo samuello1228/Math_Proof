@@ -273,6 +273,23 @@ expression* expression::createFromLatex(string latex, variable_type var_type)
             expression* output = new logic_binary_operator_logic_logic(elements[1], operand1, operand2);
             return output;
         }
+        else if(elements[1] == "\\in" ||
+                elements[1] == "\\notin"  ||
+                elements[1] == "=" ||
+                elements[1] == "\\neq"
+                )
+        {
+            Set* operand1 = dynamic_cast<Set*>(expression::createFromLatex(elements[0], var_type));
+            Set* operand2 = dynamic_cast<Set*>(expression::createFromLatex(elements[2], var_type));
+            if(!operand1 || !operand2)
+            {
+                cout<<"Type Error: the two operands are not set: "<<elements[0]<<endl;
+                cout<<elements[2]<<endl;
+                return nullptr;
+            }
+            expression* output = new logic_binary_operator_set_set(elements[1], operand1, operand2);
+            return output;
+        }
     }
     
     //For quantifier
@@ -383,10 +400,24 @@ expression* expression::substitute_forall_variable(expression* x, vector<substit
     {
         y->operand = dynamic_cast<logic_value*>(expression::substitute_forall_variable(y->operand, sub));
     }
+    else if(set_unary_operator_set* y = dynamic_cast<set_unary_operator_set*>(x))
+    {
+        y->operand = dynamic_cast<Set*>(expression::substitute_forall_variable(y->operand, sub));
+    }
     else if(logic_binary_operator_logic_logic* y = dynamic_cast<logic_binary_operator_logic_logic*>(x))
     {
         y->operand1 = dynamic_cast<logic_value*>(expression::substitute_forall_variable(y->operand1, sub));
         y->operand2 = dynamic_cast<logic_value*>(expression::substitute_forall_variable(y->operand2, sub));
+    }
+    else if(logic_binary_operator_set_set* y = dynamic_cast<logic_binary_operator_set_set*>(x))
+    {
+        y->operand1 = dynamic_cast<Set*>(expression::substitute_forall_variable(y->operand1, sub));
+        y->operand2 = dynamic_cast<Set*>(expression::substitute_forall_variable(y->operand2, sub));
+    }
+    else if(set_binary_operator_set_set* y = dynamic_cast<set_binary_operator_set_set*>(x))
+    {
+        y->operand1 = dynamic_cast<Set*>(expression::substitute_forall_variable(y->operand1, sub));
+        y->operand2 = dynamic_cast<Set*>(expression::substitute_forall_variable(y->operand2, sub));
     }
     
     return x;
@@ -481,6 +512,11 @@ bool expression::assemble(statement* step, expression* source_part, int p, vecto
             cout<<"Error: it is not allowed."<<endl;
             return false;
         }
+    }
+    else
+    {
+        cout<<"Error: it is not allowed."<<endl;
+        return false;
     }
     
     return false;
@@ -1019,4 +1055,92 @@ void logic_binary_operator_logic_logic::getInternalDependence(vector<variable*>&
 void logic_binary_operator_logic_logic::find_path_of_variable(variable* var, vector<int> current_path, vector<vector<int> >& all_path)
 {
     find_path_of_variable_2_operand<logic_binary_operator_logic_logic>(this, var, current_path, all_path);
+}
+
+logic_binary_operator_set_set::logic_binary_operator_set_set(const string& newLatex, Set* x, Set* y)
+{
+    operator_latex = newLatex;
+    operand1 = x;
+    operand2 = y;
+}
+
+logic_binary_operator_set_set::~logic_binary_operator_set_set()
+{
+    delete operand1;
+    delete operand2;
+}
+
+string logic_binary_operator_set_set::getLatex()
+{
+    string operand1_latex = operand1->getLatex();
+    variable* var1 = dynamic_cast<variable*>(operand1);
+    if(!var1)
+    {
+        operand1_latex = "(" + operand1_latex + ")";
+    }
+    
+    string operand2_latex = operand2->getLatex();
+    variable* var2 = dynamic_cast<variable*>(operand2);
+    if(!var2)
+    {
+        operand2_latex = "(" + operand2_latex + ")";
+    }
+    
+    if(operator_latex == "\\in" ||
+       operator_latex == "\\notin" ||
+       operator_latex == "=" ||
+       operator_latex == "\\neq"
+       )
+    {
+        string output = operand1_latex + " " + operator_latex + " " + operand2_latex;
+        return output;
+    }
+    else
+    {
+        cout<<"Syntax Error: the operator cannot be processed: "<<operator_latex<<endl;
+        string output = "";
+        return output;
+    }
+}
+
+bool logic_binary_operator_set_set::isEqual(expression* x)
+{
+    return isEqual_2_operand<logic_binary_operator_set_set>(this, x);
+}
+
+expression* logic_binary_operator_set_set::getCopy()
+{
+    return getCopy_2_operand<logic_binary_operator_set_set, Set>(this);
+}
+
+void logic_binary_operator_set_set::replace_variable(vector<substitution*> replacement)
+{
+    operand1->replace_variable(replacement);
+    operand2->replace_variable(replacement);
+}
+
+bool logic_binary_operator_set_set::check_variable(variable_type T, vector<variable*> var_list)
+{
+    return (operand1->check_variable(T, var_list) && operand2->check_variable(T, var_list));
+}
+
+expression* logic_binary_operator_set_set::getPart(vector<int> path)
+{
+    return getPart_2_operand<logic_binary_operator_set_set>(this, path);
+}
+
+void logic_binary_operator_set_set::getPartExternalDependence(vector<int> path, vector<variable*>& dependence)
+{
+    getPartExternalDependence_2_operand<logic_binary_operator_set_set>(this, path, dependence);
+}
+
+void logic_binary_operator_set_set::getInternalDependence(vector<variable*>& dependence)
+{
+    operand1->getInternalDependence(dependence);
+    operand2->getInternalDependence(dependence);
+}
+
+void logic_binary_operator_set_set::find_path_of_variable(variable* var, vector<int> current_path, vector<vector<int> >& all_path)
+{
+    find_path_of_variable_2_operand<logic_binary_operator_set_set>(this, var, current_path, all_path);
 }
