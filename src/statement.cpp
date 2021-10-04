@@ -466,6 +466,7 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
     
     //get internal dependence of law
     vector<variable*> internal_dependence_law;
+    get_expression_without_forall_variable()->getInternalDependence(internal_dependence_law);
     content->getInternalDependence(internal_dependence_law);
     if(isPrint)
     {
@@ -530,31 +531,25 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
         step->content = new universal_quantifier(variable_copy, step->content);
         step->forall_variable.insert(step->forall_variable.begin(), variable_copy);
     }
-    if(isPrint) cout<<step->content->getLatex()<<endl;
+    if(isPrint)
+    {
+        cout<<"Add universal quantifier at the beginning:"<<endl;
+        cout<<step->content->getLatex()<<endl;
+    }
     
     //do substitution
     step->content = dynamic_cast<logic_value*>(expression::substitute_forall_variable(step->content, sub));
-    if(isPrint) cout<<step->content->getLatex()<<endl<<endl;
+    if(isPrint)
+    {
+        cout<<"Do substitution:"<<endl;
+        cout<<step->content->getLatex()<<endl<<endl;
+    }
     
     //delete sub
     for(long i=0;i<sub.size();i++)
     {
         delete sub[i];
     }
-    
-    //assemble to the original source
-    if(isPrint) cout<<"Do the assembly:"<<endl;
-    while(true)
-    {
-        if(path.size() == 0) break;
-        
-        int p = path[path.size() -1];
-        path.erase(path.end() -1);
-        
-        bool isChanged = expression::assemble(step, source->content->getPart(path), p, source->forall_variable);
-        if(isPrint && isChanged) cout<<step->content->getLatex()<<endl;
-    }
-    if(isPrint) cout<<endl;
     
     //for direction Right to Left
     if(dir == RightToLeft)
@@ -577,6 +572,62 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
             cout<<"Error: cannot apply for the RightToLeft direction."<<endl;
         }
     }
+    
+    //do replacement for internal dependence
+    internal_dependence_law.clear();
+    step->binary_operator->operand1->getInternalDependence(internal_dependence_law);
+    
+    vector<variable*> internal_dependence_source_part;
+    source_part->getInternalDependence(internal_dependence_source_part);
+    
+    if(internal_dependence_law.size() != internal_dependence_source_part.size())
+    {
+        cout<<"Error: the operand1 of law and the source part are different."<<endl;
+    }
+    
+    replacement.clear();
+    for(long i=0;i<internal_dependence_law.size();i++)
+    {
+        variable* var_copy = dynamic_cast<variable*>(internal_dependence_law[i]->getCopy());
+        replacement.push_back(new substitution(var_copy, internal_dependence_source_part[i]->getCopy()));
+    }
+    if(isPrint)
+    {
+        cout<<"Replacement for internal dependence:"<<endl;
+        for(long i=0;i<replacement.size();i++)
+        {
+            cout<<replacement[i]->x->getLatex()<<" is replaced by "<<replacement[i]->y->getLatex()<<endl;
+        }
+        cout<<endl;
+    }
+    
+    step->binary_operator->operand1->replace_variable(replacement);
+    if(isPrint) cout<<step->content->getLatex()<<endl<<endl;
+    
+    if(!step->binary_operator->operand1->isEqual(source_part))
+    {
+        cout<<"Error: the operand1 of law and the source part are different."<<endl;
+    }
+    
+    //delete replacement
+    for(long i=0;i<replacement.size();i++)
+    {
+        delete replacement[i];
+    }
+    
+    //assemble to the original source
+    if(isPrint) cout<<"Do the assembly:"<<endl;
+    while(true)
+    {
+        if(path.size() == 0) break;
+        
+        int p = path[path.size() -1];
+        path.erase(path.end() -1);
+        
+        bool isChanged = expression::assemble(step, source->content->getPart(path), p, source->forall_variable);
+        if(isPrint && isChanged) cout<<step->content->getLatex()<<endl;
+    }
+    if(isPrint) cout<<endl;
     
     //check whether the step->operand1 is equal to the source
     statement* copy_step_1 = step->getCopy();
