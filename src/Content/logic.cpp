@@ -43,11 +43,11 @@ void logic()
     
     //Definition of iff
     fout<<"\\subsection{Definition of $\\iff$}"<<endl;
-    Definition::addDefinition(fout, new Definition("iff", LOGIC, "\\forall x \\forall y ((x \\iff y) \\overset{\\operatorname{def}}{\\iff} ((x \\land y) \\lor ((\\lnot x) \\land (\\lnot y))))"));
+    Definition::addDefinition(fout, new Definition("iff", LOGIC, "\\forall a \\forall b ((a \\iff b) \\overset{\\operatorname{def}}{\\iff} ((a \\land b) \\lor ((\\lnot a) \\land (\\lnot b))))"));
     
     //Definition of implies
     fout<<"\\subsection{Definition of $\\implies$}"<<endl;
-    Definition::addDefinition(fout, new Definition("implies", LOGIC, "\\forall x \\forall y ((x \\implies y) \\overset{\\operatorname{def}}{\\iff} ((\\lnot x) \\lor y))"));
+    Definition::addDefinition(fout, new Definition("implies", LOGIC, "\\forall a \\forall b ((a \\implies b) \\overset{\\operatorname{def}}{\\iff} ((\\lnot a) \\lor b))"));
     
     //Boolean algebra
     Proposition* x = nullptr;
@@ -58,26 +58,26 @@ void logic()
     fout<<"\\section{Boolean algebra}"<<endl;
     //Associativity
     fout<<"\\subsection{Associativity of $\\lor$}"<<endl;
-    Proposition::addProposition(fout, new Proposition("lor_associativity", LOGIC, "\\forall x \\forall y \\forall z (((x \\lor y) \\lor z) \\iff (x \\lor (y \\lor z)))"));
+    Proposition::addProposition(fout, new Proposition("lor_associativity", LOGIC, "\\forall a \\forall b \\forall c (((a \\lor b) \\lor c) \\iff (a \\lor (b \\lor c)))"));
     
     fout<<"\\subsection{Associativity of $\\land$}"<<endl;
-    Proposition::addProposition(fout, new Proposition("land_associativity", LOGIC, "\\forall x \\forall y \\forall z (((x \\land y) \\land z) \\iff (x \\land (y \\land z)))"));
+    Proposition::addProposition(fout, new Proposition("land_associativity", LOGIC, "\\forall a \\forall b \\forall c (((a \\land b) \\land c) \\iff (a \\land (b \\land c)))"));
     
     //Commutativity
     fout<<"\\subsection{Commutativity of $\\lor$}"<<endl;
-    Proposition::addProposition(fout, new Proposition("lor_commutativity", LOGIC, "\\forall x \\forall y ((x \\lor y) \\iff (y \\lor x))"));
+    Proposition::addProposition(fout, new Proposition("lor_commutativity", LOGIC, "\\forall a \\forall b ((a \\lor b) \\iff (b \\lor a))"));
     
     fout<<"\\subsection{Commutativity of $\\land$}"<<endl;
-    Proposition::addProposition(fout, new Proposition("land_commutativity", LOGIC, "\\forall x \\forall y ((x \\land y) \\iff (y \\land x))"));
+    Proposition::addProposition(fout, new Proposition("land_commutativity", LOGIC, "\\forall a \\forall b ((a \\land b) \\iff (b \\land a))"));
     
     //Identity
     fout<<"\\subsection{Identity of $\\lor$}"<<endl;
-    Proposition::addProposition(fout, new Proposition("lor_identity_1", LOGIC, "\\forall x ((x \\lor (\\text{False})) \\iff x)"));
+    Proposition::addProposition(fout, new Proposition("lor_identity_1", LOGIC, "\\forall a ((a \\lor (\\text{False})) \\iff a)"));
     
-    x = new Proposition("lor_identity_2", LOGIC, "\\forall x (((\\text{False}) \\lor x) \\iff x)");
+    x = new Proposition("lor_identity_2", LOGIC, "\\forall a (((\\text{False}) \\lor a) \\iff a)");
     /*
     block = new proof_block("lor_identity_2", x, direct);
-    sub.clear(); sub.push_back(new substitution("x", "x", LOGIC));
+    sub.clear(); sub.push_back(new substitution("a", "a", LOGIC));
     block->append_binary_operator(input({}, "Proposition:lor_identity_1", TrueToP, sub));
     block->append_binary_operator(input({1}, "Proposition:lor_commutativity", LeftToRight, true));
     x->append(block);
@@ -85,71 +85,71 @@ void logic()
     Proposition::addProposition(fout, x);
     
     fout<<"\\subsection{Identity of $\\land$}"<<endl;
-    Proposition::addProposition(fout, new Proposition("land_identity_1", LOGIC, "\\forall x ((x \\land (\\text{True})) \\iff x)"));
-    Proposition::addProposition(fout, new Proposition("land_identity_2", LOGIC, "\\forall x (((\\text{True}) \\land x) \\iff x)"));
+    Proposition::addProposition(fout, new Proposition("land_identity_1", LOGIC, "\\forall a ((a \\land (\\text{True})) \\iff a)"));
+    Proposition::addProposition(fout, new Proposition("land_identity_2", LOGIC, "\\forall a (((\\text{True}) \\land a) \\iff a)"));
     
     //Annihilator
     fout<<"\\subsection{Annihilator of $\\lor$}"<<endl;
-    Proposition::addProposition(fout, new Proposition("lor_annihilator_1", LOGIC, "\\forall x ((x \\lor (\\text{True})) \\iff (\\text{True}))"));
-    Proposition::addProposition(fout, new Proposition("lor_annihilator_2", LOGIC, "\\forall x (((\\text{True}) \\lor x) \\iff (\\text{True}))"));
+    Proposition::addProposition(fout, new Proposition("lor_annihilator_1", LOGIC, "\\forall a ((a \\lor (\\text{True})) \\iff (\\text{True}))"));
+    Proposition::addProposition(fout, new Proposition("lor_annihilator_2", LOGIC, "\\forall a (((\\text{True}) \\lor a) \\iff (\\text{True}))"));
     
     fout<<"\\subsection{Annihilator of $\\land$}"<<endl;
-    Proposition::addProposition(fout, new Proposition("land_annihilator_1", LOGIC, "\\forall x ((x \\land (\\text{False})) \\iff (\\text{False}))"));
-    Proposition::addProposition(fout, new Proposition("land_annihilator_2", LOGIC, "\\forall x (((\\text{False}) \\land x) \\iff (\\text{False}))"));
+    Proposition::addProposition(fout, new Proposition("land_annihilator_1", LOGIC, "\\forall a ((a \\land (\\text{False})) \\iff (\\text{False}))"));
+    Proposition::addProposition(fout, new Proposition("land_annihilator_2", LOGIC, "\\forall a (((\\text{False}) \\land a) \\iff (\\text{False}))"));
     
     //Idempotence
     fout<<"\\subsection{Idempotence of $\\lor$}"<<endl;
-    Proposition::addProposition(fout, new Proposition("lor_idempotence", LOGIC, "\\forall x ((x \\lor x) \\iff x)"));
+    Proposition::addProposition(fout, new Proposition("lor_idempotence", LOGIC, "\\forall a ((a \\lor a) \\iff a)"));
     
     fout<<"\\subsection{Idempotence of $\\land$}"<<endl;
-    Proposition::addProposition(fout, new Proposition("land_idempotence", LOGIC, "\\forall x ((x \\land x) \\iff x)"));
+    Proposition::addProposition(fout, new Proposition("land_idempotence", LOGIC, "\\forall a ((a \\land a) \\iff a)"));
     
     //Complement
     fout<<"\\subsection{Complement of $\\lor$}"<<endl;
-    Proposition::addProposition(fout, new Proposition("lor_complement_1", LOGIC, "\\forall x ((x \\lor (\\lnot x)) \\iff (\\text{True}))"));
-    Proposition::addProposition(fout, new Proposition("lor_complement_2", LOGIC, "\\forall x (((\\lnot x) \\lor x) \\iff (\\text{True}))"));
+    Proposition::addProposition(fout, new Proposition("lor_complement_1", LOGIC, "\\forall a ((a \\lor (\\lnot a)) \\iff (\\text{True}))"));
+    Proposition::addProposition(fout, new Proposition("lor_complement_2", LOGIC, "\\forall a (((\\lnot a) \\lor a) \\iff (\\text{True}))"));
     
     fout<<"\\subsection{Complement of $\\land$}"<<endl;
-    Proposition::addProposition(fout, new Proposition("land_complement_1", LOGIC, "\\forall x ((x \\land (\\lnot x)) \\iff (\\text{False}))"));
-    Proposition::addProposition(fout, new Proposition("land_complement_2", LOGIC, "\\forall x (((\\lnot x) \\land x) \\iff (\\text{False}))"));
+    Proposition::addProposition(fout, new Proposition("land_complement_1", LOGIC, "\\forall a ((a \\land (\\lnot a)) \\iff (\\text{False}))"));
+    Proposition::addProposition(fout, new Proposition("land_complement_2", LOGIC, "\\forall a (((\\lnot a) \\land a) \\iff (\\text{False}))"));
     
     //Absorption
     fout<<"\\subsection{Absorption of $\\lor$ over $\\land$}"<<endl;
-    Proposition::addProposition(fout, new Proposition("lor_land_absorption_1", LOGIC, "\\forall x \\forall y ((x \\lor (x \\land y)) \\iff x)"));
-    Proposition::addProposition(fout, new Proposition("lor_land_absorption_2", LOGIC, "\\forall x \\forall y ((x \\lor (y \\land x)) \\iff x)"));
-    Proposition::addProposition(fout, new Proposition("lor_land_absorption_3", LOGIC, "\\forall x \\forall y (((x \\land y) \\lor x) \\iff x)"));
-    Proposition::addProposition(fout, new Proposition("lor_land_absorption_4", LOGIC, "\\forall x \\forall y (((y \\land x) \\lor x) \\iff x)"));
+    Proposition::addProposition(fout, new Proposition("lor_land_absorption_1", LOGIC, "\\forall a \\forall b ((a \\lor (a \\land b)) \\iff a)"));
+    Proposition::addProposition(fout, new Proposition("lor_land_absorption_2", LOGIC, "\\forall a \\forall b ((a \\lor (b \\land a)) \\iff a)"));
+    Proposition::addProposition(fout, new Proposition("lor_land_absorption_3", LOGIC, "\\forall a \\forall b (((a \\land b) \\lor a) \\iff a)"));
+    Proposition::addProposition(fout, new Proposition("lor_land_absorption_4", LOGIC, "\\forall a \\forall b (((b \\land a) \\lor a) \\iff a)"));
     
     fout<<"\\subsection{Absorption of $\\land$ over $\\lor$}"<<endl;
-    Proposition::addProposition(fout, new Proposition("land_lor_absorption_1", LOGIC, "\\forall x \\forall y ((x \\land (x \\lor y)) \\iff x)"));
-    Proposition::addProposition(fout, new Proposition("land_lor_absorption_2", LOGIC, "\\forall x \\forall y ((x \\land (y \\lor x)) \\iff x)"));
-    Proposition::addProposition(fout, new Proposition("land_lor_absorption_3", LOGIC, "\\forall x \\forall y (((x \\lor y) \\land x) \\iff x)"));
-    Proposition::addProposition(fout, new Proposition("land_lor_absorption_4", LOGIC, "\\forall x \\forall y (((y \\lor x) \\land x) \\iff x)"));
+    Proposition::addProposition(fout, new Proposition("land_lor_absorption_1", LOGIC, "\\forall a \\forall b ((a \\land (a \\lor b)) \\iff a)"));
+    Proposition::addProposition(fout, new Proposition("land_lor_absorption_2", LOGIC, "\\forall a \\forall b ((a \\land (b \\lor a)) \\iff a)"));
+    Proposition::addProposition(fout, new Proposition("land_lor_absorption_3", LOGIC, "\\forall a \\forall b (((a \\lor b) \\land a) \\iff a)"));
+    Proposition::addProposition(fout, new Proposition("land_lor_absorption_4", LOGIC, "\\forall a \\forall b (((b \\lor a) \\land a) \\iff a)"));
     
     //Distributivity
     fout<<"\\subsection{Distributivity of $\\lor$ over $\\land$}"<<endl;
-    Proposition::addProposition(fout, new Proposition("lor_land_distributivity_1", LOGIC, "\\forall x \\forall y \\forall z ((x \\lor (y \\land z)) \\iff ((x \\lor y) \\land (x \\lor z)))"));
-    Proposition::addProposition(fout, new Proposition("lor_land_distributivity_2", LOGIC, "\\forall x \\forall y \\forall z (((x \\land y) \\lor z) \\iff ((x \\lor z) \\land (y \\lor z)))"));
+    Proposition::addProposition(fout, new Proposition("lor_land_distributivity_1", LOGIC, "\\forall a \\forall b \\forall c ((a \\lor (b \\land c)) \\iff ((a \\lor b) \\land (a \\lor c)))"));
+    Proposition::addProposition(fout, new Proposition("lor_land_distributivity_2", LOGIC, "\\forall a \\forall b \\forall c (((a \\land b) \\lor c) \\iff ((a \\lor c) \\land (b \\lor c)))"));
     
     fout<<"\\subsection{Distributivity of $\\land$ over $\\lor$}"<<endl;
-    Proposition::addProposition(fout, new Proposition("land_lor_distributivity_1", LOGIC, "\\forall x \\forall y \\forall z ((x \\land (y \\lor z)) \\iff ((x \\land y) \\lor (x \\land z)))"));
-    Proposition::addProposition(fout, new Proposition("land_lor_distributivity_2", LOGIC, "\\forall x \\forall y \\forall z (((x \\lor y) \\land z) \\iff ((x \\land z) \\lor (y \\land z)))"));
+    Proposition::addProposition(fout, new Proposition("land_lor_distributivity_1", LOGIC, "\\forall a \\forall b \\forall c ((a \\land (b \\lor c)) \\iff ((a \\land b) \\lor (a \\land c)))"));
+    Proposition::addProposition(fout, new Proposition("land_lor_distributivity_2", LOGIC, "\\forall a \\forall b \\forall c (((a \\lor b) \\land c) \\iff ((a \\land c) \\lor (b \\land c)))"));
     
     //Double negation
     fout<<"\\subsection{Double negation}"<<endl;
-    Proposition::addProposition(fout, new Proposition("double_negation", LOGIC, "\\forall x ((\\lnot (\\lnot x)) \\iff x)"));
+    Proposition::addProposition(fout, new Proposition("double_negation", LOGIC, "\\forall a ((\\lnot (\\lnot a)) \\iff a)"));
     
     //De Morgan's laws
     fout<<"\\subsection{De Morgan's laws}"<<endl;
-    Proposition::addProposition(fout, new Proposition("De_Morgan_lor", LOGIC, "\\forall x \\forall y ((\\lnot (x \\lor y)) \\iff ((\\lnot x) \\land (\\lnot y)))"));
-    Proposition::addProposition(fout, new Proposition("De_Morgan_land", LOGIC, "\\forall x \\forall y ((\\lnot (x \\land y)) \\iff ((\\lnot x) \\lor (\\lnot y)))"));
+    Proposition::addProposition(fout, new Proposition("De_Morgan_lor", LOGIC, "\\forall a \\forall b ((\\lnot (a \\lor b)) \\iff ((\\lnot a) \\land (\\lnot b)))"));
+    Proposition::addProposition(fout, new Proposition("De_Morgan_land", LOGIC, "\\forall a \\forall b ((\\lnot (a \\land b)) \\iff ((\\lnot a) \\lor (\\lnot b)))"));
     
     //Basic Proposition
     fout<<"\\section{Basic Proposition}"<<endl;
     
-    //x_lor_y_complement
-    x = new Proposition("x_lor_y_complement", LOGIC, "\\forall x \\forall y (((x \\land (\\lnot y)) \\lor y) \\iff (x \\lor y))");
-    block = new proof_block("x_lor_y_complement", x, deduction);
+    //a_lor_b_complement
+    x = new Proposition("a_lor_b_complement", LOGIC, "\\forall a \\forall b (((a \\land (\\lnot b)) \\lor b) \\iff (a \\lor b))");
+    block = new proof_block("a_lor_b_complement", x, deduction);
     block->append_binary_operator(input({}, "Proposition:lor_land_distributivity_2", LeftToRight));
     block->append_binary_operator(input({2}, "Proposition:lor_complement_2", LeftToRight));
     block->append_binary_operator(input({}, "Proposition:land_identity_1", LeftToRight, true));
@@ -160,7 +160,7 @@ void logic()
     fout<<"\\section{Proof technique}"<<endl;
     
     //true statement
-    x = new Proposition("true_statement", LOGIC, "\\forall x ((x \\iff (\\text{True})) \\iff x)");
+    x = new Proposition("true_statement", LOGIC, "\\forall a ((a \\iff (\\text{True})) \\iff a)");
     block = new proof_block("true_statement", x, deduction);
     block->append_binary_operator(input({}, "Definition:iff", LeftToRight));
     block->append_binary_operator(input({2,2}, "Definition:lnot_True", LeftToRight));
@@ -171,7 +171,7 @@ void logic()
     Proposition::addProposition(fout, x);
     
     //implies_lor
-    x = new Proposition("implies_lor", LOGIC, "\\forall x \\forall y \\forall z ((x \\implies y) \\implies ((x \\lor z) \\implies (y \\lor z)))");
+    x = new Proposition("implies_lor", LOGIC, "\\forall a \\forall b \\forall c ((a \\implies b) \\implies ((a \\lor c) \\implies (b \\lor c)))");
     block = new proof_block("implies_lor", x, backward);
     block->append_binary_operator(input({1}, "Definition:implies", LeftToRight));
     block->append_binary_operator(input({2}, "Definition:implies", LeftToRight));
@@ -183,8 +183,8 @@ void logic()
     block->append_binary_operator(input({2}, "Proposition:lor_associativity", RightToLeft));
     block->append_binary_operator(input({2}, "Proposition:lor_commutativity", LeftToRight));
     block->append_binary_operator(input({}, "Proposition:lor_associativity", RightToLeft));
-    block->append_binary_operator(input({1}, "Proposition:x_lor_y_complement", LeftToRight));
-    block->append_binary_operator(input({2}, "Proposition:x_lor_y_complement", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:a_lor_b_complement", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:a_lor_b_complement", LeftToRight));
     block->append_binary_operator(input({}, "Proposition:lor_associativity", RightToLeft));
     block->append_binary_operator(input({1}, "Proposition:lor_commutativity", LeftToRight));
     block->append_binary_operator(input({1}, "Proposition:lor_associativity", RightToLeft));
@@ -195,42 +195,42 @@ void logic()
     Proposition::addProposition(fout, x);
     
     //implies_land
-    x = new Proposition("implies_land", LOGIC, "\\forall x \\forall y \\forall z ((x \\implies y) \\implies ((x \\land z) \\implies (y \\land z)))");
+    x = new Proposition("implies_land", LOGIC, "\\forall a \\forall b \\forall c ((a \\implies b) \\implies ((a \\land c) \\implies (b \\land c)))");
     Proposition::addProposition(fout, x);
     
     //contrapositive
-    x = new Proposition("contrapositive", LOGIC, "\\forall x \\forall y ((x \\implies y) \\iff ((\\lnot y) \\implies (\\lnot x)))");
+    x = new Proposition("contrapositive", LOGIC, "\\forall a \\forall b ((a \\implies b) \\iff ((\\lnot b) \\implies (\\lnot a)))");
     description = "Contrapositive";
     Proposition::addProposition(fout, x, description);
     
     //Transitive property of implies
-    x = new Proposition("implies_transitive", LOGIC, "\\forall x \\forall y \\forall z (((x \\implies y) \\land (y \\implies z)) \\implies (x \\implies z))");
+    x = new Proposition("implies_transitive", LOGIC, "\\forall a \\forall b \\forall c (((a \\implies b) \\land (b \\implies c)) \\implies (a \\implies c))");
     description = "Transitive property of $\\implies$.";
     Proposition::addProposition(fout, x, description);
     
     //iff and implies
-    x = new Proposition("iff_implies", LOGIC, "\\forall x \\forall y ((x \\iff y) \\iff ((x \\implies y) \\land (y \\implies x)))");
+    x = new Proposition("iff_implies", LOGIC, "\\forall a \\forall b ((a \\iff b) \\iff ((a \\implies b) \\land (b \\implies a)))");
     Proposition::addProposition(fout, x);
     
     //iff
-    x = new Proposition("iff_lor", LOGIC, "\\forall x \\forall y \\forall z ((x \\iff y) \\implies ((x \\lor z) \\iff (y \\lor z)))");
+    x = new Proposition("iff_lor", LOGIC, "\\forall a \\forall b \\forall c ((a \\iff b) \\implies ((a \\lor c) \\iff (b \\lor c)))");
     Proposition::addProposition(fout, x);
     
-    x = new Proposition("iff_land", LOGIC, "\\forall x \\forall y \\forall z ((x \\iff y) \\implies ((x \\land z) \\iff (y \\land z)))");
+    x = new Proposition("iff_land", LOGIC, "\\forall a \\forall b \\forall c ((a \\iff b) \\implies ((a \\land c) \\iff (b \\land c)))");
     Proposition::addProposition(fout, x);
     
-    x = new Proposition("iff_symmetric", LOGIC, "\\forall x \\forall y \\forall z ((x \\iff y) \\iff (y \\iff x))");
+    x = new Proposition("iff_symmetric", LOGIC, "\\forall a \\forall b \\forall c ((a \\iff b) \\iff (b \\iff a))");
     description = "Symmetric property of $\\iff$.";
     Proposition::addProposition(fout, x, description);
     
-    x = new Proposition("iff_contrapositive", LOGIC, "\\forall x \\forall y ((x \\iff y) \\iff ((\\lnot x) \\iff (\\lnot y)))");
+    x = new Proposition("iff_contrapositive", LOGIC, "\\forall a \\forall b ((a \\iff b) \\iff ((\\lnot a) \\iff (\\lnot b)))");
     Proposition::addProposition(fout, x);
     
-    x = new Proposition("iff_transitive", LOGIC, "\\forall x \\forall y \\forall z (((x \\iff y) \\land (y \\iff z)) \\implies (x \\iff z))");
+    x = new Proposition("iff_transitive", LOGIC, "\\forall a \\forall b \\forall c (((a \\iff b) \\land (b \\iff c)) \\implies (a \\iff c))");
     description = "Transitive property of $\\iff$.";
     Proposition::addProposition(fout, x, description);
     
-    x = new Proposition("iff_reflexive", LOGIC, "\\forall x (x \\iff x)");
+    x = new Proposition("iff_reflexive", LOGIC, "\\forall a (a \\iff a)");
     description = "Reflexive property of $\\iff$.";
     block = new proof_block("iff_reflexive", x, backward);
     block->append_binary_operator(input({}, "Definition:iff", LeftToRight));
@@ -359,19 +359,19 @@ void logic()
     //Logic proposition
     fout<<"\\section{Logic proposition}"<<endl;
     
-    x = new Proposition("land_implies_iff", LOGIC, "\\forall x \\forall y ((x \\land y) \\implies (x \\iff y))");
+    x = new Proposition("land_implies_iff", LOGIC, "\\forall a \\forall b ((a \\land b) \\implies (a \\iff b))");
     Proposition::addProposition(fout, x);
     
-    x = new Proposition("land_omit", LOGIC, "\\forall x \\forall y ((x \\land y) \\implies x)");
+    x = new Proposition("land_omit", LOGIC, "\\forall a \\forall b ((a \\land b) \\implies a)");
     Proposition::addProposition(fout, x);
     
-    x = new Proposition("lemma_uniqueness", LOGIC, "\\forall x \\forall y \\forall z ((x \\land ((y \\land x) \\implies z)) \\implies (y \\implies z))");
+    x = new Proposition("lemma_uniqueness", LOGIC, "\\forall a \\forall b \\forall c ((a \\land ((b \\land a) \\implies c)) \\implies (b \\implies c))");
     Proposition::addProposition(fout, x);
     
-    x = new Proposition("implies_satisfy", LOGIC, "\\forall x \\forall y ((x \\land (x \\implies y)) \\implies y)");
+    x = new Proposition("implies_satisfy", LOGIC, "\\forall a \\forall b ((a \\land (a \\implies b)) \\implies b)");
     Proposition::addProposition(fout, x);
     
-    x = new Proposition("iff_satisfy", LOGIC, "\\forall x \\forall y ((x \\land (x \\iff y)) \\implies y)");
+    x = new Proposition("iff_satisfy", LOGIC, "\\forall a \\forall b ((a \\land (a \\iff b)) \\implies b)");
     Proposition::addProposition(fout, x);
     
     fout.close();

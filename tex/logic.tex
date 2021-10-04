@@ -91,8 +91,8 @@ Proposition is a statement that is either true or false, but not both.
 \begin{defn}
 \label{Definition:iff}
 \begin{align*}
-& x \iff y \\
-\overset{\operatorname{def}}{\iff} & (x \land y) \lor ((\lnot x) \land (\lnot y))
+& a \iff b \\
+\overset{\operatorname{def}}{\iff} & (a \land b) \lor ((\lnot a) \land (\lnot b))
 \end{align*}
 \end{defn}
 
@@ -100,8 +100,8 @@ Proposition is a statement that is either true or false, but not both.
 \begin{defn}
 \label{Definition:implies}
 \begin{align*}
-& x \implies y \\
-\overset{\operatorname{def}}{\iff} & (\lnot x) \lor y
+& a \implies b \\
+\overset{\operatorname{def}}{\iff} & (\lnot a) \lor b
 \end{align*}
 \end{defn}
 
@@ -110,8 +110,8 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:lor_associativity}
 \begin{align*}
-& (x \lor y) \lor z \\
-\iff & x \lor (y \lor z)
+& (a \lor b) \lor c \\
+\iff & a \lor (b \lor c)
 \end{align*}
 \end{prop}
 
@@ -119,8 +119,8 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:land_associativity}
 \begin{align*}
-& (x \land y) \land z \\
-\iff & x \land (y \land z)
+& (a \land b) \land c \\
+\iff & a \land (b \land c)
 \end{align*}
 \end{prop}
 
@@ -128,8 +128,8 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:lor_commutativity}
 \begin{align*}
-& x \lor y \\
-\iff & y \lor x
+& a \lor b \\
+\iff & b \lor a
 \end{align*}
 \end{prop}
 
@@ -137,8 +137,8 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:land_commutativity}
 \begin{align*}
-& x \land y \\
-\iff & y \land x
+& a \land b \\
+\iff & b \land a
 \end{align*}
 \end{prop}
 
@@ -146,16 +146,16 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:lor_identity_1}
 \begin{align*}
-& x \lor (\text{False}) \\
-\iff & x
+& a \lor (\text{False}) \\
+\iff & a
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:lor_identity_2}
 \begin{align*}
-& (\text{False}) \lor x \\
-\iff & x
+& (\text{False}) \lor a \\
+\iff & a
 \end{align*}
 \end{prop}
 
@@ -163,16 +163,16 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:land_identity_1}
 \begin{align*}
-& x \land (\text{True}) \\
-\iff & x
+& a \land (\text{True}) \\
+\iff & a
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:land_identity_2}
 \begin{align*}
-& (\text{True}) \land x \\
-\iff & x
+& (\text{True}) \land a \\
+\iff & a
 \end{align*}
 \end{prop}
 
@@ -180,7 +180,7 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:lor_annihilator_1}
 \begin{align*}
-& x \lor (\text{True}) \\
+& a \lor (\text{True}) \\
 \iff & \text{True}
 \end{align*}
 \end{prop}
@@ -188,7 +188,7 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:lor_annihilator_2}
 \begin{align*}
-& (\text{True}) \lor x \\
+& (\text{True}) \lor a \\
 \iff & \text{True}
 \end{align*}
 \end{prop}
@@ -197,7 +197,7 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:land_annihilator_1}
 \begin{align*}
-& x \land (\text{False}) \\
+& a \land (\text{False}) \\
 \iff & \text{False}
 \end{align*}
 \end{prop}
@@ -205,7 +205,7 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:land_annihilator_2}
 \begin{align*}
-& (\text{False}) \land x \\
+& (\text{False}) \land a \\
 \iff & \text{False}
 \end{align*}
 \end{prop}
@@ -214,8 +214,8 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:lor_idempotence}
 \begin{align*}
-& x \lor x \\
-\iff & x
+& a \lor a \\
+\iff & a
 \end{align*}
 \end{prop}
 
@@ -223,8 +223,8 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:land_idempotence}
 \begin{align*}
-& x \land x \\
-\iff & x
+& a \land a \\
+\iff & a
 \end{align*}
 \end{prop}
 
@@ -232,7 +232,7 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:lor_complement_1}
 \begin{align*}
-& x \lor (\lnot x) \\
+& a \lor (\lnot a) \\
 \iff & \text{True}
 \end{align*}
 \end{prop}
@@ -240,7 +240,7 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:lor_complement_2}
 \begin{align*}
-& (\lnot x) \lor x \\
+& (\lnot a) \lor a \\
 \iff & \text{True}
 \end{align*}
 \end{prop}
@@ -249,7 +249,7 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:land_complement_1}
 \begin{align*}
-& x \land (\lnot x) \\
+& a \land (\lnot a) \\
 \iff & \text{False}
 \end{align*}
 \end{prop}
@@ -257,7 +257,7 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:land_complement_2}
 \begin{align*}
-& (\lnot x) \land x \\
+& (\lnot a) \land a \\
 \iff & \text{False}
 \end{align*}
 \end{prop}
@@ -266,32 +266,32 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:lor_land_absorption_1}
 \begin{align*}
-& x \lor (x \land y) \\
-\iff & x
+& a \lor (a \land b) \\
+\iff & a
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:lor_land_absorption_2}
 \begin{align*}
-& x \lor (y \land x) \\
-\iff & x
+& a \lor (b \land a) \\
+\iff & a
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:lor_land_absorption_3}
 \begin{align*}
-& (x \land y) \lor x \\
-\iff & x
+& (a \land b) \lor a \\
+\iff & a
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:lor_land_absorption_4}
 \begin{align*}
-& (y \land x) \lor x \\
-\iff & x
+& (b \land a) \lor a \\
+\iff & a
 \end{align*}
 \end{prop}
 
@@ -299,32 +299,32 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:land_lor_absorption_1}
 \begin{align*}
-& x \land (x \lor y) \\
-\iff & x
+& a \land (a \lor b) \\
+\iff & a
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:land_lor_absorption_2}
 \begin{align*}
-& x \land (y \lor x) \\
-\iff & x
+& a \land (b \lor a) \\
+\iff & a
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:land_lor_absorption_3}
 \begin{align*}
-& (x \lor y) \land x \\
-\iff & x
+& (a \lor b) \land a \\
+\iff & a
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:land_lor_absorption_4}
 \begin{align*}
-& (y \lor x) \land x \\
-\iff & x
+& (b \lor a) \land a \\
+\iff & a
 \end{align*}
 \end{prop}
 
@@ -332,16 +332,16 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:lor_land_distributivity_1}
 \begin{align*}
-& x \lor (y \land z) \\
-\iff & (x \lor y) \land (x \lor z)
+& a \lor (b \land c) \\
+\iff & (a \lor b) \land (a \lor c)
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:lor_land_distributivity_2}
 \begin{align*}
-& (x \land y) \lor z \\
-\iff & (x \lor z) \land (y \lor z)
+& (a \land b) \lor c \\
+\iff & (a \lor c) \land (b \lor c)
 \end{align*}
 \end{prop}
 
@@ -349,16 +349,16 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:land_lor_distributivity_1}
 \begin{align*}
-& x \land (y \lor z) \\
-\iff & (x \land y) \lor (x \land z)
+& a \land (b \lor c) \\
+\iff & (a \land b) \lor (a \land c)
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:land_lor_distributivity_2}
 \begin{align*}
-& (x \lor y) \land z \\
-\iff & (x \land z) \lor (y \land z)
+& (a \lor b) \land c \\
+\iff & (a \land c) \lor (b \land c)
 \end{align*}
 \end{prop}
 
@@ -366,8 +366,8 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:double_negation}
 \begin{align*}
-& \lnot (\lnot x) \\
-\iff & x
+& \lnot (\lnot a) \\
+\iff & a
 \end{align*}
 \end{prop}
 
@@ -375,34 +375,34 @@ Proposition is a statement that is either true or false, but not both.
 \begin{prop}
 \label{Proposition:De_Morgan_lor}
 \begin{align*}
-& \lnot (x \lor y) \\
-\iff & (\lnot x) \land (\lnot y)
+& \lnot (a \lor b) \\
+\iff & (\lnot a) \land (\lnot b)
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:De_Morgan_land}
 \begin{align*}
-& \lnot (x \land y) \\
-\iff & (\lnot x) \lor (\lnot y)
+& \lnot (a \land b) \\
+\iff & (\lnot a) \lor (\lnot b)
 \end{align*}
 \end{prop}
 
 \section{Basic Proposition}
 \begin{prop}
-\label{Proposition:x_lor_y_complement}
+\label{Proposition:a_lor_b_complement}
 \begin{align*}
-& (x \land (\lnot y)) \lor y \\
-\iff & x \lor y
+& (a \land (\lnot b)) \lor b \\
+\iff & a \lor b
 \end{align*}
-Proof of Proposition \ref{Proposition:x_lor_y_complement}
+Proof of Proposition \ref{Proposition:a_lor_b_complement}
 \begin{align*}
-& (x \land (\lnot y)) \lor y \\
-\iff & (x \lor y) \land ((\lnot y) \lor y)
+& (a \land (\lnot b)) \lor b \\
+\iff & (a \lor b) \land ((\lnot b) \lor b)
 && \text{Proposition \ref{Proposition:lor_land_distributivity_2}} \\
-\iff & (x \lor y) \land (\text{True})
+\iff & (a \lor b) \land (\text{True})
 && \text{Proposition \ref{Proposition:lor_complement_2}} \\
-\iff & x \lor y
+\iff & a \lor b
 && \text{Proposition \ref{Proposition:land_identity_1}} \\
 \end{align*}
 \end{prop}
@@ -411,21 +411,21 @@ Proof of Proposition \ref{Proposition:x_lor_y_complement}
 \begin{prop}
 \label{Proposition:true_statement}
 \begin{align*}
-& x \iff (\text{True}) \\
-\iff & x
+& a \iff (\text{True}) \\
+\iff & a
 \end{align*}
 Proof of Proposition \ref{Proposition:true_statement}
 \begin{align*}
-& x \iff (\text{True}) \\
-\overset{\operatorname{def}}{\iff} & (x \land (\text{True})) \lor ((\lnot x) \land (\lnot (\text{True})))
+& a \iff (\text{True}) \\
+\overset{\operatorname{def}}{\iff} & (a \land (\text{True})) \lor ((\lnot a) \land (\lnot (\text{True})))
 && \text{Definition \ref{Definition:iff}} \\
-\overset{\operatorname{def}}{\iff} & (x \land (\text{True})) \lor ((\lnot x) \land (\text{False}))
+\overset{\operatorname{def}}{\iff} & (a \land (\text{True})) \lor ((\lnot a) \land (\text{False}))
 && \text{Definition \ref{Definition:lnot_True}} \\
-\iff & x \lor ((\lnot x) \land (\text{False}))
+\iff & a \lor ((\lnot a) \land (\text{False}))
 && \text{Proposition \ref{Proposition:land_identity_1}} \\
-\iff & x \lor (\text{False})
+\iff & a \lor (\text{False})
 && \text{Proposition \ref{Proposition:land_annihilator_1}} \\
-\iff & x
+\iff & a
 && \text{Proposition \ref{Proposition:lor_identity_1}} \\
 \end{align*}
 \end{prop}
@@ -433,45 +433,45 @@ Proof of Proposition \ref{Proposition:true_statement}
 \begin{prop}
 \label{Proposition:implies_lor}
 \begin{align*}
-& x \implies y \\
-\implies & (x \lor z) \implies (y \lor z)
+& a \implies b \\
+\implies & (a \lor c) \implies (b \lor c)
 \end{align*}
 Proof of Proposition \ref{Proposition:implies_lor}
 \begin{align*}
-& (x \implies y) \implies ((x \lor z) \implies (y \lor z)) \\
-\overset{\operatorname{def}}{\iff} & ((\lnot x) \lor y) \implies ((x \lor z) \implies (y \lor z))
+& (a \implies b) \implies ((a \lor c) \implies (b \lor c)) \\
+\overset{\operatorname{def}}{\iff} & ((\lnot a) \lor b) \implies ((a \lor c) \implies (b \lor c))
 && \text{Definition \ref{Definition:implies}} \\
-\overset{\operatorname{def}}{\iff} & ((\lnot x) \lor y) \implies ((\lnot (x \lor z)) \lor (y \lor z))
+\overset{\operatorname{def}}{\iff} & ((\lnot a) \lor b) \implies ((\lnot (a \lor c)) \lor (b \lor c))
 && \text{Definition \ref{Definition:implies}} \\
-\overset{\operatorname{def}}{\iff} & (\lnot ((\lnot x) \lor y)) \lor ((\lnot (x \lor z)) \lor (y \lor z))
+\overset{\operatorname{def}}{\iff} & (\lnot ((\lnot a) \lor b)) \lor ((\lnot (a \lor c)) \lor (b \lor c))
 && \text{Definition \ref{Definition:implies}} \\
-\iff & ((\lnot (\lnot x)) \land (\lnot y)) \lor ((\lnot (x \lor z)) \lor (y \lor z))
+\iff & ((\lnot (\lnot a)) \land (\lnot b)) \lor ((\lnot (a \lor c)) \lor (b \lor c))
 && \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
-\iff & (x \land (\lnot y)) \lor ((\lnot (x \lor z)) \lor (y \lor z))
+\iff & (a \land (\lnot b)) \lor ((\lnot (a \lor c)) \lor (b \lor c))
 && \text{Proposition \ref{Proposition:double_negation}} \\
-\iff & (x \land (\lnot y)) \lor (((\lnot x) \land (\lnot z)) \lor (y \lor z))
+\iff & (a \land (\lnot b)) \lor (((\lnot a) \land (\lnot c)) \lor (b \lor c))
 && \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
-\iff & (x \land (\lnot y)) \lor (((\lnot x) \land (\lnot z)) \lor (z \lor y))
+\iff & (a \land (\lnot b)) \lor (((\lnot a) \land (\lnot c)) \lor (c \lor b))
 && \text{Proposition \ref{Proposition:lor_commutativity}} \\
-\iff & (x \land (\lnot y)) \lor ((((\lnot x) \land (\lnot z)) \lor z) \lor y)
+\iff & (a \land (\lnot b)) \lor ((((\lnot a) \land (\lnot c)) \lor c) \lor b)
 && \text{Proposition \ref{Proposition:lor_associativity}} \\
-\iff & (x \land (\lnot y)) \lor (y \lor (((\lnot x) \land (\lnot z)) \lor z))
+\iff & (a \land (\lnot b)) \lor (b \lor (((\lnot a) \land (\lnot c)) \lor c))
 && \text{Proposition \ref{Proposition:lor_commutativity}} \\
-\iff & ((x \land (\lnot y)) \lor y) \lor (((\lnot x) \land (\lnot z)) \lor z)
+\iff & ((a \land (\lnot b)) \lor b) \lor (((\lnot a) \land (\lnot c)) \lor c)
 && \text{Proposition \ref{Proposition:lor_associativity}} \\
-\iff & (x \lor y) \lor (((\lnot x) \land (\lnot z)) \lor z)
-&& \text{Proposition \ref{Proposition:x_lor_y_complement}} \\
-\iff & (x \lor y) \lor ((\lnot x) \lor z)
-&& \text{Proposition \ref{Proposition:x_lor_y_complement}} \\
-\iff & ((x \lor y) \lor (\lnot x)) \lor z
+\iff & (a \lor b) \lor (((\lnot a) \land (\lnot c)) \lor c)
+&& \text{Proposition \ref{Proposition:a_lor_b_complement}} \\
+\iff & (a \lor b) \lor ((\lnot a) \lor c)
+&& \text{Proposition \ref{Proposition:a_lor_b_complement}} \\
+\iff & ((a \lor b) \lor (\lnot a)) \lor c
 && \text{Proposition \ref{Proposition:lor_associativity}} \\
-\iff & ((\lnot x) \lor (x \lor y)) \lor z
+\iff & ((\lnot a) \lor (a \lor b)) \lor c
 && \text{Proposition \ref{Proposition:lor_commutativity}} \\
-\iff & (((\lnot x) \lor x) \lor y) \lor z
+\iff & (((\lnot a) \lor a) \lor b) \lor c
 && \text{Proposition \ref{Proposition:lor_associativity}} \\
-\iff & ((\text{True}) \lor y) \lor z
+\iff & ((\text{True}) \lor b) \lor c
 && \text{Proposition \ref{Proposition:lor_complement_2}} \\
-\iff & (\text{True}) \lor z
+\iff & (\text{True}) \lor c
 && \text{Proposition \ref{Proposition:lor_annihilator_2}} \\
 \iff & \text{True}
 && \text{Proposition \ref{Proposition:lor_annihilator_2}} \\
@@ -481,8 +481,8 @@ Proof of Proposition \ref{Proposition:implies_lor}
 \begin{prop}
 \label{Proposition:implies_land}
 \begin{align*}
-& x \implies y \\
-\implies & (x \land z) \implies (y \land z)
+& a \implies b \\
+\implies & (a \land c) \implies (b \land c)
 \end{align*}
 \end{prop}
 
@@ -490,8 +490,8 @@ Proof of Proposition \ref{Proposition:implies_lor}
 \label{Proposition:contrapositive}
 Contrapositive
 \begin{align*}
-& x \implies y \\
-\iff & (\lnot y) \implies (\lnot x)
+& a \implies b \\
+\iff & (\lnot b) \implies (\lnot a)
 \end{align*}
 \end{prop}
 
@@ -499,32 +499,32 @@ Contrapositive
 \label{Proposition:implies_transitive}
 Transitive property of $\implies$.
 \begin{align*}
-& (x \implies y) \land (y \implies z) \\
-\implies & x \implies z
+& (a \implies b) \land (b \implies c) \\
+\implies & a \implies c
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:iff_implies}
 \begin{align*}
-& x \iff y \\
-\iff & (x \implies y) \land (y \implies x)
+& a \iff b \\
+\iff & (a \implies b) \land (b \implies a)
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:iff_lor}
 \begin{align*}
-& x \iff y \\
-\implies & (x \lor z) \iff (y \lor z)
+& a \iff b \\
+\implies & (a \lor c) \iff (b \lor c)
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:iff_land}
 \begin{align*}
-& x \iff y \\
-\implies & (x \land z) \iff (y \land z)
+& a \iff b \\
+\implies & (a \land c) \iff (b \land c)
 \end{align*}
 \end{prop}
 
@@ -532,16 +532,16 @@ Transitive property of $\implies$.
 \label{Proposition:iff_symmetric}
 Symmetric property of $\iff$.
 \begin{align*}
-& x \iff y \\
-\iff & y \iff x
+& a \iff b \\
+\iff & b \iff a
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:iff_contrapositive}
 \begin{align*}
-& x \iff y \\
-\iff & (\lnot x) \iff (\lnot y)
+& a \iff b \\
+\iff & (\lnot a) \iff (\lnot b)
 \end{align*}
 \end{prop}
 
@@ -549,8 +549,8 @@ Symmetric property of $\iff$.
 \label{Proposition:iff_transitive}
 Transitive property of $\iff$.
 \begin{align*}
-& (x \iff y) \land (y \iff z) \\
-\implies & x \iff z
+& (a \iff b) \land (b \iff c) \\
+\implies & a \iff c
 \end{align*}
 \end{prop}
 
@@ -558,17 +558,17 @@ Transitive property of $\iff$.
 \label{Proposition:iff_reflexive}
 Reflexive property of $\iff$.
 \begin{align*}
-& x \\
-\iff & x
+& a \\
+\iff & a
 \end{align*}
 Proof of Proposition \ref{Proposition:iff_reflexive}
 \begin{align*}
-& x \iff x \\
-\overset{\operatorname{def}}{\iff} & (x \land x) \lor ((\lnot x) \land (\lnot x))
+& a \iff a \\
+\overset{\operatorname{def}}{\iff} & (a \land a) \lor ((\lnot a) \land (\lnot a))
 && \text{Definition \ref{Definition:iff}} \\
-\iff & x \lor ((\lnot x) \land (\lnot x))
+\iff & a \lor ((\lnot a) \land (\lnot a))
 && \text{Proposition \ref{Proposition:land_idempotence}} \\
-\iff & x \lor (\lnot x)
+\iff & a \lor (\lnot a)
 && \text{Proposition \ref{Proposition:land_idempotence}} \\
 \iff & \text{True}
 && \text{Proposition \ref{Proposition:lor_complement_1}} \\
@@ -679,40 +679,40 @@ Axiom of Substitution
 \begin{prop}
 \label{Proposition:land_implies_iff}
 \begin{align*}
-& x \land y \\
-\implies & x \iff y
+& a \land b \\
+\implies & a \iff b
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:land_omit}
 \begin{align*}
-& x \land y \\
-\implies & x
+& a \land b \\
+\implies & a
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:lemma_uniqueness}
 \begin{align*}
-& x \land ((y \land x) \implies z) \\
-\implies & y \implies z
+& a \land ((b \land a) \implies c) \\
+\implies & b \implies c
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:implies_satisfy}
 \begin{align*}
-& x \land (x \implies y) \\
-\implies & y
+& a \land (a \implies b) \\
+\implies & b
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:iff_satisfy}
 \begin{align*}
-& x \land (x \iff y) \\
-\implies & y
+& a \land (a \iff b) \\
+\implies & b
 \end{align*}
 \end{prop}
 
