@@ -52,7 +52,7 @@ void set()
     
     x = new Proposition("equality_reflexive", SET, "\\forall x (x = x)");
     description = "Reflexive property of equality.";
-    block = new proof_block("iff_reflexive", x, backward);
+    block = new proof_block("equality_reflexive", x, backward);
     block->append_binary_operator(input({}, "Definition:equality", LeftToRight));
     block->append_binary_operator(input({1}, "Proposition:iff_reflexive", PToTrue));
     block->append_binary_operator(input({}, "Proposition:forall_true", LeftToRight, true));
