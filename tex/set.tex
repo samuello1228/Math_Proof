@@ -26,13 +26,23 @@ Definition of $\notin$.
 \end{align*}
 \end{defn}
 
+\begin{prop}
+\label{Proposition:forall_true}
+\begin{align*}
+& \forall x (\text{True}) \\
+\iff & \text{True}
+\end{align*}
+\end{prop}
+
 \section{Equality of sets}
 \begin{defn}
 \label{Definition:equality}
 Definition of $=$.
 \begin{align*}
-& A = B \\
-\overset{\operatorname{def}}{\iff} & \forall x (x \in A \iff x \in B) \\
+& \forall x \forall y ( \\
+& \quad && && x = y \\
+& \quad && \overset{\operatorname{def}}{\iff} && \forall z ((z \in x) \iff (z \in y)) \\
+& )
 \end{align*}
 \end{defn}
 
@@ -40,24 +50,31 @@ Definition of $=$.
 \label{Definition:neq}
 Definition of $\neq$.
 \begin{align*}
-& A \neq B \\
-\overset{\operatorname{def}}{\iff} & \lnot (A = B) \\
+& \forall x \forall y ( \\
+& \quad && && x \neq y \\
+& \quad && \overset{\operatorname{def}}{\iff} && \lnot (x = y) \\
+& )
 \end{align*}
 \end{defn}
 
 \begin{prop}
-Reflexive property of equality
-\begin{align*}
-\forall x (x = x)
-\end{align*}
-Proof:
+\label{Proposition:equality_reflexive}
+Reflexive property of equality.
 \begin{align*}
 & \forall x ( \\
-& \quad &&  && x = x \\
-& \quad && \iff && \forall y (y \in x \iff y \in x)
+& \quad && \forall x (x = x) \\
+& )
+\end{align*}
+Proof of Proposition \ref{Proposition:iff_reflexive}
+\begin{align*}
+& \forall x ( \\
+& \quad && && x = x \\
+& \quad && \overset{\operatorname{def}}{\iff} && \forall a ((a \in x) \iff (a \in x))
 && \text{Definition \ref{Definition:equality}} \\
-& \quad && \iff && \text{True}
+& \quad && \iff && \forall a (\text{True})
 && \text{Proposition \ref{Proposition:iff_reflexive}} \\
+& \quad && \iff && \text{True}
+&& \text{Proposition \ref{Proposition:forall_true}} \\
 & )
 \end{align*}
 \end{prop}

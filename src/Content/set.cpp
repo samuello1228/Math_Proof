@@ -41,5 +41,23 @@ void set()
     fout<<"\\end{defn}"<<endl;
     fout<<endl;
     
+    x = new Proposition("forall_true", SET, "(\\forall x (\\text{True})) \\iff (\\text{True})");
+    Proposition::addProposition(fout, x);
+    
+    //Equality
+    fout<<"\\section{Equality of sets}"<<endl;
+    Definition::addDefinition(fout, new Definition("equality", SET, "\\forall x \\forall y ((x = y) \\overset{\\operatorname{def}}{\\iff} (\\forall z ((z \\in x) \\iff (z \\in y))))"), "Definition of $=$.");
+    
+    Definition::addDefinition(fout, new Definition("neq", SET, "\\forall x \\forall y ((x \\neq y) \\overset{\\operatorname{def}}{\\iff} (\\lnot (x = y)))"), "Definition of $\\neq$.");
+    
+    x = new Proposition("equality_reflexive", SET, "\\forall x (x = x)");
+    description = "Reflexive property of equality.";
+    block = new proof_block("iff_reflexive", x, backward);
+    block->append_binary_operator(input({}, "Definition:equality", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:iff_reflexive", PToTrue));
+    block->append_binary_operator(input({}, "Proposition:forall_true", LeftToRight, true));
+    x->append(block, true);
+    Proposition::addProposition(fout, x, description);
+    
     fout.close();
 }
