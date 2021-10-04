@@ -535,6 +535,7 @@ void variable::replace_variable(vector<substitution*> replacement)
         {
             variable* z = dynamic_cast<variable*>(replacement[i]->y);
             latex = z->latex;
+            break;
         }
     }
 }
@@ -678,6 +679,7 @@ void quantifier::replace_variable(vector<substitution*> replacement)
         {
             variable* z = dynamic_cast<variable*>(replacement[i]->y);
             var->latex = z->latex;
+            break;
         }
     }
     

@@ -505,6 +505,7 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
             {
                 delete sub[i]->x;
                 sub[i]->x = dynamic_cast<variable*>(replacement[j]->y->getCopy());
+                break;
             }
         }
     }
