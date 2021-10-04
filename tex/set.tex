@@ -5,31 +5,31 @@ Set theory have one primitive notion, called set, and one binary relation, calle
 \label{Definition:notin}
 Definition of $\notin$.
 \begin{align*}
-& \forall x \forall y ( \\
-& \quad && && x \notin y \\
-& \quad && \overset{\operatorname{def}}{\iff} && \lnot (x \in y) \\
+& \forall a \forall b ( \\
+& \quad && && a \notin b \\
+& \quad && \overset{\operatorname{def}}{\iff} && \lnot (a \in b) \\
 & )
 \end{align*}
 \end{defn}
 
 \begin{defn}
 \begin{align*}
-& \forall x \in S, P(x) \\
-\overset{\operatorname{def}}{\iff} & \forall x ((x \in S) \implies (P(x)))
+& \forall a \in S, P(a) \\
+\overset{\operatorname{def}}{\iff} & \forall a ((a \in S) \implies (P(a)))
 \end{align*}
 \end{defn}
 
 \begin{defn}
 \begin{align*}
-& \exists x \in S, P(x) \\
-\overset{\operatorname{def}}{\iff} & \exists x ((x \in S) \land (P(x)))
+& \exists a \in S, P(a) \\
+\overset{\operatorname{def}}{\iff} & \exists a ((a \in S) \land (P(a)))
 \end{align*}
 \end{defn}
 
 \begin{prop}
 \label{Proposition:forall_true}
 \begin{align*}
-& \forall x (\text{True}) \\
+& \forall a (\text{True}) \\
 \iff & \text{True}
 \end{align*}
 \end{prop}
@@ -39,9 +39,9 @@ Definition of $\notin$.
 \label{Definition:equality}
 Definition of $=$.
 \begin{align*}
-& \forall x \forall y ( \\
-& \quad && && x = y \\
-& \quad && \overset{\operatorname{def}}{\iff} && \forall z ((z \in x) \iff (z \in y)) \\
+& \forall a \forall b ( \\
+& \quad && && a = b \\
+& \quad && \overset{\operatorname{def}}{\iff} && \forall c ((c \in a) \iff (c \in b)) \\
 & )
 \end{align*}
 \end{defn}
@@ -50,9 +50,9 @@ Definition of $=$.
 \label{Definition:neq}
 Definition of $\neq$.
 \begin{align*}
-& \forall x \forall y ( \\
-& \quad && && x \neq y \\
-& \quad && \overset{\operatorname{def}}{\iff} && \lnot (x = y) \\
+& \forall a \forall b ( \\
+& \quad && && a \neq b \\
+& \quad && \overset{\operatorname{def}}{\iff} && \lnot (a = b) \\
 & )
 \end{align*}
 \end{defn}
@@ -61,17 +61,17 @@ Definition of $\neq$.
 \label{Proposition:equality_reflexive}
 Reflexive property of equality.
 \begin{align*}
-& \forall x ( \\
-& \quad && \forall x (x = x) \\
+& \forall a ( \\
+& \quad && \forall a (a = a) \\
 & )
 \end{align*}
 Proof of Proposition \ref{Proposition:equality_reflexive}
 \begin{align*}
-& \forall x ( \\
-& \quad && && x = x \\
-& \quad && \overset{\operatorname{def}}{\iff} && \forall a ((a \in x) \iff (a \in x))
+& \forall a ( \\
+& \quad && && a = a \\
+& \quad && \overset{\operatorname{def}}{\iff} && \forall b ((b \in a) \iff (b \in a))
 && \text{Definition \ref{Definition:equality}} \\
-& \quad && \iff && \forall a (\text{True})
+& \quad && \iff && \forall b (\text{True})
 && \text{Proposition \ref{Proposition:iff_reflexive}} \\
 & \quad && \iff && \text{True}
 && \text{Proposition \ref{Proposition:forall_true}} \\

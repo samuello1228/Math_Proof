@@ -23,34 +23,34 @@ void set()
     string description;
     
     //notin
-    Definition::addDefinition(fout, new Definition("notin", SET, "\\forall x \\forall y ((x \\notin y) \\overset{\\operatorname{def}}{\\iff} (\\lnot (x \\in y)))"), "Definition of $\\notin$.");
+    Definition::addDefinition(fout, new Definition("notin", SET, "\\forall a \\forall b ((a \\notin b) \\overset{\\operatorname{def}}{\\iff} (\\lnot (a \\in b)))"), "Definition of $\\notin$.");
     
     fout<<"\\begin{defn}"<<endl;
     fout<<"\\begin{align*}"<<endl;
-    fout<<"& \\forall x \\in S, P(x) \\\\"<<endl;
-    fout<<"\\overset{\\operatorname{def}}{\\iff} & \\forall x ((x \\in S) \\implies (P(x)))"<<endl;
+    fout<<"& \\forall a \\in S, P(a) \\\\"<<endl;
+    fout<<"\\overset{\\operatorname{def}}{\\iff} & \\forall a ((a \\in S) \\implies (P(a)))"<<endl;
     fout<<"\\end{align*}"<<endl;
     fout<<"\\end{defn}"<<endl;
     fout<<endl;
     
     fout<<"\\begin{defn}"<<endl;
     fout<<"\\begin{align*}"<<endl;
-    fout<<"& \\exists x \\in S, P(x) \\\\"<<endl;
-    fout<<"\\overset{\\operatorname{def}}{\\iff} & \\exists x ((x \\in S) \\land (P(x)))"<<endl;
+    fout<<"& \\exists a \\in S, P(a) \\\\"<<endl;
+    fout<<"\\overset{\\operatorname{def}}{\\iff} & \\exists a ((a \\in S) \\land (P(a)))"<<endl;
     fout<<"\\end{align*}"<<endl;
     fout<<"\\end{defn}"<<endl;
     fout<<endl;
     
-    x = new Proposition("forall_true", SET, "(\\forall x (\\text{True})) \\iff (\\text{True})");
+    x = new Proposition("forall_true", SET, "(\\forall a (\\text{True})) \\iff (\\text{True})");
     Proposition::addProposition(fout, x);
     
     //Equality
     fout<<"\\section{Equality of sets}"<<endl;
-    Definition::addDefinition(fout, new Definition("equality", SET, "\\forall x \\forall y ((x = y) \\overset{\\operatorname{def}}{\\iff} (\\forall z ((z \\in x) \\iff (z \\in y))))"), "Definition of $=$.");
+    Definition::addDefinition(fout, new Definition("equality", SET, "\\forall a \\forall b ((a = b) \\overset{\\operatorname{def}}{\\iff} (\\forall c ((c \\in a) \\iff (c \\in b))))"), "Definition of $=$.");
     
-    Definition::addDefinition(fout, new Definition("neq", SET, "\\forall x \\forall y ((x \\neq y) \\overset{\\operatorname{def}}{\\iff} (\\lnot (x = y)))"), "Definition of $\\neq$.");
+    Definition::addDefinition(fout, new Definition("neq", SET, "\\forall a \\forall b ((a \\neq b) \\overset{\\operatorname{def}}{\\iff} (\\lnot (a = b)))"), "Definition of $\\neq$.");
     
-    x = new Proposition("equality_reflexive", SET, "\\forall x (x = x)");
+    x = new Proposition("equality_reflexive", SET, "\\forall a (a = a)");
     description = "Reflexive property of equality.";
     block = new proof_block("equality_reflexive", x, backward);
     block->append_binary_operator(input({}, "Definition:equality", LeftToRight));
