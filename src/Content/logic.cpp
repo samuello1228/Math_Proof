@@ -78,7 +78,7 @@ void logic()
     /*
     block = new proof_block("lor_identity_2", x, direct);
     sub.clear(); sub.push_back(new substitution("x", "x", LOGIC));
-    block->append_binary_operator(input({}, "Proposition:lor_identity_1", LeftToRight, sub));
+    block->append_binary_operator(input({}, "Proposition:lor_identity_1", TrueToP, sub));
     block->append_binary_operator(input({1}, "Proposition:lor_commutativity", LeftToRight, true));
     x->append(block);
     */

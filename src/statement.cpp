@@ -167,6 +167,14 @@ logic_value* statement::get_expression_without_forall_variable()
 
 void statement::find_all_path_of_variable(bool isPrint)
 {
+    if(binary_operator == nullptr)
+    {
+        if(isPrint) cout<<"Info: Cannot do auto substitution for all direction."<<endl;
+        path_of_variable_operand1.clear();
+        path_of_variable_operand2.clear();
+        return;
+    }
+    
     //i=0 for path_of_variable_operand1
     //i=1 for path_of_variable_operand2
     for(long i=0;i<=1;i++)
@@ -398,14 +406,14 @@ void statement::upgrade_to_true(direction dir)
     logic_value* True = dynamic_cast<logic_value*>(expression::createFromLatex("\\text{True}", LOGIC));
     if(x == nullptr)
     {
-        if(dir == LeftToRight) binary_operator = new logic_binary_operator_logic_logic("\\iff", True, content);
-        if(dir == RightToLeft) binary_operator = new logic_binary_operator_logic_logic("\\iff", content, True);
+        if(dir == TrueToP) binary_operator = new logic_binary_operator_logic_logic("\\iff", True, content);
+        if(dir == PToTrue) binary_operator = new logic_binary_operator_logic_logic("\\iff", content, True);
         content = binary_operator;
     }
     else
     {
-        if(dir == LeftToRight) binary_operator = new logic_binary_operator_logic_logic("\\iff", True, x->operand);
-        if(dir == RightToLeft) binary_operator = new logic_binary_operator_logic_logic("\\iff", x->operand, True);
+        if(dir == TrueToP) binary_operator = new logic_binary_operator_logic_logic("\\iff", True, x->operand);
+        if(dir == PToTrue) binary_operator = new logic_binary_operator_logic_logic("\\iff", x->operand, True);
         x->operand = binary_operator;
     }
 }
@@ -954,10 +962,15 @@ void proof_block::append_binary_operator(input x)
         }
     }
     
-    if(method == direct && chain_of_deductive.size() == 0)
+    if(x.dir == TrueToP)
     {
         x.law = x.law->getCopy();
-        x.law->upgrade_to_true(LeftToRight);
+        x.law->upgrade_to_true(TrueToP);
+    }
+    else if(x.dir == PToTrue)
+    {
+        x.law = x.law->getCopy();
+        x.law->upgrade_to_true(PToTrue);
     }
     
     if(x.isPrint)
@@ -1003,7 +1016,7 @@ void proof_block::append_binary_operator(input x)
                 {
                     if(x.law->path_of_variable_operand1.size() == 0)
                     {
-                        cout<<"Error: cannot do automatic substitution."<<endl;
+                        cout<<"Error: cannot do automatic substitution for LeftToRight."<<endl;
                         return;
                     }
                     substitute_path = x.law->path_of_variable_operand1;
@@ -1012,10 +1025,25 @@ void proof_block::append_binary_operator(input x)
                 {
                     if(x.law->path_of_variable_operand2.size() == 0)
                     {
-                        cout<<"Error: cannot do automatic substitution."<<endl;
+                        cout<<"Error: cannot do automatic substitution for RightToLeft."<<endl;
                         return;
                     }
                     substitute_path = x.law->path_of_variable_operand2;
+                }
+                else if(x.dir == PToTrue)
+                {
+                    x.law->find_all_path_of_variable(x.isPrint);
+                    if(x.law->path_of_variable_operand1.size() == 0)
+                    {
+                        cout<<"Error: cannot do automatic substitution for PToTrue."<<endl;
+                        return;
+                    }
+                    substitute_path = x.law->path_of_variable_operand1;
+                }
+                else if(x.dir == TrueToP)
+                {
+                    cout<<"Error: cannot do automatic substitution for TrueToP."<<endl;
+                    return;
                 }
             }
             
@@ -1041,7 +1069,7 @@ void proof_block::append_binary_operator(input x)
     if(dynamic_cast<Proposition*>(x.law)) ref_type.push_back("Proposition");
     ref.push_back(x.law->label);
     
-    if(method == direct && chain_of_deductive.size() == 0) delete x.law;
+    if(x.dir == TrueToP || x.dir == PToTrue) delete x.law;
     
     chain_of_deductive.push_back(step);
 }
