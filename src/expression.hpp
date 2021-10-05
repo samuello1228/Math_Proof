@@ -93,7 +93,7 @@ public:
     expression* getCopy();
     void replace_variable(vector<substitution*>) {return;}
     
-    bool check_variable(vector<variable*>);
+    bool check_variable(vector<variable*>) {return true;}
     void find_path_of_variable(variable*, vector<int>, vector<vector<int> >&) {return;}
 };
 
@@ -129,6 +129,16 @@ class set_element : public elementary_set
 {
 public:
     string latex;
+    
+    set_element(string);
+    
+    string getLatex();
+    bool isEqual(expression*);
+    expression* getCopy();
+    void replace_variable(vector<substitution*>) {return;}
+    
+    bool check_variable(vector<variable*>) {return true;}
+    void find_path_of_variable(variable*, vector<int>, vector<vector<int> >&) {return;}
 };
 
 class set_variable : public elementary_set, public variable

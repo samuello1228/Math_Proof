@@ -222,6 +222,11 @@ expression* expression::createFromLatex(string latex, variable_type var_type)
             expression* output = new logic_element(false);
             return output;
         }
+        else if(elements[0] == "\\emptyset")
+        {
+            expression* output = new set_element(elements[0]);
+            return output;
+        }
         else if(isEnglishLetter(elements[0]))
         {
             //For variables with English letter
@@ -586,11 +591,6 @@ expression* logic_element::getCopy()
     return x;
 }
 
-bool logic_element::check_variable(vector<variable*> var_list)
-{
-    return true;
-}
-
 logic_variable::logic_variable(const string& newLatex) : variable(newLatex)
 {
 }
@@ -611,6 +611,30 @@ bool logic_variable::isEqual(expression* x)
 expression* logic_variable::getCopy()
 {
     logic_variable* x = new logic_variable(latex);
+    return x;
+}
+
+set_element::set_element(string x)
+{
+    latex = x;
+}
+
+string set_element::getLatex()
+{
+    return latex;
+}
+
+bool set_element::isEqual(expression* x)
+{
+    set_element* y = dynamic_cast<set_element*>(x);
+    if(!y) return false;
+    if(y->latex != latex) return false;
+    return true;
+}
+
+expression* set_element::getCopy()
+{
+    set_element* x = new set_element(latex);
     return x;
 }
 
@@ -1067,17 +1091,27 @@ logic_binary_operator_set_set::~logic_binary_operator_set_set()
 string logic_binary_operator_set_set::getLatex()
 {
     string operand1_latex = operand1->getLatex();
-    variable* var1 = dynamic_cast<variable*>(operand1);
-    if(!var1)
-    {
-        operand1_latex = "(" + operand1_latex + ")";
-    }
-    
     string operand2_latex = operand2->getLatex();
-    variable* var2 = dynamic_cast<variable*>(operand2);
-    if(!var2)
+    for(int i=0;i<=1;i++)
     {
-        operand2_latex = "(" + operand2_latex + ")";
+        Set* operand = nullptr;
+        if(i==0) operand = operand1;
+        else if(i==1) operand = operand2;
+        
+        bool condition_set_element = false;
+        if(set_element* x = dynamic_cast<set_element*>(operand))
+        {
+            condition_set_element = (x->latex == "\\emptyset" ||
+                                     x->latex == "0" ||
+                                     x->latex == "1" );
+        }
+        
+        bool condition = (dynamic_cast<set_variable*>(operand) || condition_set_element);
+        if(!condition)
+        {
+            if(i==0) operand1_latex = "(" + operand1_latex + ")";
+            else if(i==1) operand2_latex = "(" + operand2_latex + ")";
+        }
     }
     
     if(operator_latex == "\\in" ||

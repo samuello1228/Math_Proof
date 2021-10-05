@@ -274,7 +274,7 @@ string statement::getLatex()
         if(binary_operator == nullptr)
         {
             output += "& " + quantifier_latex + "( \\\\" + "\n";
-            output += "& \\quad && " + content->getLatex() + " \\\\" + "\n";
+            output += "& \\quad && " + get_expression_without_forall_variable()->getLatex() + " \\\\" + "\n";
             output = output + "& )" + "\n";
         }
         else
