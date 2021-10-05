@@ -540,7 +540,7 @@ void variable::replace_variable(vector<substitution*> replacement)
     }
 }
 
-bool variable::check_variable(variable_type T, vector<variable*> var_list)
+bool variable::check_variable(vector<variable*> var_list)
 {
     for(long i=0;i<var_list.size();i++)
     {
@@ -584,7 +584,7 @@ expression* logic_element::getCopy()
     return x;
 }
 
-bool logic_element::check_variable(variable_type T, vector<variable*> var_list)
+bool logic_element::check_variable(vector<variable*> var_list)
 {
     return true;
 }
@@ -686,7 +686,7 @@ void quantifier::replace_variable(vector<substitution*> replacement)
     operand->replace_variable(replacement);
 }
 
-bool quantifier::check_variable(variable_type T, vector<variable*> var_list)
+bool quantifier::check_variable(vector<variable*> var_list)
 {
     //check whether the variable name is distinct
     for(long i=0;i<var_list.size();i++)
@@ -698,19 +698,9 @@ bool quantifier::check_variable(variable_type T, vector<variable*> var_list)
         }
     }
     
-    //check whether the variable type is correct
-    if(T == LOGIC)
-    {
-        if(!dynamic_cast<logic_variable*>(var)) return false;
-    }
-    else if(T == SET)
-    {
-        if(!dynamic_cast<set_variable*>(var)) return false;
-    }
-    
     //add the variable to the list
     var_list.push_back(var);
-    return operand->check_variable(T, var_list);
+    return operand->check_variable(var_list);
 }
 
 expression* quantifier::getPart(vector<int> path)
@@ -945,9 +935,9 @@ void logic_unary_operator_logic::replace_variable(vector<substitution*> replacem
     operand->replace_variable(replacement);
 }
 
-bool logic_unary_operator_logic::check_variable(variable_type T, vector<variable*> var_list)
+bool logic_unary_operator_logic::check_variable(vector<variable*> var_list)
 {
-    return operand->check_variable(T, var_list);
+    return operand->check_variable(var_list);
 }
 
 expression* logic_unary_operator_logic::getPart(vector<int> path)
@@ -1033,9 +1023,9 @@ void logic_binary_operator_logic_logic::replace_variable(vector<substitution*> r
     operand2->replace_variable(replacement);
 }
 
-bool logic_binary_operator_logic_logic::check_variable(variable_type T, vector<variable*> var_list)
+bool logic_binary_operator_logic_logic::check_variable(vector<variable*> var_list)
 {
-    return (operand1->check_variable(T, var_list) && operand2->check_variable(T, var_list));
+    return (operand1->check_variable(var_list) && operand2->check_variable(var_list));
 }
 
 expression* logic_binary_operator_logic_logic::getPart(vector<int> path)
@@ -1121,9 +1111,9 @@ void logic_binary_operator_set_set::replace_variable(vector<substitution*> repla
     operand2->replace_variable(replacement);
 }
 
-bool logic_binary_operator_set_set::check_variable(variable_type T, vector<variable*> var_list)
+bool logic_binary_operator_set_set::check_variable(vector<variable*> var_list)
 {
-    return (operand1->check_variable(T, var_list) && operand2->check_variable(T, var_list));
+    return (operand1->check_variable(var_list) && operand2->check_variable(var_list));
 }
 
 expression* logic_binary_operator_set_set::getPart(vector<int> path)

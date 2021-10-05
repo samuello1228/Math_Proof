@@ -46,7 +46,7 @@ public:
     virtual void replace_variable(vector<substitution*>)=0;
     static expression* substitute_forall_variable(expression* ,vector<substitution*>);
     
-    virtual bool check_variable(variable_type, vector<variable*>)=0;
+    virtual bool check_variable(vector<variable*>)=0;
     virtual expression* getPart(vector<int>)=0;
     virtual void getPartExternalDependence(vector<int>, vector<variable*>&)=0;
     virtual void getInternalDependence(vector<variable*>&)=0;
@@ -64,7 +64,7 @@ public:
     virtual ~variable() {}
     
     void replace_variable(vector<substitution*>);
-    bool check_variable(variable_type, vector<variable*>);
+    bool check_variable(vector<variable*>);
     void find_path_of_variable(variable*, vector<int>, vector<vector<int> >&);
 };
 
@@ -93,7 +93,7 @@ public:
     expression* getCopy();
     void replace_variable(vector<substitution*>) {return;}
     
-    bool check_variable(variable_type, vector<variable*>);
+    bool check_variable(vector<variable*>);
     void find_path_of_variable(variable*, vector<int>, vector<vector<int> >&) {return;}
 };
 
@@ -158,7 +158,7 @@ public:
     string getLatex();
     void replace_variable(vector<substitution*>);
     
-    bool check_variable(variable_type, vector<variable*>);
+    bool check_variable(vector<variable*>);
     expression* getPart(vector<int>);
     void getPartExternalDependence(vector<int>, vector<variable*>&);
     void getInternalDependence(vector<variable*>&);
@@ -197,7 +197,7 @@ public:
     expression* getCopy();
     void replace_variable(vector<substitution*>);
     
-    bool check_variable(variable_type, vector<variable*>);
+    bool check_variable(vector<variable*>);
     expression* getPart(vector<int>);
     void getPartExternalDependence(vector<int>, vector<variable*>&);
     void getInternalDependence(vector<variable*>&);
@@ -219,7 +219,7 @@ public:
     expression* getCopy();
     void replace_variable(vector<substitution*>);
     
-    bool check_variable(variable_type, vector<variable*>);
+    bool check_variable(vector<variable*>);
     expression* getPart(vector<int>);
     void getPartExternalDependence(vector<int>, vector<variable*>&);
     void getInternalDependence(vector<variable*>&);
@@ -241,7 +241,7 @@ public:
     expression* getCopy();
     void replace_variable(vector<substitution*>);
     
-    bool check_variable(variable_type, vector<variable*>);
+    bool check_variable(vector<variable*>);
     expression* getPart(vector<int>);
     void getPartExternalDependence(vector<int>, vector<variable*>&);
     void getInternalDependence(vector<variable*>&);

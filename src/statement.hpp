@@ -25,7 +25,6 @@ class statement
 public:
     string label;
     logic_value* content;
-    variable_type var_type;
     
     //for \\forall quantifier
     vector<variable*> forall_variable;
@@ -36,7 +35,7 @@ public:
     vector<vector<int> > path_of_variable_operand2;
     
     statement(string, variable_type, string);
-    statement(string, variable_type, expression*);
+    statement(string, expression*);
     void constructor_aux();
     logic_value* get_expression_without_forall_variable();
     void find_all_path_of_variable(bool);
@@ -55,7 +54,7 @@ class Definition : public statement
 {
 public:
     Definition(string, variable_type, string);
-    Definition(string, variable_type, expression*);
+    Definition(string, expression*);
     ~Definition();
     
     statement* getCopy();
@@ -69,7 +68,7 @@ class Axiom : public statement
 {
 public:
     Axiom(string, variable_type, string);
-    Axiom(string, variable_type, expression*);
+    Axiom(string, expression*);
     ~Axiom();
     
     statement* getCopy();
@@ -121,7 +120,7 @@ public:
     proof_block(string, statement*, proof_method);
     ~proof_block();
     
-    string getLatex(variable_type);
+    string getLatex();
     statement* get_next_source();
     void check_finished(statement*);
     void append_binary_operator(input x);
@@ -133,7 +132,7 @@ public:
     vector<proof_block*> proof;
     
     Proposition(string, variable_type, string);
-    Proposition(string, variable_type, expression*);
+    Proposition(string, expression*);
     ~Proposition();
     
     statement* getCopy();

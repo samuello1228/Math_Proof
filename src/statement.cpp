@@ -82,7 +82,6 @@ statement::statement(string newLabel, variable_type new_var_type, string input_l
     }
     
     label = newLabel;
-    var_type = new_var_type;
     
     //check whether the input latex format is standard
     if(input_latex != content->getLatex())
@@ -93,7 +92,7 @@ statement::statement(string newLabel, variable_type new_var_type, string input_l
     constructor_aux();
 }
 
-statement::statement(string newLabel, variable_type new_var_type, expression* x)
+statement::statement(string newLabel, expression* x)
 {
     content = dynamic_cast<logic_value*>(x);
     if(!content)
@@ -105,7 +104,6 @@ statement::statement(string newLabel, variable_type new_var_type, expression* x)
     }
     
     label = newLabel;
-    var_type = new_var_type;
     constructor_aux();
 }
 
@@ -144,7 +142,7 @@ void statement::constructor_aux()
     }
     
     //check variable
-    if(!content->check_variable(var_type, {}))
+    if(!content->check_variable({}))
     {
         cout<<"Error: Check fail for variable."<<endl;
     }
@@ -248,9 +246,9 @@ string statement::getLatex()
     string output = "";
     
     string quantifier_latex = "";
-    if(var_type == SET)
+    for(long i=0;i<forall_variable.size();i++)
     {
-        for(long i=0;i<forall_variable.size();i++)
+        if(dynamic_cast<set_variable*>(forall_variable[i]))
         {
             quantifier_latex += "\\forall ";
             quantifier_latex += forall_variable[i]->getLatex();
@@ -492,7 +490,6 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
     
     //do replacement for step
     statement* step = getCopy();
-    step->var_type = source->var_type;
     step->content->replace_variable(replacement);
     if(isPrint) cout<<step->content->getLatex()<<endl;
     
@@ -661,7 +658,7 @@ Definition::Definition(string newLabel, variable_type new_var_type, string x) : 
 {
 }
 
-Definition::Definition(string newLabel, variable_type new_var_type, expression* x) : statement(newLabel, new_var_type, x)
+Definition::Definition(string newLabel, expression* x) : statement(newLabel, x)
 {
 }
 
@@ -671,7 +668,7 @@ Definition::~Definition()
 
 statement* Definition::getCopy()
 {
-    Definition* output = new Definition(label, var_type, content->getCopy());
+    Definition* output = new Definition(label, content->getCopy());
     return output;
 }
 
@@ -722,7 +719,7 @@ Axiom::Axiom(string newLabel, variable_type new_var_type, string x) : statement(
 {
 }
 
-Axiom::Axiom(string newLabel, variable_type new_var_type, expression* x) : statement(newLabel, new_var_type, x)
+Axiom::Axiom(string newLabel, expression* x) : statement(newLabel, x)
 {
 }
 
@@ -732,7 +729,7 @@ Axiom::~Axiom()
 
 statement* Axiom::getCopy()
 {
-    Axiom* output = new Axiom(label, var_type, content->getCopy());
+    Axiom* output = new Axiom(label, content->getCopy());
     return output;
 }
 
@@ -887,20 +884,21 @@ proof_block::~proof_block()
     }
 }
 
-string proof_block::getLatex(variable_type var_type)
+string proof_block::getLatex()
 {
     string output = "";
     string quantifier_latex = "";
-    if(var_type == SET)
+    for(long i=0;i<target->forall_variable.size();i++)
     {
-        for(long i=0;i<target->forall_variable.size();i++)
+        if(dynamic_cast<set_variable*>(target->forall_variable[i]))
         {
             quantifier_latex += "\\forall ";
             quantifier_latex += target->forall_variable[i]->getLatex();
             quantifier_latex += " ";
         }
-        output += "& " + quantifier_latex + "( \\\\" + "\n";
     }
+    
+    if(quantifier_latex != "") output += "& " + quantifier_latex + "( \\\\" + "\n";
     
     for(long i=0;i<chain_of_deductive.size();i++)
     {
@@ -1131,7 +1129,7 @@ Proposition::Proposition(string newLabel, variable_type new_var_type, string x) 
 {
 }
 
-Proposition::Proposition(string newLabel, variable_type new_var_type, expression* x) : statement(newLabel, new_var_type, x)
+Proposition::Proposition(string newLabel, expression* x) : statement(newLabel, x)
 {
 }
 
@@ -1145,7 +1143,7 @@ Proposition::~Proposition()
 
 statement* Proposition::getCopy()
 {
-    Proposition* output = new Proposition(label, var_type, content->getCopy());
+    Proposition* output = new Proposition(label, content->getCopy());
     return output;
 }
 
@@ -1193,8 +1191,8 @@ void Proposition::addProposition(ofstream& fout, Proposition* x, string descript
     {
         fout<< "Proof of Proposition \\ref{Proposition:" << x->proof[i]->label << "}" <<endl;
         fout<<"\\begin{align*}"<<endl;
-        fout<<x->proof[i]->getLatex(x->var_type);
-        cout<<x->proof[i]->getLatex(x->var_type)<<endl;
+        fout<<x->proof[i]->getLatex();
+        cout<<x->proof[i]->getLatex()<<endl;
         fout<<"\\end{align*}"<<endl;
     }
     
