@@ -468,10 +468,8 @@ bool expression::assemble(statement* step, expression* source_part, int p, vecto
         
         if(condition_iff)
         {
-            logic_value* copy1 = dynamic_cast<logic_value*>(source_part_copy->operand->getCopy());
-            logic_value* copy2 = dynamic_cast<logic_value*>(source_part_copy->operand->getCopy());
-            step->binary_operator->operand1 = new logic_unary_operator_logic(source_part_copy->operator_latex, copy1);
-            step->binary_operator->operand2 = new logic_unary_operator_logic(source_part_copy->operator_latex, copy2);
+            step->binary_operator->operand1 = new logic_unary_operator_logic(source_part_copy->operator_latex, step->binary_operator->operand1);
+            step->binary_operator->operand2 = new logic_unary_operator_logic(source_part_copy->operator_latex, step->binary_operator->operand2);
             return true;
         }
     }
@@ -733,6 +731,11 @@ expression* quantifier::getPart(vector<int> path)
 {
     if(path.size() == 0) return this;
     
+    if(path[0] != 1)
+    {
+        cout<<"Error: The path for quantifier is not 1."<<endl;
+    }
+    
     path.erase(path.begin());
     return operand->getPart(path);
 }
@@ -864,6 +867,11 @@ expression* getPart_1_operand(T* x, vector<int>& path)
 {
     if(path.size() == 0) return x;
     
+    if(path[0] != 1)
+    {
+        cout<<"Error: The path for unary operator is not 1."<<endl;
+    }
+    
     path.erase(path.begin());
     return x->operand->getPart(path);
 }
@@ -878,7 +886,11 @@ expression* getPart_2_operand(T* x, vector<int>& path)
     
     if(p == 1) return x->operand1->getPart(path);
     else if(p == 2) return x->operand2->getPart(path);
-    else return nullptr;
+    else
+    {
+        cout<<"Error: The path for binary operator is not 1 or 2."<<endl;
+        return nullptr;
+    }
 }
 
 template <class T>
