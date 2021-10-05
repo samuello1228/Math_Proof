@@ -115,6 +115,7 @@ public:
 class Set : virtual public expression
 {
 public:
+    static bool needParenthesis(Set*, string);
 };
 
 class elementary_set : public Set
@@ -263,6 +264,20 @@ class set_unary_operator_set : public compound_set
 public:
     string operator_latex;
     Set* operand;
+    
+    set_unary_operator_set(const string&, Set*);
+    ~set_unary_operator_set();
+    
+    string getLatex();
+    bool isEqual(expression*);
+    expression* getCopy();
+    void replace_variable(vector<substitution*>);
+    
+    bool check_variable(vector<variable*>);
+    expression* getPart(vector<int>);
+    void getPartExternalDependence(vector<int>, vector<variable*>&);
+    void getInternalDependence(vector<variable*>&);
+    void find_path_of_variable(variable*, vector<int>, vector<vector<int> >&);
 };
 
 class set_binary_operator_set_set : public compound_set
@@ -271,6 +286,20 @@ public:
     string operator_latex;
     Set* operand1;
     Set* operand2;
+    
+    set_binary_operator_set_set(const string&, Set*, Set*);
+    ~set_binary_operator_set_set();
+    
+    string getLatex();
+    bool isEqual(expression*);
+    expression* getCopy();
+    void replace_variable(vector<substitution*>);
+    
+    bool check_variable(vector<variable*>);
+    expression* getPart(vector<int>);
+    void getPartExternalDependence(vector<int>, vector<variable*>&);
+    void getInternalDependence(vector<variable*>&);
+    void find_path_of_variable(variable*, vector<int>, vector<vector<int> >&);
 };
 
 #endif /* expression_hpp */

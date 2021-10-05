@@ -171,10 +171,36 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
                     cout<<"Error: Impossible case"<<endl;
                     return nullptr;
                 }
+                else if(latex[index] == '\\' && latex[index+1] == '{')
+                {
+                    if(element.size() != 0)
+                    {
+                        elements.push_back(element);
+                    }
+                    element = "\\{";
+                    index++;
+                    parenthesisLevel++;
+                }
+                else if(latex[index] == '\\' && latex[index+1] == '}')
+                {
+                    cout<<"Error: Impossible case"<<endl;
+                    return nullptr;
+                }
                 else element += latex[index];
             }
             else if(latex[index] == ')' && parenthesisLevel == 1)
             {
+                if(element.size() != 0)
+                {
+                    elements.push_back(element);
+                    element.clear();
+                }
+                parenthesisLevel--;
+            }
+            else if(latex[index] == '\\' && latex[index+1] == '}' && parenthesisLevel == 1)
+            {
+                element += "\\}";
+                index++;
                 if(element.size() != 0)
                 {
                     elements.push_back(element);
@@ -187,6 +213,21 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
                 element += latex[index];
                 if(latex[index] == '(') parenthesisLevel++;
                 else if(latex[index] == ')') parenthesisLevel--;
+                if(latex[index] == '\\')
+                {
+                    if(latex[index+1] == '{')
+                    {
+                        index++;
+                        element += latex[index];
+                        parenthesisLevel++;
+                    }
+                    else if(latex[index+1] == '}')
+                    {
+                        index++;
+                        element += latex[index];
+                        parenthesisLevel--;
+                    }
+                }
             }
             
             if(index == latex.size()-1)
@@ -249,6 +290,71 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
             else if(var_type == SET)
             {
                 expression* output = new set_variable(elements[0]);
+                return output;
+            }
+        }
+        if(elements[0].size() >= 4 &&
+           elements[0][0] == '\\' &&
+           elements[0][1] == '{' &&
+           elements[0][elements[0].size()-2] == '\\' &&
+           elements[0][elements[0].size()-1] == '}' )
+        {
+            bool is_pair_set = false;
+            long comma_index = -1;
+            for(long i=2;i<=elements[0].size()-3;i++)
+            {
+                if(elements[0][i] == ',')
+                {
+                    is_pair_set = true;
+                    comma_index = i;
+                    break;
+                }
+            }
+            
+            if(is_pair_set)
+            {
+                //For pair_set
+                string operand1_latex = "";
+                for(long i=2;i<=comma_index-1;i++)
+                {
+                    operand1_latex += elements[0][i];
+                }
+                
+                string operand2_latex = "";
+                for(long i=comma_index+1;i<=elements[0].size()-3;i++)
+                {
+                    operand2_latex += elements[0][i];
+                }
+                
+                Set* operand1 = dynamic_cast<Set*>(expression::createFromLatex(operand1_latex, var_type, isPrint));
+                Set* operand2 = dynamic_cast<Set*>(expression::createFromLatex(operand2_latex, var_type, isPrint));
+                if(!operand1 || !operand2)
+                {
+                    cout<<"Type Error: the two operands are not set: "<<operand1_latex<<endl;
+                    cout<<operand2_latex<<endl;
+                    return nullptr;
+                }
+                
+                expression* output = new set_binary_operator_set_set("pair_set", operand1, operand2);
+                return output;
+            }
+            else
+            {
+                //For singleton_set
+                string operand_latex = "";
+                for(long i=2;i<=elements[0].size()-3;i++)
+                {
+                    operand_latex += elements[0][i];
+                }
+                
+                Set* operand = dynamic_cast<Set*>(expression::createFromLatex(operand_latex, var_type, isPrint));
+                if(!operand)
+                {
+                    cout<<"Type Error: the operand are not set: "<<operand_latex<<endl;
+                    return nullptr;
+                }
+                
+                expression* output = new set_unary_operator_set("singleton_set", operand);
                 return output;
             }
         }
@@ -621,6 +727,31 @@ expression* logic_variable::getCopy()
 {
     logic_variable* x = new logic_variable(latex);
     return x;
+}
+
+bool Set::needParenthesis(Set* operand, string operand_latex)
+{
+    bool condition = dynamic_cast<set_variable*>(operand);
+    
+    bool condition_set_element = false;
+    if(set_element* x = dynamic_cast<set_element*>(operand))
+    {
+        condition_set_element = (x->latex == "\\emptyset" ||
+                                 x->latex == "0" ||
+                                 x->latex == "1" );
+    }
+    condition = condition || condition_set_element;
+    
+    bool condition_curly_bracket = false;
+    if(operand_latex.size() >= 4 &&
+       operand_latex[0] == '\\' &&
+       operand_latex[1] == '{' &&
+       operand_latex[operand_latex.size()-2] == '\\' &&
+       operand_latex[operand_latex.size()-1] == '}' )
+        condition_curly_bracket = true;
+    condition = condition || condition_curly_bracket;
+    
+    return !condition;
 }
 
 set_element::set_element(string x)
@@ -1115,27 +1246,8 @@ string logic_binary_operator_set_set::getLatex()
 {
     string operand1_latex = operand1->getLatex();
     string operand2_latex = operand2->getLatex();
-    for(int i=0;i<=1;i++)
-    {
-        Set* operand = nullptr;
-        if(i==0) operand = operand1;
-        else if(i==1) operand = operand2;
-        
-        bool condition_set_element = false;
-        if(set_element* x = dynamic_cast<set_element*>(operand))
-        {
-            condition_set_element = (x->latex == "\\emptyset" ||
-                                     x->latex == "0" ||
-                                     x->latex == "1" );
-        }
-        
-        bool condition = (dynamic_cast<set_variable*>(operand) || condition_set_element);
-        if(!condition)
-        {
-            if(i==0) operand1_latex = "(" + operand1_latex + ")";
-            else if(i==1) operand2_latex = "(" + operand2_latex + ")";
-        }
-    }
+    if(Set::needParenthesis(operand1, operand1_latex)) operand1_latex = "(" + operand1_latex + ")";
+    if(Set::needParenthesis(operand2, operand2_latex)) operand2_latex = "(" + operand2_latex + ")";
     
     if(operator_latex == "\\in" ||
        operator_latex == "\\notin" ||
@@ -1194,4 +1306,149 @@ void logic_binary_operator_set_set::getInternalDependence(vector<variable*>& dep
 void logic_binary_operator_set_set::find_path_of_variable(variable* var, vector<int> current_path, vector<vector<int> >& all_path)
 {
     find_path_of_variable_2_operand<logic_binary_operator_set_set>(this, var, current_path, all_path);
+}
+
+set_unary_operator_set::set_unary_operator_set(const string& newLatex, Set* x)
+{
+    operator_latex = newLatex;
+    operand = x;
+}
+
+set_unary_operator_set::~set_unary_operator_set()
+{
+    delete operand;
+}
+
+string set_unary_operator_set::getLatex()
+{
+    string operand_latex = operand->getLatex();
+    if(Set::needParenthesis(operand, operand_latex)) operand_latex = "(" + operand_latex + ")";
+    
+    if(operator_latex == "singleton_set")
+    {
+        //For logical not
+        string output = "\\{ " + operand_latex + " \\}";
+        return output;
+    }
+    else
+    {
+        cout<<"Syntax Error: the operator cannot be processed: "<<operator_latex<<endl;
+        string output = "";
+        return output;
+    }
+}
+
+bool set_unary_operator_set::isEqual(expression* x)
+{
+    return isEqual_1_operand<set_unary_operator_set>(this, x);
+}
+
+expression* set_unary_operator_set::getCopy()
+{
+    return getCopy_1_operand<set_unary_operator_set, Set>(this);
+}
+
+void set_unary_operator_set::replace_variable(vector<substitution*> replacement)
+{
+    operand->replace_variable(replacement);
+}
+
+bool set_unary_operator_set::check_variable(vector<variable*> var_list)
+{
+    return operand->check_variable(var_list);
+}
+
+expression* set_unary_operator_set::getPart(vector<int> path)
+{
+    return getPart_1_operand<set_unary_operator_set>(this, path);
+}
+
+void set_unary_operator_set::getPartExternalDependence(vector<int> path, vector<variable*>& dependence)
+{
+    getPartExternalDependence_1_operand<set_unary_operator_set>(this, path, dependence);
+}
+
+void set_unary_operator_set::getInternalDependence(vector<variable*>& dependence)
+{
+    operand->getInternalDependence(dependence);
+}
+
+void set_unary_operator_set::find_path_of_variable(variable* var, vector<int> current_path, vector<vector<int> >& all_path)
+{
+    find_path_of_variable_1_operand<set_unary_operator_set>(this, var, current_path, all_path);
+}
+
+set_binary_operator_set_set::set_binary_operator_set_set(const string& newLatex, Set* x, Set* y)
+{
+    operator_latex = newLatex;
+    operand1 = x;
+    operand2 = y;
+}
+
+set_binary_operator_set_set::~set_binary_operator_set_set()
+{
+    delete operand1;
+    delete operand2;
+}
+
+string set_binary_operator_set_set::getLatex()
+{
+    string operand1_latex = operand1->getLatex();
+    string operand2_latex = operand2->getLatex();
+    if(Set::needParenthesis(operand1, operand1_latex)) operand1_latex = "(" + operand1_latex + ")";
+    if(Set::needParenthesis(operand2, operand2_latex)) operand2_latex = "(" + operand2_latex + ")";
+    
+    if(operator_latex == "pair_set")
+    {
+        string output = "\\{ " + operand1_latex + " , " + operand2_latex + " \\}";
+        return output;
+    }
+    else
+    {
+        cout<<"Syntax Error: the operator cannot be processed: "<<operator_latex<<endl;
+        string output = "";
+        return output;
+    }
+}
+
+bool set_binary_operator_set_set::isEqual(expression* x)
+{
+    return isEqual_2_operand<set_binary_operator_set_set>(this, x);
+}
+
+expression* set_binary_operator_set_set::getCopy()
+{
+    return getCopy_2_operand<set_binary_operator_set_set, Set>(this);
+}
+
+void set_binary_operator_set_set::replace_variable(vector<substitution*> replacement)
+{
+    operand1->replace_variable(replacement);
+    operand2->replace_variable(replacement);
+}
+
+bool set_binary_operator_set_set::check_variable(vector<variable*> var_list)
+{
+    return (operand1->check_variable(var_list) && operand2->check_variable(var_list));
+}
+
+expression* set_binary_operator_set_set::getPart(vector<int> path)
+{
+    return getPart_2_operand<set_binary_operator_set_set>(this, path);
+}
+
+void set_binary_operator_set_set::getPartExternalDependence(vector<int> path, vector<variable*>& dependence)
+{
+    getPartExternalDependence_2_operand<set_binary_operator_set_set>(this, path, dependence);
+}
+
+void set_binary_operator_set_set::getInternalDependence(vector<variable*>& dependence)
+{
+    operand1->getInternalDependence(dependence);
+    operand2->getInternalDependence(dependence);
+}
+
+void set_binary_operator_set_set::find_path_of_variable(variable* var, vector<int> current_path, vector<vector<int> >& all_path)
+{
+    find_path_of_variable_2_operand<set_binary_operator_set_set>(this, var, current_path, all_path);
 }
