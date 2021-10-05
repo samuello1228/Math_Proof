@@ -211,10 +211,13 @@ Proof of Proposition \ref{Proposition:single_choice}
 \end{prop}
 
 \begin{axm}
-\label{Axiom:axiom_of_pairing}
-Axiom of pairing. Existence of pair set.
+\label{Axiom:existence_of_pair_set}
+Existence of pair set
 \begin{align*}
-\forall x \forall y \exists A \forall z (z \in A \iff ((z=x) \lor (z=y)))
+& \forall a \forall b \forall c ( \\
+& \quad && && c \in \{ a , b \} \\
+& \quad && \iff && (c = a) \lor (c = b) \\
+& )
 \end{align*}
 \end{axm}
 
@@ -270,7 +273,7 @@ Existence of singleton set.
 Proof:
 \begin{align*}
 & \forall x \exists A \forall y (y \in A \iff ((y=x) \lor (y=x)))
-&& \text{Axiom \ref{Axiom:axiom_of_pairing}} \\
+&& \text{Axiom \ref{Axiom:existence_of_pair_set}} \\
 \implies & \forall x \exists A \forall y (y \in A \iff (y=x))
 && \text{Proposition \ref{Proposition:lor_idempotence}} \
 \end{align*}

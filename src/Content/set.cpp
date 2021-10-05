@@ -113,5 +113,8 @@ void set()
     x->append(block, true);
     Proposition::addProposition(fout, x, description);
     
+    axiom = new Axiom("existence_of_pair_set", SET, "\\forall a \\forall b \\forall c ((c \\in \\{ a , b \\}) \\iff ((c = a) \\lor (c = b)))");
+    Axiom::addAxiom(fout, axiom, "Existence of pair set");
+    
     fout.close();
 }
