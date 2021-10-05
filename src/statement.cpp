@@ -145,6 +145,7 @@ void statement::constructor_aux()
     if(!content->check_variable({}))
     {
         cout<<"Error: Check fail for variable."<<endl;
+        cout<<content->getLatex()<<endl;
     }
 }
 
@@ -521,20 +522,6 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
         delete replacement[i];
     }
     
-    //add universal quantifier at the beginning
-    step->forall_variable.clear();
-    for(long i = external_dependence_source_part.size()-1; i>=0; i--)
-    {
-        variable* variable_copy = dynamic_cast<variable*>(external_dependence_source_part[i]->getCopy());
-        step->content = new universal_quantifier(variable_copy, step->content);
-        step->forall_variable.insert(step->forall_variable.begin(), variable_copy);
-    }
-    if(isPrint)
-    {
-        cout<<"Add universal quantifier at the beginning:"<<endl;
-        cout<<step->content->getLatex()<<endl;
-    }
-    
     //do substitution
     step->content = dynamic_cast<logic_value*>(expression::substitute_forall_variable(step->content, sub));
     if(isPrint)
@@ -547,6 +534,20 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
     for(long i=0;i<sub.size();i++)
     {
         delete sub[i];
+    }
+    
+    //add universal quantifier at the beginning
+    step->forall_variable.clear();
+    for(long i = external_dependence_source_part.size()-1; i>=0; i--)
+    {
+        variable* variable_copy = dynamic_cast<variable*>(external_dependence_source_part[i]->getCopy());
+        step->content = new universal_quantifier(variable_copy, step->content);
+        step->forall_variable.insert(step->forall_variable.begin(), variable_copy);
+    }
+    if(isPrint)
+    {
+        cout<<"Add universal quantifier at the beginning:"<<endl;
+        cout<<step->content->getLatex()<<endl<<endl;
     }
     
     //for direction Right to Left
@@ -599,7 +600,7 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
         cout<<endl;
     }
     
-    step->binary_operator->operand1->replace_variable(replacement);
+    step->content->replace_variable(replacement);
     if(isPrint) cout<<step->content->getLatex()<<endl<<endl;
     
     if(!step->binary_operator->operand1->isEqual(source_part))

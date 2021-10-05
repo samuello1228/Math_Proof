@@ -549,6 +549,8 @@ bool variable::check_variable(vector<variable*> var_list)
             return true;
         }
     }
+    
+    cout<<"Error: variable "<<this->getLatex()<<" is not declared in the quantifier."<<endl;
     return false;
 }
 
