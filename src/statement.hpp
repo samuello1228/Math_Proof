@@ -75,7 +75,7 @@ public:
     
     static vector<Axiom*> All_Axiom;
     static Axiom* FindByRef(string);
-    static void addAxiom(ofstream&, Axiom*);
+    static void addAxiom(ofstream&, Axiom*, string description = "");
 };
 
 enum substitution_type {automatic, source_specified, full};

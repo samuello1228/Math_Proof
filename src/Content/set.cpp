@@ -16,6 +16,7 @@ void set()
     fout<<"Set theory have one primitive notion, called set, and one binary relation, called set membership, denoted by $\\in$."<<endl;
     fout<<endl;
     
+    Axiom* axiom = nullptr;
     Proposition* x = nullptr;
     statement* law = nullptr;
     proof_block* block = nullptr;
@@ -78,6 +79,9 @@ void set()
     block->append_binary_operator(input({}, "Definition:equality", RightToLeft, true));
     x->append(block, true);
     Proposition::addProposition(fout, x, description);
+    
+    axiom = new Axiom("extensionality", SET, "\\forall a \\forall b ((a = b) \\implies (\\forall c ((a \\in c) \\iff (b \\in c))))");
+    Axiom::addAxiom(fout, axiom, "Axiom of extensionality");
     
     fout.close();
 }

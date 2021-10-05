@@ -130,10 +130,12 @@ Proof of Proposition \ref{Proposition:equality_transitive}
 \end{prop}
 
 \begin{axm}
+\label{Axiom:extensionality}
 Axiom of extensionality
 \begin{align*}
-& \forall x \forall y ( \\
-& x = y \implies \forall A (x \in A  \iff y \in A) \\
+& \forall a \forall b ( \\
+& \quad && && a = b \\
+& \quad && \implies && \forall c ((a \in c) \iff (b \in c)) \\
 & )
 \end{align*}
 \end{axm}

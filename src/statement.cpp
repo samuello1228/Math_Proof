@@ -746,7 +746,7 @@ Axiom* Axiom::FindByRef(string Name)
     return nullptr;
 }
 
-void Axiom::addAxiom(ofstream& fout, Axiom* x)
+void Axiom::addAxiom(ofstream& fout, Axiom* x, string description)
 {
     //check whether the label is distinct
     for(long i=0;i<All_Axiom.size();i++)
@@ -768,6 +768,7 @@ void Axiom::addAxiom(ofstream& fout, Axiom* x)
     //write to file
     fout<<"\\begin{axm}"<<endl;
     fout<<"\\label{Axiom:"<<x->label<<"}"<<endl;
+    if(description != "") fout<< description <<endl;
     fout<<"\\begin{align*}"<<endl;
     fout<< x->getLatex();
     fout<<"\\end{align*}"<<endl;
