@@ -144,93 +144,38 @@ Axiom of extensionality
 \label{Axiom:existence_of_empty_set}
 Existence of empty set
 \begin{align*}
-\exists x \forall y (y \notin x)
+& \forall a ( \\
+& \quad && a \notin \emptyset \\
+& )
 \end{align*}
 \end{axm}
 
 \begin{prop}
 \label{Proposition:uniqueness_of_empty_set}
-Uniqueness of empty set.
-\begin{align*}
-!\exists x \forall y (y \notin x)
-\end{align*}
-Proof: \\
-Let $P(x) = \forall y (y \notin x)$
-\begin{align*}
-& \exists x \forall y (y \notin x) && \text{Axiom \ref{Axiom:existence_of_empty_set}} \\
-\implies & \exists x, P(x) && \text{Definition of P(x)}
-\end{align*}
-\begin{align*}
-& \forall x \forall y ( \\
-& \quad && &&  P(x) \land P(y) \\
-& \quad && \implies &&  (\forall z (z \notin x)) \land (\forall z (z \notin y))
-&& \text{Definition of P(x)} \\
-& \quad && \implies && \forall z ((z \notin x) \land (z \notin y))
-&& \text{Proposition \ref{Proposition:forall_land_commutativity}} \\
-& \quad && \implies && \forall z (z \notin x \iff z \notin y)
-&& \text{Proposition \ref{Proposition:land_implies_iff}} \\
-& \quad && \implies && \forall z (\lnot(z \in x) \iff \lnot (z \in y))
-&& \text{Definition \ref{Definition:notin}} \\
-& \quad && \implies && \forall z (z \in x \iff z \in y)
-&& \text{Proposition \ref{Proposition:iff_contrapositive}} \\
-& \quad && \implies && x = y
-&& \text{Definition \ref{Definition:equality}} \\
-& )
-\end{align*}
-\begin{align*}
-& (\exists x, P(x)) \land \forall x \forall y ( (P(x) \land P(y)) \implies (x=y) ) \\
-\implies & !\exists x, P(x) && \text{Definition \ref{Definition:uniqueness_quantifier}} \\
-\implies & !\exists x \forall y (y \notin x) && \text{Definition of P(x)} \\
-\end{align*}
-\end{prop}
-
-\begin{defn}
-\label{Definition:emptyset}
-The unique empty set is denoted by $\emptyset$. \\
-\begin{align*}
-\forall x (x \notin \emptyset)
-\end{align*}
-Proof: \\
-Let $P(x) = \forall y (y \notin x)$
-\begin{align*}
-& !\exists x \forall y (y \notin x) && \text{Proposition \ref{Proposition:uniqueness_of_empty_set}} \\
-\implies & !\exists x, P(x)
-&& \text{Definition of P(x)} \\
-\implies & (\exists x, P(x)) \land \forall x \forall y ( (P(x) \land P(y)) \implies (x=y) )
-&& \text{Definition \ref{Definition:uniqueness_quantifier}} \\
-\implies & P(\emptyset) \land \forall x ( (P(x) \land P(\emptyset)) \implies (x=\emptyset) )
-&& \text{Definition \ref{Definition:emptyset}} \\
-\implies & P(\emptyset)
-&& \text{Proposition \ref{Proposition:land_omit}} \\
-\implies & \forall y (y \notin \emptyset)
-&& \text{Definition of P(x)} \\
-\end{align*}
-\end{defn}
-
-\begin{prop}
-\label{Proposition:uniqueness_of_emptyset}
 Uniqueness of $\emptyset$
 \begin{align*}
-\forall x (\forall y (y \notin x) \implies (x=\emptyset))
+& \forall a ( \\
+& \quad && && \forall b (b \notin a) \\
+& \quad && \iff && a = \emptyset \\
+& )
 \end{align*}
-Proof: \\
-Let $P(x) = \forall y (y \notin x)$
+Proof of Proposition \ref{Proposition:uniqueness_of_empty_set}
 \begin{align*}
-& !\exists x \forall y (y \notin x) && \text{Proposition \ref{Proposition:uniqueness_of_empty_set}} \\
-\implies & !\exists x, P(x)
-&& \text{Definition of P(x)} \\
-\implies & (\exists x, P(x)) \land \forall x \forall y ( (P(x) \land P(y)) \implies (x=y) )
-&& \text{Definition \ref{Definition:uniqueness_quantifier}} \\
-\implies & P(\emptyset) \land \forall x ( (P(x) \land P(\emptyset)) \implies (x=\emptyset) )
-&& \text{Definition \ref{Definition:emptyset}} \\
-\implies & (\forall x, P(\emptyset)) \land \forall x ( (P(x) \land P(\emptyset)) \implies (x=\emptyset) )
-&& \text{Axiom \ref{Axiom:forall_independent_variable}} \\
-\implies & \forall x ( P(\emptyset) \land ((P(x) \land P(\emptyset)) \implies (x=\emptyset)) )
-&& \text{Proposition \ref{Proposition:forall_land_commutativity}} \\
-\implies & \forall x (P(x) \implies (x=\emptyset))
-&& \text{Proposition \ref{Proposition:lemma_uniqueness}} \\
-\implies & \forall x (\forall y (y \notin x) \implies (x=\emptyset))
-&& \text{Definition of P(x)} \\
+& \forall a ( \\
+& \quad && && \forall b (b \notin a) \\
+& \quad && \iff && \forall b ((b \notin a) \iff (\text{True}))
+&& \text{Proposition \ref{Proposition:true_statement}} \\
+& \quad && \iff && \forall b ((b \notin a) \iff (b \notin \emptyset))
+&& \text{Axiom \ref{Axiom:existence_of_empty_set}} \\
+& \quad && \overset{\operatorname{def}}{\iff} && \forall b ((\lnot (b \in a)) \iff (b \notin \emptyset))
+&& \text{Definition \ref{Definition:notin}} \\
+& \quad && \overset{\operatorname{def}}{\iff} && \forall b ((\lnot (b \in a)) \iff (\lnot (b \in \emptyset)))
+&& \text{Definition \ref{Definition:notin}} \\
+& \quad && \iff && \forall b ((b \in a) \iff (b \in \emptyset))
+&& \text{Proposition \ref{Proposition:iff_contrapositive}} \\
+& \quad && \overset{\operatorname{def}}{\iff} && a = \emptyset
+&& \text{Definition \ref{Definition:equality}} \\
+& )
 \end{align*}
 \end{prop}
 
@@ -297,11 +242,10 @@ Let $P(A,x,y) =  \forall z (z \in A \iff ((z=x) \lor (z=y)))$
 \label{Definition:pair_set}
 The unique pair set of x and y is denoted by $\{ x,y \}$. \\
 Let $P(A,x,y) =  \forall z (z \in A \iff ((z=x) \lor (z=y)))$ \\
-Similar to the proof of Definition \ref{Definition:emptyset},
 \begin{align*}
 \forall x \forall y P(\{ x,y \} ,x,y)
 \end{align*}
-Similar to the proof of Proposition \ref{Proposition:uniqueness_of_emptyset},
+Similar to the proof of Proposition \ref{Proposition:uniqueness_of_empty_set},
 \begin{align*}
 \forall x \forall y \forall A (P(A,x,y) \implies (A=\{ x,y \}))
 \end{align*}
@@ -336,11 +280,10 @@ The proof is similar to the proof of Proposition \ref{Proposition:uniqueness_of_
 \label{Definition:singleton_set}
 The unique singleton set of x is denoted by $\{ x\}$. \\
 Let $P(A,x) =  \forall y (y \in A \iff (x=y))$ \\
-Similar to the proof of Definition \ref{Definition:emptyset},
 \begin{align*}
 \forall x P(\{ x \} ,x)
 \end{align*}
-Similar to the proof of Proposition \ref{Proposition:uniqueness_of_emptyset},
+Similar to the proof of Proposition \ref{Proposition:uniqueness_of_empty_set},
 \begin{align*}
 \forall x \forall A (P(A,x) \implies (A=\{ x \}))
 \end{align*}
@@ -388,11 +331,10 @@ Let $P(A,F) =  \forall x (x \in A \iff (\exists Y ((x \in Y) \land (Y \in F))))$
 \label{Definition:union_set}
 The unique union set of F is denoted by $\bigcup F$. \\
 Let $P(A,F) =  \forall x (x \in A \iff (\exists Y ((x \in Y) \land (Y \in F))))$ \\
-Similar to the proof of Definition \ref{Definition:emptyset},
 \begin{align*}
 \forall F P(\bigcup F, F)
 \end{align*}
-Similar to the proof of Proposition \ref{Proposition:uniqueness_of_emptyset},
+Similar to the proof of Proposition \ref{Proposition:uniqueness_of_empty_set},
 \begin{align*}
 \forall F \forall A (P(A,F) \implies (A= \bigcup F ))
 \end{align*}
@@ -474,7 +416,7 @@ Proof:
 & \quad && \iff && \forall y(((y \in x) \lor ( \lnot (y \notin \emptyset))) \iff (y \in x))
 && \text{Definition \ref{Definition:notin}} \\
 & \quad && \iff && \forall y(((y \in x) \lor ( \lnot (\text{True}))) \iff (y \in x))
-&& \text{Definition \ref{Definition:emptyset}} \\
+&& \text{Definition \ref{Axiom:existence_of_empty_set}} \\
 & \quad && \iff && \forall y(((y \in x) \lor (\text{False})) \iff (y \in x))
 && \text{Definition \ref{Definition:lnot_True}} \\
 & \quad && \iff && \forall y((y \in x) \iff (y \in x))

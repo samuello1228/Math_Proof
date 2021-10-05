@@ -83,5 +83,21 @@ void set()
     axiom = new Axiom("extensionality", SET, "\\forall a \\forall b ((a = b) \\implies (\\forall c ((a \\in c) \\iff (b \\in c))))");
     Axiom::addAxiom(fout, axiom, "Axiom of extensionality");
     
+    axiom = new Axiom("existence_of_empty_set", SET, "\\forall a (a \\notin \\emptyset)");
+    Axiom::addAxiom(fout, axiom, "Existence of empty set");
+    
+    x = new Proposition("uniqueness_of_empty_set", SET, "\\forall a ((\\forall b (b \\notin a)) \\iff (a = \\emptyset))");
+    description = "Uniqueness of $\\emptyset$";
+    block = new proof_block("uniqueness_of_empty_set", x, deduction);
+    block->append_binary_operator(input({1}, "Proposition:true_statement", RightToLeft));
+    sub.clear(); sub.push_back(new substitution("a", "b", SET));
+    block->append_binary_operator(input({1,2}, "Axiom:existence_of_empty_set", TrueToP, sub));
+    block->append_binary_operator(input({1,1}, "Definition:notin", LeftToRight));
+    block->append_binary_operator(input({1,2}, "Definition:notin", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:iff_contrapositive", RightToLeft));
+    block->append_binary_operator(input({}, "Definition:equality", RightToLeft, true));
+    x->append(block, true);
+    Proposition::addProposition(fout, x, description);
+    
     fout.close();
 }
