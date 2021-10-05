@@ -59,5 +59,25 @@ void set()
     x->append(block, true);
     Proposition::addProposition(fout, x, description);
     
+    x = new Proposition("equality_symmetric", SET, "\\forall a \\forall b ((a = b) \\iff (b = a))");
+    description = "Symmetric property of equality.";
+    block = new proof_block("equality_symmetric", x, deduction);
+    block->append_binary_operator(input({}, "Definition:equality", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:iff_symmetric", LeftToRight));
+    block->append_binary_operator(input({}, "Definition:equality", RightToLeft, true));
+    x->append(block, true);
+    Proposition::addProposition(fout, x, description);
+    
+    x = new Proposition("equality_transitive", SET, "\\forall a \\forall b \\forall c (((a = b) \\land (b = c)) \\implies (a = c))");
+    description = "Transitive property of equality.";
+    block = new proof_block("equality_transitive", x, deduction);
+    block->append_binary_operator(input({1}, "Definition:equality", LeftToRight));
+    block->append_binary_operator(input({2}, "Definition:equality", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:forall_land_commutativity", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:iff_transitive", LeftToRight));
+    block->append_binary_operator(input({}, "Definition:equality", RightToLeft, true));
+    x->append(block, true);
+    Proposition::addProposition(fout, x, description);
+    
     fout.close();
 }

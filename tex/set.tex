@@ -80,40 +80,50 @@ Proof of Proposition \ref{Proposition:equality_reflexive}
 \end{prop}
 
 \begin{prop}
-Symmetric property of equality
+\label{Proposition:equality_symmetric}
+Symmetric property of equality.
 \begin{align*}
-\forall x \forall y ((x = y) \implies (y=x))
+& \forall a \forall b ( \\
+& \quad && && a = b \\
+& \quad && \iff && b = a \\
+& )
 \end{align*}
-Proof:
+Proof of Proposition \ref{Proposition:equality_symmetric}
 \begin{align*}
-& \forall x \forall y ( \\
-& \quad &&  &&  x = y \\
-& \quad && \implies &&  \forall z (z \in x \iff z \in y)
+& \forall a \forall b ( \\
+& \quad && && a = b \\
+& \quad && \overset{\operatorname{def}}{\iff} && \forall c ((c \in a) \iff (c \in b))
 && \text{Definition \ref{Definition:equality}} \\
-& \quad && \implies &&  \forall z (z \in y \iff z \in x)
+& \quad && \iff && \forall c ((c \in b) \iff (c \in a))
 && \text{Proposition \ref{Proposition:iff_symmetric}} \\
-& \quad && \implies && y = x
+& \quad && \overset{\operatorname{def}}{\iff} && b = a
 && \text{Definition \ref{Definition:equality}} \\
 & )
 \end{align*}
 \end{prop}
 
 \begin{prop}
-Transitive property of equality
+\label{Proposition:equality_transitive}
+Transitive property of equality.
 \begin{align*}
-\forall x \forall y \forall z ((x = y) \land (y=z) \implies (x=z))
+& \forall a \forall b \forall c ( \\
+& \quad && && (a = b) \land (b = c) \\
+& \quad && \implies && a = c \\
+& )
 \end{align*}
-Proof:
+Proof of Proposition \ref{Proposition:equality_transitive}
 \begin{align*}
-& \forall x \forall y \forall z ( \\
-& \quad &&  &&  (x = y) \land (y=z) \\
-& \quad && \implies && ( \forall w (w \in x \iff w \in y)) \land ( \forall w (w \in y \iff w \in z))
+& \forall a \forall b \forall c ( \\
+& \quad && && (a = b) \land (b = c) \\
+& \quad && \overset{\operatorname{def}}{\iff} && (\forall d ((d \in a) \iff (d \in b))) \land (b = c)
 && \text{Definition \ref{Definition:equality}} \\
-& \quad && \implies && \forall w ((w \in x \iff w \in y) \land (w \in y \iff w \in z))
+& \quad && \overset{\operatorname{def}}{\iff} && (\forall d ((d \in a) \iff (d \in b))) \land (\forall d ((d \in b) \iff (d \in c)))
+&& \text{Definition \ref{Definition:equality}} \\
+& \quad && \iff && \forall d (((d \in a) \iff (d \in b)) \land ((d \in b) \iff (d \in c)))
 && \text{Proposition \ref{Proposition:forall_land_commutativity}} \\
-& \quad && \implies && \forall w (w \in x \iff w \in z)
+& \quad && \implies && \forall d ((d \in a) \iff (d \in c))
 && \text{Proposition \ref{Proposition:iff_transitive}} \\
-& \quad && \implies && x = z
+& \quad && \overset{\operatorname{def}}{\iff} && a = c
 && \text{Definition \ref{Definition:equality}} \\
 & )
 \end{align*}

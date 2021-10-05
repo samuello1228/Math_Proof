@@ -219,7 +219,7 @@ void logic()
     x = new Proposition("iff_land", LOGIC, "\\forall a \\forall b \\forall c ((a \\iff b) \\implies ((a \\land c) \\iff (b \\land c)))");
     Proposition::addProposition(fout, x);
     
-    x = new Proposition("iff_symmetric", LOGIC, "\\forall a \\forall b \\forall c ((a \\iff b) \\iff (b \\iff a))");
+    x = new Proposition("iff_symmetric", LOGIC, "\\forall a \\forall b ((a \\iff b) \\iff (b \\iff a))");
     description = "Symmetric property of $\\iff$.";
     Proposition::addProposition(fout, x, description);
     
@@ -263,14 +263,34 @@ void logic()
     fout<<"\\end{defn}"<<endl;
     fout<<endl;
     
-    fout<<"\\begin{prop}"<<endl;
-    fout<<"\\label{Proposition:forall_land_commutativity}"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& \\forall x (P(x) \\land Q(x)) \\\\"<<endl;
-    fout<<"\\iff & (\\forall x (P(x))) \\land (\\forall x (Q(x)))"<<endl;
-    fout<<"\\end{align*}"<<endl;
-    fout<<"\\end{prop}"<<endl;
-    fout<<endl;
+    {
+        logic_variable* a = new logic_variable("a");
+        set_variable* c = new set_variable("c");
+        universal_quantifier* u1 = new universal_quantifier(c,a);
+        
+        c = new set_variable("c");
+        logic_variable* b = new logic_variable("b");
+        universal_quantifier* u2 = new universal_quantifier(c,b);
+        
+        logic_binary_operator_logic_logic* u1_and_u2 = new logic_binary_operator_logic_logic("\\land", u1, u2);
+        
+        a = new logic_variable("a");
+        b = new logic_variable("b");
+        logic_binary_operator_logic_logic* a_and_b = new logic_binary_operator_logic_logic("\\land", a, b);
+        c = new set_variable("c");
+        universal_quantifier* u3 = new universal_quantifier(c, a_and_b);
+        
+        logic_binary_operator_logic_logic* iff = new logic_binary_operator_logic_logic("\\iff", u1_and_u2, u3);
+        
+        b = new logic_variable("b");
+        universal_quantifier* u4 = new universal_quantifier(b, iff);
+        a = new logic_variable("a");
+        universal_quantifier* u5 = new universal_quantifier(a, u4);
+        
+        
+        x = new Proposition("forall_land_commutativity", u5);
+    }
+    Proposition::addProposition(fout, x);
     
     fout<<"\\begin{prop}"<<endl;
     fout<<"\\label{Proposition:exists_lor_commutativity}"<<endl;
