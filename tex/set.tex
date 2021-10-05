@@ -180,23 +180,33 @@ Proof of Proposition \ref{Proposition:uniqueness_of_empty_set}
 \end{prop}
 
 \begin{prop}
+\label{Proposition:single_choice}
 Single choice
 \begin{align*}
-\forall x((x \neq \emptyset) \implies (\exists y, y \in x))
+& \forall a ( \\
+& \quad && && a \neq \emptyset \\
+& \quad && \iff && \exists b (b \in a) \\
+& )
 \end{align*}
-Proof:
+Proof of Proposition \ref{Proposition:single_choice}
 \begin{align*}
-& \forall x (\forall y (y \notin x) \implies (x=\emptyset)) \\
-\implies & \forall x ( \lnot(x=\emptyset) \implies \lnot (\forall y (y \notin x)) )
-&& \text{Proposition \ref{Proposition:contrapositive}} \\
-\implies & \forall x ( (x \neq \emptyset) \implies \lnot (\forall y (y \notin x)) )
+& \forall a ( \\
+& \quad && && \text{True} \\
+& \quad && \iff && (\forall b (b \notin a)) \iff (a = \emptyset)
+&& \text{Proposition \ref{Proposition:uniqueness_of_empty_set}} \\
+& \quad && \iff && (a = \emptyset) \iff (\forall b (b \notin a))
+&& \text{Proposition \ref{Proposition:iff_symmetric}} \\
+& \quad && \iff && (\lnot (a = \emptyset)) \iff (\lnot (\forall b (b \notin a)))
+&& \text{Proposition \ref{Proposition:iff_contrapositive}} \\
+& \quad && \overset{\operatorname{def}}{\iff} && (a \neq \emptyset) \iff (\lnot (\forall b (b \notin a)))
 && \text{Definition \ref{Definition:neq}} \\
-\implies & \forall x ( (x \neq \emptyset) \implies (\exists y, \lnot(y \notin x)) )
-&& \text{Axiom \ref{Axiom:De_Morgan_1}} \\
-\implies & \forall x ( (x \neq \emptyset) \implies (\exists y, \lnot( \lnot (y \in x))) )
+& \quad && \iff && (a \neq \emptyset) \iff (\exists b (\lnot (b \notin a)))
+&& \text{Proposition \ref{Proposition:De_Morgan_1}} \\
+& \quad && \overset{\operatorname{def}}{\iff} && (a \neq \emptyset) \iff (\exists b (\lnot (\lnot (b \in a))))
 && \text{Definition \ref{Definition:notin}} \\
-\implies & \forall x ( (x \neq \emptyset) \implies (\exists y, y \in x ))
+& \quad && \iff && (a \neq \emptyset) \iff (\exists b (b \in a))
 && \text{Proposition \ref{Proposition:double_negation}} \\
+& )
 \end{align*}
 \end{prop}
 

@@ -99,5 +99,19 @@ void set()
     x->append(block, true);
     Proposition::addProposition(fout, x, description);
     
+    x = new Proposition("single_choice", SET, "\\forall a ((a \\neq \\emptyset) \\iff (\\exists b (b \\in a)))");
+    description = "Single choice";
+    block = new proof_block("single_choice", x, direct);
+    sub.clear(); sub.push_back(new substitution("a", "a", SET));
+    block->append_binary_operator(input({}, "Proposition:uniqueness_of_empty_set", TrueToP, sub));
+    block->append_binary_operator(input({}, "Proposition:iff_symmetric", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:iff_contrapositive", LeftToRight));
+    block->append_binary_operator(input({1}, "Definition:neq", RightToLeft));
+    block->append_binary_operator(input({2}, "Proposition:De_Morgan_1", LeftToRight));
+    block->append_binary_operator(input({2,1,1}, "Definition:notin", LeftToRight));
+    block->append_binary_operator(input({2,1}, "Proposition:double_negation", LeftToRight, true));
+    x->append(block, true);
+    Proposition::addProposition(fout, x, description);
+    
     fout.close();
 }
