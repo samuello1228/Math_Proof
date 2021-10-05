@@ -337,25 +337,45 @@ void logic()
     fout<<"\\end{axm}"<<endl;
     fout<<endl;
     
-    fout<<"\\begin{axm}"<<endl;
-    fout<<"\\label{Axiom:De_Morgan_1}"<<endl;
-    fout<<"De Morgan's law"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& \\lnot (\\forall x (P(x))) \\\\"<<endl;
-    fout<<"\\iff & \\exists x (\\lnot (P(x)))"<<endl;
-    fout<<"\\end{align*}"<<endl;
-    fout<<"\\end{axm}"<<endl;
-    fout<<endl;
+    {
+        logic_variable* a = new logic_variable("a");
+        set_variable* b = new set_variable("b");
+        universal_quantifier* q1 = new universal_quantifier(b, a);
+        logic_unary_operator_logic* not1 = new logic_unary_operator_logic("\\lnot", q1);
+        
+        a = new logic_variable("a");
+        logic_unary_operator_logic* not2 = new logic_unary_operator_logic("\\lnot", a);
+        b = new set_variable("b");
+        existential_quantifier* q2 = new existential_quantifier(b, not2);
+        
+        logic_binary_operator_logic_logic* iff = new logic_binary_operator_logic_logic("\\iff", not1, q2);
+        
+        a = new logic_variable("a");
+        universal_quantifier* u3 = new universal_quantifier(a, iff);
+        
+        x = new Proposition("De_Morgan_1", u3);
+    }
+    Proposition::addProposition(fout, x, "De Morgan's law");
     
-    fout<<"\\begin{axm}"<<endl;
-    fout<<"\\label{Axiom:De_Morgan_2}"<<endl;
-    fout<<"De Morgan's law"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& \\lnot (\\exists x (P(x))) \\\\"<<endl;
-    fout<<"\\iff & \\forall x (\\lnot (P(x)))"<<endl;
-    fout<<"\\end{align*}"<<endl;
-    fout<<"\\end{axm}"<<endl;
-    fout<<endl;
+    {
+        logic_variable* a = new logic_variable("a");
+        set_variable* b = new set_variable("b");
+        existential_quantifier* q1 = new existential_quantifier(b, a);
+        logic_unary_operator_logic* not1 = new logic_unary_operator_logic("\\lnot", q1);
+        
+        a = new logic_variable("a");
+        logic_unary_operator_logic* not2 = new logic_unary_operator_logic("\\lnot", a);
+        b = new set_variable("b");
+        universal_quantifier* q2 = new universal_quantifier(b, not2);
+        
+        logic_binary_operator_logic_logic* iff = new logic_binary_operator_logic_logic("\\iff", not1, q2);
+        
+        a = new logic_variable("a");
+        universal_quantifier* u3 = new universal_quantifier(a, iff);
+        
+        x = new Proposition("De_Morgan_2", u3);
+    }
+    Proposition::addProposition(fout, x, "De Morgan's law");
     
     fout<<"\\begin{defn}"<<endl;
     fout<<"\\label{Definition:uniqueness_quantifier}"<<endl;
