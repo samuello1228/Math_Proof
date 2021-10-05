@@ -69,10 +69,10 @@ vector<substitution*> createSubstitution(vector<variable*> forall_variable, expr
     return sub;
 }
 
-statement::statement(string newLabel, variable_type new_var_type, string input_latex)
+statement::statement(string newLabel, variable_type new_var_type, string input_latex, bool isPrint)
 {
     //check whether the contend is logic_value
-    content = dynamic_cast<logic_value*>(expression::createFromLatex(input_latex, new_var_type));
+    content = dynamic_cast<logic_value*>(expression::createFromLatex(input_latex, new_var_type, isPrint));
     if(!content)
     {
         content = nullptr;
@@ -655,7 +655,7 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
 }
 
 vector<Definition*> Definition::All_Definition;
-Definition::Definition(string newLabel, variable_type new_var_type, string x) : statement(newLabel, new_var_type, x)
+Definition::Definition(string newLabel, variable_type new_var_type, string x, bool isPrint) : statement(newLabel, new_var_type, x, isPrint)
 {
 }
 
@@ -716,7 +716,7 @@ void Definition::addDefinition(ofstream& fout, Definition* x, string description
 }
 
 vector<Axiom*> Axiom::All_Axiom;
-Axiom::Axiom(string newLabel, variable_type new_var_type, string x) : statement(newLabel, new_var_type, x)
+Axiom::Axiom(string newLabel, variable_type new_var_type, string x, bool isPrint) : statement(newLabel, new_var_type, x, isPrint)
 {
 }
 
@@ -1127,7 +1127,7 @@ void proof_block::append_binary_operator(input x)
 }
 
 vector<Proposition*> Proposition::All_Proposition;
-Proposition::Proposition(string newLabel, variable_type new_var_type, string x) : statement(newLabel, new_var_type, x)
+Proposition::Proposition(string newLabel, variable_type new_var_type, string x, bool isPrint) : statement(newLabel, new_var_type, x, isPrint)
 {
 }
 

@@ -34,7 +34,7 @@ public:
     vector<vector<int> > path_of_variable_operand1;
     vector<vector<int> > path_of_variable_operand2;
     
-    statement(string, variable_type, string);
+    statement(string, variable_type, string, bool isPrint = false);
     statement(string, expression*);
     void constructor_aux();
     logic_value* get_expression_without_forall_variable();
@@ -53,7 +53,7 @@ public:
 class Definition : public statement
 {
 public:
-    Definition(string, variable_type, string);
+    Definition(string, variable_type, string, bool isPrint = false);
     Definition(string, expression*);
     ~Definition();
     
@@ -67,7 +67,7 @@ public:
 class Axiom : public statement
 {
 public:
-    Axiom(string, variable_type, string);
+    Axiom(string, variable_type, string, bool isPrint = false);
     Axiom(string, expression*);
     ~Axiom();
     
@@ -131,7 +131,7 @@ class Proposition : public statement
 public:
     vector<proof_block*> proof;
     
-    Proposition(string, variable_type, string);
+    Proposition(string, variable_type, string, bool isPrint = false);
     Proposition(string, expression*);
     ~Proposition();
     

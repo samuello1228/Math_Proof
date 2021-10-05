@@ -126,7 +126,7 @@ void eraseSpaceParenthesis(string& latex)
     }
 }
 
-expression* expression::createFromLatex(string latex, variable_type var_type)
+expression* expression::createFromLatex(string latex, variable_type var_type, bool isPrint)
 {
     //remove space and parenthesis at the beginning and the end.
     eraseSpaceParenthesis(latex);
@@ -136,6 +136,8 @@ expression* expression::createFromLatex(string latex, variable_type var_type)
         cout<<"Syntax Error: the expression is empty"<<endl;
         return nullptr;
     }
+    
+    if(isPrint) cout<<latex<<endl;
     
     //split the expression by whitespace and parenthesis, at the topmost parenthesis level
     vector<string> elements;
@@ -206,6 +208,15 @@ expression* expression::createFromLatex(string latex, variable_type var_type)
         }
     }
     
+    if(isPrint)
+    {
+        for(long i=0; i<elements.size(); i++)
+        {
+            cout<<i<<": "<<elements[i]<<endl;;
+        }
+        cout<<endl;
+    }
+    
     for(long i=0; i<elements.size(); i++) eraseSpaceParenthesis(elements[i]);
     
     if(elements.size() == 1)
@@ -247,7 +258,7 @@ expression* expression::createFromLatex(string latex, variable_type var_type)
         if(elements[0] == "\\lnot")
         {
             //For logical NOT
-            logic_value* operand = dynamic_cast<logic_value*>(expression::createFromLatex(elements[1], var_type));
+            logic_value* operand = dynamic_cast<logic_value*>(expression::createFromLatex(elements[1], var_type, isPrint));
             if(!operand)
             {
                 cout<<"Type Error: the operand is not logic value: "<<elements[1]<<endl;
@@ -267,8 +278,8 @@ expression* expression::createFromLatex(string latex, variable_type var_type)
            elements[1] == "\\implies"
            )
         {
-            logic_value* operand1 = dynamic_cast<logic_value*>(expression::createFromLatex(elements[0], var_type));
-            logic_value* operand2 = dynamic_cast<logic_value*>(expression::createFromLatex(elements[2], var_type));
+            logic_value* operand1 = dynamic_cast<logic_value*>(expression::createFromLatex(elements[0], var_type, isPrint));
+            logic_value* operand2 = dynamic_cast<logic_value*>(expression::createFromLatex(elements[2], var_type, isPrint));
             if(!operand1 || !operand2)
             {
                 cout<<"Type Error: the two operands are not logic values: "<<elements[0]<<endl;
@@ -284,8 +295,8 @@ expression* expression::createFromLatex(string latex, variable_type var_type)
                 elements[1] == "\\neq"
                 )
         {
-            Set* operand1 = dynamic_cast<Set*>(expression::createFromLatex(elements[0], var_type));
-            Set* operand2 = dynamic_cast<Set*>(expression::createFromLatex(elements[2], var_type));
+            Set* operand1 = dynamic_cast<Set*>(expression::createFromLatex(elements[0], var_type, isPrint));
+            Set* operand2 = dynamic_cast<Set*>(expression::createFromLatex(elements[2], var_type, isPrint));
             if(!operand1 || !operand2)
             {
                 cout<<"Type Error: the two operands are not set: "<<elements[0]<<endl;
@@ -336,7 +347,7 @@ expression* expression::createFromLatex(string latex, variable_type var_type)
                 }
             }
             
-            logic_value* operand = dynamic_cast<logic_value*>(expression::createFromLatex(elements[elements.size()-1], var_type));
+            logic_value* operand = dynamic_cast<logic_value*>(expression::createFromLatex(elements[elements.size()-1], var_type, isPrint));
             if(!operand)
             {
                 cout<<"Type Error: the operand is not logic value: "<<elements[elements.size()-1]<<endl;
@@ -813,17 +824,6 @@ expression* existential_quantifier::getCopy()
     return x;
 }
 
-logic_unary_operator_logic::logic_unary_operator_logic(const string& newLatex, logic_value* x)
-{
-    operator_latex = newLatex;
-    operand = x;
-}
-
-logic_unary_operator_logic::~logic_unary_operator_logic()
-{
-    delete operand;
-}
-
 template <class T>
 bool isEqual_1_operand (T* x, expression* y)
 {
@@ -933,6 +933,17 @@ void find_path_of_variable_2_operand(T* x, variable* var, vector<int>& current_p
     vector<int> current_path_2 = current_path;
     current_path_2.push_back(2);
     x->operand2->find_path_of_variable(var, current_path_2, all_path);
+}
+
+logic_unary_operator_logic::logic_unary_operator_logic(const string& newLatex, logic_value* x)
+{
+    operator_latex = newLatex;
+    operand = x;
+}
+
+logic_unary_operator_logic::~logic_unary_operator_logic()
+{
+    delete operand;
 }
 
 string logic_unary_operator_logic::getLatex()

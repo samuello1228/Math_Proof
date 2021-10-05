@@ -39,7 +39,7 @@ public:
     virtual ~expression() {}
     
     virtual string getLatex()=0;
-    static expression* createFromLatex(string, variable_type);
+    static expression* createFromLatex(string, variable_type, bool isPrint = false);
     
     virtual bool isEqual(expression*)=0;
     virtual expression* getCopy()=0;
