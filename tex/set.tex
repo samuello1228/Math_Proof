@@ -6,8 +6,8 @@ Set theory have one primitive notion, called set, and one binary relation, calle
 Definition of $\notin$.
 \begin{align*}
 & \forall a \forall b ( \\
-& \quad && && a \notin b \\
-& \quad && \overset{\operatorname{def}}{\iff} && \lnot (a \in b) \\
+& & & a \notin b \\
+& & \overset{\operatorname{def}}{\iff} & \lnot (a \in b) \\
 & )
 \end{align*}
 \end{defn}
@@ -40,8 +40,8 @@ Definition of $\notin$.
 Definition of $=$.
 \begin{align*}
 & \forall a \forall b ( \\
-& \quad && && a = b \\
-& \quad && \overset{\operatorname{def}}{\iff} && \forall c ((c \in a) \iff (c \in b)) \\
+& & & a = b \\
+& & \overset{\operatorname{def}}{\iff} & \forall c ((c \in a) \iff (c \in b)) \\
 & )
 \end{align*}
 \end{defn}
@@ -51,8 +51,8 @@ Definition of $=$.
 Definition of $\neq$.
 \begin{align*}
 & \forall a \forall b ( \\
-& \quad && && a \neq b \\
-& \quad && \overset{\operatorname{def}}{\iff} && \lnot (a = b) \\
+& & & a \neq b \\
+& & \overset{\operatorname{def}}{\iff} & \lnot (a = b) \\
 & )
 \end{align*}
 \end{defn}
@@ -62,18 +62,18 @@ Definition of $\neq$.
 Reflexive property of equality.
 \begin{align*}
 & \forall a ( \\
-& \quad && a = a \\
+& & a = a \\
 & )
 \end{align*}
 Proof of Proposition \ref{Proposition:equality_reflexive}
 \begin{align*}
 & \forall a ( \\
-& \quad && && a = a \\
-& \quad && \overset{\operatorname{def}}{\iff} && \forall b ((b \in a) \iff (b \in a))
+& & & a = a \\
+& & \overset{\operatorname{def}}{\iff} & \forall b ((b \in a) \iff (b \in a))
 && \text{Definition \ref{Definition:equality}} \\
-& \quad && \iff && \forall b (\text{True})
+& & \iff & \forall b (\text{True})
 && \text{Proposition \ref{Proposition:iff_reflexive}} \\
-& \quad && \iff && \text{True}
+& & \iff & \text{True}
 && \text{Proposition \ref{Proposition:forall_true}} \\
 & )
 \end{align*}
@@ -84,19 +84,19 @@ Proof of Proposition \ref{Proposition:equality_reflexive}
 Symmetric property of equality.
 \begin{align*}
 & \forall a \forall b ( \\
-& \quad && && a = b \\
-& \quad && \iff && b = a \\
+& & & a = b \\
+& & \iff & b = a \\
 & )
 \end{align*}
 Proof of Proposition \ref{Proposition:equality_symmetric}
 \begin{align*}
 & \forall a \forall b ( \\
-& \quad && && a = b \\
-& \quad && \overset{\operatorname{def}}{\iff} && \forall c ((c \in a) \iff (c \in b))
+& & & a = b \\
+& & \overset{\operatorname{def}}{\iff} & \forall c ((c \in a) \iff (c \in b))
 && \text{Definition \ref{Definition:equality}} \\
-& \quad && \iff && \forall c ((c \in b) \iff (c \in a))
+& & \iff & \forall c ((c \in b) \iff (c \in a))
 && \text{Proposition \ref{Proposition:iff_symmetric}} \\
-& \quad && \overset{\operatorname{def}}{\iff} && b = a
+& & \overset{\operatorname{def}}{\iff} & b = a
 && \text{Definition \ref{Definition:equality}} \\
 & )
 \end{align*}
@@ -107,23 +107,23 @@ Proof of Proposition \ref{Proposition:equality_symmetric}
 Transitive property of equality.
 \begin{align*}
 & \forall a \forall b \forall c ( \\
-& \quad && && (a = b) \land (b = c) \\
-& \quad && \implies && a = c \\
+& & & (a = b) \land (b = c) \\
+& & \implies & a = c \\
 & )
 \end{align*}
 Proof of Proposition \ref{Proposition:equality_transitive}
 \begin{align*}
 & \forall a \forall b \forall c ( \\
-& \quad && && (a = b) \land (b = c) \\
-& \quad && \overset{\operatorname{def}}{\iff} && (\forall d ((d \in a) \iff (d \in b))) \land (b = c)
+& & & (a = b) \land (b = c) \\
+& & \overset{\operatorname{def}}{\iff} & (\forall d ((d \in a) \iff (d \in b))) \land (b = c)
 && \text{Definition \ref{Definition:equality}} \\
-& \quad && \overset{\operatorname{def}}{\iff} && (\forall d ((d \in a) \iff (d \in b))) \land (\forall d ((d \in b) \iff (d \in c)))
+& & \overset{\operatorname{def}}{\iff} & (\forall d ((d \in a) \iff (d \in b))) \land (\forall d ((d \in b) \iff (d \in c)))
 && \text{Definition \ref{Definition:equality}} \\
-& \quad && \iff && \forall d (((d \in a) \iff (d \in b)) \land ((d \in b) \iff (d \in c)))
+& & \iff & \forall d (((d \in a) \iff (d \in b)) \land ((d \in b) \iff (d \in c)))
 && \text{Proposition \ref{Proposition:forall_land_commutativity}} \\
-& \quad && \implies && \forall d ((d \in a) \iff (d \in c))
+& & \implies & \forall d ((d \in a) \iff (d \in c))
 && \text{Proposition \ref{Proposition:iff_transitive}} \\
-& \quad && \overset{\operatorname{def}}{\iff} && a = c
+& & \overset{\operatorname{def}}{\iff} & a = c
 && \text{Definition \ref{Definition:equality}} \\
 & )
 \end{align*}
@@ -134,8 +134,8 @@ Proof of Proposition \ref{Proposition:equality_transitive}
 Axiom of extensionality
 \begin{align*}
 & \forall a \forall b ( \\
-& \quad && && a = b \\
-& \quad && \implies && \forall c ((a \in c) \iff (b \in c)) \\
+& & & a = b \\
+& & \implies & \forall c ((a \in c) \iff (b \in c)) \\
 & )
 \end{align*}
 \end{axm}
@@ -145,7 +145,7 @@ Axiom of extensionality
 Existence of empty set
 \begin{align*}
 & \forall a ( \\
-& \quad && a \notin \emptyset \\
+& & a \notin \emptyset \\
 & )
 \end{align*}
 \end{axm}
@@ -155,25 +155,25 @@ Existence of empty set
 Uniqueness of $\emptyset$
 \begin{align*}
 & \forall a ( \\
-& \quad && && \forall b (b \notin a) \\
-& \quad && \iff && a = \emptyset \\
+& & & \forall b (b \notin a) \\
+& & \iff & a = \emptyset \\
 & )
 \end{align*}
 Proof of Proposition \ref{Proposition:uniqueness_of_empty_set}
 \begin{align*}
 & \forall a ( \\
-& \quad && && \forall b (b \notin a) \\
-& \quad && \iff && \forall b ((b \notin a) \iff (\text{True}))
+& & & \forall b (b \notin a) \\
+& & \iff & \forall b ((b \notin a) \iff (\text{True}))
 && \text{Proposition \ref{Proposition:true_statement}} \\
-& \quad && \iff && \forall b ((b \notin a) \iff (b \notin \emptyset))
+& & \iff & \forall b ((b \notin a) \iff (b \notin \emptyset))
 && \text{Axiom \ref{Axiom:existence_of_empty_set}} \\
-& \quad && \overset{\operatorname{def}}{\iff} && \forall b ((\lnot (b \in a)) \iff (b \notin \emptyset))
+& & \overset{\operatorname{def}}{\iff} & \forall b ((\lnot (b \in a)) \iff (b \notin \emptyset))
 && \text{Definition \ref{Definition:notin}} \\
-& \quad && \overset{\operatorname{def}}{\iff} && \forall b ((\lnot (b \in a)) \iff (\lnot (b \in \emptyset)))
+& & \overset{\operatorname{def}}{\iff} & \forall b ((\lnot (b \in a)) \iff (\lnot (b \in \emptyset)))
 && \text{Definition \ref{Definition:notin}} \\
-& \quad && \iff && \forall b ((b \in a) \iff (b \in \emptyset))
+& & \iff & \forall b ((b \in a) \iff (b \in \emptyset))
 && \text{Proposition \ref{Proposition:iff_contrapositive}} \\
-& \quad && \overset{\operatorname{def}}{\iff} && a = \emptyset
+& & \overset{\operatorname{def}}{\iff} & a = \emptyset
 && \text{Definition \ref{Definition:equality}} \\
 & )
 \end{align*}
@@ -184,27 +184,27 @@ Proof of Proposition \ref{Proposition:uniqueness_of_empty_set}
 Single choice
 \begin{align*}
 & \forall a ( \\
-& \quad && && a \neq \emptyset \\
-& \quad && \iff && \exists b (b \in a) \\
+& & & a \neq \emptyset \\
+& & \iff & \exists b (b \in a) \\
 & )
 \end{align*}
 Proof of Proposition \ref{Proposition:single_choice}
 \begin{align*}
 & \forall a ( \\
-& \quad && && \text{True} \\
-& \quad && \iff && (\forall b (b \notin a)) \iff (a = \emptyset)
+& & & \text{True} \\
+& & \iff & (\forall b (b \notin a)) \iff (a = \emptyset)
 && \text{Proposition \ref{Proposition:uniqueness_of_empty_set}} \\
-& \quad && \iff && (a = \emptyset) \iff (\forall b (b \notin a))
+& & \iff & (a = \emptyset) \iff (\forall b (b \notin a))
 && \text{Proposition \ref{Proposition:iff_symmetric}} \\
-& \quad && \iff && (\lnot (a = \emptyset)) \iff (\lnot (\forall b (b \notin a)))
+& & \iff & (\lnot (a = \emptyset)) \iff (\lnot (\forall b (b \notin a)))
 && \text{Proposition \ref{Proposition:iff_contrapositive}} \\
-& \quad && \overset{\operatorname{def}}{\iff} && (a \neq \emptyset) \iff (\lnot (\forall b (b \notin a)))
+& & \overset{\operatorname{def}}{\iff} & (a \neq \emptyset) \iff (\lnot (\forall b (b \notin a)))
 && \text{Definition \ref{Definition:neq}} \\
-& \quad && \iff && (a \neq \emptyset) \iff (\exists b (\lnot (b \notin a)))
+& & \iff & (a \neq \emptyset) \iff (\exists b (\lnot (b \notin a)))
 && \text{Proposition \ref{Proposition:De_Morgan_1}} \\
-& \quad && \overset{\operatorname{def}}{\iff} && (a \neq \emptyset) \iff (\exists b (\lnot (\lnot (b \in a))))
+& & \overset{\operatorname{def}}{\iff} & (a \neq \emptyset) \iff (\exists b (\lnot (\lnot (b \in a))))
 && \text{Definition \ref{Definition:notin}} \\
-& \quad && \iff && (a \neq \emptyset) \iff (\exists b (b \in a))
+& & \iff & (a \neq \emptyset) \iff (\exists b (b \in a))
 && \text{Proposition \ref{Proposition:double_negation}} \\
 & )
 \end{align*}
@@ -215,8 +215,8 @@ Proof of Proposition \ref{Proposition:single_choice}
 Existence of pair set
 \begin{align*}
 & \forall a \forall b \forall c ( \\
-& \quad && && c \in \{ a , b \} \\
-& \quad && \iff && (c = a) \lor (c = b) \\
+& & & c \in \{ a , b \} \\
+& & \iff & (c = a) \lor (c = b) \\
 & )
 \end{align*}
 \end{axm}

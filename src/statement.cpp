@@ -274,14 +274,14 @@ string statement::getLatex()
         if(binary_operator == nullptr)
         {
             output += "& " + quantifier_latex + "( \\\\" + "\n";
-            output += "& \\quad && " + get_expression_without_forall_variable()->getLatex() + " \\\\" + "\n";
+            output += "& & " + get_expression_without_forall_variable()->getLatex() + " \\\\" + "\n";
             output = output + "& )" + "\n";
         }
         else
         {
             output += "& " + quantifier_latex + "( \\\\" + "\n";
-            output += "& \\quad && && " + binary_operator->operand1->getLatex() + " \\\\" + "\n";
-            output += "& \\quad && " + binary_operator->operator_latex + " && " + binary_operator->operand2->getLatex() + " \\\\" + "\n";
+            output += "& & & " + binary_operator->operand1->getLatex() + " \\\\" + "\n";
+            output += "& & " + binary_operator->operator_latex + " & " + binary_operator->operand2->getLatex() + " \\\\" + "\n";
             output = output + "& )" + "\n";
         }
     }
@@ -913,8 +913,8 @@ string proof_block::getLatex()
         }
         else
         {
-            if(i==0) output += "& \\quad && && " + element->binary_operator->operand1->getLatex() + " \\\\" + "\n";
-            output += "& \\quad && " + element->binary_operator->operator_latex + " && " + element->binary_operator->operand2->getLatex() + "\n";
+            if(i==0) output += "& & & " + element->binary_operator->operand1->getLatex() + " \\\\" + "\n";
+            output += "& & " + element->binary_operator->operator_latex + " & " + element->binary_operator->operand2->getLatex() + "\n";
         }
         output += "&& \\text{" + ref_type[i] + " \\ref{" + ref_type[i] + ":" + ref[i] + "}} \\\\" + "\n";
     }
