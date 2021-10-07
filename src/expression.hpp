@@ -33,12 +33,21 @@ public:
     ~substitution();
 };
 
+class Print_Output
+{
+public:
+    vector<string> phantom;
+    vector<string> all_visible;
+    
+    string getNormal();
+};
+
 class expression
 {
 public:
     virtual ~expression() {}
     
-    virtual string getLatex()=0;
+    virtual Print_Output getLatex(vector<vector<int> > split_point = {{}})=0;
     static expression* createFromLatex(string, variable_type, bool isPrint = false);
     
     virtual bool isEqual(expression*)=0;
@@ -88,7 +97,7 @@ public:
     
     logic_element(bool);
     
-    string getLatex();
+    Print_Output getLatex(vector<vector<int> > split_point = {{}});
     bool isEqual(expression*);
     expression* getCopy();
     void replace_variable(vector<substitution*>) {return;}
@@ -102,7 +111,7 @@ class logic_variable : public elementary_logic, public variable
 public:
     logic_variable(const string&);
     
-    string getLatex();
+    Print_Output getLatex(vector<vector<int> > split_point = {{}});
     bool isEqual(expression*);
     expression* getCopy();
 };
@@ -133,7 +142,7 @@ public:
     
     set_element(string);
     
-    string getLatex();
+    Print_Output getLatex(vector<vector<int> > split_point = {{}});
     bool isEqual(expression*);
     expression* getCopy();
     void replace_variable(vector<substitution*>) {return;}
@@ -147,7 +156,7 @@ class set_variable : public elementary_set, public variable
 public:
     set_variable(const string&);
     
-    string getLatex();
+    Print_Output getLatex(vector<vector<int> > split_point = {{}});
     bool isEqual(expression*);
     expression* getCopy();
 };
@@ -166,7 +175,7 @@ public:
     quantifier(variable*, logic_value*);
     virtual ~quantifier();
     
-    string getLatex();
+    Print_Output getLatex(vector<vector<int> > split_point = {{}});
     void replace_variable(vector<substitution*>);
     
     bool check_variable(vector<variable*>);
@@ -203,7 +212,7 @@ public:
     logic_unary_operator_logic(const string&, logic_value*);
     ~logic_unary_operator_logic();
     
-    string getLatex();
+    Print_Output getLatex(vector<vector<int> > split_point = {{}});
     bool isEqual(expression*);
     expression* getCopy();
     void replace_variable(vector<substitution*>);
@@ -225,7 +234,7 @@ public:
     logic_binary_operator_logic_logic(const string&, logic_value*, logic_value*);
     ~logic_binary_operator_logic_logic();
     
-    string getLatex();
+    Print_Output getLatex(vector<vector<int> > split_point = {{}});
     bool isEqual(expression*);
     expression* getCopy();
     void replace_variable(vector<substitution*>);
@@ -247,7 +256,7 @@ public:
     logic_binary_operator_set_set(const string&, Set*, Set*);
     ~logic_binary_operator_set_set();
     
-    string getLatex();
+    Print_Output getLatex(vector<vector<int> > split_point = {{}});
     bool isEqual(expression*);
     expression* getCopy();
     void replace_variable(vector<substitution*>);
@@ -268,7 +277,7 @@ public:
     set_unary_operator_set(const string&, Set*);
     ~set_unary_operator_set();
     
-    string getLatex();
+    Print_Output getLatex(vector<vector<int> > split_point = {{}});
     bool isEqual(expression*);
     expression* getCopy();
     void replace_variable(vector<substitution*>);
@@ -290,7 +299,7 @@ public:
     set_binary_operator_set_set(const string&, Set*, Set*);
     ~set_binary_operator_set_set();
     
-    string getLatex();
+    Print_Output getLatex(vector<vector<int> > split_point = {{}});
     bool isEqual(expression*);
     expression* getCopy();
     void replace_variable(vector<substitution*>);

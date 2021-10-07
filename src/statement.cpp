@@ -84,7 +84,7 @@ statement::statement(string newLabel, variable_type new_var_type, string input_l
     label = newLabel;
     
     //check whether the input latex format is standard
-    if(input_latex != content->getLatex())
+    if(input_latex != content->getLatex().getNormal())
     {
         cout<<"Error: the input latex format is not standard."<<endl;
     }
@@ -145,7 +145,7 @@ void statement::constructor_aux()
     if(!content->check_variable({}))
     {
         cout<<"Error: Check fail for variable."<<endl;
-        cout<<content->getLatex()<<endl;
+        cout<<content->getLatex().getNormal()<<endl;
     }
 }
 
@@ -228,7 +228,7 @@ void statement::find_all_path_of_variable(bool isPrint)
                 cout<<"The path ";
                 if(i==0) cout<<"in operand1 ";
                 else if(i==1) cout<<"in operand2 ";
-                cout<<"of the variable "<<forall_variable[j]->getLatex()<<" is {";;
+                cout<<"of the variable "<<forall_variable[j]->getLatex().getNormal()<<" is {";;
                 if(i==0) for(long k=0;k<path_of_variable_operand1[j].size();k++) cout<<path_of_variable_operand1[j][k]<<" ";
                 else if(i==1) for(long k=0;k<path_of_variable_operand2[j].size();k++) cout<<path_of_variable_operand2[j][k]<<" ";
                 cout<<"}"<<endl;
@@ -252,7 +252,7 @@ string statement::getLatex()
         if(dynamic_cast<set_variable*>(forall_variable[i]))
         {
             quantifier_latex += "\\forall ";
-            quantifier_latex += forall_variable[i]->getLatex();
+            quantifier_latex += forall_variable[i]->getLatex().getNormal();
             quantifier_latex += " ";
         }
     }
@@ -261,12 +261,12 @@ string statement::getLatex()
     {
         if(binary_operator == nullptr)
         {
-            output = content->getLatex();
+            output = content->getLatex().getNormal();
         }
         else
         {
-            output += "& " + binary_operator->operand1->getLatex() + " \\\\" + "\n";
-            output += binary_operator->operator_latex + " & " + binary_operator->operand2->getLatex() + "\n";
+            output += "& " + binary_operator->operand1->getLatex().getNormal() + " \\\\" + "\n";
+            output += binary_operator->operator_latex + " & " + binary_operator->operand2->getLatex().getNormal() + "\n";
         }
     }
     else
@@ -274,14 +274,14 @@ string statement::getLatex()
         if(binary_operator == nullptr)
         {
             output += "& " + quantifier_latex + "( \\\\" + "\n";
-            output += "& & " + get_expression_without_forall_variable()->getLatex() + " \\\\" + "\n";
+            output += "& & " + get_expression_without_forall_variable()->getLatex().getNormal() + " \\\\" + "\n";
             output = output + "& )" + "\n";
         }
         else
         {
             output += "& " + quantifier_latex + "( \\\\" + "\n";
-            output += "& & & " + binary_operator->operand1->getLatex() + " \\\\" + "\n";
-            output += "& & " + binary_operator->operator_latex + " & " + binary_operator->operand2->getLatex() + " \\\\" + "\n";
+            output += "& & & " + binary_operator->operand1->getLatex().getNormal() + " \\\\" + "\n";
+            output += "& & " + binary_operator->operator_latex + " & " + binary_operator->operand2->getLatex().getNormal() + " \\\\" + "\n";
             output = output + "& )" + "\n";
         }
     }
@@ -431,7 +431,7 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
         cout<<"Substitution:"<<endl;
         for(long i=0;i<sub.size();i++)
         {
-            cout<<sub[i]->x->getLatex()<<" is replaced by "<<sub[i]->y->getLatex()<<endl;
+            cout<<sub[i]->x->getLatex().getNormal()<<" is replaced by "<<sub[i]->y->getLatex().getNormal()<<endl;
         }
         cout<<endl;
     }
@@ -444,7 +444,7 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
         cout<<"External dependence of source part:"<<endl;
         for(long i=0;i<external_dependence_source_part.size();i++)
         {
-            cout<<external_dependence_source_part[i]->getLatex()<<" ";
+            cout<<external_dependence_source_part[i]->getLatex().getNormal()<<" ";
         }
         cout<<endl;
     }
@@ -458,7 +458,7 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
         cout<<"All dependence of source part:"<<endl;
         for(long i=0;i<all_dependence_source_part.size();i++)
         {
-            cout<<all_dependence_source_part[i]->getLatex()<<" ";
+            cout<<all_dependence_source_part[i]->getLatex().getNormal()<<" ";
         }
         cout<<endl;
     }
@@ -472,7 +472,7 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
         cout<<"Internal dependence of law:"<<endl;
         for(long i=0;i<internal_dependence_law.size();i++)
         {
-            cout<<internal_dependence_law[i]->getLatex()<<" ";
+            cout<<internal_dependence_law[i]->getLatex().getNormal()<<" ";
         }
         cout<<endl;
     }
@@ -484,7 +484,7 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
         cout<<"Replacement:"<<endl;
         for(long i=0;i<replacement.size();i++)
         {
-            cout<<replacement[i]->x->getLatex()<<" is replaced by "<<replacement[i]->y->getLatex()<<endl;
+            cout<<replacement[i]->x->getLatex().getNormal()<<" is replaced by "<<replacement[i]->y->getLatex().getNormal()<<endl;
         }
         cout<<endl;
     }
@@ -492,7 +492,7 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
     //do replacement for step
     statement* step = getCopy();
     step->content->replace_variable(replacement);
-    if(isPrint) cout<<step->content->getLatex()<<endl;
+    if(isPrint) cout<<step->content->getLatex().getNormal()<<endl;
     
     //do replacement for sub
     for(long i=0;i<sub.size();i++)
@@ -511,7 +511,7 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
     {
         for(long i=0;i<sub.size();i++)
         {
-            cout<<sub[i]->x->getLatex()<<" is replaced by "<<sub[i]->y->getLatex()<<endl;
+            cout<<sub[i]->x->getLatex().getNormal()<<" is replaced by "<<sub[i]->y->getLatex().getNormal()<<endl;
         }
         cout<<endl;
     }
@@ -527,7 +527,7 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
     if(isPrint)
     {
         cout<<"Do substitution:"<<endl;
-        cout<<step->content->getLatex()<<endl<<endl;
+        cout<<step->content->getLatex().getNormal()<<endl<<endl;
     }
     
     //delete sub
@@ -547,7 +547,7 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
     if(isPrint)
     {
         cout<<"Add universal quantifier at the beginning:"<<endl;
-        cout<<step->content->getLatex()<<endl<<endl;
+        cout<<step->content->getLatex().getNormal()<<endl<<endl;
     }
     
     //for direction Right to Left
@@ -563,7 +563,7 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
             if(isPrint)
             {
                 cout<<"Swap two operands for the direction RightToLeft"<<endl;
-                cout<<step->content->getLatex()<<endl;
+                cout<<step->content->getLatex().getNormal()<<endl;
             }
         }
         else
@@ -595,13 +595,13 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
         cout<<"Replacement for internal dependence:"<<endl;
         for(long i=0;i<replacement.size();i++)
         {
-            cout<<replacement[i]->x->getLatex()<<" is replaced by "<<replacement[i]->y->getLatex()<<endl;
+            cout<<replacement[i]->x->getLatex().getNormal()<<" is replaced by "<<replacement[i]->y->getLatex().getNormal()<<endl;
         }
         cout<<endl;
     }
     
     step->content->replace_variable(replacement);
-    if(isPrint) cout<<step->content->getLatex()<<endl<<endl;
+    if(isPrint) cout<<step->content->getLatex().getNormal()<<endl<<endl;
     
     if(!step->binary_operator->operand1->isEqual(source_part))
     {
@@ -624,7 +624,7 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
         path.erase(path.end() -1);
         
         bool isChanged = expression::assemble(step, source->content->getPart(path), p, source->forall_variable);
-        if(isPrint && isChanged) cout<<step->content->getLatex()<<endl;
+        if(isPrint && isChanged) cout<<step->content->getLatex().getNormal()<<endl;
     }
     if(isPrint) cout<<endl;
     
@@ -700,7 +700,7 @@ void Definition::addDefinition(ofstream& fout, Definition* x, string description
     All_Definition.push_back(x);
     
     cout<< "Definition:" << x->label <<endl;
-    cout<< x->content->getLatex() <<endl;
+    cout<< x->content->getLatex().getNormal() <<endl;
     x->find_all_path_of_variable(false);
     cout<<endl;
     
@@ -761,7 +761,7 @@ void Axiom::addAxiom(ofstream& fout, Axiom* x, string description)
     All_Axiom.push_back(x);
     
     cout<< "Axiom:" << x->label <<endl;
-    cout<< x->content->getLatex() <<endl;
+    cout<< x->content->getLatex().getNormal() <<endl;
     x->find_all_path_of_variable(false);
     cout<<endl;
     
@@ -900,7 +900,7 @@ string proof_block::getLatex()
         if(dynamic_cast<set_variable*>(target->forall_variable[i]))
         {
             quantifier_latex += "\\forall ";
-            quantifier_latex += target->forall_variable[i]->getLatex();
+            quantifier_latex += target->forall_variable[i]->getLatex().getNormal();
             quantifier_latex += " ";
         }
     }
@@ -913,13 +913,13 @@ string proof_block::getLatex()
         
         if(quantifier_latex == "")
         {
-            if(i==0) output += "& " + element->binary_operator->operand1->getLatex() + " \\\\" + "\n";
-            output += element->binary_operator->operator_latex + " & " + element->binary_operator->operand2->getLatex() + "\n";
+            if(i==0) output += "& " + element->binary_operator->operand1->getLatex().getNormal() + " \\\\" + "\n";
+            output += element->binary_operator->operator_latex + " & " + element->binary_operator->operand2->getLatex().getNormal() + "\n";
         }
         else
         {
-            if(i==0) output += "& & & " + element->binary_operator->operand1->getLatex() + " \\\\" + "\n";
-            output += "& & " + element->binary_operator->operator_latex + " & " + element->binary_operator->operand2->getLatex() + "\n";
+            if(i==0) output += "& & & " + element->binary_operator->operand1->getLatex().getNormal() + " \\\\" + "\n";
+            output += "& & " + element->binary_operator->operator_latex + " & " + element->binary_operator->operand2->getLatex().getNormal() + "\n";
         }
         output += "&& \\text{" + print_info[i].ref_type + " \\ref{" + print_info[i].ref_type + ":" + print_info[i].ref + "}} \\\\" + "\n";
     }
@@ -988,7 +988,7 @@ void proof_block::append_binary_operator(input x)
     if(x.isPrint)
     {
         cout<<"source:"<<endl;
-        cout<<source->content->getLatex()<<endl;
+        cout<<source->content->getLatex().getNormal()<<endl;
     }
     
     //fill the x.law
@@ -1033,7 +1033,7 @@ void proof_block::append_binary_operator(input x)
     if(x.isPrint)
     {
         cout<<"law:"<<endl;
-        cout<<x.law->content->getLatex()<<endl;
+        cout<<x.law->content->getLatex().getNormal()<<endl;
         cout<<endl;
     }
     
@@ -1184,7 +1184,7 @@ void Proposition::addProposition(ofstream& fout, Proposition* x, string descript
     All_Proposition.push_back(x);
     
     cout<< "Proposition:" << x->label <<endl;
-    cout<< x->content->getLatex() <<endl;
+    cout<< x->content->getLatex().getNormal() <<endl;
     x->find_all_path_of_variable(false);
     cout<<endl;
     

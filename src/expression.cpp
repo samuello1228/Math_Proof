@@ -53,6 +53,11 @@ substitution::~substitution()
     delete y;
 }
 
+string Print_Output::getNormal()
+{
+    return all_visible[0];
+}
+
 bool isEnglishLetter(string x)
 {
     if(x.size() != 1) return false;
@@ -670,7 +675,7 @@ bool variable::check_variable(vector<variable*> var_list)
         }
     }
     
-    cout<<"Error: variable "<<this->getLatex()<<" is not declared in the quantifier."<<endl;
+    cout<<"Error: variable "<<this->getLatex().getNormal()<<" is not declared in the quantifier."<<endl;
     return false;
 }
 
@@ -684,12 +689,12 @@ logic_element::logic_element(bool x)
     value = x;
 }
 
-string logic_element::getLatex()
+Print_Output logic_element::getLatex(vector<vector<int> > split_point)
 {
-    string x = "";
-    if(value) x = "\\text{True}";
-    else x = "\\text{False}";
-    return x;
+    Print_Output output;
+    if(value) output.all_visible.push_back("\\text{True}");
+    else output.all_visible.push_back("\\text{False}");
+    return output;
 }
 
 bool logic_element::isEqual(expression* x)
@@ -710,9 +715,11 @@ logic_variable::logic_variable(const string& newLatex) : variable(newLatex)
 {
 }
 
-string logic_variable::getLatex()
+Print_Output logic_variable::getLatex(vector<vector<int> > split_point)
 {
-    return latex;
+    Print_Output output;
+    output.all_visible.push_back(latex);
+    return output;
 }
 
 bool logic_variable::isEqual(expression* x)
@@ -759,9 +766,11 @@ set_element::set_element(string x)
     latex = x;
 }
 
-string set_element::getLatex()
+Print_Output set_element::getLatex(vector<vector<int> > split_point)
 {
-    return latex;
+    Print_Output output;
+    output.all_visible.push_back(latex);
+    return output;
 }
 
 bool set_element::isEqual(expression* x)
@@ -782,9 +791,11 @@ set_variable::set_variable(const string& newLatex) : variable(newLatex)
 {
 }
 
-string set_variable::getLatex()
+Print_Output set_variable::getLatex(vector<vector<int> > split_point)
 {
-    return latex;
+    Print_Output output;
+    output.all_visible.push_back(latex);
+    return output;
 }
 
 bool set_variable::isEqual(expression* x)
@@ -813,27 +824,29 @@ quantifier::~quantifier()
     delete operand;
 }
 
-string quantifier::getLatex()
+Print_Output quantifier::getLatex(vector<vector<int> > split_point)
 {
-    string output = "";
+    Print_Output output;
+    string visible = "";
     logic_value* x = this;
     while(true)
     {
         if(universal_quantifier* y = dynamic_cast<universal_quantifier*>(x))
         {
-            output += "\\forall " + y->var->getLatex() + " ";
+            visible += "\\forall " + y->var->getLatex().getNormal() + " ";
             x = y->operand;
         }
         else if(existential_quantifier* y = dynamic_cast<existential_quantifier*>(x))
         {
-            output += "\\exists " + y->var->getLatex() + " ";
+            visible += "\\exists " + y->var->getLatex().getNormal() + " ";
             x = y->operand;
         }
         else break;
     }
     
-    string operand_latex = x->getLatex();
-    output += "(" + operand_latex + ")";
+    string operand_latex = x->getLatex().getNormal();
+    visible += "(" + operand_latex + ")";
+    output.all_visible.push_back(visible);
     return output;
 }
 
@@ -1077,9 +1090,10 @@ logic_unary_operator_logic::~logic_unary_operator_logic()
     delete operand;
 }
 
-string logic_unary_operator_logic::getLatex()
+Print_Output logic_unary_operator_logic::getLatex(vector<vector<int> > split_point)
 {
-    string operand_latex = operand->getLatex();
+    Print_Output output;
+    string operand_latex = operand->getLatex().getNormal();
     variable* var = dynamic_cast<variable*>(operand);
     if(!var)
     {
@@ -1089,13 +1103,13 @@ string logic_unary_operator_logic::getLatex()
     if(operator_latex == "\\lnot")
     {
         //For logical not
-        string output = "\\lnot " + operand_latex;
+        output.all_visible.push_back("\\lnot " + operand_latex);
         return output;
     }
     else
     {
         cout<<"Syntax Error: the operator cannot be processed: "<<operator_latex<<endl;
-        string output = "";
+        output.all_visible.push_back("");
         return output;
     }
 }
@@ -1153,16 +1167,17 @@ logic_binary_operator_logic_logic::~logic_binary_operator_logic_logic()
     delete operand2;
 }
 
-string logic_binary_operator_logic_logic::getLatex()
+Print_Output logic_binary_operator_logic_logic::getLatex(vector<vector<int> > split_point)
 {
-    string operand1_latex = operand1->getLatex();
+    Print_Output output;
+    string operand1_latex = operand1->getLatex().getNormal();
     variable* var1 = dynamic_cast<variable*>(operand1);
     if(!var1)
     {
         operand1_latex = "(" + operand1_latex + ")";
     }
     
-    string operand2_latex = operand2->getLatex();
+    string operand2_latex = operand2->getLatex().getNormal();
     variable* var2 = dynamic_cast<variable*>(operand2);
     if(!var2)
     {
@@ -1176,13 +1191,13 @@ string logic_binary_operator_logic_logic::getLatex()
        operator_latex == "\\implies"
        )
     {
-        string output = operand1_latex + " " + operator_latex + " " + operand2_latex;
+        output.all_visible.push_back(operand1_latex + " " + operator_latex + " " + operand2_latex);
         return output;
     }
     else
     {
         cout<<"Syntax Error: the operator cannot be processed: "<<operator_latex<<endl;
-        string output = "";
+        output.all_visible.push_back("");
         return output;
     }
 }
@@ -1242,10 +1257,11 @@ logic_binary_operator_set_set::~logic_binary_operator_set_set()
     delete operand2;
 }
 
-string logic_binary_operator_set_set::getLatex()
+Print_Output logic_binary_operator_set_set::getLatex(vector<vector<int> > split_point)
 {
-    string operand1_latex = operand1->getLatex();
-    string operand2_latex = operand2->getLatex();
+    Print_Output output;
+    string operand1_latex = operand1->getLatex().getNormal();
+    string operand2_latex = operand2->getLatex().getNormal();
     if(Set::needParenthesis(operand1, operand1_latex)) operand1_latex = "(" + operand1_latex + ")";
     if(Set::needParenthesis(operand2, operand2_latex)) operand2_latex = "(" + operand2_latex + ")";
     
@@ -1255,13 +1271,13 @@ string logic_binary_operator_set_set::getLatex()
        operator_latex == "\\neq"
        )
     {
-        string output = operand1_latex + " " + operator_latex + " " + operand2_latex;
+        output.all_visible.push_back(operand1_latex + " " + operator_latex + " " + operand2_latex);
         return output;
     }
     else
     {
         cout<<"Syntax Error: the operator cannot be processed: "<<operator_latex<<endl;
-        string output = "";
+        output.all_visible.push_back("");
         return output;
     }
 }
@@ -1319,21 +1335,21 @@ set_unary_operator_set::~set_unary_operator_set()
     delete operand;
 }
 
-string set_unary_operator_set::getLatex()
+Print_Output set_unary_operator_set::getLatex(vector<vector<int> > split_point)
 {
-    string operand_latex = operand->getLatex();
+    Print_Output output;
+    string operand_latex = operand->getLatex().getNormal();
     if(Set::needParenthesis(operand, operand_latex)) operand_latex = "(" + operand_latex + ")";
     
     if(operator_latex == "singleton_set")
     {
-        //For logical not
-        string output = "\\{ " + operand_latex + " \\}";
+        output.all_visible.push_back("\\{ " + operand_latex + " \\}");
         return output;
     }
     else
     {
         cout<<"Syntax Error: the operator cannot be processed: "<<operator_latex<<endl;
-        string output = "";
+        output.all_visible.push_back("");
         return output;
     }
 }
@@ -1391,22 +1407,23 @@ set_binary_operator_set_set::~set_binary_operator_set_set()
     delete operand2;
 }
 
-string set_binary_operator_set_set::getLatex()
+Print_Output set_binary_operator_set_set::getLatex(vector<vector<int> > split_point)
 {
-    string operand1_latex = operand1->getLatex();
-    string operand2_latex = operand2->getLatex();
+    Print_Output output;
+    string operand1_latex = operand1->getLatex().getNormal();
+    string operand2_latex = operand2->getLatex().getNormal();
     if(Set::needParenthesis(operand1, operand1_latex)) operand1_latex = "(" + operand1_latex + ")";
     if(Set::needParenthesis(operand2, operand2_latex)) operand2_latex = "(" + operand2_latex + ")";
     
     if(operator_latex == "pair_set")
     {
-        string output = "\\{ " + operand1_latex + " , " + operand2_latex + " \\}";
+        output.all_visible.push_back("\\{ " + operand1_latex + " , " + operand2_latex + " \\}");
         return output;
     }
     else
     {
         cout<<"Syntax Error: the operator cannot be processed: "<<operator_latex<<endl;
-        string output = "";
+        output.all_visible.push_back("");
         return output;
     }
 }
