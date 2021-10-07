@@ -131,6 +131,150 @@ void eraseSpaceParenthesis(string& latex)
     }
 }
 
+bool expression::needParenthesis(expression* operand)
+{
+    bool condition = dynamic_cast<logic_variable*>(operand);
+    condition = condition || dynamic_cast<set_variable*>(operand);
+    
+    bool condition_set_element = false;
+    if(set_element* x = dynamic_cast<set_element*>(operand))
+    {
+        condition_set_element = (x->latex == "\\emptyset" ||
+                                 x->latex == "0" ||
+                                 x->latex == "1" );
+    }
+    condition = condition || condition_set_element;
+    
+    bool condition_curly_bracket = false;
+    if(set_unary_operator_set* x = dynamic_cast<set_unary_operator_set*>(operand))
+    {
+        if(x->operator_latex == "singleton_set") condition_curly_bracket = true;
+    }
+    else if(set_binary_operator_set_set* x = dynamic_cast<set_binary_operator_set_set*>(operand))
+    {
+        if(x->operator_latex == "pair_set") condition_curly_bracket = true;
+    }
+    condition = condition || condition_curly_bracket;
+    
+    return !condition;
+}
+
+Print_Output expression::getLatex_aux_1_operand(vector<vector<int> > split_point, expression* operand, string prefix, string suffix)
+{
+    for(long i=0;i<split_point.size();i++)
+    {
+        if(split_point[i].size() == 1)
+        {
+            cout<<"Error: Cannot split the operand "<<split_point[i][0]<<"."<<endl;
+        }
+        else
+        {
+            if(split_point[i][0] == 1)
+            {
+                split_point[i].erase(split_point[i].begin());
+            }
+            else cout<<"Error: Impossible path."<<endl;
+        }
+    }
+    
+    if(expression::needParenthesis(operand))
+    {
+        prefix = prefix + "(";
+        suffix = ")" + suffix;
+    }
+    
+    Print_Output operand_latex = operand->getLatex(split_point);
+    operand_latex.all_visible[0] = prefix + operand_latex.all_visible[0];
+    for(long i=1;i<operand_latex.all_phantom.size();i++)
+    {
+        operand_latex.all_phantom[i] = prefix + operand_latex.all_phantom[i];
+    }
+    operand_latex.all_visible[operand_latex.all_visible.size()-1] += suffix;
+    return operand_latex;
+}
+
+Print_Output expression::getLatex_aux_2_operand(vector<vector<int> > split_point, expression* operand1, expression* operand2, string prefix_1, string suffix_1, string prefix_2, string suffix_2)
+{
+    bool is_split_operand_2 = false;
+    vector<vector<int> > split_point_1;
+    vector<vector<int> > split_point_2;
+    for(long i=0;i<split_point.size();i++)
+    {
+        if(split_point[i].size() == 1)
+        {
+            if(split_point[i][0] == 2) is_split_operand_2 = true;
+            else cout<<"Error: Cannot split the operand "<<split_point[i][0]<<"."<<endl;
+        }
+        else
+        {
+            if(split_point[i][0] == 1)
+            {
+                split_point[i].erase(split_point[i].begin());
+                split_point_1.push_back(split_point[i]);
+            }
+            else if(split_point[i][0] == 2)
+            {
+                split_point[i].erase(split_point[i].begin());
+                split_point_2.push_back(split_point[i]);
+            }
+            else cout<<"Error: Impossible path."<<endl;
+        }
+    }
+    
+    if(expression::needParenthesis(operand1))
+    {
+        prefix_1 = prefix_1 + "(";
+        suffix_1 = ")" + suffix_1;
+    }
+
+    if(expression::needParenthesis(operand2))
+    {
+        prefix_2 = prefix_2 + "(";
+        suffix_2 = ")" + suffix_2;
+    }
+    
+    Print_Output operand1_latex = operand1->getLatex(split_point_1);
+    operand1_latex.all_visible[0] = prefix_1 + operand1_latex.all_visible[0];
+    for(long i=1;i<operand1_latex.all_phantom.size();i++)
+    {
+        operand1_latex.all_phantom[i] = prefix_1 + operand1_latex.all_phantom[i];
+    }
+    operand1_latex.all_visible[operand1_latex.all_visible.size()-1] += suffix_1;
+    
+    Print_Output operand2_latex = operand2->getLatex(split_point_2);
+    operand2_latex.all_visible[operand2_latex.all_visible.size()-1] += suffix_2;
+    if(is_split_operand_2)
+    {
+        operand2_latex.all_visible[0] = prefix_2 + operand2_latex.all_visible[0];
+        for(long i=1;i<operand2_latex.all_phantom.size();i++)
+        {
+            operand2_latex.all_phantom[i] = prefix_2 + operand2_latex.all_phantom[i];
+        }
+    }
+    else
+    {
+        string phantom_add = operand1_latex.all_phantom[operand1_latex.all_phantom.size()-1] + operand1_latex.all_visible[operand1_latex.all_visible.size()-1] + " " + prefix_2;
+        
+        operand1_latex.all_visible[operand1_latex.all_visible.size()-1] += " " + prefix_2 + operand2_latex.all_visible[0];
+        
+        for(long i=1;i<operand2_latex.all_phantom.size();i++)
+        {
+            operand2_latex.all_phantom[i] = phantom_add + operand2_latex.all_phantom[i];
+        }
+        
+        operand2_latex.all_visible.erase(operand2_latex.all_visible.begin());
+        operand2_latex.all_phantom.erase(operand2_latex.all_phantom.begin());
+    }
+    
+    for(long i=0;i<operand2_latex.all_visible.size();i++)
+    {
+        operand1_latex.all_visible.push_back(operand2_latex.all_visible[i]);
+        operand1_latex.all_phantom.push_back(operand2_latex.all_phantom[i]);
+    }
+    
+    return operand1_latex;
+}
+
 expression* expression::createFromLatex(string latex, variable_type var_type, bool isPrint)
 {
     //remove space and parenthesis at the beginning and the end.
@@ -694,6 +838,7 @@ Print_Output logic_element::getLatex(vector<vector<int> > split_point)
     Print_Output output;
     if(value) output.all_visible.push_back("\\text{True}");
     else output.all_visible.push_back("\\text{False}");
+    output.all_phantom.push_back("");
     return output;
 }
 
@@ -719,6 +864,7 @@ Print_Output logic_variable::getLatex(vector<vector<int> > split_point)
 {
     Print_Output output;
     output.all_visible.push_back(latex);
+    output.all_phantom.push_back("");
     return output;
 }
 
@@ -736,31 +882,6 @@ expression* logic_variable::getCopy()
     return x;
 }
 
-bool Set::needParenthesis(Set* operand, string operand_latex)
-{
-    bool condition = dynamic_cast<set_variable*>(operand);
-    
-    bool condition_set_element = false;
-    if(set_element* x = dynamic_cast<set_element*>(operand))
-    {
-        condition_set_element = (x->latex == "\\emptyset" ||
-                                 x->latex == "0" ||
-                                 x->latex == "1" );
-    }
-    condition = condition || condition_set_element;
-    
-    bool condition_curly_bracket = false;
-    if(operand_latex.size() >= 4 &&
-       operand_latex[0] == '\\' &&
-       operand_latex[1] == '{' &&
-       operand_latex[operand_latex.size()-2] == '\\' &&
-       operand_latex[operand_latex.size()-1] == '}' )
-        condition_curly_bracket = true;
-    condition = condition || condition_curly_bracket;
-    
-    return !condition;
-}
-
 set_element::set_element(string x)
 {
     latex = x;
@@ -770,6 +891,7 @@ Print_Output set_element::getLatex(vector<vector<int> > split_point)
 {
     Print_Output output;
     output.all_visible.push_back(latex);
+    output.all_phantom.push_back("");
     return output;
 }
 
@@ -795,6 +917,7 @@ Print_Output set_variable::getLatex(vector<vector<int> > split_point)
 {
     Print_Output output;
     output.all_visible.push_back(latex);
+    output.all_phantom.push_back("");
     return output;
 }
 
@@ -826,28 +949,44 @@ quantifier::~quantifier()
 
 Print_Output quantifier::getLatex(vector<vector<int> > split_point)
 {
-    Print_Output output;
-    string visible = "";
+    string prefix = "";
     logic_value* x = this;
     while(true)
     {
         if(universal_quantifier* y = dynamic_cast<universal_quantifier*>(x))
         {
-            visible += "\\forall " + y->var->getLatex().getNormal() + " ";
+            prefix += "\\forall " + y->var->getLatex().getNormal() + " ";
             x = y->operand;
+            
+            for(long i=0;i<split_point.size();i++)
+            {
+                if(split_point[i][0] != 1) cout<<"Error: Impossible path."<<endl;
+                split_point[i].erase(split_point[i].begin());
+            }
         }
         else if(existential_quantifier* y = dynamic_cast<existential_quantifier*>(x))
         {
-            visible += "\\exists " + y->var->getLatex().getNormal() + " ";
+            prefix += "\\exists " + y->var->getLatex().getNormal() + " ";
             x = y->operand;
+            
+            for(long i=0;i<split_point.size();i++)
+            {
+                if(split_point[i][0] != 1) cout<<"Error: Impossible path."<<endl;
+                split_point[i].erase(split_point[i].begin());
+            }
         }
         else break;
     }
+    prefix += "(";
     
-    string operand_latex = x->getLatex().getNormal();
-    visible += "(" + operand_latex + ")";
-    output.all_visible.push_back(visible);
-    return output;
+    Print_Output operand_latex = x->getLatex(split_point);
+    operand_latex.all_visible[0] = prefix + operand_latex.all_visible[0];
+    for(long i=1;i<operand_latex.all_phantom.size();i++)
+    {
+        operand_latex.all_phantom[i] = prefix + operand_latex.all_phantom[i];
+    }
+    operand_latex.all_visible[operand_latex.all_visible.size()-1] += ")";
+    return operand_latex;
 }
 
 void quantifier::replace_variable(vector<substitution*> replacement)
@@ -1092,26 +1231,20 @@ logic_unary_operator_logic::~logic_unary_operator_logic()
 
 Print_Output logic_unary_operator_logic::getLatex(vector<vector<int> > split_point)
 {
-    Print_Output output;
-    string operand_latex = operand->getLatex().getNormal();
-    variable* var = dynamic_cast<variable*>(operand);
-    if(!var)
-    {
-        operand_latex = "(" + operand_latex + ")";
-    }
-    
+    string prefix = "";
+    string suffix = "";
     if(operator_latex == "\\lnot")
     {
-        //For logical not
-        output.all_visible.push_back("\\lnot " + operand_latex);
-        return output;
+        prefix = operator_latex + " ";
     }
     else
     {
         cout<<"Syntax Error: the operator cannot be processed: "<<operator_latex<<endl;
-        output.all_visible.push_back("");
+        Print_Output output;
         return output;
     }
+    
+    return expression::getLatex_aux_1_operand(split_point, operand, prefix, suffix);
 }
 
 bool logic_unary_operator_logic::isEqual(expression* x)
@@ -1169,21 +1302,10 @@ logic_binary_operator_logic_logic::~logic_binary_operator_logic_logic()
 
 Print_Output logic_binary_operator_logic_logic::getLatex(vector<vector<int> > split_point)
 {
-    Print_Output output;
-    string operand1_latex = operand1->getLatex().getNormal();
-    variable* var1 = dynamic_cast<variable*>(operand1);
-    if(!var1)
-    {
-        operand1_latex = "(" + operand1_latex + ")";
-    }
-    
-    string operand2_latex = operand2->getLatex().getNormal();
-    variable* var2 = dynamic_cast<variable*>(operand2);
-    if(!var2)
-    {
-        operand2_latex = "(" + operand2_latex + ")";
-    }
-    
+    string prefix_1 = "";
+    string suffix_1 = "";
+    string prefix_2 = "";
+    string suffix_2 = "";
     if(operator_latex == "\\overset{\\operatorname{def}}{\\iff}" ||
        operator_latex == "\\lor"  ||
        operator_latex == "\\land" ||
@@ -1191,15 +1313,19 @@ Print_Output logic_binary_operator_logic_logic::getLatex(vector<vector<int> > sp
        operator_latex == "\\implies"
        )
     {
-        output.all_visible.push_back(operand1_latex + " " + operator_latex + " " + operand2_latex);
-        return output;
+        prefix_1 = "";
+        suffix_1 = "";
+        prefix_2 = operator_latex + " ";
+        suffix_2 = "";
     }
     else
     {
         cout<<"Syntax Error: the operator cannot be processed: "<<operator_latex<<endl;
-        output.all_visible.push_back("");
+        Print_Output output;
         return output;
     }
+    
+    return expression::getLatex_aux_2_operand(split_point, operand1, operand2, prefix_1, suffix_1, prefix_2, suffix_2);
 }
 
 bool logic_binary_operator_logic_logic::isEqual(expression* x)
@@ -1259,27 +1385,29 @@ logic_binary_operator_set_set::~logic_binary_operator_set_set()
 
 Print_Output logic_binary_operator_set_set::getLatex(vector<vector<int> > split_point)
 {
-    Print_Output output;
-    string operand1_latex = operand1->getLatex().getNormal();
-    string operand2_latex = operand2->getLatex().getNormal();
-    if(Set::needParenthesis(operand1, operand1_latex)) operand1_latex = "(" + operand1_latex + ")";
-    if(Set::needParenthesis(operand2, operand2_latex)) operand2_latex = "(" + operand2_latex + ")";
-    
+    string prefix_1 = "";
+    string suffix_1 = "";
+    string prefix_2 = "";
+    string suffix_2 = "";
     if(operator_latex == "\\in" ||
        operator_latex == "\\notin" ||
        operator_latex == "=" ||
        operator_latex == "\\neq"
        )
     {
-        output.all_visible.push_back(operand1_latex + " " + operator_latex + " " + operand2_latex);
-        return output;
+        prefix_1 = "";
+        suffix_1 = "";
+        prefix_2 = operator_latex + " ";
+        suffix_2 = "";
     }
     else
     {
         cout<<"Syntax Error: the operator cannot be processed: "<<operator_latex<<endl;
-        output.all_visible.push_back("");
+        Print_Output output;
         return output;
     }
+    
+    return expression::getLatex_aux_2_operand(split_point, operand1, operand2, prefix_1, suffix_1, prefix_2, suffix_2);
 }
 
 bool logic_binary_operator_set_set::isEqual(expression* x)
@@ -1337,21 +1465,21 @@ set_unary_operator_set::~set_unary_operator_set()
 
 Print_Output set_unary_operator_set::getLatex(vector<vector<int> > split_point)
 {
-    Print_Output output;
-    string operand_latex = operand->getLatex().getNormal();
-    if(Set::needParenthesis(operand, operand_latex)) operand_latex = "(" + operand_latex + ")";
-    
+    string prefix = "";
+    string suffix = "";
     if(operator_latex == "singleton_set")
     {
-        output.all_visible.push_back("\\{ " + operand_latex + " \\}");
-        return output;
+        prefix = "\\{ ";
+        suffix = " \\}";
     }
     else
     {
         cout<<"Syntax Error: the operator cannot be processed: "<<operator_latex<<endl;
-        output.all_visible.push_back("");
+        Print_Output output;
         return output;
     }
+    
+    return expression::getLatex_aux_1_operand(split_point, operand, prefix, suffix);
 }
 
 bool set_unary_operator_set::isEqual(expression* x)
@@ -1409,23 +1537,24 @@ set_binary_operator_set_set::~set_binary_operator_set_set()
 
 Print_Output set_binary_operator_set_set::getLatex(vector<vector<int> > split_point)
 {
-    Print_Output output;
-    string operand1_latex = operand1->getLatex().getNormal();
-    string operand2_latex = operand2->getLatex().getNormal();
-    if(Set::needParenthesis(operand1, operand1_latex)) operand1_latex = "(" + operand1_latex + ")";
-    if(Set::needParenthesis(operand2, operand2_latex)) operand2_latex = "(" + operand2_latex + ")";
-    
+    string prefix_1 = "";
+    string suffix_1 = "";
+    string prefix_2 = "";
+    string suffix_2 = "";
     if(operator_latex == "pair_set")
     {
-        output.all_visible.push_back("\\{ " + operand1_latex + " , " + operand2_latex + " \\}");
-        return output;
+        prefix_1 = "\\{ ";
+        suffix_1 = " ,";
+        suffix_2 = " \\}";
     }
     else
     {
         cout<<"Syntax Error: the operator cannot be processed: "<<operator_latex<<endl;
-        output.all_visible.push_back("");
+        Print_Output output;
         return output;
     }
+    
+    return expression::getLatex_aux_2_operand(split_point, operand1, operand2, prefix_1, suffix_1, prefix_2, suffix_2);
 }
 
 bool set_binary_operator_set_set::isEqual(expression* x)
