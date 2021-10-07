@@ -399,11 +399,11 @@ Proof of Proposition \ref{Proposition:a_lor_b_complement}
 \begin{align*}
 & (a \land (\lnot b)) \lor b \\
 \iff & (a \lor b) \land ((\lnot b) \lor b)
-&& \text{Proposition \ref{Proposition:lor_land_distributivity_2}} \\
+& & \text{Proposition \ref{Proposition:lor_land_distributivity_2}} \\
 \iff & (a \lor b) \land (\text{True})
-&& \text{Proposition \ref{Proposition:lor_complement_2}} \\
+& & \text{Proposition \ref{Proposition:lor_complement_2}} \\
 \iff & a \lor b
-&& \text{Proposition \ref{Proposition:land_identity_1}} \\
+& & \text{Proposition \ref{Proposition:land_identity_1}} \\
 \end{align*}
 \end{prop}
 
@@ -418,15 +418,15 @@ Proof of Proposition \ref{Proposition:true_statement}
 \begin{align*}
 & a \iff (\text{True}) \\
 \overset{\operatorname{def}}{\iff} & (a \land (\text{True})) \lor ((\lnot a) \land (\lnot (\text{True})))
-&& \text{Definition \ref{Definition:iff}} \\
+& & \text{Definition \ref{Definition:iff}} \\
 \overset{\operatorname{def}}{\iff} & (a \land (\text{True})) \lor ((\lnot a) \land (\text{False}))
-&& \text{Definition \ref{Definition:lnot_True}} \\
+& & \text{Definition \ref{Definition:lnot_True}} \\
 \iff & a \lor ((\lnot a) \land (\text{False}))
-&& \text{Proposition \ref{Proposition:land_identity_1}} \\
+& & \text{Proposition \ref{Proposition:land_identity_1}} \\
 \iff & a \lor (\text{False})
-&& \text{Proposition \ref{Proposition:land_annihilator_1}} \\
+& & \text{Proposition \ref{Proposition:land_annihilator_1}} \\
 \iff & a
-&& \text{Proposition \ref{Proposition:lor_identity_1}} \\
+& & \text{Proposition \ref{Proposition:lor_identity_1}} \\
 \end{align*}
 \end{prop}
 
@@ -440,41 +440,41 @@ Proof of Proposition \ref{Proposition:implies_lor}
 \begin{align*}
 & (a \implies b) \implies ((a \lor c) \implies (b \lor c)) \\
 \overset{\operatorname{def}}{\iff} & ((\lnot a) \lor b) \implies ((a \lor c) \implies (b \lor c))
-&& \text{Definition \ref{Definition:implies}} \\
+& & \text{Definition \ref{Definition:implies}} \\
 \overset{\operatorname{def}}{\iff} & ((\lnot a) \lor b) \implies ((\lnot (a \lor c)) \lor (b \lor c))
-&& \text{Definition \ref{Definition:implies}} \\
+& & \text{Definition \ref{Definition:implies}} \\
 \overset{\operatorname{def}}{\iff} & (\lnot ((\lnot a) \lor b)) \lor ((\lnot (a \lor c)) \lor (b \lor c))
-&& \text{Definition \ref{Definition:implies}} \\
+& & \text{Definition \ref{Definition:implies}} \\
 \iff & ((\lnot (\lnot a)) \land (\lnot b)) \lor ((\lnot (a \lor c)) \lor (b \lor c))
-&& \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
+& & \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
 \iff & (a \land (\lnot b)) \lor ((\lnot (a \lor c)) \lor (b \lor c))
-&& \text{Proposition \ref{Proposition:double_negation}} \\
+& & \text{Proposition \ref{Proposition:double_negation}} \\
 \iff & (a \land (\lnot b)) \lor (((\lnot a) \land (\lnot c)) \lor (b \lor c))
-&& \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
+& & \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
 \iff & (a \land (\lnot b)) \lor (((\lnot a) \land (\lnot c)) \lor (c \lor b))
-&& \text{Proposition \ref{Proposition:lor_commutativity}} \\
+& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
 \iff & (a \land (\lnot b)) \lor ((((\lnot a) \land (\lnot c)) \lor c) \lor b)
-&& \text{Proposition \ref{Proposition:lor_associativity}} \\
+& & \text{Proposition \ref{Proposition:lor_associativity}} \\
 \iff & (a \land (\lnot b)) \lor (b \lor (((\lnot a) \land (\lnot c)) \lor c))
-&& \text{Proposition \ref{Proposition:lor_commutativity}} \\
+& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
 \iff & ((a \land (\lnot b)) \lor b) \lor (((\lnot a) \land (\lnot c)) \lor c)
-&& \text{Proposition \ref{Proposition:lor_associativity}} \\
+& & \text{Proposition \ref{Proposition:lor_associativity}} \\
 \iff & (a \lor b) \lor (((\lnot a) \land (\lnot c)) \lor c)
-&& \text{Proposition \ref{Proposition:a_lor_b_complement}} \\
+& & \text{Proposition \ref{Proposition:a_lor_b_complement}} \\
 \iff & (a \lor b) \lor ((\lnot a) \lor c)
-&& \text{Proposition \ref{Proposition:a_lor_b_complement}} \\
+& & \text{Proposition \ref{Proposition:a_lor_b_complement}} \\
 \iff & ((a \lor b) \lor (\lnot a)) \lor c
-&& \text{Proposition \ref{Proposition:lor_associativity}} \\
+& & \text{Proposition \ref{Proposition:lor_associativity}} \\
 \iff & ((\lnot a) \lor (a \lor b)) \lor c
-&& \text{Proposition \ref{Proposition:lor_commutativity}} \\
+& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
 \iff & (((\lnot a) \lor a) \lor b) \lor c
-&& \text{Proposition \ref{Proposition:lor_associativity}} \\
+& & \text{Proposition \ref{Proposition:lor_associativity}} \\
 \iff & ((\text{True}) \lor b) \lor c
-&& \text{Proposition \ref{Proposition:lor_complement_2}} \\
+& & \text{Proposition \ref{Proposition:lor_complement_2}} \\
 \iff & (\text{True}) \lor c
-&& \text{Proposition \ref{Proposition:lor_annihilator_2}} \\
+& & \text{Proposition \ref{Proposition:lor_annihilator_2}} \\
 \iff & \text{True}
-&& \text{Proposition \ref{Proposition:lor_annihilator_2}} \\
+& & \text{Proposition \ref{Proposition:lor_annihilator_2}} \\
 \end{align*}
 \end{prop}
 
@@ -565,13 +565,13 @@ Proof of Proposition \ref{Proposition:iff_reflexive}
 \begin{align*}
 & a \iff a \\
 \overset{\operatorname{def}}{\iff} & (a \land a) \lor ((\lnot a) \land (\lnot a))
-&& \text{Definition \ref{Definition:iff}} \\
+& & \text{Definition \ref{Definition:iff}} \\
 \iff & a \lor ((\lnot a) \land (\lnot a))
-&& \text{Proposition \ref{Proposition:land_idempotence}} \\
+& & \text{Proposition \ref{Proposition:land_idempotence}} \\
 \iff & a \lor (\lnot a)
-&& \text{Proposition \ref{Proposition:land_idempotence}} \\
+& & \text{Proposition \ref{Proposition:land_idempotence}} \\
 \iff & \text{True}
-&& \text{Proposition \ref{Proposition:lor_complement_1}} \\
+& & \text{Proposition \ref{Proposition:lor_complement_1}} \\
 \end{align*}
 \end{prop}
 

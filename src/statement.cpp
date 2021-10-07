@@ -930,7 +930,7 @@ string proof_block::getLatex()
             output += "\n";
         }
         
-        output += "&& \\text{" + print_info[i].ref_type + " \\ref{" + print_info[i].ref_type + ":" + print_info[i].ref + "}} \\\\" + "\n";
+        output += "& & \\text{" + print_info[i].ref_type + " \\ref{" + print_info[i].ref_type + ":" + print_info[i].ref + "}} \\\\" + "\n";
     }
     
     if(quantifier_latex != "") output = output + "& )" + "\n";
