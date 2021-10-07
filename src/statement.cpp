@@ -886,6 +886,11 @@ proof_block::~proof_block()
     }
 }
 
+void proof_block::set_split_point(vector<vector<int> > new_split_point)
+{
+    print_info[print_info.size()-1].split_point = new_split_point;
+}
+
 string proof_block::getLatex()
 {
     string output = "";
@@ -916,7 +921,7 @@ string proof_block::getLatex()
             if(i==0) output += "& & & " + element->binary_operator->operand1->getLatex() + " \\\\" + "\n";
             output += "& & " + element->binary_operator->operator_latex + " & " + element->binary_operator->operand2->getLatex() + "\n";
         }
-        output += "&& \\text{" + ref_type[i] + " \\ref{" + ref_type[i] + ":" + ref[i] + "}} \\\\" + "\n";
+        output += "&& \\text{" + print_info[i].ref_type + " \\ref{" + print_info[i].ref_type + ":" + print_info[i].ref + "}} \\\\" + "\n";
     }
     
     if(quantifier_latex != "") output = output + "& )" + "\n";
@@ -1115,11 +1120,14 @@ void proof_block::append_binary_operator(input x)
     
     if(x.isFinished) check_finished(step);
     
-    //fill ref_type and ref
-    if(dynamic_cast<Definition*>(x.law)) ref_type.push_back("Definition");
-    if(dynamic_cast<Axiom*>(x.law)) ref_type.push_back("Axiom");
-    if(dynamic_cast<Proposition*>(x.law)) ref_type.push_back("Proposition");
-    ref.push_back(x.law->label);
+    //fill print_info
+    Print_Info element;
+    if(dynamic_cast<Definition*>(x.law)) element.ref_type= "Definition";
+    if(dynamic_cast<Axiom*>(x.law)) element.ref_type = "Axiom";
+    if(dynamic_cast<Proposition*>(x.law)) element.ref_type = "Proposition";
+    element.ref = x.law->label;
+    element.split_point.clear();
+    print_info.push_back(element);
     
     if(x.dir == TrueToP || x.dir == PToTrue) delete x.law;
     

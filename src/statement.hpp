@@ -106,6 +106,13 @@ public:
     input(vector<int> relative_path, string law_label, direction dir, vector<substitution*> sub, bool isFinished = false, bool isPrint = false);
 };
 
+struct Print_Info
+{
+    string ref_type;
+    string ref;
+    vector<vector<int> > split_point;
+};
+
 enum proof_method {direct, backward, deduction};
 class proof_block
 {
@@ -113,13 +120,13 @@ public:
     string label;
     statement* target;
     proof_method method;
-    vector<string> ref_type;
-    vector<string> ref;
+    vector<Print_Info> print_info;
     vector<statement*> chain_of_deductive;
     
     proof_block(string, statement*, proof_method);
     ~proof_block();
     
+    void set_split_point(vector<vector<int> >);
     string getLatex();
     statement* get_next_source();
     void check_finished(statement*);
