@@ -116,5 +116,22 @@ void set()
     axiom = new Axiom("existence_of_pair_set", SET, "\\forall a \\forall b \\forall c ((c \\in \\{ a , b \\}) \\iff ((c = a) \\lor (c = b)))");
     Axiom::addAxiom(fout, axiom, "Existence of pair set");
     
+    x = new Proposition("uniqueness_of_pair_set", SET, "\\forall a \\forall b \\forall c ((\\forall d ((d \\in c) \\iff ((d = a) \\lor (d = b)))) \\implies (c = \\{ a , b \\}))");
+    description = "Uniqueness of pair set";
+    block = new proof_block("uniqueness_of_pair_set", x, deduction);
+    block->append_binary_operator(input({1}, "Proposition:land_identity_1", RightToLeft));
+    sub.clear();
+    sub.push_back(new substitution("a", "a", SET));
+    sub.push_back(new substitution("b", "b", SET));
+    sub.push_back(new substitution("c", "d", SET));
+    block->append_binary_operator(input({1,2}, "Axiom:existence_of_pair_set", TrueToP, sub));
+    block->set_split_point({{1,2}});
+    block->append_binary_operator(input({1,2}, "Proposition:iff_symmetric", LeftToRight));
+    block->set_split_point({{1,2}});
+    block->append_binary_operator(input({1}, "Proposition:iff_transitive", LeftToRight));
+    block->append_binary_operator(input({}, "Definition:equality", RightToLeft, true));
+    x->append(block, true);
+    Proposition::addProposition(fout, x, description);
+    
     fout.close();
 }

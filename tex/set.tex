@@ -222,47 +222,33 @@ Existence of pair set
 \end{axm}
 
 \begin{prop}
-\label{Proposition:uniqueness_of_pairing_set}
-Uniqueness of pairing set.
+\label{Proposition:uniqueness_of_pair_set}
+Uniqueness of pair set
 \begin{align*}
-\forall x \forall y !\exists A \forall z (z \in A \iff ((z=x) \lor (z=y)))
+& \forall a \forall b \forall c ( \\
+& & & \forall d ((d \in c) \iff ((d = a) \lor (d = b))) \\
+& & \implies & c = \{ a , b \} \\
+& )
 \end{align*}
-Proof: \\
-Let $P(A,x,y) =  \forall z (z \in A \iff ((z=x) \lor (z=y)))$
+Proof of Proposition \ref{Proposition:uniqueness_of_pair_set}
 \begin{align*}
-& \forall x \forall y \forall A \forall B ( \\
-& \quad && &&  P(A,x,y) \land P(B,x,y) \\
-& \quad && \implies &&  (\forall z (z \in A \iff ((z=x) \lor (z=y)))) \\
-& \quad && && \land      (\forall z (z \in B \iff ((z=x) \lor (z=y))))
-&& \text{Definition of P(A,x,y)} \\
-& \quad && \implies &&  \forall z ((z \in A \iff ((z=x) \lor (z=y))) \\
-& \quad && && \land                    (z \in B \iff ((z=x) \lor (z=y))))
-&& \text{Proposition \ref{Proposition:forall_land_commutativity}} \\
-& \quad && \implies && \forall z (z \in A \iff z \in B)
+& \forall a \forall b \forall c ( \\
+& & & \forall d ((d \in c) \iff ((d = a) \lor (d = b))) \\
+& & \iff & \forall d (((d \in c) \iff ((d = a) \lor (d = b))) \land (\text{True}))
+&& \text{Proposition \ref{Proposition:land_identity_1}} \\
+& & \iff & \forall d (((d \in c) \iff ((d = a) \lor (d = b))) \\
+& & & \phantom{\forall d (} \land ((d \in \{ a , b \}) \iff ((d = a) \lor (d = b))))
+&& \text{Axiom \ref{Axiom:existence_of_pair_set}} \\
+& & \iff & \forall d (((d \in c) \iff ((d = a) \lor (d = b))) \\
+& & & \phantom{\forall d (} \land (((d = a) \lor (d = b)) \iff (d \in \{ a , b \})))
+&& \text{Proposition \ref{Proposition:iff_symmetric}} \\
+& & \implies & \forall d ((d \in c) \iff (d \in \{ a , b \}))
 && \text{Proposition \ref{Proposition:iff_transitive}} \\
-& \quad && \implies && A = B
+& & \overset{\operatorname{def}}{\iff} & c = \{ a , b \}
 && \text{Definition \ref{Definition:equality}} \\
 & )
 \end{align*}
-\begin{align*}
-& \forall x \forall y !\exists A, P(A,x,y)
-&& \text{Similar to the proof of the Proposition \ref{Proposition:uniqueness_of_empty_set}} \\
-\implies & \forall x \forall y !\exists A \forall z (z \in A \iff ((z=x) \lor (z=y))) && \text{Definition of P(A,x,y)} \\
-\end{align*}
 \end{prop}
-
-\begin{defn}
-\label{Definition:pair_set}
-The unique pair set of x and y is denoted by $\{ x,y \}$. \\
-Let $P(A,x,y) =  \forall z (z \in A \iff ((z=x) \lor (z=y)))$ \\
-\begin{align*}
-\forall x \forall y P(\{ x,y \} ,x,y)
-\end{align*}
-Similar to the proof of Proposition \ref{Proposition:uniqueness_of_empty_set},
-\begin{align*}
-\forall x \forall y \forall A (P(A,x,y) \implies (A=\{ x,y \}))
-\end{align*}
-\end{defn}
 
 \begin{prop}
 \label{Proposition:existence_of_singleton_set}
@@ -286,7 +272,7 @@ Uniqueness of singleton set.
 \forall x !\exists A \forall y (y \in A \iff (x=y))
 \end{align*}
 Let $P(A,x) =  \forall y (y \in A \iff (x=y))$ \\
-The proof is similar to the proof of Proposition \ref{Proposition:uniqueness_of_pairing_set}.
+The proof is similar to the proof of Proposition \ref{Proposition:uniqueness_of_pair_set}.
 \end{prop}
 
 \begin{defn}
@@ -377,7 +363,7 @@ Proof:
 & \quad && \iff && \exists Y ((x \in Y) \land (Y \in \{ A,B \} ))
 && \text{Definition \ref{Definition:union_set}} \\
 & \quad && \iff && \exists Y ((x \in Y) \land ((Y = A) \lor (Y = B) ))
-&& \text{Definition \ref{Definition:pair_set}} \\
+&& \text{Definition \ref{Axiom:existence_of_pair_set}} \\
 & \quad && \iff && \exists Y( ((x \in Y) \land (Y = A)) \lor ((x \in Y) \land (Y = B)) )
 && \text{Proposition \ref{Proposition:land_lor_distributivity_1}} \\
 & \quad && \iff && (\exists Y ((x \in Y) \land (Y = A))) \lor (\exists Y ((x \in Y) \land (Y = B)))

@@ -226,7 +226,7 @@ Print_Output expression::getLatex_aux_2_operand(vector<vector<int> > split_point
         prefix_1 = prefix_1 + "(";
         suffix_1 = ")" + suffix_1;
     }
-
+    
     if(expression::needParenthesis(operand2))
     {
         prefix_2 = prefix_2 + "(";

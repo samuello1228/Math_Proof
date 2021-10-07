@@ -909,18 +909,27 @@ string proof_block::getLatex()
     
     for(long i=0;i<chain_of_deductive.size();i++)
     {
-        statement* element = chain_of_deductive[i];
+        logic_binary_operator_logic_logic* binary_operator = chain_of_deductive[i]->binary_operator;
+        if(i==0)
+        {
+            if(quantifier_latex != "") output += "& & ";
+            output += "& " + binary_operator->operand1->getLatex().getNormal() + " \\\\" + "\n";
+        }
         
-        if(quantifier_latex == "")
+        Print_Output operand2_latex = binary_operator->operand2->getLatex(print_info[i].split_point);
+        for(long j=0;j<operand2_latex.all_visible.size();j++)
         {
-            if(i==0) output += "& " + element->binary_operator->operand1->getLatex().getNormal() + " \\\\" + "\n";
-            output += element->binary_operator->operator_latex + " & " + element->binary_operator->operand2->getLatex().getNormal() + "\n";
+            if(quantifier_latex != "") output += "& & ";
+            if(j==0) output += binary_operator->operator_latex + " ";
+            output += "& ";
+            
+            if(operand2_latex.all_phantom[j] != "") output += "\\phantom{" + operand2_latex.all_phantom[j] + "} ";
+            output += operand2_latex.all_visible[j];
+            
+            if(j != operand2_latex.all_visible.size()-1) output += " \\\\";
+            output += "\n";
         }
-        else
-        {
-            if(i==0) output += "& & & " + element->binary_operator->operand1->getLatex().getNormal() + " \\\\" + "\n";
-            output += "& & " + element->binary_operator->operator_latex + " & " + element->binary_operator->operand2->getLatex().getNormal() + "\n";
-        }
+        
         output += "&& \\text{" + print_info[i].ref_type + " \\ref{" + print_info[i].ref_type + ":" + print_info[i].ref + "}} \\\\" + "\n";
     }
     
