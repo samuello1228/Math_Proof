@@ -223,5 +223,32 @@ void set()
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
+    Proposition::Current = new Proposition("pairwise_union_commutativity", SET, "\\forall a \\forall b ((a \\cup b) = (b \\cup a))");
+    description = "Commutativity of $\\cup$.";
+    block = new proof_block("pairwise_union_commutativity", Proposition::Current, backward);
+    block->append_binary_operator(input({}, "Definition:equality", LeftToRight));
+    block->append_binary_operator(input({1,1}, "Proposition:pairwise_union_property", LeftToRight));
+    block->append_binary_operator(input({1,2}, "Proposition:pairwise_union_property", LeftToRight));
+    block->append_binary_operator(input({1,2}, "Proposition:lor_commutativity", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:iff_reflexive", PToTrue));
+    block->append_binary_operator(input({}, "Proposition:forall_true", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current, description);
+    
+    Proposition::Current = new Proposition("pairwise_union_identity", SET, "\\forall a ((a \\cup \\emptyset) = a)");
+    description = "Identity of $\\cup$.";
+    block = new proof_block("pairwise_union_identity", Proposition::Current, backward);
+    block->append_binary_operator(input({}, "Definition:equality", LeftToRight));
+    block->append_binary_operator(input({1,1}, "Proposition:pairwise_union_property", LeftToRight));
+    block->append_binary_operator(input({1,1,2}, "Proposition:double_negation", RightToLeft));
+    block->append_binary_operator(input({1,1,2,1}, "Definition:notin", RightToLeft));
+    block->append_binary_operator(input({1,1,2,1}, "Axiom:existence_of_empty_set", PToTrue));
+    block->append_binary_operator(input({1,1,2}, "Definition:lnot_True", LeftToRight));
+    block->append_binary_operator(input({1,1}, "Proposition:lor_identity_1", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:iff_reflexive", PToTrue));
+    block->append_binary_operator(input({}, "Proposition:forall_true", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current, description);
+    
     fout.close();
 }

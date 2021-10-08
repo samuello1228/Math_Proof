@@ -454,53 +454,63 @@ Proof of Proposition \ref{Proposition:pairwise_union_property}
 \end{prop}
 
 \begin{prop}
-\label{Proposition:union_commutativity}
+\label{Proposition:pairwise_union_commutativity}
 Commutativity of $\cup$.
 \begin{align*}
-\forall x \forall y ((x \cup y) = (y \cup x))
+& \forall a \forall b ( \\
+& & (a \cup b) = (b \cup a) \\
+& )
 \end{align*}
-Proof:
+Proof of Proposition \ref{Proposition:pairwise_union_commutativity}
 \begin{align*}
-& \forall x \forall y ( \\
-& \quad && && (x \cup y) = (y \cup x) \\
-& \quad && \iff && \forall z (z \in (x \cup y) \iff z \in (y \cup x))
-&& \text{Definition \ref{Definition:equality}} \\
-& \quad && \iff && \forall z( ((z \in x) \lor (z \in y)) \iff ((z \in y) \lor (z \in x)) )
-&& \text{Proposition \ref{Proposition:pairwise_union_property}} \\
-& \quad && \iff && \forall z( ((z \in x) \lor (z \in y)) \iff ((z \in x) \lor (z \in y)) )
-&& \text{Proposition \ref{Proposition:lor_commutativity}} \\
-& \quad && \iff && \text{True}
-&& \text{Proposition \ref{Proposition:iff_reflexive}} \\
+& \forall a \forall b ( \\
+& & & (a \cup b) = (b \cup a) \\
+& & \overset{\operatorname{def}}{\iff} & \forall c ((c \in (a \cup b)) \iff (c \in (b \cup a)))
+& & \text{Definition \ref{Definition:equality}} \\
+& & \iff & \forall c (((c \in a) \lor (c \in b)) \iff (c \in (b \cup a)))
+& & \text{Proposition \ref{Proposition:pairwise_union_property}} \\
+& & \iff & \forall c (((c \in a) \lor (c \in b)) \iff ((c \in b) \lor (c \in a)))
+& & \text{Proposition \ref{Proposition:pairwise_union_property}} \\
+& & \iff & \forall c (((c \in a) \lor (c \in b)) \iff ((c \in a) \lor (c \in b)))
+& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
+& & \iff & \forall c (\text{True})
+& & \text{Proposition \ref{Proposition:iff_reflexive}} \\
+& & \iff & \text{True}
+& & \text{Proposition \ref{Proposition:forall_true}} \\
 & )
 \end{align*}
 \end{prop}
 
 \begin{prop}
-\label{Proposition:union_identity}
+\label{Proposition:pairwise_union_identity}
 Identity of $\cup$.
 \begin{align*}
-\forall x ((x \cup \emptyset) = x)
+& \forall a ( \\
+& & (a \cup \emptyset) = a \\
+& )
 \end{align*}
-Proof:
+Proof of Proposition \ref{Proposition:pairwise_union_identity}
 \begin{align*}
-& \forall x ( \\
-& \quad && && (x \cup \emptyset) = x \\
-& \quad && \iff && \forall y(y \in (x \cup \emptyset) \iff (y \in x))
-&& \text{Definition \ref{Definition:equality}} \\
-& \quad && \iff && \forall y(((y \in x) \lor (y \in \emptyset)) \iff (y \in x))
-&& \text{Proposition \ref{Proposition:pairwise_union_property}} \\
-& \quad && \iff && \forall y(((y \in x) \lor ( \lnot (\lnot (y \in \emptyset))) ) \iff (y \in x))
-&& \text{Proposition \ref{Proposition:double_negation}} \\
-& \quad && \iff && \forall y(((y \in x) \lor ( \lnot (y \notin \emptyset))) \iff (y \in x))
-&& \text{Definition \ref{Definition:notin}} \\
-& \quad && \iff && \forall y(((y \in x) \lor ( \lnot (\text{True}))) \iff (y \in x))
-&& \text{Definition \ref{Axiom:existence_of_empty_set}} \\
-& \quad && \iff && \forall y(((y \in x) \lor (\text{False})) \iff (y \in x))
-&& \text{Definition \ref{Definition:lnot_True}} \\
-& \quad && \iff && \forall y((y \in x) \iff (y \in x))
-&& \text{Proposition \ref{Proposition:lor_identity_1}} \\
-& \quad && \iff && \text{True}
-&& \text{Proposition \ref{Proposition:iff_reflexive}} \\
+& \forall a ( \\
+& & & (a \cup \emptyset) = a \\
+& & \overset{\operatorname{def}}{\iff} & \forall b ((b \in (a \cup \emptyset)) \iff (b \in a))
+& & \text{Definition \ref{Definition:equality}} \\
+& & \iff & \forall b (((b \in a) \lor (b \in \emptyset)) \iff (b \in a))
+& & \text{Proposition \ref{Proposition:pairwise_union_property}} \\
+& & \iff & \forall b (((b \in a) \lor (\lnot (\lnot (b \in \emptyset)))) \iff (b \in a))
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+& & \overset{\operatorname{def}}{\iff} & \forall b (((b \in a) \lor (\lnot (b \notin \emptyset))) \iff (b \in a))
+& & \text{Definition \ref{Definition:notin}} \\
+& & \iff & \forall b (((b \in a) \lor (\lnot (\text{True}))) \iff (b \in a))
+& & \text{Axiom \ref{Axiom:existence_of_empty_set}} \\
+& & \overset{\operatorname{def}}{\iff} & \forall b (((b \in a) \lor (\text{False})) \iff (b \in a))
+& & \text{Definition \ref{Definition:lnot_True}} \\
+& & \iff & \forall b ((b \in a) \iff (b \in a))
+& & \text{Proposition \ref{Proposition:lor_identity_1}} \\
+& & \iff & \forall b (\text{True})
+& & \text{Proposition \ref{Proposition:iff_reflexive}} \\
+& & \iff & \text{True}
+& & \text{Proposition \ref{Proposition:forall_true}} \\
 & )
 \end{align*}
 \end{prop}
@@ -529,7 +539,7 @@ Definition of 1.
 1 \overset{\operatorname{def}}{=} & S(0) \\
 = & 0 \cup \{ 0 \} && \text{Definition \ref{Definition:successor}} \\
 = & \emptyset \cup \{ \emptyset \} && \text{Definition \ref{Definition:zero}} \\
-= & \{ \emptyset \} \cup \emptyset && \text{Proposition \ref{Proposition:union_commutativity}} \\
-= & \{ \emptyset \} && \text{Proposition \ref{Proposition:union_identity}} \\
+= & \{ \emptyset \} \cup \emptyset && \text{Proposition \ref{Proposition:pairwise_union_commutativity}} \\
+= & \{ \emptyset \} && \text{Proposition \ref{Proposition:pairwise_union_identity}} \\
 \end{align*}
 \end{defn}
