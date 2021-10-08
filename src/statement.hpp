@@ -148,9 +148,10 @@ public:
     ~Proposition();
     
     statement* getCopy();
-    void append(proof_block*, bool isFinished = true);
+    void append(proof_block*, bool isFinished = false);
     
     static vector<Proposition*> All_Proposition;
+    static Proposition* Current;
     static Proposition* FindByRef(string);
     static void addProposition(ofstream&, Proposition*, string description = "");
 };

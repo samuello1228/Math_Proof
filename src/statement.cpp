@@ -1172,6 +1172,7 @@ void proof_block::append_binary_operator(input x)
 }
 
 vector<Proposition*> Proposition::All_Proposition;
+Proposition* Proposition::Current;
 Proposition::Proposition(string newLabel, variable_type new_var_type, string x, bool isPrint) : statement(newLabel, new_var_type, x, isPrint)
 {
 }
