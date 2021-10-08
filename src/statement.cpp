@@ -957,7 +957,8 @@ string proof_block::getLatex()
             output += "\n";
         }
         
-        output += "& & \\text{" + print_info[i].ref_type + " \\ref{" + print_info[i].ref_type + ":" + print_info[i].ref + "}} \\\\" + "\n";
+        if(print_info[i].ref_type != "Local") output += "& & \\text{" + print_info[i].ref_type + " \\ref{" + print_info[i].ref_type + ":" + print_info[i].ref + "}} \\\\" + "\n";
+        else output += "& & \\text{Proposition (" + print_info[i].ref + ")} \\\\" + "\n";
     }
     
     if(quantifier_latex != "") output = output + "& )" + "\n";
@@ -1035,6 +1036,7 @@ void proof_block::append_binary_operator(input x)
     }
     
     //fill the x.law
+    string Local_label = "";
     if(x.law == nullptr)
     {
         string statement_type;
@@ -1054,6 +1056,18 @@ void proof_block::append_binary_operator(input x)
         if(statement_type == "Definition") x.law = Definition::FindByRef(statement_label);
         else if(statement_type == "Axiom") x.law = Axiom::FindByRef(statement_label);
         else if(statement_type == "Proposition") x.law = Proposition::FindByRef(statement_label);
+        else if(statement_type == "Local")
+        {
+            for(long i=0;i<Proposition::Current->proof.size();i++)
+            {
+                if(Proposition::Current->proof[i]->label == statement_label)
+                {
+                    x.law = Proposition::Current->proof[i]->target;
+                    Local_label = statement_label;
+                    break;
+                }
+            }
+        }
         
         if(!x.law)
         {
@@ -1167,10 +1181,30 @@ void proof_block::append_binary_operator(input x)
     
     //fill print_info
     Print_Info element;
-    if(dynamic_cast<Definition*>(x.law)) element.ref_type= "Definition";
-    if(dynamic_cast<Axiom*>(x.law)) element.ref_type = "Axiom";
-    if(dynamic_cast<Proposition*>(x.law)) element.ref_type = "Proposition";
-    element.ref = x.law->label;
+    if(dynamic_cast<Definition*>(x.law))
+    {
+        element.ref_type= "Definition";
+        element.ref = x.law->label;
+    }
+    else if(dynamic_cast<Axiom*>(x.law))
+    {
+        element.ref_type = "Axiom";
+        element.ref = x.law->label;
+    }
+    else if(dynamic_cast<Proposition*>(x.law))
+    {
+        if(Local_label == "")
+        {
+            element.ref_type = "Proposition";
+            element.ref = x.law->label;
+        }
+        else
+        {
+            element.ref_type = "Local";
+            element.ref = Local_label;
+        }
+    }
+    
     element.split_point.clear();
     print_info.push_back(element);
     
@@ -1245,7 +1279,19 @@ void Proposition::addProposition(ofstream& fout, Proposition* x, string descript
     //Proof
     for(long i=0;i<x->proof.size();i++)
     {
-        fout<< "Proof of Proposition \\ref{Proposition:" << x->proof[i]->label << "}" <<endl;
+        if(x->proof[i]->target->label != "")
+        {
+            fout<< "Proof of Proposition \\ref{Proposition:" << x->proof[i]->target->label << "}" <<endl;
+        }
+        else
+        {
+            fout<< "Proposition (" << x->proof[i]->label << ")" <<endl;
+            fout<<"\\begin{align*}"<<endl;
+            fout<< x->proof[i]->target->getLatex();
+            fout<<"\\end{align*}"<<endl;
+            fout<< "Proof of Proposition (" << x->proof[i]->label << ")" <<endl;
+        }
+        
         fout<<"\\begin{align*}"<<endl;
         fout<<x->proof[i]->getLatex();
         cout<<x->proof[i]->getLatex()<<endl;

@@ -261,18 +261,53 @@ Proof of Proposition \ref{Proposition:uniqueness_of_pair_set}
 \end{align*}
 \end{prop}
 
-\begin{prop}
-\label{Proposition:existence_of_singleton_set}
-Existence of singleton set.
+\begin{defn}
+\label{Definition:singleton_set}
+Definition of singleton set.
 \begin{align*}
-\forall x \exists A \forall y (y \in A \iff (y=x))
+& \forall a ( \\
+& & \{ a \} \overset{\operatorname{def}}{=} \{ a , a \} \\
+& )
 \end{align*}
-Proof:
+\end{defn}
+
+\begin{prop}
+\label{Proposition:singleton_set_property}
+Property of singleton set.
 \begin{align*}
-& \forall x \exists A \forall y (y \in A \iff ((y=x) \lor (y=x)))
-&& \text{Axiom \ref{Axiom:existence_of_pair_set}} \\
-\implies & \forall x \exists A \forall y (y \in A \iff (y=x))
-&& \text{Proposition \ref{Proposition:lor_idempotence}} \
+& \forall a \forall b ( \\
+& & & b \in \{ a \} \\
+& & \iff & b = a \\
+& )
+\end{align*}
+Proposition (1)
+\begin{align*}
+& \forall a \forall b ( \\
+& & & b \in \{ a \} \\
+& & \iff & b \in \{ a , a \} \\
+& )
+\end{align*}
+Proof of Proposition (1)
+\begin{align*}
+& \forall a ( \\
+& & & \text{True} \\
+& & \iff & \{ a \} \overset{\operatorname{def}}{=} \{ a , a \}
+& & \text{Definition \ref{Definition:singleton_set}} \\
+& & \overset{\operatorname{def}}{\iff} & \forall b ((b \in \{ a \}) \iff (b \in \{ a , a \}))
+& & \text{Definition \ref{Definition:equality_def}} \\
+& )
+\end{align*}
+Proof of Proposition \ref{Proposition:singleton_set_property}
+\begin{align*}
+& \forall a \forall b ( \\
+& & & b \in \{ a \} \\
+& & \iff & b \in \{ a , a \}
+& & \text{Proposition (1)} \\
+& & \iff & (b = a) \lor (b = a)
+& & \text{Axiom \ref{Axiom:existence_of_pair_set}} \\
+& & \iff & b = a
+& & \text{Proposition \ref{Proposition:lor_idempotence}} \\
+& )
 \end{align*}
 \end{prop}
 
@@ -280,24 +315,9 @@ Proof:
 \label{Proposition:uniqueness_of_singleton_set}
 Uniqueness of singleton set.
 \begin{align*}
-\forall x !\exists A \forall y (y \in A \iff (x=y))
+\forall a \forall b (\forall c ((c \in b) \iff (c = a))) \implies (b = \{ a \}))
 \end{align*}
-Let $P(A,x) =  \forall y (y \in A \iff (x=y))$ \\
-The proof is similar to the proof of Proposition \ref{Proposition:uniqueness_of_pair_set}.
 \end{prop}
-
-\begin{defn}
-\label{Definition:singleton_set}
-The unique singleton set of x is denoted by $\{ x\}$. \\
-Let $P(A,x) =  \forall y (y \in A \iff (x=y))$ \\
-\begin{align*}
-\forall x P(\{ x \} ,x)
-\end{align*}
-Similar to the proof of Proposition \ref{Proposition:uniqueness_of_empty_set},
-\begin{align*}
-\forall x \forall A (P(A,x) \implies (A=\{ x \}))
-\end{align*}
-\end{defn}
 
 \begin{axm}
 \label{Axiom:axiom_of_union}

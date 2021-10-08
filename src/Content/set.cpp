@@ -134,7 +134,25 @@ void set()
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
-    Definition::addDefinition(fout, new Definition("singleton_set", SET, "\\forall a (\\{ a \\} \\overset{\\operatorname{def}}{=} \\{ a , a \\})"));
+    Definition::addDefinition(fout, new Definition("singleton_set", SET, "\\forall a (\\{ a \\} \\overset{\\operatorname{def}}{=} \\{ a , a \\})"), "Definition of singleton set.");
+    
+    //Property of singleton set
+    Proposition::Current = new Proposition("singleton_set_property", SET, "\\forall a \\forall b ((b \\in \\{ a \\}) \\iff (b = a))");
+    description = "Property of singleton set.";
+    
+    block = new proof_block("1", Proposition("", SET, "\\forall a \\forall b ((b \\in \\{ a \\}) \\iff (b \\in \\{ a , a \\}))"), direct);
+    block->set_target_forall_variable(1);
+    sub.clear(); sub.push_back(new substitution("a", "a", SET));
+    block->append_binary_operator(input({}, "Definition:singleton_set", TrueToP, sub));
+    block->append_binary_operator(input({}, "Definition:equality_def", LeftToRight, true));
+    Proposition::Current->append(block);
+    
+    block = new proof_block("singleton_set_property", Proposition::Current, deduction);
+    block->append_binary_operator(input({}, "Local:1", LeftToRight));
+    block->append_binary_operator(input({}, "Axiom:existence_of_pair_set", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_idempotence", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current, description);
     
     fout.close();
 }
