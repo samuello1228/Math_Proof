@@ -49,6 +49,8 @@ void set()
     fout<<"\\section{Equality of sets}"<<endl;
     Definition::addDefinition(fout, new Definition("equality", SET, "\\forall a \\forall b ((a = b) \\overset{\\operatorname{def}}{\\iff} (\\forall c ((c \\in a) \\iff (c \\in b))))"), "Definition of $=$.");
     
+    Definition::addDefinition(fout, new Definition("equality_def", SET, "\\forall a \\forall b ((a \\overset{\\operatorname{def}}{=} b) \\overset{\\operatorname{def}}{\\iff} (\\forall c ((c \\in a) \\iff (c \\in b))))"), "Definition of $\\overset{\\operatorname{def}}{=}$.");
+    
     Definition::addDefinition(fout, new Definition("neq", SET, "\\forall a \\forall b ((a \\neq b) \\overset{\\operatorname{def}}{\\iff} (\\lnot (a = b)))"), "Definition of $\\neq$.");
     
     x = new Proposition("equality_reflexive", SET, "\\forall a (a = a)");

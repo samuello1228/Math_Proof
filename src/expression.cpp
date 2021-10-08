@@ -546,6 +546,7 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
         }
         else if(elements[1] == "\\in" ||
                 elements[1] == "\\notin"  ||
+                elements[1] == "\\overset{\\operatorname{def}}{=}" ||
                 elements[1] == "=" ||
                 elements[1] == "\\neq"
                 )
@@ -1391,6 +1392,7 @@ Print_Output logic_binary_operator_set_set::getLatex(vector<vector<int> > split_
     string suffix_2 = "";
     if(operator_latex == "\\in" ||
        operator_latex == "\\notin" ||
+       operator_latex == "\\overset{\\operatorname{def}}{=}" ||
        operator_latex == "=" ||
        operator_latex == "\\neq"
        )
