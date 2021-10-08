@@ -13,6 +13,7 @@
 using namespace std;
 
 class statement;
+class Proposition;
 
 #include "expression.hpp"
 
@@ -127,6 +128,7 @@ public:
     vector<statement*> chain_of_deductive;
     
     proof_block(string, statement*, proof_method);
+    proof_block(string, Proposition, proof_method);
     ~proof_block();
     
     void set_split_point(vector<vector<int> >);

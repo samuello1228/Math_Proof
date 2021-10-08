@@ -896,6 +896,14 @@ proof_block::proof_block(string newLabel, statement* x, proof_method new_method)
     forall_variable_proof = target->forall_variable;
 }
 
+proof_block::proof_block(string newLabel, Proposition x, proof_method new_method)
+{
+    label = newLabel;
+    target = x.getCopy();
+    method = new_method;
+    forall_variable_proof = target->forall_variable;
+}
+
 proof_block::~proof_block()
 {
     delete target;
