@@ -159,7 +159,7 @@ bool expression::needParenthesis(expression* operand)
     return !condition;
 }
 
-Print_Output expression::getLatex_aux_1_operand(vector<vector<int> > split_point, expression* operand, string prefix, string suffix)
+Print_Output expression::getLatex_aux_1_operand(vector<vector<int> > split_point, expression* operand, string prefix, string suffix, bool add_parenthesis)
 {
     for(long i=0;i<split_point.size();i++)
     {
@@ -177,7 +177,7 @@ Print_Output expression::getLatex_aux_1_operand(vector<vector<int> > split_point
         }
     }
     
-    if(expression::needParenthesis(operand))
+    if(add_parenthesis || expression::needParenthesis(operand))
     {
         prefix = prefix + "(";
         suffix = ")" + suffix;
@@ -424,7 +424,9 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
             expression* output = new logic_element(false);
             return output;
         }
-        else if(elements[0] == "\\emptyset")
+        else if(elements[0] == "\\emptyset" ||
+                elements[0] == "0" ||
+                elements[0] == "1")
         {
             expression* output = new set_element(elements[0]);
             return output;
@@ -534,6 +536,18 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
             }
             
             expression* output = new set_unary_operator_set(elements[0], operand);
+            return output;
+        }
+        else if(elements[0] == "S")
+        {
+            Set* operand = dynamic_cast<Set*>(expression::createFromLatex(elements[1], var_type, isPrint));
+            if(!operand)
+            {
+                cout<<"Type Error: the operand is not set: "<<elements[1]<<endl;
+                return nullptr;
+            }
+            
+            expression* output = new set_unary_operator_set("successor", operand);
             return output;
         }
     }
@@ -1271,7 +1285,7 @@ Print_Output logic_unary_operator_logic::getLatex(vector<vector<int> > split_poi
         return output;
     }
     
-    return expression::getLatex_aux_1_operand(split_point, operand, prefix, suffix);
+    return expression::getLatex_aux_1_operand(split_point, operand, prefix, suffix, false);
 }
 
 bool logic_unary_operator_logic::isEqual(expression* x)
@@ -1495,6 +1509,7 @@ Print_Output set_unary_operator_set::getLatex(vector<vector<int> > split_point)
 {
     string prefix = "";
     string suffix = "";
+    bool add_parenthesis = false;
     if(operator_latex == "singleton_set")
     {
         prefix = "\\{ ";
@@ -1505,6 +1520,11 @@ Print_Output set_unary_operator_set::getLatex(vector<vector<int> > split_point)
         prefix = "\\bigcup ";
         suffix = "";
     }
+    else if(operator_latex == "successor")
+    {
+        prefix = "S";
+        add_parenthesis = true;
+    }
     else
     {
         cout<<"Syntax Error: the operator cannot be processed: "<<operator_latex<<endl;
@@ -1512,7 +1532,7 @@ Print_Output set_unary_operator_set::getLatex(vector<vector<int> > split_point)
         return output;
     }
     
-    return expression::getLatex_aux_1_operand(split_point, operand, prefix, suffix);
+    return expression::getLatex_aux_1_operand(split_point, operand, prefix, suffix, add_parenthesis);
 }
 
 bool set_unary_operator_set::isEqual(expression* x)

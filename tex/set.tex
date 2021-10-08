@@ -527,8 +527,9 @@ Definition of 0.
 \label{Definition:successor}
 Definition of successor $S(x)$.
 \begin{align*}
-& S(x) \\
-\overset{\operatorname{def}}{=} & x \cup \{ x \}
+& \forall a ( \\
+& & (S(a)) \overset{\operatorname{def}}{=} (a \cup \{ a \}) \\
+& )
 \end{align*}
 \end{defn}
 
@@ -536,10 +537,22 @@ Definition of successor $S(x)$.
 \label{Definition:one}
 Definition of 1.
 \begin{align*}
+1 \overset{\operatorname{def}}{=} (S(0))
+\end{align*}
+\end{defn}
+
+\begin{prop}
+\label{Proposition:one_expand}
+Express 1 in term of $\emptyset$.
+\begin{align*}
+1 \overset{\operatorname{def}}{=} \{ \emptyset \}
+\end{align*}
+Proof of Proposition \ref{Proposition:one_expand}
+\begin{align*}
 1 \overset{\operatorname{def}}{=} & S(0) \\
 = & 0 \cup \{ 0 \} && \text{Definition \ref{Definition:successor}} \\
 = & \emptyset \cup \{ \emptyset \} && \text{Definition \ref{Definition:zero}} \\
 = & \{ \emptyset \} \cup \emptyset && \text{Proposition \ref{Proposition:pairwise_union_commutativity}} \\
 = & \{ \emptyset \} && \text{Proposition \ref{Proposition:pairwise_union_identity}} \\
 \end{align*}
-\end{defn}
+\end{prop}

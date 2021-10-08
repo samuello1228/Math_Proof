@@ -278,7 +278,7 @@ string statement::getLatex()
     {
         if(binary_operator == nullptr)
         {
-            output = content->getLatex().getNormal();
+            output = content->getLatex().getNormal() + "\n";
         }
         else
         {

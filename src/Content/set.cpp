@@ -250,5 +250,14 @@ void set()
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
+    //zero
+    Definition::addDefinition(fout, new Definition("zero", SET, "0 \\overset{\\operatorname{def}}{=} \\emptyset"), "Definition of 0.");
+    
+    //successor
+    Definition::addDefinition(fout, new Definition("successor", SET, "\\forall a ((S(a)) \\overset{\\operatorname{def}}{=} (a \\cup \\{ a \\}))"), "Definition of successor $S(x)$.");
+    
+    //one
+    Definition::addDefinition(fout, new Definition("one", SET, "1 \\overset{\\operatorname{def}}{=} (S(0))"), "Definition of 1.");
+    
     fout.close();
 }

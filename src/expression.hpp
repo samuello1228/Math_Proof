@@ -48,7 +48,7 @@ public:
     virtual ~expression() {}
     
     static bool needParenthesis(expression*);
-    static Print_Output getLatex_aux_1_operand(vector<vector<int> >, expression*, string, string);
+    static Print_Output getLatex_aux_1_operand(vector<vector<int> >, expression*, string, string, bool);
     static Print_Output getLatex_aux_2_operand(vector<vector<int> >, expression*, expression*, string, string, string, string);
     virtual Print_Output getLatex(vector<vector<int> > split_point = {})=0;
     static expression* createFromLatex(string, variable_type, bool isPrint = false);
