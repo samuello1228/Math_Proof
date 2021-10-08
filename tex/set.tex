@@ -341,10 +341,13 @@ Proof of Proposition \ref{Proposition:uniqueness_of_singleton_set}
 \end{prop}
 
 \begin{axm}
-\label{Axiom:axiom_of_union}
-Axiom of union. Existence of union set.
+\label{Axiom:existence_of_union_set}
+Existence of union set.
 \begin{align*}
-\forall F \exists A \forall x (x \in A \iff (\exists Y ((x \in Y) \land (Y \in F))))
+& \forall a \forall b ( \\
+& & & b \in (\bigcup a) \\
+& & \iff & \exists c ((b \in c) \land (c \in a)) \\
+& )
 \end{align*}
 \end{axm}
 
@@ -352,44 +355,30 @@ Axiom of union. Existence of union set.
 \label{Proposition:uniqueness_of_union_set}
 Uniqueness of union set.
 \begin{align*}
-\forall F !\exists A \forall x (x \in A \iff (\exists Y ((x \in Y) \land (Y \in F))))
-\end{align*}
-Proof: \\
-Let $P(A,F) =  \forall x (x \in A \iff (\exists Y ((x \in Y) \land (Y \in F))))$
-\begin{align*}
-& \forall F \forall A \forall B ( \\
-& \quad && &&  P(A,F) \land P(B,F) \\
-& \quad && \implies &&  ( \forall x (x \in A \iff (\exists Y ((x \in Y) \land (Y \in F)))) ) \\
-& \quad && && \land      ( \forall x (x \in B \iff (\exists Y ((x \in Y) \land (Y \in F)))) )
-&& \text{Definition of P(A,F)} \\
-& \quad && \implies &&  \forall x ( (x \in A \iff (\exists Y ((x \in Y) \land (Y \in F)))) \\
-& \quad && && \land                    (x \in B \iff (\exists Y ((x \in Y) \land (Y \in F)))) )
-&& \text{Proposition \ref{Proposition:forall_land_commutativity}} \\
-& \quad && \implies && \forall x (x \in A \iff x \in B)
-&& \text{Proposition \ref{Proposition:iff_transitive}} \\
-& \quad && \implies && A = B
-&& \text{Definition \ref{Definition:equality}} \\
+& \forall a \forall b ( \\
+& & & \forall c ((c \in b) \iff (\exists d ((c \in d) \land (d \in a)))) \\
+& & \implies & b = (\bigcup a) \\
 & )
 \end{align*}
+Proof of Proposition \ref{Proposition:uniqueness_of_union_set}
 \begin{align*}
-& \forall F !\exists A, P(A,F)
-&& \text{Similar to the proof of the Proposition \ref{Proposition:uniqueness_of_empty_set}} \\
-\implies & \forall F !\exists A \forall x (x \in A \iff (\exists Y ((x \in Y) \land (Y \in F)))) && \text{Definition of P(A,F)} \\
+& \forall a \forall b ( \\
+& & & \forall c ((c \in b) \iff (\exists d ((c \in d) \land (d \in a)))) \\
+& & \iff & \forall c (((c \in b) \iff (\exists d ((c \in d) \land (d \in a)))) \land (\text{True}))
+& & \text{Proposition \ref{Proposition:land_identity_1}} \\
+& & \iff & \forall c (((c \in b) \iff (\exists d ((c \in d) \land (d \in a)))) \\
+& & & \phantom{\forall c (} \land ((c \in (\bigcup a)) \iff (\exists d ((c \in d) \land (d \in a)))))
+& & \text{Axiom \ref{Axiom:existence_of_union_set}} \\
+& & \iff & \forall c (((c \in b) \iff (\exists d ((c \in d) \land (d \in a)))) \\
+& & & \phantom{\forall c (} \land ((\exists d ((c \in d) \land (d \in a))) \iff (c \in (\bigcup a))))
+& & \text{Proposition \ref{Proposition:iff_symmetric}} \\
+& & \implies & \forall c ((c \in b) \iff (c \in (\bigcup a)))
+& & \text{Proposition \ref{Proposition:iff_transitive}} \\
+& & \overset{\operatorname{def}}{\iff} & b = (\bigcup a)
+& & \text{Definition \ref{Definition:equality}} \\
+& )
 \end{align*}
 \end{prop}
-
-\begin{defn}
-\label{Definition:union_set}
-The unique union set of F is denoted by $\bigcup F$. \\
-Let $P(A,F) =  \forall x (x \in A \iff (\exists Y ((x \in Y) \land (Y \in F))))$ \\
-\begin{align*}
-\forall F P(\bigcup F, F)
-\end{align*}
-Similar to the proof of Proposition \ref{Proposition:uniqueness_of_empty_set},
-\begin{align*}
-\forall F \forall A (P(A,F) \implies (A= \bigcup F ))
-\end{align*}
-\end{defn}
 
 \begin{defn}
 \label{Definition:pairwise_union}
@@ -413,7 +402,7 @@ Proof:
 & \quad && \iff && x \in  \bigcup \{ A,B \}
 && \text{Definition \ref{Definition:equality} and \ref{Definition:pairwise_union}} \\
 & \quad && \iff && \exists Y ((x \in Y) \land (Y \in \{ A,B \} ))
-&& \text{Definition \ref{Definition:union_set}} \\
+&& \text{Definition \ref{Axiom:existence_of_union_set}} \\
 & \quad && \iff && \exists Y ((x \in Y) \land ((Y = A) \lor (Y = B) ))
 && \text{Definition \ref{Axiom:existence_of_pair_set}} \\
 & \quad && \iff && \exists Y( ((x \in Y) \land (Y = A)) \lor ((x \in Y) \land (Y = B)) )

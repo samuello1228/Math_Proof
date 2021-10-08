@@ -524,6 +524,18 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
             expression* output = new logic_unary_operator_logic(elements[0], operand);
             return output;
         }
+        else if(elements[0] == "\\bigcup")
+        {
+            Set* operand = dynamic_cast<Set*>(expression::createFromLatex(elements[1], var_type, isPrint));
+            if(!operand)
+            {
+                cout<<"Type Error: the operand is not set: "<<elements[1]<<endl;
+                return nullptr;
+            }
+            
+            expression* output = new set_unary_operator_set(elements[0], operand);
+            return output;
+        }
     }
     else if(elements.size() == 3)
     {
@@ -1474,6 +1486,11 @@ Print_Output set_unary_operator_set::getLatex(vector<vector<int> > split_point)
     {
         prefix = "\\{ ";
         suffix = " \\}";
+    }
+    else if(operator_latex == "\\bigcup")
+    {
+        prefix = "\\bigcup ";
+        suffix = "";
     }
     else
     {
