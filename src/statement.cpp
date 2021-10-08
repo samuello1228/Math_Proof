@@ -720,7 +720,6 @@ void Definition::addDefinition(ofstream& fout, Definition* x, string description
     
     cout<< "Definition:" << x->label <<endl;
     cout<< x->content->getLatex().getNormal() <<endl;
-    x->find_all_path_of_variable(false);
     cout<<endl;
     
     //write to file
@@ -782,7 +781,6 @@ void Axiom::addAxiom(ofstream& fout, Axiom* x, string description)
     
     cout<< "Axiom:" << x->label <<endl;
     cout<< x->content->getLatex().getNormal() <<endl;
-    x->find_all_path_of_variable(false);
     cout<<endl;
     
     //write to file
@@ -1108,6 +1106,7 @@ void proof_block::append_binary_operator(input x)
             {
                 if(x.dir == LeftToRight)
                 {
+                    x.law->find_all_path_of_variable(x.isPrint);
                     if(x.law->path_of_variable_operand1.size() == 0)
                     {
                         cout<<"Error: cannot do automatic substitution for LeftToRight."<<endl;
@@ -1117,6 +1116,7 @@ void proof_block::append_binary_operator(input x)
                 }
                 else if(x.dir == RightToLeft)
                 {
+                    x.law->find_all_path_of_variable(x.isPrint);
                     if(x.law->path_of_variable_operand2.size() == 0)
                     {
                         cout<<"Error: cannot do automatic substitution for RightToLeft."<<endl;
@@ -1224,7 +1224,6 @@ void Proposition::addProposition(ofstream& fout, Proposition* x, string descript
     
     cout<< "Proposition:" << x->label <<endl;
     cout<< x->content->getLatex().getNormal() <<endl;
-    x->find_all_path_of_variable(false);
     cout<<endl;
     
     //write to file
