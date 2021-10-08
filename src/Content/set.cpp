@@ -154,5 +154,22 @@ void set()
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
+    //Uniqueness of singleton set
+    Proposition::Current = new Proposition("uniqueness_of_singleton_set", SET, "\\forall a \\forall b ((\\forall c ((c \\in b) \\iff (c = a))) \\implies (b = \\{ a \\}))");
+    description = "Uniqueness of singleton set.";
+    block = new proof_block("uniqueness_of_singleton_set", Proposition::Current, deduction);
+    block->append_binary_operator(input({1}, "Proposition:land_identity_1", RightToLeft));
+    sub.clear();
+    sub.push_back(new substitution("a", "a", SET));
+    sub.push_back(new substitution("b", "c", SET));
+    block->append_binary_operator(input({1,2}, "Proposition:singleton_set_property", TrueToP, sub));
+    block->set_split_point({{1,2}});
+    block->append_binary_operator(input({1,2}, "Proposition:iff_symmetric", LeftToRight));
+    block->set_split_point({{1,2}});
+    block->append_binary_operator(input({1}, "Proposition:iff_transitive", LeftToRight));
+    block->append_binary_operator(input({}, "Definition:equality", RightToLeft, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current, description);
+    
     fout.close();
 }

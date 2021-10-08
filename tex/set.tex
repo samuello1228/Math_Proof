@@ -315,7 +315,28 @@ Proof of Proposition \ref{Proposition:singleton_set_property}
 \label{Proposition:uniqueness_of_singleton_set}
 Uniqueness of singleton set.
 \begin{align*}
-\forall a \forall b (\forall c ((c \in b) \iff (c = a))) \implies (b = \{ a \}))
+& \forall a \forall b ( \\
+& & & \forall c ((c \in b) \iff (c = a)) \\
+& & \implies & b = \{ a \} \\
+& )
+\end{align*}
+Proof of Proposition \ref{Proposition:uniqueness_of_singleton_set}
+\begin{align*}
+& \forall a \forall b ( \\
+& & & \forall c ((c \in b) \iff (c = a)) \\
+& & \iff & \forall c (((c \in b) \iff (c = a)) \land (\text{True}))
+& & \text{Proposition \ref{Proposition:land_identity_1}} \\
+& & \iff & \forall c (((c \in b) \iff (c = a)) \\
+& & & \phantom{\forall c (} \land ((c \in \{ a \}) \iff (c = a)))
+& & \text{Proposition \ref{Proposition:singleton_set_property}} \\
+& & \iff & \forall c (((c \in b) \iff (c = a)) \\
+& & & \phantom{\forall c (} \land ((c = a) \iff (c \in \{ a \})))
+& & \text{Proposition \ref{Proposition:iff_symmetric}} \\
+& & \implies & \forall c ((c \in b) \iff (c \in \{ a \}))
+& & \text{Proposition \ref{Proposition:iff_transitive}} \\
+& & \overset{\operatorname{def}}{\iff} & b = \{ a \}
+& & \text{Definition \ref{Definition:equality}} \\
+& )
 \end{align*}
 \end{prop}
 

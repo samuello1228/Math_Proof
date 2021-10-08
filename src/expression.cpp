@@ -317,7 +317,8 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
                 }
                 else if(latex[index] == ')')
                 {
-                    cout<<"Error: Impossible case"<<endl;
+                    cout<<"Error: the number of closing parenthesis is more than expected."<<endl;
+                    cout<<latex<<endl;
                     return nullptr;
                 }
                 else if(latex[index] == '\\' && latex[index+1] == '{')
