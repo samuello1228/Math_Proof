@@ -463,22 +463,22 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
         cout<<endl;
     }
     
-    //get internal dependence of law
-    vector<variable*> internal_dependence_law;
-    get_expression_without_forall_variable()->getInternalDependence(internal_dependence_law);
-    content->getInternalDependence(internal_dependence_law);
+    //get all dependence of law
+    vector<variable*> all_dependence_law;
+    get_expression_without_forall_variable()->getInternalDependence(all_dependence_law);
+    content->getInternalDependence(all_dependence_law);
     if(isPrint)
     {
-        cout<<"Internal dependence of law:"<<endl;
-        for(long i=0;i<internal_dependence_law.size();i++)
+        cout<<"All dependence of law:"<<endl;
+        for(long i=0;i<all_dependence_law.size();i++)
         {
-            cout<<internal_dependence_law[i]->getLatex().getNormal()<<" ";
+            cout<<all_dependence_law[i]->getLatex().getNormal()<<" ";
         }
         cout<<endl;
     }
     
     //create replacement by exclusion
-    vector<substitution*> replacement = createReplacement(internal_dependence_law, all_dependence_source_part);
+    vector<substitution*> replacement = createReplacement(all_dependence_law, all_dependence_source_part);
     if(isPrint)
     {
         cout<<"Replacement:"<<endl;
@@ -573,7 +573,7 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
     }
     
     //do replacement for internal dependence
-    internal_dependence_law.clear();
+    vector<variable*> internal_dependence_law;
     step->binary_operator->operand1->getInternalDependence(internal_dependence_law);
     
     vector<variable*> internal_dependence_source_part;
