@@ -575,6 +575,19 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
             expression* output = new logic_binary_operator_set_set(elements[1], operand1, operand2);
             return output;
         }
+        else if(elements[1] == "\\cup")
+        {
+            Set* operand1 = dynamic_cast<Set*>(expression::createFromLatex(elements[0], var_type, isPrint));
+            Set* operand2 = dynamic_cast<Set*>(expression::createFromLatex(elements[2], var_type, isPrint));
+            if(!operand1 || !operand2)
+            {
+                cout<<"Type Error: the two operands are not set: "<<elements[0]<<endl;
+                cout<<elements[2]<<endl;
+                return nullptr;
+            }
+            expression* output = new set_binary_operator_set_set(elements[1], operand1, operand2);
+            return output;
+        }
     }
     
     //For quantifier
@@ -1566,6 +1579,10 @@ Print_Output set_binary_operator_set_set::getLatex(vector<vector<int> > split_po
         prefix_1 = "\\{ ";
         suffix_1 = " ,";
         suffix_2 = " \\}";
+    }
+    else if(operator_latex == "\\cup")
+    {
+        prefix_2 = operator_latex + " ";
     }
     else
     {

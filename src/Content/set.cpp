@@ -84,6 +84,10 @@ void set()
     axiom = new Axiom("extensionality", SET, "\\forall a \\forall b ((a = b) \\implies (\\forall c ((a \\in c) \\iff (b \\in c))))");
     Axiom::addAxiom(fout, axiom, "Axiom of extensionality");
     
+    axiom = new Axiom("substitution_in", SET, "\\forall a \\forall b ((\\exists c ((c = b) \\land (a \\in c))) \\iff (a \\in b))");
+    description = "Substitution of $\\in$.";
+    Axiom::addAxiom(fout, axiom, description);
+    
     axiom = new Axiom("existence_of_empty_set", SET, "\\forall a (a \\notin \\emptyset)");
     Axiom::addAxiom(fout, axiom, "Existence of empty set");
     
@@ -188,6 +192,34 @@ void set()
     block->set_split_point({{1,2}});
     block->append_binary_operator(input({1}, "Proposition:iff_transitive", LeftToRight));
     block->append_binary_operator(input({}, "Definition:equality", RightToLeft, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current, description);
+    
+    Definition::addDefinition(fout, new Definition("pairwise_union", SET, "\\forall a \\forall b ((a \\cup b) \\overset{\\operatorname{def}}{=} (\\bigcup \\{ a , b \\}))"), "Definition of pairwise union $a \\cup b$.");
+    
+    //Property of pairwise union
+    Proposition::Current = new Proposition("pairwise_union_property", SET, "\\forall a \\forall b \\forall c ((c \\in (a \\cup b)) \\iff ((c \\in a) \\lor (c \\in b)))");
+    description = "Property of pairwise union.";
+    
+    block = new proof_block("1", Proposition("", SET, "\\forall a \\forall b \\forall c ((c \\in (a \\cup b)) \\iff (c \\in (\\bigcup \\{ a , b \\})))"), direct);
+    block->set_target_forall_variable(2);
+    sub.clear();
+    sub.push_back(new substitution("a", "a", SET));
+    sub.push_back(new substitution("b", "b", SET));
+    block->append_binary_operator(input({}, "Definition:pairwise_union", TrueToP, sub));
+    block->append_binary_operator(input({}, "Definition:equality_def", LeftToRight, true));
+    Proposition::Current->append(block);
+    
+    block = new proof_block("pairwise_union_property", Proposition::Current, deduction);
+    block->append_binary_operator(input({}, "Local:1", LeftToRight));
+    block->append_binary_operator(input({}, "Axiom:existence_of_union_set", LeftToRight));
+    block->append_binary_operator(input({1,2}, "Axiom:existence_of_pair_set", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:land_lor_distributivity_1", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:exists_lor_commutativity", RightToLeft));
+    block->append_binary_operator(input({1,1}, "Proposition:land_commutativity", LeftToRight));
+    block->append_binary_operator(input({2,1}, "Proposition:land_commutativity", LeftToRight));
+    block->append_binary_operator(input({1}, "Axiom:substitution_in", LeftToRight));
+    block->append_binary_operator(input({2}, "Axiom:substitution_in", LeftToRight, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     

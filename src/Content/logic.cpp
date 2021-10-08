@@ -286,19 +286,37 @@ void logic()
         a = new logic_variable("a");
         universal_quantifier* u5 = new universal_quantifier(a, u4);
         
-        
         Proposition::Current = new Proposition("forall_land_commutativity", u5);
     }
     Proposition::addProposition(fout, Proposition::Current);
     
-    fout<<"\\begin{prop}"<<endl;
-    fout<<"\\label{Proposition:exists_lor_commutativity}"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& \\exists x (P(x) \\lor Q(x)) \\\\"<<endl;
-    fout<<"\\iff & (\\exists x (P(x))) \\lor (\\exists x (Q(x)))"<<endl;
-    fout<<"\\end{align*}"<<endl;
-    fout<<"\\end{prop}"<<endl;
-    fout<<endl;
+    {
+        logic_variable* a = new logic_variable("a");
+        set_variable* c = new set_variable("c");
+        existential_quantifier* e1 = new existential_quantifier(c,a);
+        
+        c = new set_variable("c");
+        logic_variable* b = new logic_variable("b");
+        existential_quantifier* e2 = new existential_quantifier(c,b);
+        
+        logic_binary_operator_logic_logic* e1_or_e2 = new logic_binary_operator_logic_logic("\\lor", e1, e2);
+        
+        a = new logic_variable("a");
+        b = new logic_variable("b");
+        logic_binary_operator_logic_logic* a_or_b = new logic_binary_operator_logic_logic("\\lor", a, b);
+        c = new set_variable("c");
+        existential_quantifier* e3 = new existential_quantifier(c, a_or_b);
+        
+        logic_binary_operator_logic_logic* iff = new logic_binary_operator_logic_logic("\\iff", e1_or_e2, e3);
+        
+        b = new logic_variable("b");
+        universal_quantifier* u4 = new universal_quantifier(b, iff);
+        a = new logic_variable("a");
+        universal_quantifier* u5 = new universal_quantifier(a, u4);
+        
+        Proposition::Current = new Proposition("exists_lor_commutativity", u5);
+    }
+    Proposition::addProposition(fout, Proposition::Current);
     
     fout<<"\\begin{prop}"<<endl;
     fout<<"\\label{Proposition:lor_forall_distributivity}"<<endl;
