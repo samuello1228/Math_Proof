@@ -37,6 +37,7 @@ public:
     statement(string, variable_type, string, bool isPrint = false);
     statement(string, expression*);
     void constructor_aux();
+    void set_forall_variable(vector<variable*>&, long);
     logic_value* get_expression_without_forall_variable();
     void find_all_path_of_variable(bool);
     virtual ~statement();
@@ -119,7 +120,9 @@ class proof_block
 public:
     string label;
     statement* target;
+    vector<variable*> forall_variable_proof;
     proof_method method;
+    
     vector<Print_Info> print_info;
     vector<statement*> chain_of_deductive;
     
@@ -128,6 +131,8 @@ public:
     
     void set_split_point(vector<vector<int> >);
     string getLatex();
+    
+    void set_target_forall_variable(long);
     statement* get_next_source();
     void check_finished(statement*);
     void append_binary_operator(input x);

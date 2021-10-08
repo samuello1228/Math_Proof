@@ -402,7 +402,7 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
     {
         for(long i=0; i<elements.size(); i++)
         {
-            cout<<i<<": "<<elements[i]<<endl;;
+            cout<<i<<": "<<elements[i]<<endl;
         }
         cout<<endl;
     }

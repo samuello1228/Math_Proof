@@ -149,6 +149,23 @@ void statement::constructor_aux()
     }
 }
 
+void statement::set_forall_variable(vector<variable*>& new_forall_variable, long depth)
+{
+    new_forall_variable.clear();
+    logic_value* x = content;
+    while(depth >= 1)
+    {
+        if(universal_quantifier* y = dynamic_cast<universal_quantifier*>(x))
+        {
+            new_forall_variable.push_back(y->var);
+            x = y->operand;
+        }
+        else break;
+        
+        depth--;
+    }
+}
+
 logic_value* statement::get_expression_without_forall_variable()
 {
     logic_value* x = content;
@@ -228,7 +245,7 @@ void statement::find_all_path_of_variable(bool isPrint)
                 cout<<"The path ";
                 if(i==0) cout<<"in operand1 ";
                 else if(i==1) cout<<"in operand2 ";
-                cout<<"of the variable "<<forall_variable[j]->getLatex().getNormal()<<" is {";;
+                cout<<"of the variable "<<forall_variable[j]->getLatex().getNormal()<<" is {";
                 if(i==0) for(long k=0;k<path_of_variable_operand1[j].size();k++) cout<<path_of_variable_operand1[j][k]<<" ";
                 else if(i==1) for(long k=0;k<path_of_variable_operand2[j].size();k++) cout<<path_of_variable_operand2[j][k]<<" ";
                 cout<<"}"<<endl;
@@ -371,6 +388,7 @@ void statement::collapse_to_true()
         if(y)
         {
             x = y;
+            if(y->var->isEqual(forall_variable[forall_variable.size()-1])) break;
             y = dynamic_cast<universal_quantifier*>(y->operand);
         }
         else break;
@@ -670,6 +688,7 @@ Definition::~Definition()
 statement* Definition::getCopy()
 {
     Definition* output = new Definition(label, content->getCopy());
+    output->set_forall_variable(output->forall_variable, forall_variable.size());
     return output;
 }
 
@@ -731,6 +750,7 @@ Axiom::~Axiom()
 statement* Axiom::getCopy()
 {
     Axiom* output = new Axiom(label, content->getCopy());
+    output->set_forall_variable(output->forall_variable, forall_variable.size());
     return output;
 }
 
@@ -875,6 +895,7 @@ proof_block::proof_block(string newLabel, statement* x, proof_method new_method)
     label = newLabel;
     target = x->getCopy();
     method = new_method;
+    forall_variable_proof = target->forall_variable;
 }
 
 proof_block::~proof_block()
@@ -895,12 +916,12 @@ string proof_block::getLatex()
 {
     string output = "";
     string quantifier_latex = "";
-    for(long i=0;i<target->forall_variable.size();i++)
+    for(long i=0;i<forall_variable_proof.size();i++)
     {
-        if(dynamic_cast<set_variable*>(target->forall_variable[i]))
+        if(dynamic_cast<set_variable*>(forall_variable_proof[i]))
         {
             quantifier_latex += "\\forall ";
-            quantifier_latex += target->forall_variable[i]->getLatex().getNormal();
+            quantifier_latex += forall_variable_proof[i]->getLatex().getNormal();
             quantifier_latex += " ";
         }
     }
@@ -937,6 +958,11 @@ string proof_block::getLatex()
     return output;
 }
 
+void proof_block::set_target_forall_variable(long depth)
+{
+    target->set_forall_variable(forall_variable_proof, depth);
+}
+
 statement* proof_block::get_next_source()
 {
     statement* source = nullptr;
@@ -950,11 +976,13 @@ statement* proof_block::get_next_source()
         else if(method == direct)
         {
             source = target->getCopy();
+            source->set_forall_variable(source->forall_variable, forall_variable_proof.size());
             source->collapse_to_true();
         }
         else if(method == backward)
         {
             source = target->getCopy();
+            source->set_forall_variable(source->forall_variable, forall_variable_proof.size());
         }
     }
     else
@@ -1163,6 +1191,7 @@ Proposition::~Proposition()
 statement* Proposition::getCopy()
 {
     Proposition* output = new Proposition(label, content->getCopy());
+    output->set_forall_variable(output->forall_variable, forall_variable.size());
     return output;
 }
 
