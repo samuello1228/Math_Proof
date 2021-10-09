@@ -298,34 +298,27 @@ string statement::getLatex()
         }
     }
     
-    if(quantifier_latex == "")
+    if(quantifier_latex != "") output += "& " + quantifier_latex + "( \\\\" + "\n";
+    
+    if(binary_operator == nullptr)
     {
-        if(binary_operator == nullptr)
-        {
-            output = modified_content->getLatex().getNormal() + "\n";
-        }
-        else
-        {
-            output += "& " + binary_operator->operand1->getLatex().getNormal() + " \\\\" + "\n";
-            output += operator_latex + " & " + binary_operator->operand2->getLatex().getNormal() + "\n";
-        }
+        if(quantifier_latex != "") output += "& & ";
+        output += modified_content->getLatex().getNormal();
+        if(quantifier_latex != "") output += " \\\\";
+        output += "\n";
     }
     else
     {
-        if(binary_operator == nullptr)
-        {
-            output += "& " + quantifier_latex + "( \\\\" + "\n";
-            output += "& & " + modified_content->getLatex().getNormal() + " \\\\" + "\n";
-            output = output + "& )" + "\n";
-        }
-        else
-        {
-            output += "& " + quantifier_latex + "( \\\\" + "\n";
-            output += "& & & " + binary_operator->operand1->getLatex().getNormal() + " \\\\" + "\n";
-            output += "& & " + operator_latex + " & " + binary_operator->operand2->getLatex().getNormal() + " \\\\" + "\n";
-            output = output + "& )" + "\n";
-        }
+        if(quantifier_latex != "") output += "& & ";
+        output += "& " + binary_operator->operand1->getLatex().getNormal() + " \\\\" + "\n";
+        
+        if(quantifier_latex != "") output += "& & ";
+        output += operator_latex + " & " + binary_operator->operand2->getLatex().getNormal();
+        if(quantifier_latex != "") output += " \\\\";
+        output += "\n";
     }
+    
+    if(quantifier_latex != "") output = output + "& )" + "\n";
     
     delete modified_content;
     return output;
