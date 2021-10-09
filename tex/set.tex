@@ -152,6 +152,17 @@ Substitution of $\in$.
 \end{axm}
 
 \begin{axm}
+\label{Axiom:substitution_of_equality}
+Substitution of $=$.
+\begin{align*}
+& \forall a \forall b ( \\
+& & & a = b \\
+& & \iff & \forall c ((c = a) \iff (c = b)) \\
+& )
+\end{align*}
+\end{axm}
+
+\begin{axm}
 \label{Axiom:existence_of_empty_set}
 Existence of empty set
 \begin{align*}
@@ -261,6 +272,33 @@ Proof of Proposition \ref{Proposition:uniqueness_of_pair_set}
 \end{align*}
 \end{prop}
 
+\begin{prop}
+\label{Proposition:substitution_of_pair_set}
+Substitution for pair set.
+\begin{align*}
+& \forall a \forall b \forall c ( \\
+& & & a = b \\
+& & \implies & \{ a , c \} = \{ b , c \} \\
+& )
+\end{align*}
+Proof of Proposition \ref{Proposition:substitution_of_pair_set}
+\begin{align*}
+& \forall a \forall b \forall c ( \\
+& & & a = b \\
+& & \iff & \forall d ((d = a) \iff (d = b))
+& & \text{Axiom \ref{Axiom:substitution_of_equality}} \\
+& & \implies & \forall d (((d = a) \lor (d = c)) \iff ((d = b) \lor (d = c)))
+& & \text{Proposition \ref{Proposition:iff_lor}} \\
+& & \iff & \forall d ((d \in \{ a , c \}) \iff ((d = b) \lor (d = c)))
+& & \text{Axiom \ref{Axiom:existence_of_pair_set}} \\
+& & \iff & \forall d ((d \in \{ a , c \}) \iff (d \in \{ b , c \}))
+& & \text{Axiom \ref{Axiom:existence_of_pair_set}} \\
+& & \overset{\operatorname{def}}{\iff} & \{ a , c \} = \{ b , c \}
+& & \text{Definition \ref{Definition:equality}} \\
+& )
+\end{align*}
+\end{prop}
+
 \begin{defn}
 \label{Definition:singleton_set}
 Definition of singleton set.
@@ -336,6 +374,17 @@ Proof of Proposition \ref{Proposition:uniqueness_of_singleton_set}
 & & \text{Proposition \ref{Proposition:iff_transitive}} \\
 & & \overset{\operatorname{def}}{\iff} & b = \{ a \}
 & & \text{Definition \ref{Definition:equality}} \\
+& )
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:substitution_of_singleton_set}
+Substitution for singleton set.
+\begin{align*}
+& \forall a \forall b ( \\
+& & & a = b \\
+& & \implies & \{ a \} = \{ b \} \\
 & )
 \end{align*}
 \end{prop}
@@ -443,6 +492,17 @@ Proof of Proposition \ref{Proposition:pairwise_union_property}
 \end{prop}
 
 \begin{prop}
+\label{Proposition:substitution_of_pairwise_union}
+Substitution for pairwise union.
+\begin{align*}
+& \forall a \forall b \forall c ( \\
+& & & a = b \\
+& & \implies & (a \cup c) = (b \cup c) \\
+& )
+\end{align*}
+\end{prop}
+
+\begin{prop}
 \label{Proposition:pairwise_union_commutativity}
 Commutativity of $\cup$.
 \begin{align*}
@@ -534,14 +594,47 @@ Definition of 1.
 \label{Proposition:one_expand}
 Express 1 in term of $\emptyset$.
 \begin{align*}
-1 \overset{\operatorname{def}}{=} \{ \emptyset \}
+1 = \{ \emptyset \}
 \end{align*}
 Proof of Proposition \ref{Proposition:one_expand}
 \begin{align*}
-1 \overset{\operatorname{def}}{=} & S(0) \\
-= & 0 \cup \{ 0 \} && \text{Definition \ref{Definition:successor}} \\
-= & \emptyset \cup \{ \emptyset \} && \text{Definition \ref{Definition:zero}} \\
-= & \{ \emptyset \} \cup \emptyset && \text{Proposition \ref{Proposition:pairwise_union_commutativity}} \\
-= & \{ \emptyset \} && \text{Proposition \ref{Proposition:pairwise_union_identity}} \\
+& \text{True} \\
+\iff & 1 = (S(0))
+& & \text{Definition \ref{Definition:one}} \\
+\iff & (1 = (S(0))) \land (\text{True})
+& & \text{Proposition \ref{Proposition:land_identity_1}} \\
+\iff & (1 = (S(0))) \land ((S(0)) = (0 \cup \{ 0 \}))
+& & \text{Definition \ref{Definition:successor}} \\
+\implies & 1 = (0 \cup \{ 0 \})
+& & \text{Proposition \ref{Proposition:equality_transitive}} \\
+\iff & (1 = (0 \cup \{ 0 \})) \land (\text{True})
+& & \text{Proposition \ref{Proposition:land_identity_1}} \\
+\iff & (1 = (0 \cup \{ 0 \})) \land (0 = \emptyset)
+& & \text{Definition \ref{Definition:zero}} \\
+\implies & (1 = (0 \cup \{ 0 \})) \land ((0 \cup \{ 0 \}) = (\emptyset \cup \{ 0 \}))
+& & \text{Proposition \ref{Proposition:substitution_of_pairwise_union}} \\
+\implies & 1 = (\emptyset \cup \{ 0 \})
+& & \text{Proposition \ref{Proposition:equality_transitive}} \\
+\iff & (1 = (\emptyset \cup \{ 0 \})) \land (\text{True})
+& & \text{Proposition \ref{Proposition:land_identity_1}} \\
+\iff & (1 = (\emptyset \cup \{ 0 \})) \land ((\emptyset \cup \{ 0 \}) = (\{ 0 \} \cup \emptyset))
+& & \text{Proposition \ref{Proposition:pairwise_union_commutativity}} \\
+\implies & 1 = (\{ 0 \} \cup \emptyset)
+& & \text{Proposition \ref{Proposition:equality_transitive}} \\
+\iff & (1 = (\{ 0 \} \cup \emptyset)) \land (\text{True})
+& & \text{Proposition \ref{Proposition:land_identity_1}} \\
+\iff & (1 = (\{ 0 \} \cup \emptyset)) \land ((\{ 0 \} \cup \emptyset) = \{ 0 \})
+& & \text{Proposition \ref{Proposition:pairwise_union_identity}} \\
+\implies & 1 = \{ 0 \}
+& & \text{Proposition \ref{Proposition:equality_transitive}} \\
+\iff & (1 = \{ 0 \}) \land (\text{True})
+& & \text{Proposition \ref{Proposition:land_identity_1}} \\
+\iff & (1 = \{ 0 \}) \land (0 = \emptyset)
+& & \text{Definition \ref{Definition:zero}} \\
+\implies & (1 = \{ 0 \}) \land (\{ 0 \} = \{ \emptyset \})
+& & \text{Proposition \ref{Proposition:substitution_of_singleton_set}} \\
+\implies & 1 = \{ \emptyset \}
+& & \text{Proposition \ref{Proposition:equality_transitive}} \\
 \end{align*}
 \end{prop}
+

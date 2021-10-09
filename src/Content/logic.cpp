@@ -11,7 +11,7 @@
 void logic()
 {
     ofstream fout;
-    fout.open("logic.tex");
+    fout.open("../tex/logic.tex");
     
     //Definition of Proposition
     fout<<"\\chapter{Logic}"<<endl;

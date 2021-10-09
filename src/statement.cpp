@@ -648,6 +648,8 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
     if(!step->binary_operator->operand1->isEqual(source_part))
     {
         cout<<"Error: the operand1 of law and the source part are different."<<endl;
+        cout<<source_part->getLatex().getNormal()<<endl;
+        cout<<step->binary_operator->operand1->getLatex().getNormal()<<endl;
     }
     
     //delete replacement
@@ -1155,8 +1157,7 @@ void proof_block::append_binary_operator(input x)
     {
         if(x.sub_type == source_specified)
         {
-            expression* source_part = source->content->getPart(absolute_path);
-            x.full_substitution = createSubstitution(x.law->forall_variable, source_part, x.source_specified_substitution);
+            x.full_substitution = createSubstitution(x.law->forall_variable, source->content, x.source_specified_substitution);
         }
         else if(x.sub_type == automatic)
         {
@@ -1218,7 +1219,7 @@ void proof_block::append_binary_operator(input x)
     }
     else if(method == backward)
     {
-       if(step->binary_operator->operator_latex == "\\implies")
+        if(step->binary_operator->operator_latex == "\\implies")
         {
             cout<<"Error: The backward method cannot work for \\implies."<<endl;
             return;
