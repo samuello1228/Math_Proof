@@ -125,8 +125,7 @@ void statement::constructor_aux()
     binary_operator = dynamic_cast<logic_binary_operator_logic_logic*>(x);
     if(binary_operator)
     {
-        if(binary_operator->operator_latex == "\\overset{\\operatorname{def}}{\\iff}" ||
-           binary_operator->operator_latex == "\\iff" ||
+        if(binary_operator->operator_latex == "\\iff" ||
            binary_operator->operator_latex == "\\implies"
            )
         {
@@ -274,16 +273,41 @@ string statement::getLatex()
         }
     }
     
+    string operator_latex = "";
+    if(binary_operator != nullptr)
+    {
+        operator_latex = binary_operator->operator_latex;
+        if(Definition* x = dynamic_cast<Definition*>(this))
+        {
+            if(binary_operator->operator_latex == "\\iff")
+            {
+                operator_latex = "\\overset{\\operatorname{def}}{\\iff}";
+            }
+        }
+    }
+    
+    expression* modified_content = get_expression_without_forall_variable()->getCopy();
+    if(dynamic_cast<Definition*>(this))
+    {
+        if(logic_binary_operator_set_set* x = dynamic_cast<logic_binary_operator_set_set*>(modified_content))
+        {
+            if(x->operator_latex == "=")
+            {
+                x->operator_latex = "\\overset{\\operatorname{def}}{=}";
+            }
+        }
+    }
+    
     if(quantifier_latex == "")
     {
         if(binary_operator == nullptr)
         {
-            output = content->getLatex().getNormal() + "\n";
+            output = modified_content->getLatex().getNormal() + "\n";
         }
         else
         {
             output += "& " + binary_operator->operand1->getLatex().getNormal() + " \\\\" + "\n";
-            output += binary_operator->operator_latex + " & " + binary_operator->operand2->getLatex().getNormal() + "\n";
+            output += operator_latex + " & " + binary_operator->operand2->getLatex().getNormal() + "\n";
         }
     }
     else
@@ -291,18 +315,19 @@ string statement::getLatex()
         if(binary_operator == nullptr)
         {
             output += "& " + quantifier_latex + "( \\\\" + "\n";
-            output += "& & " + get_expression_without_forall_variable()->getLatex().getNormal() + " \\\\" + "\n";
+            output += "& & " + modified_content->getLatex().getNormal() + " \\\\" + "\n";
             output = output + "& )" + "\n";
         }
         else
         {
             output += "& " + quantifier_latex + "( \\\\" + "\n";
             output += "& & & " + binary_operator->operand1->getLatex().getNormal() + " \\\\" + "\n";
-            output += "& & " + binary_operator->operator_latex + " & " + binary_operator->operand2->getLatex().getNormal() + " \\\\" + "\n";
+            output += "& & " + operator_latex + " & " + binary_operator->operand2->getLatex().getNormal() + " \\\\" + "\n";
             output = output + "& )" + "\n";
         }
     }
     
+    delete modified_content;
     return output;
 }
 
@@ -571,8 +596,7 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
     //for direction Right to Left
     if(dir == RightToLeft)
     {
-        if(step->binary_operator->operator_latex == "\\overset{\\operatorname{def}}{\\iff}" ||
-           step->binary_operator->operator_latex == "\\iff" )
+        if(step->binary_operator->operator_latex == "\\iff")
         {
             //swap
             logic_value* temp = step->binary_operator->operand1;
@@ -947,7 +971,17 @@ string proof_block::getLatex()
         for(long j=0;j<operand2_latex.all_visible.size();j++)
         {
             if(quantifier_latex != "") output += "& & ";
-            if(j==0) output += binary_operator->operator_latex + " ";
+            if(j==0)
+            {
+                if(Definition* x = dynamic_cast<Definition*>(chain_of_deductive[i]))
+                {
+                    if(binary_operator->operator_latex == "\\iff")
+                    {
+                        binary_operator->operator_latex = "\\overset{\\operatorname{def}}{\\iff}";
+                    }
+                }
+                output += binary_operator->operator_latex + " ";
+            }
             output += "& ";
             
             if(operand2_latex.all_phantom[j] != "") output += "\\phantom{" + operand2_latex.all_phantom[j] + "} ";
@@ -1076,15 +1110,18 @@ void proof_block::append_binary_operator(input x)
         }
     }
     
-    if(x.dir == TrueToP)
+    string Definition_label = "";
+    string Axiom_label = "";
+    if(x.dir == TrueToP || x.dir == PToTrue)
     {
-        x.law = x.law->getCopy();
-        x.law->upgrade_to_true(TrueToP);
-    }
-    else if(x.dir == PToTrue)
-    {
-        x.law = x.law->getCopy();
-        x.law->upgrade_to_true(PToTrue);
+        if(dynamic_cast<Definition*>(x.law)) Definition_label = x.law->label;
+        if(dynamic_cast<Axiom*>(x.law)) Axiom_label = x.law->label;
+        
+        Proposition* new_law = new Proposition(x.law->label, x.law->content->getCopy());
+        new_law->set_forall_variable(new_law->forall_variable, x.law->forall_variable.size());
+        x.law = new_law;
+        
+        x.law->upgrade_to_true(x.dir);
     }
     
     if(x.isPrint)
@@ -1181,7 +1218,22 @@ void proof_block::append_binary_operator(input x)
     
     //fill print_info
     Print_Info element;
-    if(dynamic_cast<Definition*>(x.law))
+    if(Definition_label != "")
+    {
+        element.ref_type = "Definition";
+        element.ref = Definition_label;
+    }
+    else if(Axiom_label != "")
+    {
+        element.ref_type = "Axiom";
+        element.ref = Axiom_label;
+    }
+    else if(Local_label != "")
+    {
+        element.ref_type = "Local";
+        element.ref = Local_label;
+    }
+    else if(dynamic_cast<Definition*>(x.law))
     {
         element.ref_type= "Definition";
         element.ref = x.law->label;
@@ -1193,16 +1245,8 @@ void proof_block::append_binary_operator(input x)
     }
     else if(dynamic_cast<Proposition*>(x.law))
     {
-        if(Local_label == "")
-        {
-            element.ref_type = "Proposition";
-            element.ref = x.law->label;
-        }
-        else
-        {
-            element.ref_type = "Local";
-            element.ref = Local_label;
-        }
+        element.ref_type = "Proposition";
+        element.ref = x.law->label;
     }
     
     element.split_point.clear();

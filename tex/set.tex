@@ -47,17 +47,6 @@ Definition of $=$.
 \end{defn}
 
 \begin{defn}
-\label{Definition:equality_def}
-Definition of $\overset{\operatorname{def}}{=}$.
-\begin{align*}
-& \forall a \forall b ( \\
-& & & a \overset{\operatorname{def}}{=} b \\
-& & \overset{\operatorname{def}}{\iff} & \forall c ((c \in a) \iff (c \in b)) \\
-& )
-\end{align*}
-\end{defn}
-
-\begin{defn}
 \label{Definition:neq}
 Definition of $\neq$.
 \begin{align*}
@@ -302,10 +291,10 @@ Proof of Proposition (1)
 \begin{align*}
 & \forall a ( \\
 & & & \text{True} \\
-& & \iff & \{ a \} \overset{\operatorname{def}}{=} \{ a , a \}
+& & \iff & \{ a \} = \{ a , a \}
 & & \text{Definition \ref{Definition:singleton_set}} \\
 & & \overset{\operatorname{def}}{\iff} & \forall b ((b \in \{ a \}) \iff (b \in \{ a , a \}))
-& & \text{Definition \ref{Definition:equality_def}} \\
+& & \text{Definition \ref{Definition:equality}} \\
 & )
 \end{align*}
 Proof of Proposition \ref{Proposition:singleton_set_property}
@@ -421,10 +410,10 @@ Proof of Proposition (1)
 \begin{align*}
 & \forall a \forall b ( \\
 & & & \text{True} \\
-& & \iff & (a \cup b) \overset{\operatorname{def}}{=} (\bigcup \{ a , b \})
+& & \iff & (a \cup b) = (\bigcup \{ a , b \})
 & & \text{Definition \ref{Definition:pairwise_union}} \\
 & & \overset{\operatorname{def}}{\iff} & \forall c ((c \in (a \cup b)) \iff (c \in (\bigcup \{ a , b \})))
-& & \text{Definition \ref{Definition:equality_def}} \\
+& & \text{Definition \ref{Definition:equality}} \\
 & )
 \end{align*}
 Proof of Proposition \ref{Proposition:pairwise_union_property}

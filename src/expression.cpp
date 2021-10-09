@@ -553,8 +553,7 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
     }
     else if(elements.size() == 3)
     {
-        if(elements[1] == "\\overset{\\operatorname{def}}{\\iff}" ||
-           elements[1] == "\\lor"  ||
+        if(elements[1] == "\\lor" ||
            elements[1] == "\\land" ||
            elements[1] == "\\iff" ||
            elements[1] == "\\implies"
@@ -572,8 +571,7 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
             return output;
         }
         else if(elements[1] == "\\in" ||
-                elements[1] == "\\notin"  ||
-                elements[1] == "\\overset{\\operatorname{def}}{=}" ||
+                elements[1] == "\\notin" ||
                 elements[1] == "=" ||
                 elements[1] == "\\neq"
                 )
@@ -745,7 +743,6 @@ bool expression::assemble(statement* step, expression* source_part, int p, vecto
         }
         
         bool condition = (step->binary_operator->operator_latex == "\\iff" ||
-                          step->binary_operator->operator_latex == "\\overset{\\operatorname{def}}{\\iff}" ||
                           step->binary_operator->operator_latex == "\\implies");
         
         if(condition)
@@ -769,8 +766,7 @@ bool expression::assemble(statement* step, expression* source_part, int p, vecto
     }
     else if(logic_unary_operator_logic* source_part_copy = dynamic_cast<logic_unary_operator_logic*>(source_part))
     {
-        bool condition_iff = (step->binary_operator->operator_latex == "\\iff" ||
-                              step->binary_operator->operator_latex == "\\overset{\\operatorname{def}}{\\iff}");
+        bool condition_iff = (step->binary_operator->operator_latex == "\\iff");
         condition_iff = condition_iff && (source_part_copy->operator_latex == "\\lnot");
         
         if(condition_iff)
@@ -782,16 +778,14 @@ bool expression::assemble(statement* step, expression* source_part, int p, vecto
     }
     else if(logic_binary_operator_logic_logic* source_part_copy = dynamic_cast<logic_binary_operator_logic_logic*>(source_part))
     {
-        bool condition_iff = (step->binary_operator->operator_latex == "\\iff" ||
-                              step->binary_operator->operator_latex == "\\overset{\\operatorname{def}}{\\iff}");
-        condition_iff = condition_iff && (source_part_copy->operator_latex == "\\overset{\\operatorname{def}}{\\iff}" ||
-                                          source_part_copy->operator_latex == "\\lor"  ||
+        bool condition_iff = (step->binary_operator->operator_latex == "\\iff");
+        condition_iff = condition_iff && (source_part_copy->operator_latex == "\\lor" ||
                                           source_part_copy->operator_latex == "\\land" ||
                                           source_part_copy->operator_latex == "\\iff" ||
                                           source_part_copy->operator_latex == "\\implies");
         
         bool condition_implies_1 = (step->binary_operator->operator_latex == "\\implies");
-        condition_implies_1 = condition_implies_1 && (source_part_copy->operator_latex == "\\lor"  ||
+        condition_implies_1 = condition_implies_1 && (source_part_copy->operator_latex == "\\lor" ||
                                                       source_part_copy->operator_latex == "\\land" );
         //Counter example for \\iff
         //(F \\implies T) \implies ( (F \\iff F) \implies (T \\iff F) )
@@ -1347,8 +1341,7 @@ Print_Output logic_binary_operator_logic_logic::getLatex(vector<vector<int> > sp
     string suffix_1 = "";
     string prefix_2 = "";
     string suffix_2 = "";
-    if(operator_latex == "\\overset{\\operatorname{def}}{\\iff}" ||
-       operator_latex == "\\lor"  ||
+    if(operator_latex == "\\lor" ||
        operator_latex == "\\land" ||
        operator_latex == "\\iff" ||
        operator_latex == "\\implies"

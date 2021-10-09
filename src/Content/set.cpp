@@ -23,7 +23,7 @@ void set()
     string description;
     
     //notin
-    Definition::addDefinition(fout, new Definition("notin", SET, "\\forall a \\forall b ((a \\notin b) \\overset{\\operatorname{def}}{\\iff} (\\lnot (a \\in b)))"), "Definition of $\\notin$.");
+    Definition::addDefinition(fout, new Definition("notin", SET, "\\forall a \\forall b ((a \\notin b) \\iff (\\lnot (a \\in b)))"), "Definition of $\\notin$.");
     
     fout<<"\\begin{defn}"<<endl;
     fout<<"\\begin{align*}"<<endl;
@@ -46,11 +46,9 @@ void set()
     
     //Equality
     fout<<"\\section{Equality of sets}"<<endl;
-    Definition::addDefinition(fout, new Definition("equality", SET, "\\forall a \\forall b ((a = b) \\overset{\\operatorname{def}}{\\iff} (\\forall c ((c \\in a) \\iff (c \\in b))))"), "Definition of $=$.");
+    Definition::addDefinition(fout, new Definition("equality", SET, "\\forall a \\forall b ((a = b) \\iff (\\forall c ((c \\in a) \\iff (c \\in b))))"), "Definition of $=$.");
     
-    Definition::addDefinition(fout, new Definition("equality_def", SET, "\\forall a \\forall b ((a \\overset{\\operatorname{def}}{=} b) \\overset{\\operatorname{def}}{\\iff} (\\forall c ((c \\in a) \\iff (c \\in b))))"), "Definition of $\\overset{\\operatorname{def}}{=}$.");
-    
-    Definition::addDefinition(fout, new Definition("neq", SET, "\\forall a \\forall b ((a \\neq b) \\overset{\\operatorname{def}}{\\iff} (\\lnot (a = b)))"), "Definition of $\\neq$.");
+    Definition::addDefinition(fout, new Definition("neq", SET, "\\forall a \\forall b ((a \\neq b) \\iff (\\lnot (a = b)))"), "Definition of $\\neq$.");
     
     Proposition::Current = new Proposition("equality_reflexive", SET, "\\forall a (a = a)");
     description = "Reflexive property of equality.";
@@ -138,7 +136,7 @@ void set()
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
-    Definition::addDefinition(fout, new Definition("singleton_set", SET, "\\forall a (\\{ a \\} \\overset{\\operatorname{def}}{=} \\{ a , a \\})"), "Definition of singleton set.");
+    Definition::addDefinition(fout, new Definition("singleton_set", SET, "\\forall a (\\{ a \\} = \\{ a , a \\})"), "Definition of singleton set.");
     
     //Property of singleton set
     Proposition::Current = new Proposition("singleton_set_property", SET, "\\forall a \\forall b ((b \\in \\{ a \\}) \\iff (b = a))");
@@ -148,7 +146,7 @@ void set()
     block->set_target_forall_variable(1);
     sub.clear(); sub.push_back(new substitution("a", "a", SET));
     block->append_binary_operator(input({}, "Definition:singleton_set", TrueToP, sub));
-    block->append_binary_operator(input({}, "Definition:equality_def", LeftToRight, true));
+    block->append_binary_operator(input({}, "Definition:equality", LeftToRight, true));
     Proposition::Current->append(block);
     
     block = new proof_block("singleton_set_property", Proposition::Current, deduction);
@@ -195,7 +193,7 @@ void set()
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
-    Definition::addDefinition(fout, new Definition("pairwise_union", SET, "\\forall a \\forall b ((a \\cup b) \\overset{\\operatorname{def}}{=} (\\bigcup \\{ a , b \\}))"), "Definition of pairwise union $a \\cup b$.");
+    Definition::addDefinition(fout, new Definition("pairwise_union", SET, "\\forall a \\forall b ((a \\cup b) = (\\bigcup \\{ a , b \\}))"), "Definition of pairwise union $a \\cup b$.");
     
     //Property of pairwise union
     Proposition::Current = new Proposition("pairwise_union_property", SET, "\\forall a \\forall b \\forall c ((c \\in (a \\cup b)) \\iff ((c \\in a) \\lor (c \\in b)))");
@@ -207,7 +205,7 @@ void set()
     sub.push_back(new substitution("a", "a", SET));
     sub.push_back(new substitution("b", "b", SET));
     block->append_binary_operator(input({}, "Definition:pairwise_union", TrueToP, sub));
-    block->append_binary_operator(input({}, "Definition:equality_def", LeftToRight, true));
+    block->append_binary_operator(input({}, "Definition:equality", LeftToRight, true));
     Proposition::Current->append(block);
     
     block = new proof_block("pairwise_union_property", Proposition::Current, deduction);
@@ -251,13 +249,13 @@ void set()
     Proposition::addProposition(fout, Proposition::Current, description);
     
     //zero
-    Definition::addDefinition(fout, new Definition("zero", SET, "0 \\overset{\\operatorname{def}}{=} \\emptyset"), "Definition of 0.");
+    Definition::addDefinition(fout, new Definition("zero", SET, "0 = \\emptyset"), "Definition of 0.");
     
     //successor
-    Definition::addDefinition(fout, new Definition("successor", SET, "\\forall a ((S(a)) \\overset{\\operatorname{def}}{=} (a \\cup \\{ a \\}))"), "Definition of successor $S(x)$.");
+    Definition::addDefinition(fout, new Definition("successor", SET, "\\forall a ((S(a)) = (a \\cup \\{ a \\}))"), "Definition of successor $S(x)$.");
     
     //one
-    Definition::addDefinition(fout, new Definition("one", SET, "1 \\overset{\\operatorname{def}}{=} (S(0))"), "Definition of 1.");
+    Definition::addDefinition(fout, new Definition("one", SET, "1 = (S(0))"), "Definition of 1.");
     
     fout.close();
 }
