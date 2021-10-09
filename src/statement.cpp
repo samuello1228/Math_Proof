@@ -1145,7 +1145,7 @@ void proof_block::append_binary_operator(input x)
     //fill the x.full_substitution
     if(method == direct && chain_of_deductive.size() == 0)
     {
-        if(x.sub_type != full)
+        if(x.sub_type != full && x.law->forall_variable.size() >= 1)
         {
             cout<<"Error: cannot do this. please use the full substitution."<<endl;
             return;
@@ -1208,10 +1208,21 @@ void proof_block::append_binary_operator(input x)
     statement* step = x.law->apply_binary_operator(source, absolute_path, x.full_substitution, x.dir, x.isPrint);
     delete source;
     
-    if(step->binary_operator->operator_latex == "\\implies" && target->binary_operator->operator_latex == "\\iff")
+    if(method == deduction)
     {
-        cout<<"Error: The deduction cannot work for \\iff."<<endl;
-        return;
+        if(step->binary_operator->operator_latex == "\\implies" && target->binary_operator->operator_latex == "\\iff")
+        {
+            cout<<"Error: The deduction method cannot work for \\implies."<<endl;
+            return;
+        }
+    }
+    else if(method == backward)
+    {
+       if(step->binary_operator->operator_latex == "\\implies")
+        {
+            cout<<"Error: The backward method cannot work for \\implies."<<endl;
+            return;
+        }
     }
     
     if(x.isFinished) check_finished(step);
