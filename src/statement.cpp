@@ -444,23 +444,19 @@ void statement::upgrade_to_true(direction dir)
         if(dir == TrueToP) binary_operator = new logic_binary_operator_logic_logic("\\iff", True, content);
         if(dir == PToTrue) binary_operator = new logic_binary_operator_logic_logic("\\iff", content, True);
         content = binary_operator;
+        //binary_operator_type = LOGIC;
     }
     else
     {
         if(dir == TrueToP) binary_operator = new logic_binary_operator_logic_logic("\\iff", True, x->operand);
         if(dir == PToTrue) binary_operator = new logic_binary_operator_logic_logic("\\iff", x->operand, True);
         x->operand = binary_operator;
+        //binary_operator_type = LOGIC;
     }
 }
 
-statement* statement::apply_binary_operator(statement* source, vector<int> path, vector<substitution*> sub, direction dir, bool isPrint)
+void statement::apply_binary_operator(statement* source, vector<int> path, vector<substitution*> sub, bool isPrint)
 {
-    if(binary_operator == nullptr)
-    {
-        cout<<"Error: cannot use applyLeftToRight."<<endl;
-        return nullptr;
-    }
-    
     //print substitution
     if(isPrint)
     {
@@ -525,10 +521,9 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
         cout<<endl;
     }
     
-    //do replacement for step
-    statement* step = getCopy();
-    step->content->replace_variable(replacement);
-    if(isPrint) cout<<step->content->getLatex().getNormal()<<endl;
+    //do replacement for law
+    content->replace_variable(replacement);
+    if(isPrint) cout<<content->getLatex().getNormal()<<endl;
     
     //do replacement for sub
     for(long i=0;i<sub.size();i++)
@@ -559,11 +554,11 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
     }
     
     //do substitution
-    step->content = dynamic_cast<logic_value*>(expression::substitute_forall_variable(step->content, sub));
+    content = dynamic_cast<logic_value*>(expression::substitute_forall_variable(content, sub));
     if(isPrint)
     {
         cout<<"Do substitution:"<<endl;
-        cout<<step->content->getLatex().getNormal()<<endl<<endl;
+        cout<<content->getLatex().getNormal()<<endl<<endl;
     }
     
     //delete sub
@@ -573,43 +568,22 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
     }
     
     //add universal quantifier at the beginning
-    step->forall_variable.clear();
+    forall_variable.clear();
     for(long i = external_dependence_source_part.size()-1; i>=0; i--)
     {
         variable* variable_copy = dynamic_cast<variable*>(external_dependence_source_part[i]->getCopy());
-        step->content = new universal_quantifier(variable_copy, step->content);
-        step->forall_variable.insert(step->forall_variable.begin(), variable_copy);
+        content = new universal_quantifier(variable_copy, content);
+        forall_variable.insert(forall_variable.begin(), variable_copy);
     }
     if(isPrint)
     {
         cout<<"Add universal quantifier at the beginning:"<<endl;
-        cout<<step->content->getLatex().getNormal()<<endl<<endl;
-    }
-    
-    //for direction Right to Left
-    if(dir == RightToLeft)
-    {
-        if(step->binary_operator->operator_latex == "\\iff")
-        {
-            //swap
-            logic_value* temp = step->binary_operator->operand1;
-            step->binary_operator->operand1 = step->binary_operator->operand2;
-            step->binary_operator->operand2 = temp;
-            if(isPrint)
-            {
-                cout<<"Swap two operands for the direction RightToLeft"<<endl;
-                cout<<step->content->getLatex().getNormal()<<endl;
-            }
-        }
-        else
-        {
-            cout<<"Error: cannot apply for the RightToLeft direction."<<endl;
-        }
+        cout<<content->getLatex().getNormal()<<endl<<endl;
     }
     
     //do replacement for internal dependence
     vector<variable*> internal_dependence_law;
-    step->binary_operator->operand1->getInternalDependence(internal_dependence_law);
+    binary_operator->operand1->getInternalDependence(internal_dependence_law);
     
     vector<variable*> internal_dependence_source_part;
     source_part->getInternalDependence(internal_dependence_source_part);
@@ -635,14 +609,14 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
         cout<<endl;
     }
     
-    step->content->replace_variable(replacement);
-    if(isPrint) cout<<step->content->getLatex().getNormal()<<endl<<endl;
+    content->replace_variable(replacement);
+    if(isPrint) cout<<content->getLatex().getNormal()<<endl<<endl;
     
-    if(!step->binary_operator->operand1->isEqual(source_part))
+    if(!binary_operator->operand1->isEqual(source_part))
     {
         cout<<"Error: the operand1 of law and the source part are different."<<endl;
         cout<<source_part->getLatex().getNormal()<<endl;
-        cout<<step->binary_operator->operand1->getLatex().getNormal()<<endl;
+        cout<<binary_operator->operand1->getLatex().getNormal()<<endl;
     }
     
     //delete replacement
@@ -660,35 +634,33 @@ statement* statement::apply_binary_operator(statement* source, vector<int> path,
         int p = path[path.size() -1];
         path.erase(path.end() -1);
         
-        bool isChanged = expression::assemble(step, source->content->getPart(path), p, source->forall_variable);
-        if(isPrint && isChanged) cout<<step->content->getLatex().getNormal()<<endl;
+        bool isChanged = expression::assemble(this, source->content->getPart(path), p, source->forall_variable);
+        if(isPrint && isChanged) cout<<content->getLatex().getNormal()<<endl;
     }
     if(isPrint) cout<<endl;
     
-    //check whether the step->operand1 is equal to the source
-    statement* copy_step_1 = step->getCopy();
-    copy_step_1->collapse_to_operand(1);
-    if(!copy_step_1->content->isEqual(source->content))
+    //check whether the operand1 of law is equal to the source
+    statement* copy_1 = getCopy();
+    copy_1->collapse_to_operand(1);
+    if(!copy_1->content->isEqual(source->content))
     {
-        cout<<"Error: the operand1 of step and the source are different."<<endl;
+        cout<<"Error: the operand1 of law and the source are different."<<endl;
     }
-    delete copy_step_1;
+    delete copy_1;
     
     //check forall_variable
-    if(step->forall_variable.size() != source->forall_variable.size())
+    if(forall_variable.size() != source->forall_variable.size())
     {
         cout<<"Error: The forall_variable doese not matched."<<endl;
     }
     
-    for(long i=0;i<step->forall_variable.size();i++)
+    for(long i=0;i<forall_variable.size();i++)
     {
-        if(! step->forall_variable[i]->isEqual(source->forall_variable[i]))
+        if(! forall_variable[i]->isEqual(source->forall_variable[i]))
         {
             cout<<"Error: The forall_variable does not matched."<<endl;
         }
     }
-    
-    return step;
 }
 
 vector<Definition*> Definition::All_Definition;
@@ -1105,6 +1077,7 @@ void proof_block::append_binary_operator(input x)
         }
     }
     
+    //get a copy of law
     string Definition_label = "";
     string Axiom_label = "";
     if(x.dir == TrueToP || x.dir == PToTrue)
@@ -1117,6 +1090,10 @@ void proof_block::append_binary_operator(input x)
         x.law = new_law;
         
         x.law->upgrade_to_true(x.dir);
+    }
+    else
+    {
+        x.law = x.law->getCopy();
     }
     
     if(x.isPrint)
@@ -1199,12 +1176,33 @@ void proof_block::append_binary_operator(input x)
         }
     }
     
-    statement* step = x.law->apply_binary_operator(source, absolute_path, x.full_substitution, x.dir, x.isPrint);
+    //Swap for direction Right to Left
+    if(x.dir == RightToLeft)
+    {
+        if(x.law->binary_operator->operator_latex == "\\iff")
+        {
+            //swap
+            logic_value* temp = x.law->binary_operator->operand1;
+            x.law->binary_operator->operand1 = x.law->binary_operator->operand2;
+            x.law->binary_operator->operand2 = temp;
+            if(x.isPrint)
+            {
+                cout<<"Swap two operands for the direction RightToLeft"<<endl;
+                cout<<x.law->content->getLatex().getNormal()<<endl;
+            }
+        }
+        else
+        {
+            cout<<"Error: cannot apply for the RightToLeft direction."<<endl;
+        }
+    }
+    
+    x.law->apply_binary_operator(source, absolute_path, x.full_substitution, x.isPrint);
     delete source;
     
     if(method == deduction)
     {
-        if(step->binary_operator->operator_latex == "\\implies" && target->binary_operator->operator_latex == "\\iff")
+        if(x.law->binary_operator->operator_latex == "\\implies" && target->binary_operator->operator_latex == "\\iff")
         {
             cout<<"Error: The deduction method cannot work for \\implies."<<endl;
             return;
@@ -1212,14 +1210,14 @@ void proof_block::append_binary_operator(input x)
     }
     else if(method == backward)
     {
-        if(step->binary_operator->operator_latex == "\\implies")
+        if(x.law->binary_operator->operator_latex == "\\implies")
         {
             cout<<"Error: The backward method cannot work for \\implies."<<endl;
             return;
         }
     }
     
-    if(x.isFinished) check_finished(step);
+    if(x.isFinished) check_finished(x.law);
     
     //fill print_info
     Print_Info element;
@@ -1257,9 +1255,7 @@ void proof_block::append_binary_operator(input x)
     element.split_point.clear();
     print_info.push_back(element);
     
-    if(x.dir == TrueToP || x.dir == PToTrue) delete x.law;
-    
-    chain_of_deductive.push_back(step);
+    chain_of_deductive.push_back(x.law);
 }
 
 vector<Proposition*> Proposition::All_Proposition;

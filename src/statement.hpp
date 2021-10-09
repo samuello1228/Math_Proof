@@ -49,7 +49,7 @@ public:
     void collapse_to_operand(int);
     void collapse_to_true();
     void upgrade_to_true(direction);
-    statement* apply_binary_operator(statement*, vector<int>, vector<substitution*>, direction, bool isPrint = false);
+    void apply_binary_operator(statement*, vector<int>, vector<substitution*>, bool isPrint = false);
 };
 
 class Definition : public statement

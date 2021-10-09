@@ -74,13 +74,6 @@ void logic()
     Proposition::addProposition(fout, new Proposition("lor_identity_1", LOGIC, "\\forall a ((a \\lor (\\text{False})) \\iff a)"));
     
     Proposition::Current = new Proposition("lor_identity_2", LOGIC, "\\forall a (((\\text{False}) \\lor a) \\iff a)");
-    /*
-    block = new proof_block("lor_identity_2", x, direct);
-    sub.clear(); sub.push_back(new substitution("a", "a", LOGIC));
-    block->append_binary_operator(input({}, "Proposition:lor_identity_1", TrueToP, sub));
-    block->append_binary_operator(input({1}, "Proposition:lor_commutativity", LeftToRight, true));
-    x->append(block, true);
-    */
     Proposition::addProposition(fout, Proposition::Current);
     
     fout<<"\\subsection{Identity of $\\land$}"<<endl;
