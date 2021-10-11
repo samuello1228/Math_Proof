@@ -733,15 +733,10 @@ expression* expression::substitute_forall_variable(expression* x, vector<substit
     return x;
 }
 
-bool expression::assemble(statement* step, expression* source_part, int p, vector<variable*> source_forall_variable)
+bool expression::assemble(statement* step, expression* source_part, int p)
 {
     if(quantifier* source_part_copy = dynamic_cast<quantifier*>(source_part))
     {
-        for(long i=0;i<source_forall_variable.size();i++)
-        {
-            if(source_part_copy->var->isEqual(source_forall_variable[i])) return false;
-        }
-        
         bool condition = (step->binary_operator->operator_latex == "\\iff" ||
                           step->binary_operator->operator_latex == "\\implies");
         

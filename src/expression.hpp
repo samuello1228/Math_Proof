@@ -64,7 +64,7 @@ public:
     virtual void getInternalDependence(vector<variable*>&)=0;
     virtual void find_path_of_variable(variable*, vector<int>, vector<vector<int> >&)=0;
     
-    static bool assemble(statement*, expression*, int, vector<variable*>);
+    static bool assemble(statement*, expression*, int);
 };
 
 class variable : virtual public expression

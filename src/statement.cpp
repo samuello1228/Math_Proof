@@ -497,7 +497,7 @@ void statement::apply_binary_operator(vector<variable*> forall_variable_proof, e
     
     //get all dependence of law
     vector<variable*> all_dependence_law;
-    get_expression_without_forall_variable()->getInternalDependence(all_dependence_law);
+    binary_operator->getInternalDependence(all_dependence_law);
     content->getInternalDependence(all_dependence_law);
     if(isPrint)
     {
@@ -634,7 +634,7 @@ void statement::apply_binary_operator(vector<variable*> forall_variable_proof, e
         int p = path[path.size() -1];
         path.erase(path.end() -1);
         
-        bool isChanged = expression::assemble(this, source->getPart(path), p, forall_variable_proof);
+        bool isChanged = expression::assemble(this, source->getPart(path), p);
         if(isPrint && isChanged) cout<<content->getLatex().getNormal()<<endl;
     }
     if(isPrint) cout<<endl;
@@ -676,7 +676,6 @@ Definition::~Definition()
 statement* Definition::getCopy()
 {
     Definition* output = new Definition(label, content->getCopy());
-    output->set_forall_variable(output->forall_variable, forall_variable.size());
     return output;
 }
 
@@ -737,7 +736,6 @@ Axiom::~Axiom()
 statement* Axiom::getCopy()
 {
     Axiom* output = new Axiom(label, content->getCopy());
-    output->set_forall_variable(output->forall_variable, forall_variable.size());
     return output;
 }
 
@@ -1082,10 +1080,7 @@ void proof_block::append_binary_operator(input x)
         if(dynamic_cast<Definition*>(x.law)) Definition_label = x.law->label;
         if(dynamic_cast<Axiom*>(x.law)) Axiom_label = x.law->label;
         
-        Proposition* new_law = new Proposition(x.law->label, x.law->content->getCopy());
-        new_law->set_forall_variable(new_law->forall_variable, x.law->forall_variable.size());
-        x.law = new_law;
-        
+        x.law = new Proposition(x.law->label, x.law->content->getCopy());
         x.law->upgrade_to_true(x.dir);
     }
     else
@@ -1265,7 +1260,6 @@ Proposition::~Proposition()
 statement* Proposition::getCopy()
 {
     Proposition* output = new Proposition(label, content->getCopy());
-    output->set_forall_variable(output->forall_variable, forall_variable.size());
     return output;
 }
 
