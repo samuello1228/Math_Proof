@@ -56,13 +56,13 @@ vector<substitution*> createReplacement(vector<variable*> original_variable, vec
     return replacement;
 }
 
-vector<substitution*> createSubstitution(vector<variable*> forall_variable, expression* target_part, vector<vector<int> > path)
+vector<substitution*> createSubstitution(vector<variable*> forall_variable, expression* source, vector<vector<int> > path)
 {
     vector<substitution*> sub;
     for(long i=0;i<forall_variable.size();i++)
     {
         variable* x = dynamic_cast<variable*>(forall_variable[i]->getCopy());
-        expression* y = target_part->getPart(path[i])->getCopy();
+        expression* y = source->getPart(path[i])->getCopy();
         sub.push_back(new substitution(x,y));
     }
     
@@ -455,7 +455,7 @@ void statement::upgrade_to_true(direction dir)
     }
 }
 
-void statement::apply_binary_operator(statement* source, vector<int> path, vector<substitution*> sub, bool isPrint)
+void statement::apply_binary_operator(vector<variable*> forall_variable_proof, expression* source, vector<int> path, vector<substitution*> sub, bool isPrint)
 {
     //print substitution
     if(isPrint)
@@ -469,8 +469,8 @@ void statement::apply_binary_operator(statement* source, vector<int> path, vecto
     }
     
     //get external dependence of source part
-    vector<variable*> external_dependence_source_part;
-    source->content->getPartExternalDependence(path, external_dependence_source_part);
+    vector<variable*> external_dependence_source_part = forall_variable_proof;
+    source->getPartExternalDependence(path, external_dependence_source_part);
     if(isPrint)
     {
         cout<<"External dependence of source part:"<<endl;
@@ -482,7 +482,7 @@ void statement::apply_binary_operator(statement* source, vector<int> path, vecto
     }
     
     //get all dependence of source part
-    expression* source_part = source->content->getPart(path);
+    expression* source_part = source->getPart(path);
     vector<variable*> all_dependence_source_part = external_dependence_source_part;
     source_part->getInternalDependence(all_dependence_source_part);
     if(isPrint)
@@ -634,29 +634,26 @@ void statement::apply_binary_operator(statement* source, vector<int> path, vecto
         int p = path[path.size() -1];
         path.erase(path.end() -1);
         
-        bool isChanged = expression::assemble(this, source->content->getPart(path), p, source->forall_variable);
+        bool isChanged = expression::assemble(this, source->getPart(path), p, forall_variable_proof);
         if(isPrint && isChanged) cout<<content->getLatex().getNormal()<<endl;
     }
     if(isPrint) cout<<endl;
     
     //check whether the operand1 of law is equal to the source
-    statement* copy_1 = getCopy();
-    copy_1->collapse_to_operand(1);
-    if(!copy_1->content->isEqual(source->content))
+    if(!binary_operator->operand1->isEqual(source))
     {
         cout<<"Error: the operand1 of law and the source are different."<<endl;
     }
-    delete copy_1;
     
     //check forall_variable
-    if(forall_variable.size() != source->forall_variable.size())
+    if(forall_variable.size() != forall_variable_proof.size())
     {
         cout<<"Error: The forall_variable doese not matched."<<endl;
     }
     
     for(long i=0;i<forall_variable.size();i++)
     {
-        if(! forall_variable[i]->isEqual(source->forall_variable[i]))
+        if(! forall_variable[i]->isEqual(forall_variable_proof[i]))
         {
             cout<<"Error: The forall_variable does not matched."<<endl;
         }
@@ -971,33 +968,29 @@ void proof_block::set_target_forall_variable(long depth)
     target->set_forall_variable(forall_variable_proof, depth);
 }
 
-statement* proof_block::get_next_source()
+expression* proof_block::get_next_source()
 {
-    statement* source = nullptr;
+    expression* source = nullptr;
     if(chain_of_deductive.size() == 0)
     {
         if(method == deduction)
         {
-            source = target->getCopy();
-            source->collapse_to_operand(1);
+            source = target->binary_operator->operand1->getCopy();
         }
         else if(method == direct)
         {
-            source = target->getCopy();
-            source->set_forall_variable(source->forall_variable, forall_variable_proof.size());
-            source->collapse_to_true();
+            source = expression::createFromLatex("\\text{True}", LOGIC);
         }
         else if(method == backward)
         {
-            source = target->getCopy();
-            source->set_forall_variable(source->forall_variable, forall_variable_proof.size());
+            vector<int> path(forall_variable_proof.size(), 1);
+            source = target->content->getPart(path)->getCopy();
         }
     }
     else
     {
         long last_index = chain_of_deductive.size() -1;
-        source = chain_of_deductive[last_index]->getCopy();
-        source->collapse_to_operand(2);
+        source = chain_of_deductive[last_index]->binary_operator->operand2->getCopy();
     }
     
     return source;
@@ -1028,12 +1021,16 @@ void proof_block::check_finished(statement* step)
 void proof_block::append_binary_operator(input x)
 {
     if(x.isPrint) cout<<"New step:"<<endl;
-    statement* source = get_next_source();
+    expression* source = get_next_source();
     
     if(x.isPrint)
     {
         cout<<"source:"<<endl;
-        cout<<source->content->getLatex().getNormal()<<endl;
+        for(long i=0;i<forall_variable_proof.size();i++)
+        {
+            cout<<"\\forall "<<forall_variable_proof[i]->getLatex().getNormal()<<" ";
+        }
+        cout<<"("<<source->getLatex().getNormal()<<")";
     }
     
     //fill the x.law
@@ -1103,17 +1100,6 @@ void proof_block::append_binary_operator(input x)
         cout<<endl;
     }
     
-    //fill the absolute_path
-    vector<int> absolute_path;
-    for(long i=0;i<source->forall_variable.size();i++)
-    {
-        absolute_path.push_back(1);
-    }
-    for(long i=0;i<x.relative_path.size();i++)
-    {
-        absolute_path.push_back(x.relative_path[i]);
-    }
-    
     //fill the x.full_substitution
     if(method == direct && chain_of_deductive.size() == 0)
     {
@@ -1127,7 +1113,7 @@ void proof_block::append_binary_operator(input x)
     {
         if(x.sub_type == source_specified)
         {
-            x.full_substitution = createSubstitution(x.law->forall_variable, source->content, x.source_specified_substitution);
+            x.full_substitution = createSubstitution(x.law->forall_variable, source, x.source_specified_substitution);
         }
         else if(x.sub_type == automatic)
         {
@@ -1171,7 +1157,7 @@ void proof_block::append_binary_operator(input x)
                 }
             }
             
-            expression* source_part = source->content->getPart(absolute_path);
+            expression* source_part = source->getPart(x.relative_path);
             x.full_substitution = createSubstitution(x.law->forall_variable, source_part, substitute_path);
         }
     }
@@ -1197,7 +1183,7 @@ void proof_block::append_binary_operator(input x)
         }
     }
     
-    x.law->apply_binary_operator(source, absolute_path, x.full_substitution, x.isPrint);
+    x.law->apply_binary_operator(forall_variable_proof, source, x.relative_path, x.full_substitution, x.isPrint);
     delete source;
     
     if(method == deduction)

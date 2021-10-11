@@ -49,7 +49,7 @@ public:
     void collapse_to_operand(int);
     void collapse_to_true();
     void upgrade_to_true(direction);
-    void apply_binary_operator(statement*, vector<int>, vector<substitution*>, bool isPrint = false);
+    void apply_binary_operator(vector<variable*>, expression*, vector<int>, vector<substitution*>, bool isPrint = false);
 };
 
 class Definition : public statement
@@ -135,7 +135,7 @@ public:
     string getLatex();
     
     void set_target_forall_variable(long);
-    statement* get_next_source();
+    expression* get_next_source();
     void check_finished(statement*);
     void append_binary_operator(input x);
 };
