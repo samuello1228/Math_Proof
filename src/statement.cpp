@@ -358,72 +358,6 @@ void statement::delete_the_last_universal_quantifier()
     forall_variable.erase(forall_variable.end() -1);
 }
 
-void statement::collapse_to_operand(int p)
-{
-    if(binary_operator == nullptr)
-    {
-        cout<<"Error: There does not exist a binary operator. cannot collapse."<<endl;
-        return;
-    }
-    
-    universal_quantifier* x = nullptr;
-    universal_quantifier* y = dynamic_cast<universal_quantifier*>(content);
-    while(true)
-    {
-        if(y)
-        {
-            x = y;
-            y = dynamic_cast<universal_quantifier*>(y->operand);
-        }
-        else break;
-    }
-    
-    logic_value* operand = nullptr;
-    if(p==1) operand = binary_operator->operand1;
-    if(p==2) operand = binary_operator->operand2;
-    
-    if(x == nullptr)
-    {
-        content = operand;
-    }
-    else
-    {
-        x->operand = operand;
-    }
-    
-    if(p==1) binary_operator->operand1 = dynamic_cast<logic_value*>(expression::createFromLatex("\\text{True}", LOGIC));
-    if(p==2) binary_operator->operand2 = dynamic_cast<logic_value*>(expression::createFromLatex("\\text{True}", LOGIC));
-    delete binary_operator;
-    binary_operator = nullptr;
-}
-
-void statement::collapse_to_true()
-{
-    universal_quantifier* x = nullptr;
-    universal_quantifier* y = dynamic_cast<universal_quantifier*>(content);
-    while(true)
-    {
-        if(y)
-        {
-            x = y;
-            if(y->var->isEqual(forall_variable[forall_variable.size()-1])) break;
-            y = dynamic_cast<universal_quantifier*>(y->operand);
-        }
-        else break;
-    }
-    
-    if(x == nullptr)
-    {
-        delete content;
-        content = dynamic_cast<logic_value*>(expression::createFromLatex("\\text{True}", LOGIC));
-    }
-    else
-    {
-        delete x->operand;
-        x->operand = dynamic_cast<logic_value*>(expression::createFromLatex("\\text{True}", LOGIC));
-    }
-}
-
 void statement::upgrade_to_true(direction dir)
 {
     universal_quantifier* x = nullptr;
@@ -998,21 +932,30 @@ void proof_block::check_finished(statement* step)
 {
     if(method == deduction || method == direct || method == backward)
     {
-        statement* copy_target_2 = target->getCopy();
-        if(method == deduction) copy_target_2->collapse_to_operand(2);
-        if(method == backward) copy_target_2->collapse_to_true();
-        
-        statement* copy_step_2 = step->getCopy();
-        copy_step_2->collapse_to_operand(2);
-        if(!copy_step_2->content->isEqual(copy_target_2->content))
+        if(method == deduction)
         {
-            if(method == deduction) cout<<"Error: The operand2 does not matched the operand2 of target."<<endl;
-            if(method == direct) cout<<"Error: The operand2 does not matched the target."<<endl;
-            if(method == backward) cout<<"Error: The operand2 is not True."<<endl;
+            if(!step->binary_operator->operand2->isEqual(target->binary_operator->operand2))
+            {
+                cout<<"Error: The operand2 does not matched the operand2 of target."<<endl;
+            }
         }
-        
-        delete copy_target_2;
-        delete copy_step_2;
+        else if(method == direct)
+        {
+            vector<int> path(forall_variable_proof.size(), 1);
+            if(!step->binary_operator->operand2->isEqual(target->content->getPart(path)))
+            {
+                cout<<"Error: The operand2 does not matched the target."<<endl;
+            }
+        }
+        else if(method == backward)
+        {
+            expression* True = expression::createFromLatex("\\text{True}", LOGIC);
+            if(!step->binary_operator->operand2->isEqual(True))
+            {
+                cout<<"Error: The operand2 is not True."<<endl;
+            }
+            delete True;
+        }
     }
 }
 
