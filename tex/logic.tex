@@ -669,12 +669,25 @@ Proof of Proposition \ref{Proposition:implies_substitution_implies}
 \end{align*}
 \end{prop}
 
+\subsection{Contrapositive}
 \begin{prop}
 \label{Proposition:contrapositive}
 Contrapositive.
 \begin{align*}
 & a \implies b \\
 \iff & (\lnot b) \implies (\lnot a)
+\end{align*}
+Proof of Proposition \ref{Proposition:contrapositive}
+\begin{align*}
+& a \implies b \\
+\overset{\operatorname{def}}{\iff} & (\lnot a) \lor b
+& & \text{Definition \ref{Definition:implies}} \\
+\iff & b \lor (\lnot a)
+& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
+\iff & (\lnot (\lnot b)) \lor (\lnot a)
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\overset{\operatorname{def}}{\iff} & (\lnot b) \implies (\lnot a)
+& & \text{Definition \ref{Definition:implies}} \\
 \end{align*}
 \end{prop}
 

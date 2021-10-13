@@ -287,9 +287,16 @@ void logic()
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
-    //contrapositive
+    //Contrapositive
+    fout<<"\\subsection{Contrapositive}"<<endl;
     Proposition::Current = new Proposition("contrapositive", LOGIC, "\\forall a \\forall b ((a \\implies b) \\iff ((\\lnot b) \\implies (\\lnot a)))");
     description = "Contrapositive.";
+    block = new proof_block("contrapositive", Proposition::Current, deduction);
+    block->append_binary_operator(input({}, "Definition:implies", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_commutativity", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:double_negation", RightToLeft));
+    block->append_binary_operator(input({}, "Definition:implies", RightToLeft, true));
+    Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
     //iff and implies
