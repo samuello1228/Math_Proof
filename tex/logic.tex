@@ -450,24 +450,6 @@ Proof of Proposition \ref{Proposition:multiple_assumption}
 \end{align*}
 \end{prop}
 
-\subsection{Reflexive Property of $\implies$}
-\begin{prop}
-\label{Proposition:implies_reflexive}
-Reflexive property of $\implies$.
-\begin{align*}
-& a \\
-\implies & a
-\end{align*}
-Proof of Proposition \ref{Proposition:implies_reflexive}
-\begin{align*}
-& a \implies a \\
-\overset{\operatorname{def}}{\iff} & (\lnot a) \lor a
-& & \text{Definition \ref{Definition:implies}} \\
-\iff & \text{True}
-& & \text{Proposition \ref{Proposition:lor_complement_2}} \\
-\end{align*}
-\end{prop}
-
 \section{Proof technique}
 \begin{prop}
 \label{Proposition:true_statement}
@@ -789,6 +771,7 @@ Proof of Proposition \ref{Proposition:iff_transitive}
 \subsection{Axiom of Substitution for $\iff$}
 \begin{prop}
 \label{Proposition:iff_substitution_lor}
+Substitution of $\implies$ for $\lor$.
 \begin{align*}
 & a \iff b \\
 \implies & (a \lor c) \iff (b \lor c)
@@ -797,6 +780,7 @@ Proof of Proposition \ref{Proposition:iff_transitive}
 
 \begin{prop}
 \label{Proposition:iff_substitution_land}
+Substitution of $\implies$ for $\land$.
 \begin{align*}
 & a \iff b \\
 \implies & (a \land c) \iff (b \land c)
@@ -805,30 +789,10 @@ Proof of Proposition \ref{Proposition:iff_transitive}
 
 \begin{prop}
 \label{Proposition:iff_substitution_lnot}
+Substitution of $\implies$ for $\lnot$.
 \begin{align*}
 & a \iff b \\
 \iff & (\lnot a) \iff (\lnot b)
-\end{align*}
-\end{prop}
-
-\begin{prop}
-\label{Proposition:iff_reflexive}
-Reflexive property of $\iff$.
-\begin{align*}
-& a \\
-\iff & a
-\end{align*}
-Proof of Proposition \ref{Proposition:iff_reflexive}
-\begin{align*}
-& a \iff a \\
-\overset{\operatorname{def}}{\iff} & (a \land a) \lor ((\lnot a) \land (\lnot a))
-& & \text{Definition \ref{Definition:iff}} \\
-\iff & a \lor ((\lnot a) \land (\lnot a))
-& & \text{Proposition \ref{Proposition:land_idempotence}} \\
-\iff & a \lor (\lnot a)
-& & \text{Proposition \ref{Proposition:land_idempotence}} \\
-\iff & \text{True}
-& & \text{Proposition \ref{Proposition:lor_complement_1}} \\
 \end{align*}
 \end{prop}
 
@@ -933,6 +897,44 @@ Axiom of Substitution
 \end{axm}
 
 \section{Logic proposition}
+\begin{prop}
+\label{Proposition:implies_reflexive}
+Reflexive property of $\implies$.
+\begin{align*}
+& a \\
+\implies & a
+\end{align*}
+Proof of Proposition \ref{Proposition:implies_reflexive}
+\begin{align*}
+& a \implies a \\
+\overset{\operatorname{def}}{\iff} & (\lnot a) \lor a
+& & \text{Definition \ref{Definition:implies}} \\
+\iff & \text{True}
+& & \text{Proposition \ref{Proposition:lor_complement_2}} \\
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:iff_reflexive}
+Reflexive property of $\iff$.
+\begin{align*}
+& a \\
+\iff & a
+\end{align*}
+Proof of Proposition \ref{Proposition:iff_reflexive}
+\begin{align*}
+& a \iff a \\
+\overset{\operatorname{def}}{\iff} & (a \land a) \lor ((\lnot a) \land (\lnot a))
+& & \text{Definition \ref{Definition:iff}} \\
+\iff & a \lor ((\lnot a) \land (\lnot a))
+& & \text{Proposition \ref{Proposition:land_idempotence}} \\
+\iff & a \lor (\lnot a)
+& & \text{Proposition \ref{Proposition:land_idempotence}} \\
+\iff & \text{True}
+& & \text{Proposition \ref{Proposition:lor_complement_1}} \\
+\end{align*}
+\end{prop}
+
 \begin{prop}
 \label{Proposition:land_implies_iff}
 \begin{align*}

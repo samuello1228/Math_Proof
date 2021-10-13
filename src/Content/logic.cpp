@@ -170,16 +170,6 @@ void logic()
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
-    //Reflexive Property of implies
-    fout<<"\\subsection{Reflexive Property of $\\implies$}"<<endl;
-    Proposition::Current = new Proposition("implies_reflexive", LOGIC, "\\forall a (a \\implies a)");
-    description = "Reflexive property of $\\implies$.";
-    block = new proof_block("implies_reflexive", Proposition::Current, backward);
-    block->append_binary_operator(input({}, "Definition:implies", LeftToRight));
-    block->append_binary_operator(input({}, "Proposition:lor_complement_2", LeftToRight, true));
-    Proposition::Current->append(block, true);
-    Proposition::addProposition(fout, Proposition::Current, description);
-    
     //Proof technique
     fout<<"\\section{Proof technique}"<<endl;
     
@@ -348,22 +338,15 @@ void logic()
     
     fout<<"\\subsection{Axiom of Substitution for $\\iff$}"<<endl;
     Proposition::Current = new Proposition("iff_substitution_lor", LOGIC, "\\forall a \\forall b \\forall c ((a \\iff b) \\implies ((a \\lor c) \\iff (b \\lor c)))");
-    Proposition::addProposition(fout, Proposition::Current);
+    description = "Substitution of $\\implies$ for $\\lor$.";
+    Proposition::addProposition(fout, Proposition::Current, description);
     
     Proposition::Current = new Proposition("iff_substitution_land", LOGIC, "\\forall a \\forall b \\forall c ((a \\iff b) \\implies ((a \\land c) \\iff (b \\land c)))");
-    Proposition::addProposition(fout, Proposition::Current);
+    description = "Substitution of $\\implies$ for $\\land$.";
+    Proposition::addProposition(fout, Proposition::Current, description);
     
     Proposition::Current = new Proposition("iff_substitution_lnot", LOGIC, "\\forall a \\forall b ((a \\iff b) \\iff ((\\lnot a) \\iff (\\lnot b)))");
-    Proposition::addProposition(fout, Proposition::Current);
-    
-    Proposition::Current = new Proposition("iff_reflexive", LOGIC, "\\forall a (a \\iff a)");
-    description = "Reflexive property of $\\iff$.";
-    block = new proof_block("iff_reflexive", Proposition::Current, backward);
-    block->append_binary_operator(input({}, "Definition:iff", LeftToRight));
-    block->append_binary_operator(input({1}, "Proposition:land_idempotence", LeftToRight));
-    block->append_binary_operator(input({2}, "Proposition:land_idempotence", LeftToRight));
-    block->append_binary_operator(input({}, "Proposition:lor_complement_1", LeftToRight, true));
-    Proposition::Current->append(block, true);
+    description = "Substitution of $\\implies$ for $\\lnot$.";
     Proposition::addProposition(fout, Proposition::Current, description);
     
     //Quantifiers
@@ -542,6 +525,26 @@ void logic()
     
     //Logic proposition
     fout<<"\\section{Logic proposition}"<<endl;
+    
+    //Reflexive Property of implies
+    Proposition::Current = new Proposition("implies_reflexive", LOGIC, "\\forall a (a \\implies a)");
+    description = "Reflexive property of $\\implies$.";
+    block = new proof_block("implies_reflexive", Proposition::Current, backward);
+    block->append_binary_operator(input({}, "Definition:implies", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_complement_2", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current, description);
+    
+    //Reflexive Property of iff
+    Proposition::Current = new Proposition("iff_reflexive", LOGIC, "\\forall a (a \\iff a)");
+    description = "Reflexive property of $\\iff$.";
+    block = new proof_block("iff_reflexive", Proposition::Current, backward);
+    block->append_binary_operator(input({}, "Definition:iff", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:land_idempotence", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:land_idempotence", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_complement_1", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current, description);
     
     Proposition::Current = new Proposition("land_implies_iff", LOGIC, "\\forall a \\forall b ((a \\land b) \\implies (a \\iff b))");
     Proposition::addProposition(fout, Proposition::Current);
