@@ -771,16 +771,28 @@ Proof of Proposition \ref{Proposition:iff_transitive}
 \subsection{Axiom of Substitution for $\iff$}
 \begin{prop}
 \label{Proposition:iff_substitution_lor}
-Substitution of $\implies$ for $\lor$.
+Substitution of $\iff$ for $\lor$.
 \begin{align*}
 & a \iff b \\
 \implies & (a \lor c) \iff (b \lor c)
+\end{align*}
+Proof of Proposition \ref{Proposition:iff_substitution_lor}
+\begin{align*}
+& a \iff b \\
+\iff & (a \implies b) \land (b \implies a)
+& & \text{Proposition \ref{Proposition:iff_implies}} \\
+\implies & ((a \lor c) \implies (b \lor c)) \land (b \implies a)
+& & \text{Proposition \ref{Proposition:implies_substitution_lor}} \\
+\implies & ((a \lor c) \implies (b \lor c)) \land ((b \lor c) \implies (a \lor c))
+& & \text{Proposition \ref{Proposition:implies_substitution_lor}} \\
+\iff & (a \lor c) \iff (b \lor c)
+& & \text{Proposition \ref{Proposition:iff_implies}} \\
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:iff_substitution_land}
-Substitution of $\implies$ for $\land$.
+Substitution of $\iff$ for $\land$.
 \begin{align*}
 & a \iff b \\
 \implies & (a \land c) \iff (b \land c)
@@ -789,7 +801,7 @@ Substitution of $\implies$ for $\land$.
 
 \begin{prop}
 \label{Proposition:iff_substitution_lnot}
-Substitution of $\implies$ for $\lnot$.
+Substitution of $\iff$ for $\lnot$.
 \begin{align*}
 & a \iff b \\
 \iff & (\lnot a) \iff (\lnot b)
