@@ -172,8 +172,8 @@ void logic()
     
     //Condition satisfied
     fout<<"\\subsection{Condition satisfied}"<<endl;
-    Proposition::Current = new Proposition("a_lor_b_implies_a", LOGIC, "\\forall a \\forall b ((a \\land b) \\implies a)");
-    block = new proof_block("a_lor_b_implies_a", Proposition::Current, backward);
+    Proposition::Current = new Proposition("a_land_b_implies_a", LOGIC, "\\forall a \\forall b ((a \\land b) \\implies a)");
+    block = new proof_block("a_land_b_implies_a", Proposition::Current, backward);
     block->append_binary_operator(input({}, "Definition:implies", LeftToRight));
     block->append_binary_operator(input({1}, "Proposition:De_Morgan_land", LeftToRight));
     block->append_binary_operator(input({}, "Proposition:lor_commutativity", LeftToRight));
@@ -184,15 +184,16 @@ void logic()
     Proposition::addProposition(fout, Proposition::Current);
     
     Proposition::Current = new Proposition("implies_satisfied", LOGIC, "\\forall a \\forall b ((a \\land (a \\implies b)) \\implies b)");
+    description = "Condition satisfied for $\\implies$.";
     block = new proof_block("implies_satisfied", Proposition::Current, deduction);
     block->append_binary_operator(input({2}, "Definition:implies", LeftToRight));
     block->append_binary_operator(input({}, "Proposition:land_lor_distributivity_1", LeftToRight));
     block->append_binary_operator(input({1}, "Proposition:land_complement_1", LeftToRight));
     block->append_binary_operator(input({}, "Proposition:lor_identity_2", LeftToRight));
     block->append_binary_operator(input({}, "Proposition:land_commutativity", LeftToRight));
-    block->append_binary_operator(input({}, "Proposition:a_lor_b_implies_a", LeftToRight, true));
+    block->append_binary_operator(input({}, "Proposition:a_land_b_implies_a", LeftToRight, true));
     Proposition::Current->append(block, true);
-    Proposition::addProposition(fout, Proposition::Current);
+    Proposition::addProposition(fout, Proposition::Current, description);
     
     //Proof technique
     fout<<"\\section{Proof technique}"<<endl;
@@ -357,6 +358,16 @@ void logic()
     block->append_binary_operator(input({1}, "Proposition:implies_transitive", LeftToRight));
     block->append_binary_operator(input({2}, "Proposition:implies_transitive", LeftToRight));
     block->append_binary_operator(input({}, "Proposition:iff_implies", RightToLeft));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current, description);
+    
+    Proposition::Current = new Proposition("iff_satisfied", LOGIC, "\\forall a \\forall b ((a \\land (a \\iff b)) \\implies b)");
+    description = "Condition satisfied for $\\iff$.";
+    block = new proof_block("iff_satisfied", Proposition::Current, deduction);
+    block->append_binary_operator(input({2}, "Proposition:iff_implies", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:land_associativity", RightToLeft));
+    block->append_binary_operator(input({}, "Proposition:a_land_b_implies_a", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:implies_satisfied", LeftToRight, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
@@ -636,9 +647,6 @@ void logic()
     Proposition::addProposition(fout, Proposition::Current);
     
     Proposition::Current = new Proposition("land_omit", LOGIC, "\\forall a \\forall b ((a \\land b) \\implies a)");
-    Proposition::addProposition(fout, Proposition::Current);
-    
-    Proposition::Current = new Proposition("iff_satisfy", LOGIC, "\\forall a \\forall b ((a \\land (a \\iff b)) \\implies b)");
     Proposition::addProposition(fout, Proposition::Current);
     
     fout.close();

@@ -452,12 +452,12 @@ Proof of Proposition \ref{Proposition:multiple_assumption}
 
 \subsection{Condition satisfied}
 \begin{prop}
-\label{Proposition:a_lor_b_implies_a}
+\label{Proposition:a_land_b_implies_a}
 \begin{align*}
 & a \land b \\
 \implies & a
 \end{align*}
-Proof of Proposition \ref{Proposition:a_lor_b_implies_a}
+Proof of Proposition \ref{Proposition:a_land_b_implies_a}
 \begin{align*}
 & (a \land b) \implies a \\
 \overset{\operatorname{def}}{\iff} & (\lnot (a \land b)) \lor a
@@ -477,6 +477,7 @@ Proof of Proposition \ref{Proposition:a_lor_b_implies_a}
 
 \begin{prop}
 \label{Proposition:implies_satisfied}
+Condition satisfied for $\implies$.
 \begin{align*}
 & a \land (a \implies b) \\
 \implies & b
@@ -495,7 +496,7 @@ Proof of Proposition \ref{Proposition:implies_satisfied}
 \iff & b \land a
 & & \text{Proposition \ref{Proposition:land_commutativity}} \\
 \implies & b
-& & \text{Proposition \ref{Proposition:a_lor_b_implies_a}} \\
+& & \text{Proposition \ref{Proposition:a_land_b_implies_a}} \\
 \end{align*}
 \end{prop}
 
@@ -817,6 +818,27 @@ Proof of Proposition \ref{Proposition:iff_transitive}
 \end{align*}
 \end{prop}
 
+\begin{prop}
+\label{Proposition:iff_satisfied}
+Condition satisfied for $\iff$.
+\begin{align*}
+& a \land (a \iff b) \\
+\implies & b
+\end{align*}
+Proof of Proposition \ref{Proposition:iff_satisfied}
+\begin{align*}
+& a \land (a \iff b) \\
+\iff & a \land ((a \implies b) \land (b \implies a))
+& & \text{Proposition \ref{Proposition:iff_implies}} \\
+\iff & (a \land (a \implies b)) \land (b \implies a)
+& & \text{Proposition \ref{Proposition:land_associativity}} \\
+\implies & a \land (a \implies b)
+& & \text{Proposition \ref{Proposition:a_land_b_implies_a}} \\
+\implies & b
+& & \text{Proposition \ref{Proposition:implies_satisfied}} \\
+\end{align*}
+\end{prop}
+
 \subsection{Axiom of Substitution for $\iff$}
 \begin{prop}
 \label{Proposition:iff_substitution_lor}
@@ -1090,14 +1112,6 @@ Proof of Proposition \ref{Proposition:iff_reflexive}
 \begin{align*}
 & a \land b \\
 \implies & a
-\end{align*}
-\end{prop}
-
-\begin{prop}
-\label{Proposition:iff_satisfy}
-\begin{align*}
-& a \land (a \iff b) \\
-\implies & b
 \end{align*}
 \end{prop}
 
