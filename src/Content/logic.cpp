@@ -319,6 +319,16 @@ void logic()
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current);
     
+    Proposition::Current = new Proposition("iff_symmetric", LOGIC, "\\forall a \\forall b ((a \\iff b) \\iff (b \\iff a))");
+    description = "Symmetric property of $\\iff$.";
+    block = new proof_block("iff_symmetric", Proposition::Current, deduction);
+    block->append_binary_operator(input({}, "Definition:iff", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:land_commutativity", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:land_commutativity", LeftToRight));
+    block->append_binary_operator(input({}, "Definition:iff", RightToLeft, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current, description);
+    
     Proposition::Current = new Proposition("iff_transitive", LOGIC, "\\forall a \\forall b \\forall c (((a \\iff b) \\land (b \\iff c)) \\implies (a \\iff c))");
     description = "Transitive property of $\\iff$.";
     block = new proof_block("contrapositive", Proposition::Current, deduction);
@@ -336,21 +346,15 @@ void logic()
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
-    //iff
-    Proposition::Current = new Proposition("iff_lor", LOGIC, "\\forall a \\forall b \\forall c ((a \\iff b) \\implies ((a \\lor c) \\iff (b \\lor c)))");
+    fout<<"\\subsection{Axiom of Substitution for $\\iff$}"<<endl;
+    Proposition::Current = new Proposition("iff_substitution_lor", LOGIC, "\\forall a \\forall b \\forall c ((a \\iff b) \\implies ((a \\lor c) \\iff (b \\lor c)))");
     Proposition::addProposition(fout, Proposition::Current);
     
-    Proposition::Current = new Proposition("iff_land", LOGIC, "\\forall a \\forall b \\forall c ((a \\iff b) \\implies ((a \\land c) \\iff (b \\land c)))");
+    Proposition::Current = new Proposition("iff_substitution_land", LOGIC, "\\forall a \\forall b \\forall c ((a \\iff b) \\implies ((a \\land c) \\iff (b \\land c)))");
     Proposition::addProposition(fout, Proposition::Current);
     
-    Proposition::Current = new Proposition("iff_symmetric", LOGIC, "\\forall a \\forall b ((a \\iff b) \\iff (b \\iff a))");
-    description = "Symmetric property of $\\iff$.";
-    Proposition::addProposition(fout, Proposition::Current, description);
-    
-    Proposition::Current = new Proposition("iff_contrapositive", LOGIC, "\\forall a \\forall b ((a \\iff b) \\iff ((\\lnot a) \\iff (\\lnot b)))");
+    Proposition::Current = new Proposition("iff_substitution_lnot", LOGIC, "\\forall a \\forall b ((a \\iff b) \\iff ((\\lnot a) \\iff (\\lnot b)))");
     Proposition::addProposition(fout, Proposition::Current);
-    
-
     
     Proposition::Current = new Proposition("iff_reflexive", LOGIC, "\\forall a (a \\iff a)");
     description = "Reflexive property of $\\iff$.";

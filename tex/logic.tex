@@ -731,6 +731,27 @@ Proof of Proposition \ref{Proposition:iff_implies}
 \end{prop}
 
 \begin{prop}
+\label{Proposition:iff_symmetric}
+Symmetric property of $\iff$.
+\begin{align*}
+& a \iff b \\
+\iff & b \iff a
+\end{align*}
+Proof of Proposition \ref{Proposition:iff_symmetric}
+\begin{align*}
+& a \iff b \\
+\overset{\operatorname{def}}{\iff} & (a \land b) \lor ((\lnot a) \land (\lnot b))
+& & \text{Definition \ref{Definition:iff}} \\
+\iff & (b \land a) \lor ((\lnot a) \land (\lnot b))
+& & \text{Proposition \ref{Proposition:land_commutativity}} \\
+\iff & (b \land a) \lor ((\lnot b) \land (\lnot a))
+& & \text{Proposition \ref{Proposition:land_commutativity}} \\
+\overset{\operatorname{def}}{\iff} & b \iff a
+& & \text{Definition \ref{Definition:iff}} \\
+\end{align*}
+\end{prop}
+
+\begin{prop}
 \label{Proposition:iff_transitive}
 Transitive property of $\iff$.
 \begin{align*}
@@ -765,8 +786,9 @@ Proof of Proposition \ref{Proposition:iff_transitive}
 \end{align*}
 \end{prop}
 
+\subsection{Axiom of Substitution for $\iff$}
 \begin{prop}
-\label{Proposition:iff_lor}
+\label{Proposition:iff_substitution_lor}
 \begin{align*}
 & a \iff b \\
 \implies & (a \lor c) \iff (b \lor c)
@@ -774,7 +796,7 @@ Proof of Proposition \ref{Proposition:iff_transitive}
 \end{prop}
 
 \begin{prop}
-\label{Proposition:iff_land}
+\label{Proposition:iff_substitution_land}
 \begin{align*}
 & a \iff b \\
 \implies & (a \land c) \iff (b \land c)
@@ -782,16 +804,7 @@ Proof of Proposition \ref{Proposition:iff_transitive}
 \end{prop}
 
 \begin{prop}
-\label{Proposition:iff_symmetric}
-Symmetric property of $\iff$.
-\begin{align*}
-& a \iff b \\
-\iff & b \iff a
-\end{align*}
-\end{prop}
-
-\begin{prop}
-\label{Proposition:iff_contrapositive}
+\label{Proposition:iff_substitution_lnot}
 \begin{align*}
 & a \iff b \\
 \iff & (\lnot a) \iff (\lnot b)
