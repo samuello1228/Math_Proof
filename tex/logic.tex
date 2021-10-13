@@ -818,6 +818,20 @@ Substitution of $\iff$ for $\lnot$.
 & a \iff b \\
 \iff & (\lnot a) \iff (\lnot b)
 \end{align*}
+Proof of Proposition \ref{Proposition:iff_substitution_lnot}
+\begin{align*}
+& a \iff b \\
+\overset{\operatorname{def}}{\iff} & (a \land b) \lor ((\lnot a) \land (\lnot b))
+& & \text{Definition \ref{Definition:iff}} \\
+\iff & ((\lnot (\lnot a)) \land b) \lor ((\lnot a) \land (\lnot b))
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\iff & ((\lnot (\lnot a)) \land (\lnot (\lnot b))) \lor ((\lnot a) \land (\lnot b))
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\iff & ((\lnot a) \land (\lnot b)) \lor ((\lnot (\lnot a)) \land (\lnot (\lnot b)))
+& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
+\overset{\operatorname{def}}{\iff} & (\lnot a) \iff (\lnot b)
+& & \text{Definition \ref{Definition:iff}} \\
+\end{align*}
 \end{prop}
 
 \section{Quantifiers}

@@ -375,6 +375,13 @@ void logic()
     
     Proposition::Current = new Proposition("iff_substitution_lnot", LOGIC, "\\forall a \\forall b ((a \\iff b) \\iff ((\\lnot a) \\iff (\\lnot b)))");
     description = "Substitution of $\\iff$ for $\\lnot$.";
+    block = new proof_block("iff_substitution_lnot", Proposition::Current, deduction);
+    block->append_binary_operator(input({}, "Definition:iff", LeftToRight));
+    block->append_binary_operator(input({1,1}, "Proposition:double_negation", RightToLeft));
+    block->append_binary_operator(input({1,2}, "Proposition:double_negation", RightToLeft));
+    block->append_binary_operator(input({}, "Proposition:lor_commutativity", LeftToRight));
+    block->append_binary_operator(input({}, "Definition:iff", RightToLeft, true));
+    Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
     //Quantifiers
