@@ -319,6 +319,23 @@ void logic()
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current);
     
+    Proposition::Current = new Proposition("iff_transitive", LOGIC, "\\forall a \\forall b \\forall c (((a \\iff b) \\land (b \\iff c)) \\implies (a \\iff c))");
+    description = "Transitive property of $\\iff$.";
+    block = new proof_block("contrapositive", Proposition::Current, deduction);
+    block->append_binary_operator(input({1}, "Proposition:iff_implies", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:iff_implies", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:land_associativity", RightToLeft));
+    block->append_binary_operator(input({1}, "Proposition:land_commutativity", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:land_associativity", RightToLeft));
+    block->append_binary_operator(input({}, "Proposition:land_associativity", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:land_commutativity", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:land_commutativity", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:implies_transitive", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:implies_transitive", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:iff_implies", RightToLeft));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current, description);
+    
     //iff
     Proposition::Current = new Proposition("iff_lor", LOGIC, "\\forall a \\forall b \\forall c ((a \\iff b) \\implies ((a \\lor c) \\iff (b \\lor c)))");
     Proposition::addProposition(fout, Proposition::Current);
@@ -333,9 +350,7 @@ void logic()
     Proposition::Current = new Proposition("iff_contrapositive", LOGIC, "\\forall a \\forall b ((a \\iff b) \\iff ((\\lnot a) \\iff (\\lnot b)))");
     Proposition::addProposition(fout, Proposition::Current);
     
-    Proposition::Current = new Proposition("iff_transitive", LOGIC, "\\forall a \\forall b \\forall c (((a \\iff b) \\land (b \\iff c)) \\implies (a \\iff c))");
-    description = "Transitive property of $\\iff$.";
-    Proposition::addProposition(fout, Proposition::Current, description);
+
     
     Proposition::Current = new Proposition("iff_reflexive", LOGIC, "\\forall a (a \\iff a)");
     description = "Reflexive property of $\\iff$.";

@@ -731,6 +731,41 @@ Proof of Proposition \ref{Proposition:iff_implies}
 \end{prop}
 
 \begin{prop}
+\label{Proposition:iff_transitive}
+Transitive property of $\iff$.
+\begin{align*}
+& (a \iff b) \land (b \iff c) \\
+\implies & a \iff c
+\end{align*}
+Proof of Proposition \ref{Proposition:iff_transitive}
+\begin{align*}
+& (a \iff b) \land (b \iff c) \\
+\iff & ((a \implies b) \land (b \implies a)) \land (b \iff c)
+& & \text{Proposition \ref{Proposition:iff_implies}} \\
+\iff & ((a \implies b) \land (b \implies a)) \land ((b \implies c) \land (c \implies b))
+& & \text{Proposition \ref{Proposition:iff_implies}} \\
+\iff & (((a \implies b) \land (b \implies a)) \land (b \implies c)) \land (c \implies b)
+& & \text{Proposition \ref{Proposition:land_associativity}} \\
+\iff & ((b \implies c) \land ((a \implies b) \land (b \implies a))) \land (c \implies b)
+& & \text{Proposition \ref{Proposition:land_commutativity}} \\
+\iff & (((b \implies c) \land (a \implies b)) \land (b \implies a)) \land (c \implies b)
+& & \text{Proposition \ref{Proposition:land_associativity}} \\
+\iff & ((b \implies c) \land (a \implies b)) \land ((b \implies a) \land (c \implies b))
+& & \text{Proposition \ref{Proposition:land_associativity}} \\
+\iff & ((a \implies b) \land (b \implies c)) \land ((b \implies a) \land (c \implies b))
+& & \text{Proposition \ref{Proposition:land_commutativity}} \\
+\iff & ((a \implies b) \land (b \implies c)) \land ((c \implies b) \land (b \implies a))
+& & \text{Proposition \ref{Proposition:land_commutativity}} \\
+\implies & (a \implies c) \land ((c \implies b) \land (b \implies a))
+& & \text{Proposition \ref{Proposition:implies_transitive}} \\
+\implies & (a \implies c) \land (c \implies a)
+& & \text{Proposition \ref{Proposition:implies_transitive}} \\
+\iff & a \iff c
+& & \text{Proposition \ref{Proposition:iff_implies}} \\
+\end{align*}
+\end{prop}
+
+\begin{prop}
 \label{Proposition:iff_lor}
 \begin{align*}
 & a \iff b \\
@@ -760,15 +795,6 @@ Symmetric property of $\iff$.
 \begin{align*}
 & a \iff b \\
 \iff & (\lnot a) \iff (\lnot b)
-\end{align*}
-\end{prop}
-
-\begin{prop}
-\label{Proposition:iff_transitive}
-Transitive property of $\iff$.
-\begin{align*}
-& (a \iff b) \land (b \iff c) \\
-\implies & a \iff c
 \end{align*}
 \end{prop}
 
