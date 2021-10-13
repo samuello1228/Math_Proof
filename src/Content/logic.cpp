@@ -140,10 +140,19 @@ void logic()
     fout<<"\\section{Basic Proposition}"<<endl;
     
     //a_lor_b_complement
-    Proposition::Current = new Proposition("a_lor_b_complement", LOGIC, "\\forall a \\forall b (((a \\land (\\lnot b)) \\lor b) \\iff (a \\lor b))");
-    block = new proof_block("a_lor_b_complement", Proposition::Current, deduction);
+    fout<<"\\subsection{Complement of a $\\lor$ b }"<<endl;
+    Proposition::Current = new Proposition("a_lor_b_complement_1", LOGIC, "\\forall a \\forall b (((a \\land (\\lnot b)) \\lor b) \\iff (a \\lor b))");
+    block = new proof_block("a_lor_b_complement_1", Proposition::Current, deduction);
     block->append_binary_operator(input({}, "Proposition:lor_land_distributivity_2", LeftToRight));
     block->append_binary_operator(input({2}, "Proposition:lor_complement_2", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:land_identity_1", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current);
+    
+    Proposition::Current = new Proposition("a_lor_b_complement_2", LOGIC, "\\forall a \\forall b (((a \\land b) \\lor (\\lnot b)) \\iff (a \\lor (\\lnot b)))");
+    block = new proof_block("a_lor_b_complement_2", Proposition::Current, deduction);
+    block->append_binary_operator(input({}, "Proposition:lor_land_distributivity_2", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:lor_complement_1", LeftToRight));
     block->append_binary_operator(input({}, "Proposition:land_identity_1", LeftToRight, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current);
@@ -162,9 +171,10 @@ void logic()
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current);
     
-    //implies_lor
-    Proposition::Current = new Proposition("implies_lor", LOGIC, "\\forall a \\forall b \\forall c ((a \\implies b) \\implies ((a \\lor c) \\implies (b \\lor c)))");
-    block = new proof_block("implies_lor", Proposition::Current, backward);
+    fout<<"\\subsection{Axiom of Substitution for $\\implies$}"<<endl;
+    Proposition::Current = new Proposition("implies_substitution_lor", LOGIC, "\\forall a \\forall b \\forall c ((a \\implies b) \\implies ((a \\lor c) \\implies (b \\lor c)))");
+    description = "Substitution of $\\implies$ for $\\lor$";
+    block = new proof_block("implies_substitution_lor", Proposition::Current, backward);
     block->append_binary_operator(input({1}, "Definition:implies", LeftToRight));
     block->append_binary_operator(input({2}, "Definition:implies", LeftToRight));
     block->append_binary_operator(input({}, "Definition:implies", LeftToRight));
@@ -175,8 +185,8 @@ void logic()
     block->append_binary_operator(input({2}, "Proposition:lor_associativity", RightToLeft));
     block->append_binary_operator(input({2}, "Proposition:lor_commutativity", LeftToRight));
     block->append_binary_operator(input({}, "Proposition:lor_associativity", RightToLeft));
-    block->append_binary_operator(input({1}, "Proposition:a_lor_b_complement", LeftToRight));
-    block->append_binary_operator(input({2}, "Proposition:a_lor_b_complement", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:a_lor_b_complement_1", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:a_lor_b_complement_1", LeftToRight));
     block->append_binary_operator(input({}, "Proposition:lor_associativity", RightToLeft));
     block->append_binary_operator(input({1}, "Proposition:lor_commutativity", LeftToRight));
     block->append_binary_operator(input({1}, "Proposition:lor_associativity", RightToLeft));
@@ -184,11 +194,31 @@ void logic()
     block->append_binary_operator(input({1}, "Proposition:lor_annihilator_2", LeftToRight));
     block->append_binary_operator(input({}, "Proposition:lor_annihilator_2", LeftToRight, true));
     Proposition::Current->append(block, true);
-    Proposition::addProposition(fout, Proposition::Current);
+    Proposition::addProposition(fout, Proposition::Current, description);
     
-    //implies_land
-    Proposition::Current = new Proposition("implies_land", LOGIC, "\\forall a \\forall b \\forall c ((a \\implies b) \\implies ((a \\land c) \\implies (b \\land c)))");
-    Proposition::addProposition(fout, Proposition::Current);
+    Proposition::Current = new Proposition("implies_substitution_land", LOGIC, "\\forall a \\forall b \\forall c ((a \\implies b) \\implies ((a \\land c) \\implies (b \\land c)))");
+    description = "Substitution of $\\implies$ for $\\land$";
+    block = new proof_block("implies_substitution_land", Proposition::Current, backward);
+    block->append_binary_operator(input({1}, "Definition:implies", LeftToRight));
+    block->append_binary_operator(input({2}, "Definition:implies", LeftToRight));
+    block->append_binary_operator(input({}, "Definition:implies", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:De_Morgan_lor", LeftToRight));
+    block->append_binary_operator(input({1,1}, "Proposition:double_negation", LeftToRight));
+    block->append_binary_operator(input({2,1}, "Proposition:De_Morgan_land", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:lor_associativity", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_associativity", RightToLeft));
+    block->append_binary_operator(input({1,1}, "Proposition:land_commutativity", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:lor_commutativity", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:a_lor_b_complement_2", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:a_lor_b_complement_2", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_associativity", RightToLeft));
+    block->append_binary_operator(input({1}, "Proposition:lor_commutativity", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:lor_associativity", RightToLeft));
+    block->append_binary_operator(input({1,1}, "Proposition:lor_complement_1", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:lor_annihilator_2", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_annihilator_2", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current, description);
     
     //contrapositive
     Proposition::Current = new Proposition("contrapositive", LOGIC, "\\forall a \\forall b ((a \\implies b) \\iff ((\\lnot b) \\implies (\\lnot a)))");
