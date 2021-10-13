@@ -160,6 +160,7 @@ void logic()
     //Multiple assumption
     fout<<"\\subsection{Multiple assumption}"<<endl;
     Proposition::Current = new Proposition("multiple_assumption", LOGIC, "\\forall a \\forall b \\forall c ((a \\implies (b \\implies c)) \\iff ((a \\land b) \\implies c))");
+    description = "Multiple assumption.";
     block = new proof_block("multiple_assumption", Proposition::Current, deduction);
     block->append_binary_operator(input({2}, "Definition:implies", LeftToRight));
     block->append_binary_operator(input({}, "Definition:implies", LeftToRight));
@@ -167,7 +168,7 @@ void logic()
     block->append_binary_operator(input({1}, "Proposition:De_Morgan_land", RightToLeft));
     block->append_binary_operator(input({}, "Definition:implies", RightToLeft, true));
     Proposition::Current->append(block, true);
-    Proposition::addProposition(fout, Proposition::Current);
+    Proposition::addProposition(fout, Proposition::Current, description);
     
     //Proof technique
     fout<<"\\section{Proof technique}"<<endl;
@@ -183,9 +184,40 @@ void logic()
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current);
     
+    //Transitive property of implies
+    fout<<"\\subsection{Transitive property of $\\implies$}"<<endl;
+    Proposition::Current = new Proposition("implies_transitive", LOGIC, "\\forall a \\forall b \\forall c (((a \\implies b) \\land (b \\implies c)) \\implies (a \\implies c))");
+    description = "Transitive property of $\\implies$.";
+    block = new proof_block("implies_transitive", Proposition::Current, backward);
+    block->append_binary_operator(input({1,1}, "Definition:implies", LeftToRight));
+    block->append_binary_operator(input({1,2}, "Definition:implies", LeftToRight));
+    block->append_binary_operator(input({2}, "Definition:implies", LeftToRight));
+    block->append_binary_operator(input({}, "Definition:implies", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:De_Morgan_land", LeftToRight));
+    block->append_binary_operator(input({1,1}, "Proposition:De_Morgan_lor", LeftToRight));
+    block->append_binary_operator(input({1,1,1}, "Proposition:double_negation", LeftToRight));
+    block->append_binary_operator(input({1,2}, "Proposition:De_Morgan_lor", LeftToRight));
+    block->append_binary_operator(input({1,2,1}, "Proposition:double_negation", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_associativity", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:lor_commutativity", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:lor_associativity", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_associativity", RightToLeft));
+    block->append_binary_operator(input({1,1}, "Proposition:land_commutativity", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:lor_commutativity", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:a_lor_b_complement_2", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:a_lor_b_complement_1", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_associativity", RightToLeft));
+    block->append_binary_operator(input({1}, "Proposition:lor_commutativity", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:lor_associativity", RightToLeft));
+    block->append_binary_operator(input({1,1}, "Proposition:lor_complement_1", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:lor_annihilator_2", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_annihilator_2", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current, description);
+    
     fout<<"\\subsection{Axiom of Substitution for $\\implies$}"<<endl;
     Proposition::Current = new Proposition("implies_substitution_lor", LOGIC, "\\forall a \\forall b \\forall c ((a \\implies b) \\implies ((a \\lor c) \\implies (b \\lor c)))");
-    description = "Substitution of $\\implies$ for $\\lor$";
+    description = "Substitution of $\\implies$ for $\\lor$.";
     block = new proof_block("implies_substitution_lor", Proposition::Current, backward);
     block->append_binary_operator(input({1}, "Definition:implies", LeftToRight));
     block->append_binary_operator(input({2}, "Definition:implies", LeftToRight));
@@ -209,7 +241,7 @@ void logic()
     Proposition::addProposition(fout, Proposition::Current, description);
     
     Proposition::Current = new Proposition("implies_substitution_land", LOGIC, "\\forall a \\forall b \\forall c ((a \\implies b) \\implies ((a \\land c) \\implies (b \\land c)))");
-    description = "Substitution of $\\implies$ for $\\land$";
+    description = "Substitution of $\\implies$ for $\\land$.";
     block = new proof_block("implies_substitution_land", Proposition::Current, backward);
     block->append_binary_operator(input({1}, "Definition:implies", LeftToRight));
     block->append_binary_operator(input({2}, "Definition:implies", LeftToRight));
@@ -233,19 +265,14 @@ void logic()
     Proposition::addProposition(fout, Proposition::Current, description);
     
     Proposition::Current = new Proposition("implies_substitution_implies", LOGIC, "\\forall a \\forall b \\forall c ((a \\implies b) \\implies ((c \\implies a) \\implies (c \\implies b)))");
-    description = "Substitution of $\\implies$ for $\\implies$";
+    description = "Substitution of $\\implies$ for $\\implies$.";
     block = new proof_block("implies_substitution_implies", Proposition::Current, backward);
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
     //contrapositive
     Proposition::Current = new Proposition("contrapositive", LOGIC, "\\forall a \\forall b ((a \\implies b) \\iff ((\\lnot b) \\implies (\\lnot a)))");
-    description = "Contrapositive";
-    Proposition::addProposition(fout, Proposition::Current, description);
-    
-    //Transitive property of implies
-    Proposition::Current = new Proposition("implies_transitive", LOGIC, "\\forall a \\forall b \\forall c (((a \\implies b) \\land (b \\implies c)) \\implies (a \\implies c))");
-    description = "Transitive property of $\\implies$.";
+    description = "Contrapositive.";
     Proposition::addProposition(fout, Proposition::Current, description);
     
     //iff and implies

@@ -429,6 +429,7 @@ Proof of Proposition \ref{Proposition:a_lor_b_complement_2}
 \subsection{Multiple assumption}
 \begin{prop}
 \label{Proposition:multiple_assumption}
+Multiple assumption.
 \begin{align*}
 & a \implies (b \implies c) \\
 \iff & (a \land b) \implies c
@@ -472,10 +473,70 @@ Proof of Proposition \ref{Proposition:true_statement}
 \end{align*}
 \end{prop}
 
+\subsection{Transitive property of $\implies$}
+\begin{prop}
+\label{Proposition:implies_transitive}
+Transitive property of $\implies$.
+\begin{align*}
+& (a \implies b) \land (b \implies c) \\
+\implies & a \implies c
+\end{align*}
+Proof of Proposition \ref{Proposition:implies_transitive}
+\begin{align*}
+& ((a \implies b) \land (b \implies c)) \implies (a \implies c) \\
+\overset{\operatorname{def}}{\iff} & (((\lnot a) \lor b) \land (b \implies c)) \implies (a \implies c)
+& & \text{Definition \ref{Definition:implies}} \\
+\overset{\operatorname{def}}{\iff} & (((\lnot a) \lor b) \land ((\lnot b) \lor c)) \implies (a \implies c)
+& & \text{Definition \ref{Definition:implies}} \\
+\overset{\operatorname{def}}{\iff} & (((\lnot a) \lor b) \land ((\lnot b) \lor c)) \implies ((\lnot a) \lor c)
+& & \text{Definition \ref{Definition:implies}} \\
+\overset{\operatorname{def}}{\iff} & (\lnot (((\lnot a) \lor b) \land ((\lnot b) \lor c))) \lor ((\lnot a) \lor c)
+& & \text{Definition \ref{Definition:implies}} \\
+\iff & ((\lnot ((\lnot a) \lor b)) \lor (\lnot ((\lnot b) \lor c))) \lor ((\lnot a) \lor c)
+& & \text{Proposition \ref{Proposition:De_Morgan_land}} \\
+\iff & (((\lnot (\lnot a)) \land (\lnot b)) \lor (\lnot ((\lnot b) \lor c))) \lor ((\lnot a) \lor c)
+& & \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
+\iff & ((a \land (\lnot b)) \lor (\lnot ((\lnot b) \lor c))) \lor ((\lnot a) \lor c)
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\iff & ((a \land (\lnot b)) \lor ((\lnot (\lnot b)) \land (\lnot c))) \lor ((\lnot a) \lor c)
+& & \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
+\iff & ((a \land (\lnot b)) \lor (b \land (\lnot c))) \lor ((\lnot a) \lor c)
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\iff & (a \land (\lnot b)) \lor ((b \land (\lnot c)) \lor ((\lnot a) \lor c))
+& & \text{Proposition \ref{Proposition:lor_associativity}} \\
+\iff & (a \land (\lnot b)) \lor (((\lnot a) \lor c) \lor (b \land (\lnot c)))
+& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
+\iff & (a \land (\lnot b)) \lor ((\lnot a) \lor (c \lor (b \land (\lnot c))))
+& & \text{Proposition \ref{Proposition:lor_associativity}} \\
+\iff & ((a \land (\lnot b)) \lor (\lnot a)) \lor (c \lor (b \land (\lnot c)))
+& & \text{Proposition \ref{Proposition:lor_associativity}} \\
+\iff & (((\lnot b) \land a) \lor (\lnot a)) \lor (c \lor (b \land (\lnot c)))
+& & \text{Proposition \ref{Proposition:land_commutativity}} \\
+\iff & (((\lnot b) \land a) \lor (\lnot a)) \lor ((b \land (\lnot c)) \lor c)
+& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
+\iff & ((\lnot b) \lor (\lnot a)) \lor ((b \land (\lnot c)) \lor c)
+& & \text{Proposition \ref{Proposition:a_lor_b_complement_2}} \\
+\iff & ((\lnot b) \lor (\lnot a)) \lor (b \lor c)
+& & \text{Proposition \ref{Proposition:a_lor_b_complement_1}} \\
+\iff & (((\lnot b) \lor (\lnot a)) \lor b) \lor c
+& & \text{Proposition \ref{Proposition:lor_associativity}} \\
+\iff & (b \lor ((\lnot b) \lor (\lnot a))) \lor c
+& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
+\iff & ((b \lor (\lnot b)) \lor (\lnot a)) \lor c
+& & \text{Proposition \ref{Proposition:lor_associativity}} \\
+\iff & ((\text{True}) \lor (\lnot a)) \lor c
+& & \text{Proposition \ref{Proposition:lor_complement_1}} \\
+\iff & (\text{True}) \lor c
+& & \text{Proposition \ref{Proposition:lor_annihilator_2}} \\
+\iff & \text{True}
+& & \text{Proposition \ref{Proposition:lor_annihilator_2}} \\
+\end{align*}
+\end{prop}
+
 \subsection{Axiom of Substitution for $\implies$}
 \begin{prop}
 \label{Proposition:implies_substitution_lor}
-Substitution of $\implies$ for $\lor$
+Substitution of $\implies$ for $\lor$.
 \begin{align*}
 & a \implies b \\
 \implies & (a \lor c) \implies (b \lor c)
@@ -524,7 +585,7 @@ Proof of Proposition \ref{Proposition:implies_substitution_lor}
 
 \begin{prop}
 \label{Proposition:implies_substitution_land}
-Substitution of $\implies$ for $\land$
+Substitution of $\implies$ for $\land$.
 \begin{align*}
 & a \implies b \\
 \implies & (a \land c) \implies (b \land c)
@@ -573,7 +634,7 @@ Proof of Proposition \ref{Proposition:implies_substitution_land}
 
 \begin{prop}
 \label{Proposition:implies_substitution_implies}
-Substitution of $\implies$ for $\implies$
+Substitution of $\implies$ for $\implies$.
 \begin{align*}
 & a \implies b \\
 \implies & (c \implies a) \implies (c \implies b)
@@ -585,19 +646,10 @@ Proof of Proposition \ref{Proposition:implies_substitution_implies}
 
 \begin{prop}
 \label{Proposition:contrapositive}
-Contrapositive
+Contrapositive.
 \begin{align*}
 & a \implies b \\
 \iff & (\lnot b) \implies (\lnot a)
-\end{align*}
-\end{prop}
-
-\begin{prop}
-\label{Proposition:implies_transitive}
-Transitive property of $\implies$.
-\begin{align*}
-& (a \implies b) \land (b \implies c) \\
-\implies & a \implies c
 \end{align*}
 \end{prop}
 
