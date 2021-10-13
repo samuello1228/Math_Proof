@@ -440,6 +440,26 @@ void logic()
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
+    Proposition::Current = new Proposition("implies_substitution_exists_1", LOGIC, "\\forall a \\forall b \\forall c \\forall d (((a \\implies b) \\land (c \\implies d)) \\implies ((a \\lor c) \\implies (b \\lor d)))");
+    description = "Substitution of $\\implies$ for $\\exists$.";
+    block = new proof_block("1", Proposition("", LOGIC, "\\forall a \\forall b \\forall c \\forall d ((((a \\implies b) \\land (c \\implies d)) \\land (a \\lor c)) \\implies (b \\lor d))"), deduction);
+    block->append_binary_operator(input({}, "Proposition:land_commutativity", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:land_lor_distributivity_2", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:land_associativity", RightToLeft));
+    block->append_binary_operator(input({2,2}, "Proposition:land_commutativity", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:land_associativity", RightToLeft));
+    block->append_binary_operator(input({1}, "Proposition:a_land_b_implies_a", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:a_land_b_implies_a", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:implies_satisfied", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:implies_satisfied", LeftToRight, true));
+    Proposition::Current->append(block);
+    
+    block = new proof_block("implies_substitution_forall_1", Proposition::Current, backward);
+    block->append_binary_operator(input({}, "Proposition:multiple_assumption", LeftToRight));
+    block->append_binary_operator(input({}, "Local:1", PToTrue, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current, description);
+    
     Proposition::Current = new Proposition("iff_substitution_forall_1", LOGIC, "\\forall a \\forall b \\forall c \\forall d (((a \\iff b) \\land (c \\iff d)) \\implies ((a \\land c) \\iff (b \\land d)))");
     description = "Substitution of $\\iff$ for $\\forall$.";
     block = new proof_block("iff_substitution_forall_1", Proposition::Current, deduction);

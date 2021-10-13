@@ -949,6 +949,50 @@ Proof of Proposition \ref{Proposition:implies_substitution_forall_1}
 \end{prop}
 
 \begin{prop}
+\label{Proposition:implies_substitution_exists_1}
+Substitution of $\implies$ for $\exists$.
+\begin{align*}
+& (a \implies b) \land (c \implies d) \\
+\implies & (a \lor c) \implies (b \lor d)
+\end{align*}
+Proposition (1)
+\begin{align*}
+& ((a \implies b) \land (c \implies d)) \land (a \lor c) \\
+\implies & b \lor d
+\end{align*}
+Proof of Proposition (1)
+\begin{align*}
+& ((a \implies b) \land (c \implies d)) \land (a \lor c) \\
+\iff & (a \lor c) \land ((a \implies b) \land (c \implies d))
+& & \text{Proposition \ref{Proposition:land_commutativity}} \\
+\iff & (a \land ((a \implies b) \land (c \implies d))) \lor (c \land ((a \implies b) \land (c \implies d)))
+& & \text{Proposition \ref{Proposition:land_lor_distributivity_2}} \\
+\iff & ((a \land (a \implies b)) \land (c \implies d)) \lor (c \land ((a \implies b) \land (c \implies d)))
+& & \text{Proposition \ref{Proposition:land_associativity}} \\
+\iff & ((a \land (a \implies b)) \land (c \implies d)) \lor (c \land ((c \implies d) \land (a \implies b)))
+& & \text{Proposition \ref{Proposition:land_commutativity}} \\
+\iff & ((a \land (a \implies b)) \land (c \implies d)) \lor ((c \land (c \implies d)) \land (a \implies b))
+& & \text{Proposition \ref{Proposition:land_associativity}} \\
+\implies & (a \land (a \implies b)) \lor ((c \land (c \implies d)) \land (a \implies b))
+& & \text{Proposition \ref{Proposition:a_land_b_implies_a}} \\
+\implies & (a \land (a \implies b)) \lor (c \land (c \implies d))
+& & \text{Proposition \ref{Proposition:a_land_b_implies_a}} \\
+\implies & b \lor (c \land (c \implies d))
+& & \text{Proposition \ref{Proposition:implies_satisfied}} \\
+\implies & b \lor d
+& & \text{Proposition \ref{Proposition:implies_satisfied}} \\
+\end{align*}
+Proof of Proposition \ref{Proposition:implies_substitution_exists_1}
+\begin{align*}
+& ((a \implies b) \land (c \implies d)) \implies ((a \lor c) \implies (b \lor d)) \\
+\iff & (((a \implies b) \land (c \implies d)) \land (a \lor c)) \implies (b \lor d)
+& & \text{Proposition \ref{Proposition:multiple_assumption}} \\
+\iff & \text{True}
+& & \text{Proposition (1)} \\
+\end{align*}
+\end{prop}
+
+\begin{prop}
 \label{Proposition:iff_substitution_forall_1}
 Substitution of $\iff$ for $\forall$.
 \begin{align*}
