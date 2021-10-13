@@ -140,7 +140,7 @@ void logic()
     fout<<"\\section{Basic Proposition}"<<endl;
     
     //a_lor_b_complement
-    fout<<"\\subsection{Complement of a $\\lor$ b }"<<endl;
+    fout<<"\\subsection{Complement of a $\\lor$ b}"<<endl;
     Proposition::Current = new Proposition("a_lor_b_complement_1", LOGIC, "\\forall a \\forall b (((a \\land (\\lnot b)) \\lor b) \\iff (a \\lor b))");
     block = new proof_block("a_lor_b_complement_1", Proposition::Current, deduction);
     block->append_binary_operator(input({}, "Proposition:lor_land_distributivity_2", LeftToRight));
@@ -154,6 +154,18 @@ void logic()
     block->append_binary_operator(input({}, "Proposition:lor_land_distributivity_2", LeftToRight));
     block->append_binary_operator(input({2}, "Proposition:lor_complement_1", LeftToRight));
     block->append_binary_operator(input({}, "Proposition:land_identity_1", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current);
+    
+    //Multiple assumption
+    fout<<"\\subsection{Multiple assumption}"<<endl;
+    Proposition::Current = new Proposition("multiple_assumption", LOGIC, "\\forall a \\forall b \\forall c ((a \\implies (b \\implies c)) \\iff ((a \\land b) \\implies c))");
+    block = new proof_block("multiple_assumption", Proposition::Current, deduction);
+    block->append_binary_operator(input({2}, "Definition:implies", LeftToRight));
+    block->append_binary_operator(input({}, "Definition:implies", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_associativity", RightToLeft));
+    block->append_binary_operator(input({1}, "Proposition:De_Morgan_land", RightToLeft));
+    block->append_binary_operator(input({}, "Definition:implies", RightToLeft, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current);
     
@@ -217,6 +229,12 @@ void logic()
     block->append_binary_operator(input({1,1}, "Proposition:lor_complement_1", LeftToRight));
     block->append_binary_operator(input({1}, "Proposition:lor_annihilator_2", LeftToRight));
     block->append_binary_operator(input({}, "Proposition:lor_annihilator_2", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current, description);
+    
+    Proposition::Current = new Proposition("implies_substitution_implies", LOGIC, "\\forall a \\forall b \\forall c ((a \\implies b) \\implies ((c \\implies a) \\implies (c \\implies b)))");
+    description = "Substitution of $\\implies$ for $\\implies$";
+    block = new proof_block("implies_substitution_implies", Proposition::Current, backward);
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     

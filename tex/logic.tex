@@ -389,7 +389,7 @@ Proposition is a statement that is either true or false, but not both.
 \end{prop}
 
 \section{Basic Proposition}
-\subsection{Complement of a $\lor$ b }
+\subsection{Complement of a $\lor$ b}
 \begin{prop}
 \label{Proposition:a_lor_b_complement_1}
 \begin{align*}
@@ -423,6 +423,29 @@ Proof of Proposition \ref{Proposition:a_lor_b_complement_2}
 & & \text{Proposition \ref{Proposition:lor_complement_1}} \\
 \iff & a \lor (\lnot b)
 & & \text{Proposition \ref{Proposition:land_identity_1}} \\
+\end{align*}
+\end{prop}
+
+\subsection{Multiple assumption}
+\begin{prop}
+\label{Proposition:multiple_assumption}
+\begin{align*}
+& a \implies (b \implies c) \\
+\iff & (a \land b) \implies c
+\end{align*}
+Proof of Proposition \ref{Proposition:multiple_assumption}
+\begin{align*}
+& a \implies (b \implies c) \\
+\overset{\operatorname{def}}{\iff} & a \implies ((\lnot b) \lor c)
+& & \text{Definition \ref{Definition:implies}} \\
+\overset{\operatorname{def}}{\iff} & (\lnot a) \lor ((\lnot b) \lor c)
+& & \text{Definition \ref{Definition:implies}} \\
+\iff & ((\lnot a) \lor (\lnot b)) \lor c
+& & \text{Proposition \ref{Proposition:lor_associativity}} \\
+\iff & (\lnot (a \land b)) \lor c
+& & \text{Proposition \ref{Proposition:De_Morgan_land}} \\
+\overset{\operatorname{def}}{\iff} & (a \land b) \implies c
+& & \text{Definition \ref{Definition:implies}} \\
 \end{align*}
 \end{prop}
 
@@ -545,6 +568,18 @@ Proof of Proposition \ref{Proposition:implies_substitution_land}
 & & \text{Proposition \ref{Proposition:lor_annihilator_2}} \\
 \iff & \text{True}
 & & \text{Proposition \ref{Proposition:lor_annihilator_2}} \\
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:implies_substitution_implies}
+Substitution of $\implies$ for $\implies$
+\begin{align*}
+& a \implies b \\
+\implies & (c \implies a) \implies (c \implies b)
+\end{align*}
+Proof of Proposition \ref{Proposition:implies_substitution_implies}
+\begin{align*}
 \end{align*}
 \end{prop}
 
