@@ -170,6 +170,30 @@ void logic()
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
+    //Condition satisfied
+    fout<<"\\subsection{Condition satisfied}"<<endl;
+    Proposition::Current = new Proposition("a_lor_b_implies_a", LOGIC, "\\forall a \\forall b ((a \\land b) \\implies a)");
+    block = new proof_block("a_lor_b_implies_a", Proposition::Current, backward);
+    block->append_binary_operator(input({}, "Definition:implies", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:De_Morgan_land", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_commutativity", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_associativity", RightToLeft));
+    block->append_binary_operator(input({1}, "Proposition:lor_complement_1", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_annihilator_2", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current);
+    
+    Proposition::Current = new Proposition("implies_satisfied", LOGIC, "\\forall a \\forall b ((a \\land (a \\implies b)) \\implies b)");
+    block = new proof_block("implies_satisfied", Proposition::Current, deduction);
+    block->append_binary_operator(input({2}, "Definition:implies", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:land_lor_distributivity_1", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:land_complement_1", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_identity_2", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:land_commutativity", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:a_lor_b_implies_a", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current);
+    
     //Proof technique
     fout<<"\\section{Proof technique}"<<endl;
     
@@ -384,6 +408,33 @@ void logic()
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
+    fout<<"\\subsection{Axiom of Substitution for quantifiers}"<<endl;
+    Proposition::Current = new Proposition("implies_substitution_forall_1", LOGIC, "\\forall a \\forall b \\forall c \\forall d (((a \\implies b) \\land (c \\implies d)) \\implies ((a \\land c) \\implies (b \\land d)))");
+    description = "Substitution of $\\implies$ for $\\forall$.";
+    
+    block = new proof_block("1", Proposition("", LOGIC, "\\forall a \\forall b \\forall c \\forall d ((((a \\implies b) \\land (c \\implies d)) \\land (a \\land c)) \\implies (b \\land d))"), deduction);
+    block->append_binary_operator(input({}, "Proposition:land_commutativity", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:land_commutativity", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:land_associativity", RightToLeft));
+    block->append_binary_operator(input({1}, "Proposition:land_associativity", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:land_commutativity", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:land_associativity", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:implies_satisfied", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:implies_satisfied", LeftToRight, true));
+    Proposition::Current->append(block);
+    
+    block = new proof_block("implies_substitution_forall_1", Proposition::Current, backward);
+    block->append_binary_operator(input({}, "Proposition:multiple_assumption", LeftToRight));
+    block->append_binary_operator(input({}, "Local:1", PToTrue, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current, description);
+    
+    Proposition::Current = new Proposition("iff_substitution_forall_1", LOGIC, "\\forall a \\forall b \\forall c \\forall d (((a \\iff b) \\land (c \\iff d)) \\implies ((a \\land c) \\iff (b \\land d)))");
+    description = "Substitution of $\\iff$ for $\\forall$.";
+    block = new proof_block("iff_substitution_forall_1", Proposition::Current, deduction);
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current, description);
+    
     //Quantifiers
     fout<<"\\section{Quantifiers}"<<endl;
     
@@ -585,12 +636,6 @@ void logic()
     Proposition::addProposition(fout, Proposition::Current);
     
     Proposition::Current = new Proposition("land_omit", LOGIC, "\\forall a \\forall b ((a \\land b) \\implies a)");
-    Proposition::addProposition(fout, Proposition::Current);
-    
-    Proposition::Current = new Proposition("lemma_uniqueness", LOGIC, "\\forall a \\forall b \\forall c ((a \\land ((b \\land a) \\implies c)) \\implies (b \\implies c))");
-    Proposition::addProposition(fout, Proposition::Current);
-    
-    Proposition::Current = new Proposition("implies_satisfy", LOGIC, "\\forall a \\forall b ((a \\land (a \\implies b)) \\implies b)");
     Proposition::addProposition(fout, Proposition::Current);
     
     Proposition::Current = new Proposition("iff_satisfy", LOGIC, "\\forall a \\forall b ((a \\land (a \\iff b)) \\implies b)");

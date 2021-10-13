@@ -450,6 +450,55 @@ Proof of Proposition \ref{Proposition:multiple_assumption}
 \end{align*}
 \end{prop}
 
+\subsection{Condition satisfied}
+\begin{prop}
+\label{Proposition:a_lor_b_implies_a}
+\begin{align*}
+& a \land b \\
+\implies & a
+\end{align*}
+Proof of Proposition \ref{Proposition:a_lor_b_implies_a}
+\begin{align*}
+& (a \land b) \implies a \\
+\overset{\operatorname{def}}{\iff} & (\lnot (a \land b)) \lor a
+& & \text{Definition \ref{Definition:implies}} \\
+\iff & ((\lnot a) \lor (\lnot b)) \lor a
+& & \text{Proposition \ref{Proposition:De_Morgan_land}} \\
+\iff & a \lor ((\lnot a) \lor (\lnot b))
+& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
+\iff & (a \lor (\lnot a)) \lor (\lnot b)
+& & \text{Proposition \ref{Proposition:lor_associativity}} \\
+\iff & (\text{True}) \lor (\lnot b)
+& & \text{Proposition \ref{Proposition:lor_complement_1}} \\
+\iff & \text{True}
+& & \text{Proposition \ref{Proposition:lor_annihilator_2}} \\
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:implies_satisfied}
+\begin{align*}
+& a \land (a \implies b) \\
+\implies & b
+\end{align*}
+Proof of Proposition \ref{Proposition:implies_satisfied}
+\begin{align*}
+& a \land (a \implies b) \\
+\overset{\operatorname{def}}{\iff} & a \land ((\lnot a) \lor b)
+& & \text{Definition \ref{Definition:implies}} \\
+\iff & (a \land (\lnot a)) \lor (a \land b)
+& & \text{Proposition \ref{Proposition:land_lor_distributivity_1}} \\
+\iff & (\text{False}) \lor (a \land b)
+& & \text{Proposition \ref{Proposition:land_complement_1}} \\
+\iff & a \land b
+& & \text{Proposition \ref{Proposition:lor_identity_2}} \\
+\iff & b \land a
+& & \text{Proposition \ref{Proposition:land_commutativity}} \\
+\implies & b
+& & \text{Proposition \ref{Proposition:a_lor_b_implies_a}} \\
+\end{align*}
+\end{prop}
+
 \section{Proof technique}
 \begin{prop}
 \label{Proposition:true_statement}
@@ -834,6 +883,61 @@ Proof of Proposition \ref{Proposition:iff_substitution_lnot}
 \end{align*}
 \end{prop}
 
+\subsection{Axiom of Substitution for quantifiers}
+\begin{prop}
+\label{Proposition:implies_substitution_forall_1}
+Substitution of $\implies$ for $\forall$.
+\begin{align*}
+& (a \implies b) \land (c \implies d) \\
+\implies & (a \land c) \implies (b \land d)
+\end{align*}
+Proposition (1)
+\begin{align*}
+& ((a \implies b) \land (c \implies d)) \land (a \land c) \\
+\implies & b \land d
+\end{align*}
+Proof of Proposition (1)
+\begin{align*}
+& ((a \implies b) \land (c \implies d)) \land (a \land c) \\
+\iff & (a \land c) \land ((a \implies b) \land (c \implies d))
+& & \text{Proposition \ref{Proposition:land_commutativity}} \\
+\iff & (c \land a) \land ((a \implies b) \land (c \implies d))
+& & \text{Proposition \ref{Proposition:land_commutativity}} \\
+\iff & ((c \land a) \land (a \implies b)) \land (c \implies d)
+& & \text{Proposition \ref{Proposition:land_associativity}} \\
+\iff & (c \land (a \land (a \implies b))) \land (c \implies d)
+& & \text{Proposition \ref{Proposition:land_associativity}} \\
+\iff & ((a \land (a \implies b)) \land c) \land (c \implies d)
+& & \text{Proposition \ref{Proposition:land_commutativity}} \\
+\iff & (a \land (a \implies b)) \land (c \land (c \implies d))
+& & \text{Proposition \ref{Proposition:land_associativity}} \\
+\implies & b \land (c \land (c \implies d))
+& & \text{Proposition \ref{Proposition:implies_satisfied}} \\
+\implies & b \land d
+& & \text{Proposition \ref{Proposition:implies_satisfied}} \\
+\end{align*}
+Proof of Proposition \ref{Proposition:implies_substitution_forall_1}
+\begin{align*}
+& ((a \implies b) \land (c \implies d)) \implies ((a \land c) \implies (b \land d)) \\
+\iff & (((a \implies b) \land (c \implies d)) \land (a \land c)) \implies (b \land d)
+& & \text{Proposition \ref{Proposition:multiple_assumption}} \\
+\iff & \text{True}
+& & \text{Proposition (1)} \\
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:iff_substitution_forall_1}
+Substitution of $\iff$ for $\forall$.
+\begin{align*}
+& (a \iff b) \land (c \iff d) \\
+\implies & (a \land c) \iff (b \land d)
+\end{align*}
+Proof of Proposition \ref{Proposition:iff_substitution_forall_1}
+\begin{align*}
+\end{align*}
+\end{prop}
+
 \section{Quantifiers}
 \begin{defn}
 Universal quantifier is denoted by $\forall$.
@@ -986,22 +1090,6 @@ Proof of Proposition \ref{Proposition:iff_reflexive}
 \begin{align*}
 & a \land b \\
 \implies & a
-\end{align*}
-\end{prop}
-
-\begin{prop}
-\label{Proposition:lemma_uniqueness}
-\begin{align*}
-& a \land ((b \land a) \implies c) \\
-\implies & b \implies c
-\end{align*}
-\end{prop}
-
-\begin{prop}
-\label{Proposition:implies_satisfy}
-\begin{align*}
-& a \land (a \implies b) \\
-\implies & b
 \end{align*}
 \end{prop}
 
