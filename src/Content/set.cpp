@@ -297,30 +297,12 @@ void set()
     
     Proposition::Current = new Proposition("one_expand", SET, "1 = \\{ \\emptyset \\}");
     description = "Express 1 in term of $\\emptyset$.";
-    block = new proof_block("one_expand", Proposition::Current, direct);
-    block->append_binary_operator(input({}, "Definition:one", TrueToP));
-    block->append_binary_operator(input({}, "Proposition:land_identity_1", RightToLeft));
-    sub.clear(); sub.push_back(new substitution("a", "0", SET));
-    block->append_binary_operator(input({2}, "Definition:successor", TrueToP, sub));
-    block->append_binary_operator(input({}, "Proposition:equality_transitive", LeftToRight));
-    block->append_binary_operator(input({}, "Proposition:land_identity_1", RightToLeft));
-    block->append_binary_operator(input({2}, "Definition:zero", TrueToP));
-    sub.clear();
-    sub.push_back(new substitution("a", "0", SET));
-    sub.push_back(new substitution("b", "\\emptyset", SET));
-    sub.push_back(new substitution("c", "\\{ 0 \\}", SET));
-    block->append_binary_operator(input({2}, "Proposition:substitution_of_pairwise_union", LeftToRight, sub));
-    block->append_binary_operator(input({}, "Proposition:equality_transitive", LeftToRight));
-    block->append_binary_operator(input({}, "Proposition:land_identity_1", RightToLeft));
-    block->append_binary_operator(input({2}, "Proposition:pairwise_union_commutativity", TrueToP, {{1,2,1},{1,2,2}}));
-    block->append_binary_operator(input({}, "Proposition:equality_transitive", LeftToRight));
-    block->append_binary_operator(input({}, "Proposition:land_identity_1", RightToLeft));
-    block->append_binary_operator(input({2}, "Proposition:pairwise_union_identity", TrueToP, {{1,2,1}}));
-    block->append_binary_operator(input({}, "Proposition:equality_transitive", LeftToRight));
-    block->append_binary_operator(input({}, "Proposition:land_identity_1", RightToLeft));
-    block->append_binary_operator(input({2}, "Definition:zero", TrueToP));
-    block->append_binary_operator(input({2}, "Proposition:substitution_of_singleton_set", LeftToRight));
-    block->append_binary_operator(input({}, "Proposition:equality_transitive", LeftToRight, true));
+    block = new proof_block("one_expand", Proposition::Current, deduction);
+    block->append_binary_operator(input({}, "Definition:one", LeftToRight));
+    block->append_binary_operator(input({1}, "Definition:zero", LeftToRight));
+    block->append_binary_operator(input({}, "Definition:successor", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:pairwise_union_commutativity", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:pairwise_union_identity", LeftToRight, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     

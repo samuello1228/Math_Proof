@@ -1037,11 +1037,15 @@ void proof_block::append_binary_operator(input x)
     if(x.isPrint)
     {
         cout<<"source:"<<endl;
+        string forall_variable_latex = "";
         for(long i=0;i<forall_variable_proof.size();i++)
         {
-            cout<<"\\forall "<<forall_variable_proof[i]->getLatex().getNormal()<<" ";
+            forall_variable_latex += "\\forall " + forall_variable_proof[i]->getLatex().getNormal() + " ";
         }
-        cout<<"("<<source->getLatex().getNormal()<<")";
+        if(forall_variable_latex != "") cout<<"(";
+        cout<<source->getLatex().getNormal();
+        if(forall_variable_latex != "") cout<<")";
+        cout<<endl;
     }
     
     //fill the x.law

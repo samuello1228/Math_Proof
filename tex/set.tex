@@ -607,43 +607,17 @@ Express 1 in term of $\emptyset$.
 \end{align*}
 Proof of Proposition \ref{Proposition:one_expand}
 \begin{align*}
-& \text{True} \\
-\iff & 1 = (S(0))
+& 1 \\
+\overset{\operatorname{def}}{=} & S(0)
 & & \text{Definition \ref{Definition:one}} \\
-\iff & (1 = (S(0))) \land (\text{True})
-& & \text{Proposition \ref{Proposition:land_identity_1}} \\
-\iff & (1 = (S(0))) \land ((S(0)) = (0 \cup \{ 0 \}))
+\overset{\operatorname{def}}{=} & S(\emptyset)
+& & \text{Definition \ref{Definition:zero}} \\
+\overset{\operatorname{def}}{=} & \emptyset \cup \{ \emptyset \}
 & & \text{Definition \ref{Definition:successor}} \\
-\implies & 1 = (0 \cup \{ 0 \})
-& & \text{Proposition \ref{Proposition:equality_transitive}} \\
-\iff & (1 = (0 \cup \{ 0 \})) \land (\text{True})
-& & \text{Proposition \ref{Proposition:land_identity_1}} \\
-\iff & (1 = (0 \cup \{ 0 \})) \land (0 = \emptyset)
-& & \text{Definition \ref{Definition:zero}} \\
-\implies & (1 = (0 \cup \{ 0 \})) \land ((0 \cup \{ 0 \}) = (\emptyset \cup \{ 0 \}))
-& & \text{Proposition \ref{Proposition:substitution_of_pairwise_union}} \\
-\implies & 1 = (\emptyset \cup \{ 0 \})
-& & \text{Proposition \ref{Proposition:equality_transitive}} \\
-\iff & (1 = (\emptyset \cup \{ 0 \})) \land (\text{True})
-& & \text{Proposition \ref{Proposition:land_identity_1}} \\
-\iff & (1 = (\emptyset \cup \{ 0 \})) \land ((\emptyset \cup \{ 0 \}) = (\{ 0 \} \cup \emptyset))
+= & \{ \emptyset \} \cup \emptyset
 & & \text{Proposition \ref{Proposition:pairwise_union_commutativity}} \\
-\implies & 1 = (\{ 0 \} \cup \emptyset)
-& & \text{Proposition \ref{Proposition:equality_transitive}} \\
-\iff & (1 = (\{ 0 \} \cup \emptyset)) \land (\text{True})
-& & \text{Proposition \ref{Proposition:land_identity_1}} \\
-\iff & (1 = (\{ 0 \} \cup \emptyset)) \land ((\{ 0 \} \cup \emptyset) = \{ 0 \})
+= & \{ \emptyset \}
 & & \text{Proposition \ref{Proposition:pairwise_union_identity}} \\
-\implies & 1 = \{ 0 \}
-& & \text{Proposition \ref{Proposition:equality_transitive}} \\
-\iff & (1 = \{ 0 \}) \land (\text{True})
-& & \text{Proposition \ref{Proposition:land_identity_1}} \\
-\iff & (1 = \{ 0 \}) \land (0 = \emptyset)
-& & \text{Definition \ref{Definition:zero}} \\
-\implies & (1 = \{ 0 \}) \land (\{ 0 \} = \{ \emptyset \})
-& & \text{Proposition \ref{Proposition:substitution_of_singleton_set}} \\
-\implies & 1 = \{ \emptyset \}
-& & \text{Proposition \ref{Proposition:equality_transitive}} \\
 \end{align*}
 \end{prop}
 

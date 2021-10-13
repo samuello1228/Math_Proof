@@ -807,6 +807,103 @@ bool expression::assemble(statement* step, expression* source_part, int p)
             return true;
         }
     }
+    else if(logic_binary_operator_set_set* source_part_copy = dynamic_cast<logic_binary_operator_set_set*>(source_part))
+    {
+        bool condition_equality = (step->get_binary_operator_latex() == "=");
+        condition_equality = condition_equality && (source_part_copy->operator_latex == "\\in" ||
+                                                    source_part_copy->operator_latex == "\\notin" ||
+                                                    source_part_copy->operator_latex == "=" ||
+                                                    source_part_copy->operator_latex == "\\neq");
+        
+        if((p==1 || p==2) && condition_equality)
+        {
+            universal_quantifier* x = nullptr;
+            universal_quantifier* y = dynamic_cast<universal_quantifier*>(step->content);
+            while(true)
+            {
+                if(y)
+                {
+                    x = y;
+                    y = dynamic_cast<universal_quantifier*>(y->operand);
+                }
+                else break;
+            }
+            
+            logic_value* operand1 = nullptr;
+            logic_value* operand2 = nullptr;
+            if(p==1)
+            {
+                Set* copy1 = dynamic_cast<Set*>(source_part_copy->operand2->getCopy());
+                Set* copy2 = dynamic_cast<Set*>(source_part_copy->operand2->getCopy());
+                operand1 = new logic_binary_operator_set_set(source_part_copy->operator_latex, step->binary_operator_set->operand1, copy1);
+                operand2 = new logic_binary_operator_set_set(source_part_copy->operator_latex, step->binary_operator_set->operand2, copy2);
+            }
+            else if(p==2)
+            {
+                Set* copy1 = dynamic_cast<Set*>(source_part_copy->operand1->getCopy());
+                Set* copy2 = dynamic_cast<Set*>(source_part_copy->operand1->getCopy());
+                operand1 = new logic_binary_operator_set_set(source_part_copy->operator_latex, copy1, step->binary_operator_set->operand1);
+                operand2 = new logic_binary_operator_set_set(source_part_copy->operator_latex, copy2, step->binary_operator_set->operand2);
+            }
+            
+            //delete step->binary_operator_set
+            step->binary_operator_set->operand1 = dynamic_cast<Set*>(expression::createFromLatex("a", SET));
+            step->binary_operator_set->operand2 = dynamic_cast<Set*>(expression::createFromLatex("a", SET));
+            delete step->binary_operator_set;
+            step->binary_operator_set = nullptr;
+            
+            //build step->binary_operator_logic
+            step->binary_operator_type = LOGIC;
+            step->binary_operator_logic = new logic_binary_operator_logic_logic("\\iff", operand1, operand2);
+            if(x == nullptr)
+            {
+                step->content = step->binary_operator_logic;
+            }
+            else
+            {
+                x->operand = step->binary_operator_logic;
+            }
+            
+            return true;
+        }
+    }
+    else if(set_unary_operator_set* source_part_copy = dynamic_cast<set_unary_operator_set*>(source_part))
+    {
+        bool condition_equality = (step->get_binary_operator_latex() == "=");
+        condition_equality = condition_equality && (source_part_copy->operator_latex == "singleton_set" ||
+                                                    source_part_copy->operator_latex == "\\bigcup" ||
+                                                    source_part_copy->operator_latex == "successor" );
+        
+        if(condition_equality)
+        {
+            step->binary_operator_set->operand1 = new set_unary_operator_set(source_part_copy->operator_latex, step->binary_operator_set->operand1);
+            step->binary_operator_set->operand2 = new set_unary_operator_set(source_part_copy->operator_latex, step->binary_operator_set->operand2);
+            return true;
+        }
+    }
+    else if(set_binary_operator_set_set* source_part_copy = dynamic_cast<set_binary_operator_set_set*>(source_part))
+    {
+        bool condition_equality = (step->get_binary_operator_latex() == "=");
+        condition_equality = condition_equality && (source_part_copy->operator_latex == "pair_set" ||
+                                                    source_part_copy->operator_latex == "\\cup");
+        
+        if(p==1 && condition_equality)
+        {
+            Set* copy1 = dynamic_cast<Set*>(source_part_copy->operand2->getCopy());
+            Set* copy2 = dynamic_cast<Set*>(source_part_copy->operand2->getCopy());
+            step->binary_operator_set->operand1 = new set_binary_operator_set_set(source_part_copy->operator_latex, step->binary_operator_set->operand1, copy1);
+            step->binary_operator_set->operand2 = new set_binary_operator_set_set(source_part_copy->operator_latex, step->binary_operator_set->operand2, copy2);
+            return true;
+        }
+        else if(p==2 && condition_equality)
+        {
+            Set* copy1 = dynamic_cast<Set*>(source_part_copy->operand1->getCopy());
+            Set* copy2 = dynamic_cast<Set*>(source_part_copy->operand1->getCopy());
+            step->binary_operator_set->operand1 = new set_binary_operator_set_set(source_part_copy->operator_latex, copy1, step->binary_operator_set->operand1);
+            step->binary_operator_set->operand2 = new set_binary_operator_set_set(source_part_copy->operator_latex, copy2, step->binary_operator_set->operand2);
+            return true;
+        }
+    }
     else
     {
         cout<<"Error: it is not allowed."<<endl;
