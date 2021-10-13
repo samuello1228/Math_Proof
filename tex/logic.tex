@@ -957,6 +957,27 @@ Substitution of $\iff$ for $\forall$.
 \end{align*}
 Proof of Proposition \ref{Proposition:iff_substitution_forall_1}
 \begin{align*}
+& (a \iff b) \land (c \iff d) \\
+\iff & ((a \implies b) \land (b \implies a)) \land (c \iff d)
+& & \text{Proposition \ref{Proposition:iff_implies}} \\
+\iff & ((a \implies b) \land (b \implies a)) \land ((c \implies d) \land (d \implies c))
+& & \text{Proposition \ref{Proposition:iff_implies}} \\
+\iff & (((a \implies b) \land (b \implies a)) \land (c \implies d)) \land (d \implies c)
+& & \text{Proposition \ref{Proposition:land_associativity}} \\
+\iff & ((a \implies b) \land ((b \implies a) \land (c \implies d))) \land (d \implies c)
+& & \text{Proposition \ref{Proposition:land_associativity}} \\
+\iff & ((a \implies b) \land ((c \implies d) \land (b \implies a))) \land (d \implies c)
+& & \text{Proposition \ref{Proposition:land_commutativity}} \\
+\iff & (((a \implies b) \land (c \implies d)) \land (b \implies a)) \land (d \implies c)
+& & \text{Proposition \ref{Proposition:land_associativity}} \\
+\iff & ((a \implies b) \land (c \implies d)) \land ((b \implies a) \land (d \implies c))
+& & \text{Proposition \ref{Proposition:land_associativity}} \\
+\implies & ((a \land c) \implies (b \land d)) \land ((b \implies a) \land (d \implies c))
+& & \text{Proposition \ref{Proposition:implies_substitution_forall_1}} \\
+\implies & ((a \land c) \implies (b \land d)) \land ((b \land d) \implies (a \land c))
+& & \text{Proposition \ref{Proposition:implies_substitution_forall_1}} \\
+\iff & (a \land c) \iff (b \land d)
+& & \text{Proposition \ref{Proposition:iff_implies}} \\
 \end{align*}
 \end{prop}
 
@@ -1104,14 +1125,6 @@ Proof of Proposition \ref{Proposition:iff_reflexive}
 \begin{align*}
 & a \land b \\
 \implies & a \iff b
-\end{align*}
-\end{prop}
-
-\begin{prop}
-\label{Proposition:land_omit}
-\begin{align*}
-& a \land b \\
-\implies & a
 \end{align*}
 \end{prop}
 

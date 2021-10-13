@@ -443,6 +443,16 @@ void logic()
     Proposition::Current = new Proposition("iff_substitution_forall_1", LOGIC, "\\forall a \\forall b \\forall c \\forall d (((a \\iff b) \\land (c \\iff d)) \\implies ((a \\land c) \\iff (b \\land d)))");
     description = "Substitution of $\\iff$ for $\\forall$.";
     block = new proof_block("iff_substitution_forall_1", Proposition::Current, deduction);
+    block->append_binary_operator(input({1}, "Proposition:iff_implies", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:iff_implies", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:land_associativity", RightToLeft));
+    block->append_binary_operator(input({1}, "Proposition:land_associativity", LeftToRight));
+    block->append_binary_operator(input({1,2}, "Proposition:land_commutativity", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:land_associativity", RightToLeft));
+    block->append_binary_operator(input({}, "Proposition:land_associativity", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:implies_substitution_forall_1", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:implies_substitution_forall_1", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:iff_implies", RightToLeft, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
@@ -644,9 +654,6 @@ void logic()
     Proposition::addProposition(fout, Proposition::Current, description);
     
     Proposition::Current = new Proposition("land_implies_iff", LOGIC, "\\forall a \\forall b ((a \\land b) \\implies (a \\iff b))");
-    Proposition::addProposition(fout, Proposition::Current);
-    
-    Proposition::Current = new Proposition("land_omit", LOGIC, "\\forall a \\forall b ((a \\land b) \\implies a)");
     Proposition::addProposition(fout, Proposition::Current);
     
     fout.close();
