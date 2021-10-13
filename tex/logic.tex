@@ -797,6 +797,18 @@ Substitution of $\iff$ for $\land$.
 & a \iff b \\
 \implies & (a \land c) \iff (b \land c)
 \end{align*}
+Proof of Proposition \ref{Proposition:iff_substitution_land}
+\begin{align*}
+& a \iff b \\
+\iff & (a \implies b) \land (b \implies a)
+& & \text{Proposition \ref{Proposition:iff_implies}} \\
+\implies & ((a \land c) \implies (b \land c)) \land (b \implies a)
+& & \text{Proposition \ref{Proposition:implies_substitution_land}} \\
+\implies & ((a \land c) \implies (b \land c)) \land ((b \land c) \implies (a \land c))
+& & \text{Proposition \ref{Proposition:implies_substitution_land}} \\
+\iff & (a \land c) \iff (b \land c)
+& & \text{Proposition \ref{Proposition:iff_implies}} \\
+\end{align*}
 \end{prop}
 
 \begin{prop}

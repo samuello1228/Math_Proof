@@ -101,7 +101,7 @@ void set()
     block->append_binary_operator(input({1,2}, "Axiom:existence_of_empty_set", TrueToP, sub));
     block->append_binary_operator(input({1,1}, "Definition:notin", LeftToRight));
     block->append_binary_operator(input({1,2}, "Definition:notin", LeftToRight));
-    block->append_binary_operator(input({1}, "Proposition:iff_contrapositive", RightToLeft));
+    block->append_binary_operator(input({1}, "Proposition:iff_substitution_lnot", RightToLeft));
     block->append_binary_operator(input({}, "Definition:equality", RightToLeft, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
@@ -112,7 +112,7 @@ void set()
     sub.clear(); sub.push_back(new substitution("a", "a", SET));
     block->append_binary_operator(input({}, "Proposition:uniqueness_of_empty_set", TrueToP, sub));
     block->append_binary_operator(input({}, "Proposition:iff_symmetric", LeftToRight));
-    block->append_binary_operator(input({}, "Proposition:iff_contrapositive", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:iff_substitution_lnot", LeftToRight));
     block->append_binary_operator(input({1}, "Definition:neq", RightToLeft));
     block->append_binary_operator(input({2}, "Proposition:De_Morgan_1", LeftToRight));
     block->append_binary_operator(input({2,1,1}, "Definition:notin", LeftToRight));
@@ -159,7 +159,7 @@ void set()
         d = expression::createFromLatex("d = c", SET);
         sub.push_back(new substitution(var, d));
     }
-    block->append_binary_operator(input({1}, "Proposition:iff_lor", LeftToRight, sub));
+    block->append_binary_operator(input({1}, "Proposition:iff_substitution_lor", LeftToRight, sub));
     block->append_binary_operator(input({1,1}, "Axiom:existence_of_pair_set", RightToLeft));
     block->append_binary_operator(input({1,2}, "Axiom:existence_of_pair_set", RightToLeft));
     block->append_binary_operator(input({}, "Definition:equality", RightToLeft, true));

@@ -195,7 +195,7 @@ Proof of Proposition \ref{Proposition:uniqueness_of_empty_set}
 & & \overset{\operatorname{def}}{\iff} & \forall b ((\lnot (b \in a)) \iff (\lnot (b \in \emptyset)))
 & & \text{Definition \ref{Definition:notin}} \\
 & & \iff & \forall b ((b \in a) \iff (b \in \emptyset))
-& & \text{Proposition \ref{Proposition:iff_contrapositive}} \\
+& & \text{Proposition \ref{Proposition:iff_substitution_lnot}} \\
 & & \overset{\operatorname{def}}{\iff} & a = \emptyset
 & & \text{Definition \ref{Definition:equality}} \\
 & )
@@ -220,7 +220,7 @@ Proof of Proposition \ref{Proposition:single_choice}
 & & \iff & (a = \emptyset) \iff (\forall b (b \notin a))
 & & \text{Proposition \ref{Proposition:iff_symmetric}} \\
 & & \iff & (\lnot (a = \emptyset)) \iff (\lnot (\forall b (b \notin a)))
-& & \text{Proposition \ref{Proposition:iff_contrapositive}} \\
+& & \text{Proposition \ref{Proposition:iff_substitution_lnot}} \\
 & & \overset{\operatorname{def}}{\iff} & (a \neq \emptyset) \iff (\lnot (\forall b (b \notin a)))
 & & \text{Definition \ref{Definition:neq}} \\
 & & \iff & (a \neq \emptyset) \iff (\exists b (\lnot (b \notin a)))
@@ -289,7 +289,7 @@ Proof of Proposition \ref{Proposition:substitution_of_pair_set}
 & & \iff & \forall d ((d = a) \iff (d = b))
 & & \text{Axiom \ref{Axiom:substitution_of_equality}} \\
 & & \implies & \forall d (((d = a) \lor (d = c)) \iff ((d = b) \lor (d = c)))
-& & \text{Proposition \ref{Proposition:iff_lor}} \\
+& & \text{Proposition \ref{Proposition:iff_substitution_lor}} \\
 & & \iff & \forall d ((d \in \{ a , c \}) \iff ((d = b) \lor (d = c)))
 & & \text{Axiom \ref{Axiom:existence_of_pair_set}} \\
 & & \iff & \forall d ((d \in \{ a , c \}) \iff (d \in \{ b , c \}))

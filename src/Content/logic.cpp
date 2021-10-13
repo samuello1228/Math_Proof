@@ -357,6 +357,20 @@ void logic()
     
     Proposition::Current = new Proposition("iff_substitution_land", LOGIC, "\\forall a \\forall b \\forall c ((a \\iff b) \\implies ((a \\land c) \\iff (b \\land c)))");
     description = "Substitution of $\\iff$ for $\\land$.";
+    block = new proof_block("iff_substitution_land", Proposition::Current, deduction);
+    block->append_binary_operator(input({}, "Proposition:iff_implies", LeftToRight));
+    sub.clear();
+    sub.push_back(new substitution("a", "a", LOGIC));
+    sub.push_back(new substitution("b", "b", LOGIC));
+    sub.push_back(new substitution("c", "c", LOGIC));
+    block->append_binary_operator(input({1}, "Proposition:implies_substitution_land", LeftToRight, sub));
+    sub.clear();
+    sub.push_back(new substitution("a", "b", LOGIC));
+    sub.push_back(new substitution("b", "a", LOGIC));
+    sub.push_back(new substitution("c", "c", LOGIC));
+    block->append_binary_operator(input({2}, "Proposition:implies_substitution_land", LeftToRight, sub));
+    block->append_binary_operator(input({}, "Proposition:iff_implies", RightToLeft, true));
+    Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
     Proposition::Current = new Proposition("iff_substitution_lnot", LOGIC, "\\forall a \\forall b ((a \\iff b) \\iff ((\\lnot a) \\iff (\\lnot b)))");
