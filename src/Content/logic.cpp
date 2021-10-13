@@ -170,6 +170,16 @@ void logic()
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
+    //Reflexive Property of implies
+    fout<<"\\subsection{Reflexive Property of $\\implies$}"<<endl;
+    Proposition::Current = new Proposition("implies_reflexive", LOGIC, "\\forall a (a \\implies a)");
+    description = "Reflexive property of $\\implies$.";
+    block = new proof_block("implies_reflexive", Proposition::Current, backward);
+    block->append_binary_operator(input({}, "Definition:implies", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_complement_2", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current, description);
+    
     //Proof technique
     fout<<"\\section{Proof technique}"<<endl;
     
@@ -266,7 +276,14 @@ void logic()
     
     Proposition::Current = new Proposition("implies_substitution_implies", LOGIC, "\\forall a \\forall b \\forall c ((a \\implies b) \\implies ((c \\implies a) \\implies (c \\implies b)))");
     description = "Substitution of $\\implies$ for $\\implies$.";
-    block = new proof_block("implies_substitution_implies", Proposition::Current, backward);
+    block = new proof_block("implies_substitution_implies", Proposition::Current, direct);
+    sub.clear();
+    sub.push_back(new substitution("a", "c", LOGIC));
+    sub.push_back(new substitution("b", "a", LOGIC));
+    sub.push_back(new substitution("c", "b", LOGIC));
+    block->append_binary_operator(input({}, "Proposition:implies_transitive", TrueToP, sub));
+    block->append_binary_operator(input({1}, "Proposition:land_commutativity", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:multiple_assumption", RightToLeft, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     

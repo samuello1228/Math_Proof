@@ -450,6 +450,24 @@ Proof of Proposition \ref{Proposition:multiple_assumption}
 \end{align*}
 \end{prop}
 
+\subsection{Reflexive Property of $\implies$}
+\begin{prop}
+\label{Proposition:implies_reflexive}
+Reflexive property of $\implies$.
+\begin{align*}
+& a \\
+\implies & a
+\end{align*}
+Proof of Proposition \ref{Proposition:implies_reflexive}
+\begin{align*}
+& a \implies a \\
+\overset{\operatorname{def}}{\iff} & (\lnot a) \lor a
+& & \text{Definition \ref{Definition:implies}} \\
+\iff & \text{True}
+& & \text{Proposition \ref{Proposition:lor_complement_2}} \\
+\end{align*}
+\end{prop}
+
 \section{Proof technique}
 \begin{prop}
 \label{Proposition:true_statement}
@@ -641,6 +659,13 @@ Substitution of $\implies$ for $\implies$.
 \end{align*}
 Proof of Proposition \ref{Proposition:implies_substitution_implies}
 \begin{align*}
+& \text{True} \\
+\iff & ((c \implies a) \land (a \implies b)) \implies (c \implies b)
+& & \text{Proposition \ref{Proposition:implies_transitive}} \\
+\iff & ((a \implies b) \land (c \implies a)) \implies (c \implies b)
+& & \text{Proposition \ref{Proposition:land_commutativity}} \\
+\iff & (a \implies b) \implies ((c \implies a) \implies (c \implies b))
+& & \text{Proposition \ref{Proposition:multiple_assumption}} \\
 \end{align*}
 \end{prop}
 
