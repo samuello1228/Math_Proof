@@ -1025,6 +1025,39 @@ Proof of Proposition \ref{Proposition:iff_substitution_forall_1}
 \end{align*}
 \end{prop}
 
+\begin{prop}
+\label{Proposition:iff_substitution_exists_1}
+Substitution of $\iff$ for $\exists$.
+\begin{align*}
+& (a \iff b) \land (c \iff d) \\
+\implies & (a \lor c) \iff (b \lor d)
+\end{align*}
+Proof of Proposition \ref{Proposition:iff_substitution_exists_1}
+\begin{align*}
+& (a \iff b) \land (c \iff d) \\
+\iff & ((a \implies b) \land (b \implies a)) \land (c \iff d)
+& & \text{Proposition \ref{Proposition:iff_implies}} \\
+\iff & ((a \implies b) \land (b \implies a)) \land ((c \implies d) \land (d \implies c))
+& & \text{Proposition \ref{Proposition:iff_implies}} \\
+\iff & (((a \implies b) \land (b \implies a)) \land (c \implies d)) \land (d \implies c)
+& & \text{Proposition \ref{Proposition:land_associativity}} \\
+\iff & ((a \implies b) \land ((b \implies a) \land (c \implies d))) \land (d \implies c)
+& & \text{Proposition \ref{Proposition:land_associativity}} \\
+\iff & ((a \implies b) \land ((c \implies d) \land (b \implies a))) \land (d \implies c)
+& & \text{Proposition \ref{Proposition:land_commutativity}} \\
+\iff & (((a \implies b) \land (c \implies d)) \land (b \implies a)) \land (d \implies c)
+& & \text{Proposition \ref{Proposition:land_associativity}} \\
+\iff & ((a \implies b) \land (c \implies d)) \land ((b \implies a) \land (d \implies c))
+& & \text{Proposition \ref{Proposition:land_associativity}} \\
+\implies & ((a \lor c) \implies (b \lor d)) \land ((b \implies a) \land (d \implies c))
+& & \text{Proposition \ref{Proposition:implies_substitution_exists_1}} \\
+\implies & ((a \lor c) \implies (b \lor d)) \land ((b \lor d) \implies (a \lor c))
+& & \text{Proposition \ref{Proposition:implies_substitution_exists_1}} \\
+\iff & (a \lor c) \iff (b \lor d)
+& & \text{Proposition \ref{Proposition:iff_implies}} \\
+\end{align*}
+\end{prop}
+
 \section{Quantifiers}
 \begin{defn}
 Universal quantifier is denoted by $\forall$.
