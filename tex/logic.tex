@@ -691,11 +691,42 @@ Proof of Proposition \ref{Proposition:contrapositive}
 \end{align*}
 \end{prop}
 
+\subsection{Properties of $\iff$}
 \begin{prop}
 \label{Proposition:iff_implies}
 \begin{align*}
 & a \iff b \\
 \iff & (a \implies b) \land (b \implies a)
+\end{align*}
+Proof of Proposition \ref{Proposition:iff_implies}
+\begin{align*}
+& a \iff b \\
+\overset{\operatorname{def}}{\iff} & (a \land b) \lor ((\lnot a) \land (\lnot b))
+& & \text{Definition \ref{Definition:iff}} \\
+\iff & (a \lor ((\lnot a) \land (\lnot b))) \land (b \lor ((\lnot a) \land (\lnot b)))
+& & \text{Proposition \ref{Proposition:lor_land_distributivity_2}} \\
+\iff & ((a \lor (\lnot a)) \land (a \lor (\lnot b))) \land (b \lor ((\lnot a) \land (\lnot b)))
+& & \text{Proposition \ref{Proposition:lor_land_distributivity_1}} \\
+\iff & ((\text{True}) \land (a \lor (\lnot b))) \land (b \lor ((\lnot a) \land (\lnot b)))
+& & \text{Proposition \ref{Proposition:lor_complement_1}} \\
+\iff & (a \lor (\lnot b)) \land (b \lor ((\lnot a) \land (\lnot b)))
+& & \text{Proposition \ref{Proposition:land_identity_2}} \\
+\iff & (a \lor (\lnot b)) \land ((b \lor (\lnot a)) \land (b \lor (\lnot b)))
+& & \text{Proposition \ref{Proposition:lor_land_distributivity_1}} \\
+\iff & (a \lor (\lnot b)) \land ((b \lor (\lnot a)) \land (\text{True}))
+& & \text{Proposition \ref{Proposition:lor_complement_1}} \\
+\iff & (a \lor (\lnot b)) \land (b \lor (\lnot a))
+& & \text{Proposition \ref{Proposition:land_identity_1}} \\
+\iff & ((\lnot b) \lor a) \land (b \lor (\lnot a))
+& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
+\iff & ((\lnot b) \lor a) \land ((\lnot a) \lor b)
+& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
+\overset{\operatorname{def}}{\iff} & (b \implies a) \land ((\lnot a) \lor b)
+& & \text{Definition \ref{Definition:implies}} \\
+\overset{\operatorname{def}}{\iff} & (b \implies a) \land (a \implies b)
+& & \text{Definition \ref{Definition:implies}} \\
+\iff & (a \implies b) \land (b \implies a)
+& & \text{Proposition \ref{Proposition:land_commutativity}} \\
 \end{align*}
 \end{prop}
 

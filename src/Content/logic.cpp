@@ -299,8 +299,24 @@ void logic()
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
+    fout<<"\\subsection{Properties of $\\iff$}"<<endl;
     //iff and implies
     Proposition::Current = new Proposition("iff_implies", LOGIC, "\\forall a \\forall b ((a \\iff b) \\iff ((a \\implies b) \\land (b \\implies a)))");
+    block = new proof_block("contrapositive", Proposition::Current, deduction);
+    block->append_binary_operator(input({}, "Definition:iff", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_land_distributivity_2", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:lor_land_distributivity_1", LeftToRight));
+    block->append_binary_operator(input({1,1}, "Proposition:lor_complement_1", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:land_identity_2", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:lor_land_distributivity_1", LeftToRight));
+    block->append_binary_operator(input({2,2}, "Proposition:lor_complement_1", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:land_identity_1", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:lor_commutativity", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:lor_commutativity", LeftToRight));
+    block->append_binary_operator(input({1}, "Definition:implies", RightToLeft));
+    block->append_binary_operator(input({2}, "Definition:implies", RightToLeft));
+    block->append_binary_operator(input({}, "Proposition:land_commutativity", LeftToRight, true));
+    Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current);
     
     //iff
