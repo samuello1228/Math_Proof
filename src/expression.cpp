@@ -737,8 +737,8 @@ bool expression::assemble(statement* step, expression* source_part, int p)
 {
     if(quantifier* source_part_copy = dynamic_cast<quantifier*>(source_part))
     {
-        bool condition = (step->binary_operator->operator_latex == "\\iff" ||
-                          step->binary_operator->operator_latex == "\\implies");
+        bool condition = (step->get_binary_operator_latex() == "\\iff" ||
+                          step->get_binary_operator_latex() == "\\implies");
         
         if(condition)
         {
@@ -746,13 +746,13 @@ bool expression::assemble(statement* step, expression* source_part, int p)
             variable* var2 = dynamic_cast<variable*>(source_part_copy->var->getCopy());
             if(universal_quantifier* z = dynamic_cast<universal_quantifier*>(source_part))
             {
-                step->binary_operator->operand1 = new universal_quantifier(var1, step->binary_operator->operand1);
-                step->binary_operator->operand2 = new universal_quantifier(var2, step->binary_operator->operand2);
+                step->binary_operator_logic->operand1 = new universal_quantifier(var1, step->binary_operator_logic->operand1);
+                step->binary_operator_logic->operand2 = new universal_quantifier(var2, step->binary_operator_logic->operand2);
             }
             else if(existential_quantifier* z = dynamic_cast<existential_quantifier*>(source_part))
             {
-                step->binary_operator->operand1 = new existential_quantifier(var1, step->binary_operator->operand1);
-                step->binary_operator->operand2 = new existential_quantifier(var2, step->binary_operator->operand2);
+                step->binary_operator_logic->operand1 = new existential_quantifier(var1, step->binary_operator_logic->operand1);
+                step->binary_operator_logic->operand2 = new existential_quantifier(var2, step->binary_operator_logic->operand2);
             }
             
             step->delete_the_last_universal_quantifier();
@@ -761,31 +761,31 @@ bool expression::assemble(statement* step, expression* source_part, int p)
     }
     else if(logic_unary_operator_logic* source_part_copy = dynamic_cast<logic_unary_operator_logic*>(source_part))
     {
-        bool condition_iff = (step->binary_operator->operator_latex == "\\iff");
+        bool condition_iff = (step->get_binary_operator_latex() == "\\iff");
         condition_iff = condition_iff && (source_part_copy->operator_latex == "\\lnot");
         
         if(condition_iff)
         {
-            step->binary_operator->operand1 = new logic_unary_operator_logic(source_part_copy->operator_latex, step->binary_operator->operand1);
-            step->binary_operator->operand2 = new logic_unary_operator_logic(source_part_copy->operator_latex, step->binary_operator->operand2);
+            step->binary_operator_logic->operand1 = new logic_unary_operator_logic(source_part_copy->operator_latex, step->binary_operator_logic->operand1);
+            step->binary_operator_logic->operand2 = new logic_unary_operator_logic(source_part_copy->operator_latex, step->binary_operator_logic->operand2);
             return true;
         }
     }
     else if(logic_binary_operator_logic_logic* source_part_copy = dynamic_cast<logic_binary_operator_logic_logic*>(source_part))
     {
-        bool condition_iff = (step->binary_operator->operator_latex == "\\iff");
+        bool condition_iff = (step->get_binary_operator_latex() == "\\iff");
         condition_iff = condition_iff && (source_part_copy->operator_latex == "\\lor" ||
                                           source_part_copy->operator_latex == "\\land" ||
                                           source_part_copy->operator_latex == "\\iff" ||
                                           source_part_copy->operator_latex == "\\implies");
         
-        bool condition_implies_1 = (step->binary_operator->operator_latex == "\\implies");
+        bool condition_implies_1 = (step->get_binary_operator_latex() == "\\implies");
         condition_implies_1 = condition_implies_1 && (source_part_copy->operator_latex == "\\lor" ||
                                                       source_part_copy->operator_latex == "\\land" );
         //Counter example for \\iff
         //(F \\implies T) \implies ( (F \\iff F) \implies (T \\iff F) )
         
-        bool condition_implies_2 = (step->binary_operator->operator_latex == "\\implies");
+        bool condition_implies_2 = (step->get_binary_operator_latex() == "\\implies");
         condition_implies_2 = condition_implies_2 && (source_part_copy->operator_latex == "\\implies");
         //Counter example for \\implies and p == 1
         //(F \\implies T) \implies ( (F \\implies F) \implies (T \\implies F) )
@@ -794,22 +794,17 @@ bool expression::assemble(statement* step, expression* source_part, int p)
         {
             logic_value* copy1 = dynamic_cast<logic_value*>(source_part_copy->operand2->getCopy());
             logic_value* copy2 = dynamic_cast<logic_value*>(source_part_copy->operand2->getCopy());
-            step->binary_operator->operand1 = new logic_binary_operator_logic_logic(source_part_copy->operator_latex, step->binary_operator->operand1, copy1);
-            step->binary_operator->operand2 = new logic_binary_operator_logic_logic(source_part_copy->operator_latex, step->binary_operator->operand2, copy2);
+            step->binary_operator_logic->operand1 = new logic_binary_operator_logic_logic(source_part_copy->operator_latex, step->binary_operator_logic->operand1, copy1);
+            step->binary_operator_logic->operand2 = new logic_binary_operator_logic_logic(source_part_copy->operator_latex, step->binary_operator_logic->operand2, copy2);
             return true;
         }
         else if(p==2 && (condition_iff || condition_implies_1 || condition_implies_2))
         {
             logic_value* copy1 = dynamic_cast<logic_value*>(source_part_copy->operand1->getCopy());
             logic_value* copy2 = dynamic_cast<logic_value*>(source_part_copy->operand1->getCopy());
-            step->binary_operator->operand1 = new logic_binary_operator_logic_logic(source_part_copy->operator_latex, copy1, step->binary_operator->operand1);
-            step->binary_operator->operand2 = new logic_binary_operator_logic_logic(source_part_copy->operator_latex, copy2, step->binary_operator->operand2);
+            step->binary_operator_logic->operand1 = new logic_binary_operator_logic_logic(source_part_copy->operator_latex, copy1, step->binary_operator_logic->operand1);
+            step->binary_operator_logic->operand2 = new logic_binary_operator_logic_logic(source_part_copy->operator_latex, copy2, step->binary_operator_logic->operand2);
             return true;
-        }
-        else
-        {
-            cout<<"Error: it is not allowed."<<endl;
-            return false;
         }
     }
     else
@@ -1420,7 +1415,6 @@ Print_Output logic_binary_operator_set_set::getLatex(vector<vector<int> > split_
     string suffix_2 = "";
     if(operator_latex == "\\in" ||
        operator_latex == "\\notin" ||
-       operator_latex == "\\overset{\\operatorname{def}}{=}" ||
        operator_latex == "=" ||
        operator_latex == "\\neq"
        )

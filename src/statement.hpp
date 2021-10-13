@@ -30,8 +30,10 @@ public:
     //for \\forall quantifier
     vector<variable*> forall_variable;
     
-    //for operator like \\iff, \\implies
-    logic_binary_operator_logic_logic* binary_operator;
+    //for binary operator with transitive property: \\iff, \\implies, =
+    variable_type binary_operator_type;
+    logic_binary_operator_logic_logic* binary_operator_logic;
+    logic_binary_operator_set_set* binary_operator_set;
     vector<vector<int> > path_of_variable_operand1;
     vector<vector<int> > path_of_variable_operand2;
     
@@ -42,6 +44,10 @@ public:
     logic_value* get_expression_without_forall_variable();
     void find_all_path_of_variable(bool);
     virtual ~statement();
+    
+    logic_value* get_binary_operator();
+    string get_binary_operator_latex();
+    expression* get_oeprand(int);
     
     string getLatex();
     virtual statement* getCopy()=0;

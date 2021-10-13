@@ -13,12 +13,13 @@
 #include <vector>
 using namespace std;
 
-enum variable_type {LOGIC, SET};
+enum variable_type {LOGIC, SET, None};
 class substitution;
 class expression;
 class variable;
 class logic_value;
 class logic_binary_operator_logic_logic;
+class logic_binary_operator_set_set;
 
 #include "statement.hpp"
 

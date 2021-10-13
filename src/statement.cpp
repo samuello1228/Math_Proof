@@ -122,22 +122,42 @@ void statement::constructor_aux()
     }
     
     //set the binary_operator, operator_latex
-    binary_operator = dynamic_cast<logic_binary_operator_logic_logic*>(x);
-    if(binary_operator)
+    if(logic_binary_operator_logic_logic* y = dynamic_cast<logic_binary_operator_logic_logic*>(x))
     {
-        if(binary_operator->operator_latex == "\\iff" ||
-           binary_operator->operator_latex == "\\implies"
-           )
+        if(y->operator_latex == "\\iff" ||
+           y->operator_latex == "\\implies")
         {
+            binary_operator_type = LOGIC;
+            binary_operator_logic = y;
+            binary_operator_set = nullptr;
         }
         else
         {
-            binary_operator = nullptr;
+            binary_operator_type = None;
+            binary_operator_logic = nullptr;
+            binary_operator_set = nullptr;
+        }
+    }
+    else if(logic_binary_operator_set_set* y = dynamic_cast<logic_binary_operator_set_set*>(x))
+    {
+        if(y->operator_latex == "=")
+        {
+            binary_operator_type = SET;
+            binary_operator_logic = nullptr;
+            binary_operator_set = y;
+        }
+        else
+        {
+            binary_operator_type = None;
+            binary_operator_logic = nullptr;
+            binary_operator_set = nullptr;
         }
     }
     else
     {
-        binary_operator = nullptr;
+        binary_operator_type = None;
+        binary_operator_logic = nullptr;
+        binary_operator_set = nullptr;
     }
     
     //check variable
@@ -182,7 +202,7 @@ logic_value* statement::get_expression_without_forall_variable()
 
 void statement::find_all_path_of_variable(bool isPrint)
 {
-    if(binary_operator == nullptr)
+    if(binary_operator_type == None)
     {
         if(isPrint) cout<<"Info: Cannot do auto substitution for all direction."<<endl;
         path_of_variable_operand1.clear();
@@ -198,8 +218,8 @@ void statement::find_all_path_of_variable(bool isPrint)
         for(long j=0;j<forall_variable.size();j++)
         {
             vector<vector<int> > all_path;
-            if(i==0) binary_operator->operand1->find_path_of_variable(forall_variable[j], {}, all_path);
-            else if(i==1) binary_operator->operand2->find_path_of_variable(forall_variable[j], {}, all_path);
+            if(i==0) get_oeprand(1)->find_path_of_variable(forall_variable[j], {}, all_path);
+            else if(i==1) get_oeprand(2)->find_path_of_variable(forall_variable[j], {}, all_path);
             
             if(all_path.size() == 0)
             {
@@ -258,6 +278,55 @@ statement::~statement()
     delete content;
 }
 
+logic_value* statement::get_binary_operator()
+{
+    if(binary_operator_type == LOGIC) return binary_operator_logic;
+    else if(binary_operator_type == SET) return binary_operator_set;
+    else
+    {
+        cout<<"Error: There does not exist any binary operator."<<endl;
+        return nullptr;
+    }
+}
+
+string statement::get_binary_operator_latex()
+{
+    if(binary_operator_type == LOGIC) return binary_operator_logic->operator_latex;
+    else if(binary_operator_type == SET) return binary_operator_set->operator_latex;
+    else
+    {
+        cout<<"Error: There does not exist any binary operator."<<endl;
+        return "";
+    }
+}
+
+expression* statement::get_oeprand(int x)
+{
+    if(x == 1)
+    {
+        if(binary_operator_type == LOGIC) return binary_operator_logic->operand1;
+        else if(binary_operator_type == SET) return binary_operator_set->operand1;
+        else
+        {
+            cout<<"Error: There does not exist any binary operator."<<endl;
+            return nullptr;
+        }
+    }
+    else if(x == 2)
+    {
+        if(binary_operator_type == LOGIC) return binary_operator_logic->operand2;
+        else if(binary_operator_type == SET) return binary_operator_set->operand2;
+        else
+        {
+            cout<<"Error: There does not exist any binary operator."<<endl;
+            return nullptr;
+        }
+    }
+    
+    cout<<"Error: x is not 1 or 2."<<endl;
+    return nullptr;
+}
+
 string statement::getLatex()
 {
     string output = "";
@@ -274,53 +343,51 @@ string statement::getLatex()
     }
     
     string operator_latex = "";
-    if(binary_operator != nullptr)
+    if(binary_operator_type == LOGIC)
     {
-        operator_latex = binary_operator->operator_latex;
+        operator_latex = get_binary_operator_latex();
         if(Definition* x = dynamic_cast<Definition*>(this))
         {
-            if(binary_operator->operator_latex == "\\iff")
+            if(operator_latex == "\\iff")
             {
                 operator_latex = "\\overset{\\operatorname{def}}{\\iff}";
             }
         }
     }
-    
-    expression* modified_content = get_expression_without_forall_variable()->getCopy();
-    if(dynamic_cast<Definition*>(this))
+    else if(binary_operator_type == SET)
     {
-        if(logic_binary_operator_set_set* x = dynamic_cast<logic_binary_operator_set_set*>(modified_content))
+        operator_latex = get_binary_operator_latex();
+        if(Definition* x = dynamic_cast<Definition*>(this))
         {
-            if(x->operator_latex == "=")
+            if(operator_latex == "=")
             {
-                x->operator_latex = "\\overset{\\operatorname{def}}{=}";
+                operator_latex = "\\overset{\\operatorname{def}}{=}";
             }
         }
     }
     
     if(quantifier_latex != "") output += "& " + quantifier_latex + "( \\\\" + "\n";
     
-    if(binary_operator == nullptr)
+    if(binary_operator_type == None)
     {
         if(quantifier_latex != "") output += "& & ";
-        output += modified_content->getLatex().getNormal();
+        output += get_expression_without_forall_variable()->getLatex().getNormal();
         if(quantifier_latex != "") output += " \\\\";
         output += "\n";
     }
     else
     {
         if(quantifier_latex != "") output += "& & ";
-        output += "& " + binary_operator->operand1->getLatex().getNormal() + " \\\\" + "\n";
+        output += "& " + get_oeprand(1)->getLatex().getNormal() + " \\\\" + "\n";
         
         if(quantifier_latex != "") output += "& & ";
-        output += operator_latex + " & " + binary_operator->operand2->getLatex().getNormal();
+        output += operator_latex + " & " + get_oeprand(2)->getLatex().getNormal();
         if(quantifier_latex != "") output += " \\\\";
         output += "\n";
     }
     
     if(quantifier_latex != "") output = output + "& )" + "\n";
     
-    delete modified_content;
     return output;
 }
 
@@ -346,11 +413,11 @@ void statement::delete_the_last_universal_quantifier()
     
     if(x == nullptr)
     {
-        content = binary_operator;
+        content = get_binary_operator();
     }
     else
     {
-        x->operand = binary_operator;
+        x->operand = get_binary_operator();
     }
     
     y->operand = dynamic_cast<logic_value*>(expression::createFromLatex("\\text{True}", LOGIC));
@@ -375,17 +442,19 @@ void statement::upgrade_to_true(direction dir)
     logic_value* True = dynamic_cast<logic_value*>(expression::createFromLatex("\\text{True}", LOGIC));
     if(x == nullptr)
     {
-        if(dir == TrueToP) binary_operator = new logic_binary_operator_logic_logic("\\iff", True, content);
-        if(dir == PToTrue) binary_operator = new logic_binary_operator_logic_logic("\\iff", content, True);
-        content = binary_operator;
-        //binary_operator_type = LOGIC;
+        if(dir == TrueToP) binary_operator_logic = new logic_binary_operator_logic_logic("\\iff", True, content);
+        if(dir == PToTrue) binary_operator_logic = new logic_binary_operator_logic_logic("\\iff", content, True);
+        content = binary_operator_logic;
+        binary_operator_type = LOGIC;
+        binary_operator_set = nullptr;
     }
     else
     {
-        if(dir == TrueToP) binary_operator = new logic_binary_operator_logic_logic("\\iff", True, x->operand);
-        if(dir == PToTrue) binary_operator = new logic_binary_operator_logic_logic("\\iff", x->operand, True);
-        x->operand = binary_operator;
-        //binary_operator_type = LOGIC;
+        if(dir == TrueToP) binary_operator_logic = new logic_binary_operator_logic_logic("\\iff", True, x->operand);
+        if(dir == PToTrue) binary_operator_logic = new logic_binary_operator_logic_logic("\\iff", x->operand, True);
+        x->operand = binary_operator_logic;
+        binary_operator_type = LOGIC;
+        binary_operator_set = nullptr;
     }
 }
 
@@ -431,7 +500,7 @@ void statement::apply_binary_operator(vector<variable*> forall_variable_proof, e
     
     //get all dependence of law
     vector<variable*> all_dependence_law;
-    binary_operator->getInternalDependence(all_dependence_law);
+    get_binary_operator()->getInternalDependence(all_dependence_law);
     content->getInternalDependence(all_dependence_law);
     if(isPrint)
     {
@@ -517,7 +586,7 @@ void statement::apply_binary_operator(vector<variable*> forall_variable_proof, e
     
     //do replacement for internal dependence
     vector<variable*> internal_dependence_law;
-    binary_operator->operand1->getInternalDependence(internal_dependence_law);
+    get_oeprand(1)->getInternalDependence(internal_dependence_law);
     
     vector<variable*> internal_dependence_source_part;
     source_part->getInternalDependence(internal_dependence_source_part);
@@ -546,11 +615,11 @@ void statement::apply_binary_operator(vector<variable*> forall_variable_proof, e
     content->replace_variable(replacement);
     if(isPrint) cout<<content->getLatex().getNormal()<<endl<<endl;
     
-    if(!binary_operator->operand1->isEqual(source_part))
+    if(!get_oeprand(1)->isEqual(source_part))
     {
         cout<<"Error: the operand1 of law and the source part are different."<<endl;
         cout<<source_part->getLatex().getNormal()<<endl;
-        cout<<binary_operator->operand1->getLatex().getNormal()<<endl;
+        cout<<get_oeprand(1)->getLatex().getNormal()<<endl;
     }
     
     //delete replacement
@@ -574,7 +643,7 @@ void statement::apply_binary_operator(vector<variable*> forall_variable_proof, e
     if(isPrint) cout<<endl;
     
     //check whether the operand1 of law is equal to the source
-    if(!binary_operator->operand1->isEqual(source))
+    if(!get_oeprand(1)->isEqual(source))
     {
         cout<<"Error: the operand1 of law and the source are different."<<endl;
     }
@@ -856,27 +925,28 @@ string proof_block::getLatex()
     
     for(long i=0;i<chain_of_deductive.size();i++)
     {
-        logic_binary_operator_logic_logic* binary_operator = chain_of_deductive[i]->binary_operator;
         if(i==0)
         {
             if(quantifier_latex != "") output += "& & ";
-            output += "& " + binary_operator->operand1->getLatex().getNormal() + " \\\\" + "\n";
+            output += "& " + chain_of_deductive[i]->get_oeprand(1)->getLatex().getNormal() + " \\\\" + "\n";
         }
         
-        Print_Output operand2_latex = binary_operator->operand2->getLatex(print_info[i].split_point);
+        Print_Output operand2_latex = chain_of_deductive[i]->get_oeprand(2)->getLatex(print_info[i].split_point);
         for(long j=0;j<operand2_latex.all_visible.size();j++)
         {
             if(quantifier_latex != "") output += "& & ";
             if(j==0)
             {
+                string operator_latex = chain_of_deductive[i]->get_binary_operator_latex();
                 if(Definition* x = dynamic_cast<Definition*>(chain_of_deductive[i]))
                 {
-                    if(binary_operator->operator_latex == "\\iff")
+                    if(operator_latex == "\\iff" ||
+                       operator_latex == "=" )
                     {
-                        binary_operator->operator_latex = "\\overset{\\operatorname{def}}{\\iff}";
+                        operator_latex = "\\overset{\\operatorname{def}}{" + operator_latex + "}";
                     }
                 }
-                output += binary_operator->operator_latex + " ";
+                output += operator_latex + " ";
             }
             output += "& ";
             
@@ -907,7 +977,7 @@ expression* proof_block::get_next_source()
     {
         if(method == deduction)
         {
-            source = target->binary_operator->operand1->getCopy();
+            source = target->get_oeprand(1)->getCopy();
         }
         else if(method == direct)
         {
@@ -922,7 +992,7 @@ expression* proof_block::get_next_source()
     else
     {
         long last_index = chain_of_deductive.size() -1;
-        source = chain_of_deductive[last_index]->binary_operator->operand2->getCopy();
+        source = chain_of_deductive[last_index]->get_oeprand(2)->getCopy();
     }
     
     return source;
@@ -934,7 +1004,7 @@ void proof_block::check_finished(statement* step)
     {
         if(method == deduction)
         {
-            if(!step->binary_operator->operand2->isEqual(target->binary_operator->operand2))
+            if(!step->get_oeprand(2)->isEqual(target->get_oeprand(2)))
             {
                 cout<<"Error: The operand2 does not matched the operand2 of target."<<endl;
             }
@@ -942,7 +1012,7 @@ void proof_block::check_finished(statement* step)
         else if(method == direct)
         {
             vector<int> path(forall_variable_proof.size(), 1);
-            if(!step->binary_operator->operand2->isEqual(target->content->getPart(path)))
+            if(!step->get_oeprand(2)->isEqual(target->content->getPart(path)))
             {
                 cout<<"Error: The operand2 does not matched the target."<<endl;
             }
@@ -950,7 +1020,7 @@ void proof_block::check_finished(statement* step)
         else if(method == backward)
         {
             expression* True = expression::createFromLatex("\\text{True}", LOGIC);
-            if(!step->binary_operator->operand2->isEqual(True))
+            if(!step->get_oeprand(2)->isEqual(True))
             {
                 cout<<"Error: The operand2 is not True."<<endl;
             }
@@ -1103,12 +1173,22 @@ void proof_block::append_binary_operator(input x)
     //Swap for direction Right to Left
     if(x.dir == RightToLeft)
     {
-        if(x.law->binary_operator->operator_latex == "\\iff")
+        if(x.law->get_binary_operator_latex() == "\\iff")
         {
             //swap
-            logic_value* temp = x.law->binary_operator->operand1;
-            x.law->binary_operator->operand1 = x.law->binary_operator->operand2;
-            x.law->binary_operator->operand2 = temp;
+            if(x.law->binary_operator_type == LOGIC)
+            {
+                logic_value* temp = x.law->binary_operator_logic->operand1;
+                x.law->binary_operator_logic->operand1 = x.law->binary_operator_logic->operand2;
+                x.law->binary_operator_logic->operand2 = temp;
+            }
+            else if(x.law->binary_operator_type == SET)
+            {
+                Set* temp = x.law->binary_operator_set->operand1;
+                x.law->binary_operator_set->operand1 = x.law->binary_operator_set->operand2;
+                x.law->binary_operator_set->operand2 = temp;
+            }
+            
             if(x.isPrint)
             {
                 cout<<"Swap two operands for the direction RightToLeft"<<endl;
@@ -1126,7 +1206,7 @@ void proof_block::append_binary_operator(input x)
     
     if(method == deduction)
     {
-        if(x.law->binary_operator->operator_latex == "\\implies" && target->binary_operator->operator_latex == "\\iff")
+        if(x.law->get_binary_operator_latex() == "\\implies" && target->get_binary_operator_latex() == "\\iff")
         {
             cout<<"Error: The deduction method cannot work for \\implies."<<endl;
             return;
@@ -1134,7 +1214,7 @@ void proof_block::append_binary_operator(input x)
     }
     else if(method == backward)
     {
-        if(x.law->binary_operator->operator_latex == "\\implies")
+        if(x.law->get_binary_operator_latex() == "\\implies")
         {
             cout<<"Error: The backward method cannot work for \\implies."<<endl;
             return;
