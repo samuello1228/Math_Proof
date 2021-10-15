@@ -543,6 +543,38 @@ void logic()
     }
     Proposition::addProposition(fout, Proposition::Current);
     
+    fout<<"Proof of Proposition \\ref{Proposition:forall_land_commutativity} \\\\"<<endl;
+    fout<<"For n = 2,"<<endl;
+    fout<<"\\begin{align*}"<<endl;
+    fout<<"& (a_1 \\land a_2) \\land (b_1 \\land b_2) \\\\"<<endl;
+    fout<<"\\iff & ((a_1 \\land a_2) \\land b_1) \\land b_2"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:land_associativity}} \\\\"<<endl;
+    fout<<"\\iff & (a_1 \\land (a_2 \\land b_1)) \\land b_2"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:land_associativity}} \\\\"<<endl;
+    fout<<"\\iff & (a_1 \\land (b_1 \\land a_2)) \\land b_2"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:land_commutativity}} \\\\"<<endl;
+    fout<<"\\iff & ((a_1 \\land b_1) \\land a_2) \\land b_2"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:land_associativity}} \\\\"<<endl;
+    fout<<"\\iff & (a_1 \\land b_1) \\land (a_2 \\land b_2)"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:land_associativity}} \\\\"<<endl;
+    fout<<"\\end{align*}"<<endl;
+    
+    fout<<"For n = k+1,"<<endl;
+    fout<<"\\begin{align*}"<<endl;
+    fout<<"& ((( \\dots (a_1 \\land a_2) \\dots ) \\land a_k) \\land a_{k+1}) \\land ((( \\dots (b_1 \\land b_2) \\dots ) \\land b_k ) \\land b_{k+1}) \\\\"<<endl;
+    fout<<"\\iff & (( \\dots (a_1 \\land a_2) \\dots ) \\land (a_k \\land a_{k+1})) \\land ((( \\dots (b_1 \\land b_2) \\dots ) \\land b_k ) \\land b_{k+1})"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:land_associativity}} \\\\"<<endl;
+    fout<<"\\iff & (( \\dots (a_1 \\land a_2) \\dots ) \\land (a_k \\land a_{k+1})) \\land (( \\dots (b_1 \\land b_2) \\dots ) \\land (b_k \\land b_{k+1}))"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:land_associativity}} \\\\"<<endl;
+    fout<<"\\iff & ( \\dots ((a_1 \\land b_1) \\land (a_2 \\land b_2)) \\dots ) \\land ((a_k \\land a_{k+1}) \\land (b_k \\land b_{k+1}))"<<endl;
+    fout<<"& & \\text{Assumption for n=k} \\\\"<<endl;
+    fout<<"\\iff & ( \\dots ((a_1 \\land b_1) \\land (a_2 \\land b_2)) \\dots ) \\land ((a_k \\land b_k) \\land (a_{k+1} \\land b_{k+1}))"<<endl;
+    fout<<"& & \\text{Assumption for n=2} \\\\"<<endl;
+    fout<<"\\iff & (( \\dots ((a_1 \\land b_1) \\land (a_2 \\land b_2)) \\dots ) \\land (a_k \\land b_k)) \\land (a_{k+1} \\land b_{k+1})"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:land_associativity}} \\\\"<<endl;
+    fout<<"\\end{align*}"<<endl;
+    fout<<endl;
+    
     {
         logic_variable* a = new logic_variable("a");
         set_variable* c = new set_variable("c");
@@ -570,6 +602,38 @@ void logic()
         Proposition::Current = new Proposition("exists_lor_commutativity", u5);
     }
     Proposition::addProposition(fout, Proposition::Current);
+    
+    fout<<"Proof of Proposition \\ref{Proposition:exists_lor_commutativity} \\\\"<<endl;
+    fout<<"For n = 2,"<<endl;
+    fout<<"\\begin{align*}"<<endl;
+    fout<<"& (a_1 \\lor a_2) \\lor (b_1 \\lor b_2) \\\\"<<endl;
+    fout<<"\\iff & ((a_1 \\lor a_2) \\lor b_1) \\lor b_2"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:lor_associativity}} \\\\"<<endl;
+    fout<<"\\iff & (a_1 \\lor (a_2 \\lor b_1)) \\lor b_2"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:lor_associativity}} \\\\"<<endl;
+    fout<<"\\iff & (a_1 \\lor (b_1 \\lor a_2)) \\lor b_2"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:lor_commutativity}} \\\\"<<endl;
+    fout<<"\\iff & ((a_1 \\lor b_1) \\lor a_2) \\lor b_2"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:lor_associativity}} \\\\"<<endl;
+    fout<<"\\iff & (a_1 \\lor b_1) \\lor (a_2 \\lor b_2)"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:lor_associativity}} \\\\"<<endl;
+    fout<<"\\end{align*}"<<endl;
+    
+    fout<<"For n = k+1,"<<endl;
+    fout<<"\\begin{align*}"<<endl;
+    fout<<"& ((( \\dots (a_1 \\lor a_2) \\dots ) \\lor a_k) \\lor a_{k+1}) \\lor ((( \\dots (b_1 \\lor b_2) \\dots ) \\lor b_k ) \\lor b_{k+1}) \\\\"<<endl;
+    fout<<"\\iff & (( \\dots (a_1 \\lor a_2) \\dots ) \\lor (a_k \\lor a_{k+1})) \\lor ((( \\dots (b_1 \\lor b_2) \\dots ) \\lor b_k ) \\lor b_{k+1})"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:lor_associativity}} \\\\"<<endl;
+    fout<<"\\iff & (( \\dots (a_1 \\lor a_2) \\dots ) \\lor (a_k \\lor a_{k+1})) \\lor (( \\dots (b_1 \\lor b_2) \\dots ) \\lor (b_k \\lor b_{k+1}))"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:lor_associativity}} \\\\"<<endl;
+    fout<<"\\iff & ( \\dots ((a_1 \\lor b_1) \\lor (a_2 \\lor b_2)) \\dots ) \\lor ((a_k \\lor a_{k+1}) \\lor (b_k \\lor b_{k+1}))"<<endl;
+    fout<<"& & \\text{Assumption for n=k} \\\\"<<endl;
+    fout<<"\\iff & ( \\dots ((a_1 \\lor b_1) \\lor (a_2 \\lor b_2)) \\dots ) \\lor ((a_k \\lor b_k) \\lor (a_{k+1} \\lor b_{k+1}))"<<endl;
+    fout<<"& & \\text{Assumption for n=2} \\\\"<<endl;
+    fout<<"\\iff & (( \\dots ((a_1 \\lor b_1) \\lor (a_2 \\lor b_2)) \\dots ) \\lor (a_k \\lor b_k)) \\lor (a_{k+1} \\lor b_{k+1})"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:lor_associativity}} \\\\"<<endl;
+    fout<<"\\end{align*}"<<endl;
+    fout<<endl;
     
     fout<<"\\begin{prop}"<<endl;
     fout<<"\\label{Proposition:lor_forall_distributivity}"<<endl;
