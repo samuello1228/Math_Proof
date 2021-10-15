@@ -1075,6 +1075,15 @@ Existential quantifier is denoted by $\exists$.
 \end{align*}
 \end{defn}
 
+\begin{defn}
+\label{Definition:uniqueness_quantifier}
+Uniqueness quantifier is denoted by $!\exists$.
+\begin{align*}
+& !\exists x (P(x)) \\
+\overset{\operatorname{def}}{\iff} & (\exists x (P(x))) \land (\forall x \forall y ((P(x) \land P(y)) \implies (x = y)))
+\end{align*}
+\end{defn}
+
 \begin{axm}
 \label{Axiom:forall_independent_variable}
 \begin{align*}
@@ -1091,6 +1100,7 @@ Existential quantifier is denoted by $\exists$.
 \end{align*}
 \end{axm}
 
+\subsection{Boolean algebra for quantifier}
 \begin{prop}
 \label{Proposition:forall_land_commutativity}
 \begin{align*}
@@ -1281,14 +1291,38 @@ For n = k+1,
 & & \text{Proposition \ref{Proposition:land_associativity}} \\
 \end{align*}
 
-\begin{defn}
-\label{Definition:uniqueness_quantifier}
-Uniqueness quantifier is denoted by $!\exists$.
+\subsection{Axiom of Substitution for quantifiers}
+\begin{prop}
+\label{Proposition:implies_substitution_forall_2}
 \begin{align*}
-& !\exists x (P(x)) \\
-\overset{\operatorname{def}}{\iff} & (\exists x (P(x))) \land (\forall x \forall y ((P(x) \land P(y)) \implies (x = y)))
+& \forall c (a \implies b) \\
+\implies & (\forall c (a)) \implies (\forall c (b))
 \end{align*}
-\end{defn}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:implies_substitution_exists_2}
+\begin{align*}
+& \forall c (a \implies b) \\
+\implies & (\exists c (a)) \implies (\exists c (b))
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:iff_substitution_forall_2}
+\begin{align*}
+& \forall c (a \iff b) \\
+\implies & (\forall c (a)) \iff (\forall c (b))
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:iff_substitution_exists_2}
+\begin{align*}
+& \forall c (a \iff b) \\
+\implies & (\exists c (a)) \iff (\exists c (b))
+\end{align*}
+\end{prop}
 
 \begin{axm}
 \label{Axiom:axiom_of_substitution}

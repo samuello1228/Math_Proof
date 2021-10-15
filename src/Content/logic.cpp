@@ -514,6 +514,16 @@ void logic()
     fout<<"\\end{defn}"<<endl;
     fout<<endl;
     
+    fout<<"\\begin{defn}"<<endl;
+    fout<<"\\label{Definition:uniqueness_quantifier}"<<endl;
+    fout<<"Uniqueness quantifier is denoted by $!\\exists$."<<endl;
+    fout<<"\\begin{align*}"<<endl;
+    fout<<"& !\\exists x (P(x)) \\\\"<<endl;
+    fout<<"\\overset{\\operatorname{def}}{\\iff} & (\\exists x (P(x))) \\land (\\forall x \\forall y ((P(x) \\land P(y)) \\implies (x = y)))"<<endl;
+    fout<<"\\end{align*}"<<endl;
+    fout<<"\\end{defn}"<<endl;
+    fout<<endl;
+    
     fout<<"\\begin{axm}"<<endl;
     fout<<"\\label{Axiom:forall_independent_variable}"<<endl;
     fout<<"\\begin{align*}"<<endl;
@@ -532,6 +542,7 @@ void logic()
     fout<<"\\end{axm}"<<endl;
     fout<<endl;
     
+    fout<<"\\subsection{Boolean algebra for quantifier}"<<endl;
     {
         logic_variable* a = new logic_variable("a");
         set_variable* c = new set_variable("c");
@@ -828,15 +839,111 @@ void logic()
     fout<<"\\end{align*}"<<endl;
     fout<<endl;
     
-    fout<<"\\begin{defn}"<<endl;
-    fout<<"\\label{Definition:uniqueness_quantifier}"<<endl;
-    fout<<"Uniqueness quantifier is denoted by $!\\exists$."<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& !\\exists x (P(x)) \\\\"<<endl;
-    fout<<"\\overset{\\operatorname{def}}{\\iff} & (\\exists x (P(x))) \\land (\\forall x \\forall y ((P(x) \\land P(y)) \\implies (x = y)))"<<endl;
-    fout<<"\\end{align*}"<<endl;
-    fout<<"\\end{defn}"<<endl;
-    fout<<endl;
+    fout<<"\\subsection{Axiom of Substitution for quantifiers}"<<endl;
+    
+    {
+        logic_variable* a = new logic_variable("a");
+        logic_variable* b = new logic_variable("b");
+        logic_binary_operator_logic_logic* implies1 = new logic_binary_operator_logic_logic("\\implies", a, b);
+        set_variable* c = new set_variable("c");
+        universal_quantifier* u0 = new universal_quantifier(c, implies1);
+        
+        a = new logic_variable("a");
+        c = new set_variable("c");
+        universal_quantifier* u1 = new universal_quantifier(c, a);
+        b = new logic_variable("b");
+        c = new set_variable("c");
+        universal_quantifier* u2 = new universal_quantifier(c, b);
+        logic_binary_operator_logic_logic* implies2 = new logic_binary_operator_logic_logic("\\implies", u1, u2);
+        
+        logic_binary_operator_logic_logic* implies0 = new logic_binary_operator_logic_logic("\\implies", u0, implies2);
+        
+        b = new logic_variable("b");
+        universal_quantifier* ub = new universal_quantifier(b, implies0);
+        a = new logic_variable("a");
+        universal_quantifier* ua = new universal_quantifier(a, ub);
+        
+        Proposition::Current = new Proposition("implies_substitution_forall_2", ua);
+    }
+    Proposition::addProposition(fout, Proposition::Current);
+    
+    {
+        logic_variable* a = new logic_variable("a");
+        logic_variable* b = new logic_variable("b");
+        logic_binary_operator_logic_logic* implies1 = new logic_binary_operator_logic_logic("\\implies", a, b);
+        set_variable* c = new set_variable("c");
+        universal_quantifier* u0 = new universal_quantifier(c, implies1);
+        
+        a = new logic_variable("a");
+        c = new set_variable("c");
+        existential_quantifier* e1 = new existential_quantifier(c, a);
+        b = new logic_variable("b");
+        c = new set_variable("c");
+        existential_quantifier* e2 = new existential_quantifier(c, b);
+        logic_binary_operator_logic_logic* implies2 = new logic_binary_operator_logic_logic("\\implies", e1, e2);
+        
+        logic_binary_operator_logic_logic* implies0 = new logic_binary_operator_logic_logic("\\implies", u0, implies2);
+        
+        b = new logic_variable("b");
+        universal_quantifier* ub = new universal_quantifier(b, implies0);
+        a = new logic_variable("a");
+        universal_quantifier* ua = new universal_quantifier(a, ub);
+        
+        Proposition::Current = new Proposition("implies_substitution_exists_2", ua);
+    }
+    Proposition::addProposition(fout, Proposition::Current);
+    
+    {
+        logic_variable* a = new logic_variable("a");
+        logic_variable* b = new logic_variable("b");
+        logic_binary_operator_logic_logic* iff1 = new logic_binary_operator_logic_logic("\\iff", a, b);
+        set_variable* c = new set_variable("c");
+        universal_quantifier* u0 = new universal_quantifier(c, iff1);
+        
+        a = new logic_variable("a");
+        c = new set_variable("c");
+        universal_quantifier* u1 = new universal_quantifier(c, a);
+        b = new logic_variable("b");
+        c = new set_variable("c");
+        universal_quantifier* u2 = new universal_quantifier(c, b);
+        logic_binary_operator_logic_logic* iff2 = new logic_binary_operator_logic_logic("\\iff", u1, u2);
+        
+        logic_binary_operator_logic_logic* implies0 = new logic_binary_operator_logic_logic("\\implies", u0, iff2);
+        
+        b = new logic_variable("b");
+        universal_quantifier* ub = new universal_quantifier(b, implies0);
+        a = new logic_variable("a");
+        universal_quantifier* ua = new universal_quantifier(a, ub);
+        
+        Proposition::Current = new Proposition("iff_substitution_forall_2", ua);
+    }
+    Proposition::addProposition(fout, Proposition::Current);
+    
+    {
+        logic_variable* a = new logic_variable("a");
+        logic_variable* b = new logic_variable("b");
+        logic_binary_operator_logic_logic* iff1 = new logic_binary_operator_logic_logic("\\iff", a, b);
+        set_variable* c = new set_variable("c");
+        universal_quantifier* u0 = new universal_quantifier(c, iff1);
+        
+        a = new logic_variable("a");
+        c = new set_variable("c");
+        existential_quantifier* e1 = new existential_quantifier(c, a);
+        b = new logic_variable("b");
+        c = new set_variable("c");
+        existential_quantifier* e2 = new existential_quantifier(c, b);
+        logic_binary_operator_logic_logic* iff2 = new logic_binary_operator_logic_logic("\\iff", e1, e2);
+        
+        logic_binary_operator_logic_logic* implies0 = new logic_binary_operator_logic_logic("\\implies", u0, iff2);
+        
+        b = new logic_variable("b");
+        universal_quantifier* ub = new universal_quantifier(b, implies0);
+        a = new logic_variable("a");
+        universal_quantifier* ua = new universal_quantifier(a, ub);
+        
+        Proposition::Current = new Proposition("iff_substitution_exists_2", ua);
+    }
+    Proposition::addProposition(fout, Proposition::Current);
     
     fout<<"\\begin{axm}"<<endl;
     fout<<"\\label{Axiom:axiom_of_substitution}"<<endl;
