@@ -515,6 +515,24 @@ void logic()
     fout<<"\\end{defn}"<<endl;
     fout<<endl;
     
+    fout<<"\\begin{axm}"<<endl;
+    fout<<"\\label{Axiom:forall_independent_variable}"<<endl;
+    fout<<"\\begin{align*}"<<endl;
+    fout<<"& \\forall x (P(y)) \\\\"<<endl;
+    fout<<"\\iff & P(y)"<<endl;
+    fout<<"\\end{align*}"<<endl;
+    fout<<"\\end{axm}"<<endl;
+    fout<<endl;
+    
+    fout<<"\\begin{axm}"<<endl;
+    fout<<"\\label{Axiom:exists_independent_variable}"<<endl;
+    fout<<"\\begin{align*}"<<endl;
+    fout<<"& \\exists x (P(y)) \\\\"<<endl;
+    fout<<"\\iff & P(y)"<<endl;
+    fout<<"\\end{align*}"<<endl;
+    fout<<"\\end{axm}"<<endl;
+    fout<<endl;
+    
     {
         logic_variable* a = new logic_variable("a");
         set_variable* c = new set_variable("c");
@@ -635,41 +653,53 @@ void logic()
     fout<<"\\end{align*}"<<endl;
     fout<<endl;
     
-    fout<<"\\begin{prop}"<<endl;
-    fout<<"\\label{Proposition:lor_forall_distributivity}"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& P \\lor (\\forall x (Q(x))) \\\\"<<endl;
-    fout<<"\\iff & \\forall x (P \\lor (Q(x)))"<<endl;
-    fout<<"\\end{align*}"<<endl;
-    fout<<"\\end{prop}"<<endl;
-    fout<<endl;
+    {
+        logic_variable* a = new logic_variable("a");
+        set_variable* c = new set_variable("c");
+        logic_variable* b = new logic_variable("b");
+        universal_quantifier* u1 = new universal_quantifier(c,b);
+        logic_binary_operator_logic_logic* a_or_u1 = new logic_binary_operator_logic_logic("\\lor", a, u1);
+        
+        a = new logic_variable("a");
+        b = new logic_variable("b");
+        logic_binary_operator_logic_logic* a_or_b = new logic_binary_operator_logic_logic("\\lor", a, b);
+        c = new set_variable("c");
+        universal_quantifier* u2 = new universal_quantifier(c, a_or_b);
+        
+        logic_binary_operator_logic_logic* iff = new logic_binary_operator_logic_logic("\\iff", a_or_u1, u2);
+        
+        b = new logic_variable("b");
+        universal_quantifier* ub = new universal_quantifier(b, iff);
+        a = new logic_variable("a");
+        universal_quantifier* ua = new universal_quantifier(a, ub);
+        
+        Proposition::Current = new Proposition("lor_forall_distributivity", ua);
+    }
+    Proposition::addProposition(fout, Proposition::Current);
     
-    fout<<"\\begin{prop}"<<endl;
-    fout<<"\\label{Proposition:land_exists_distributivity}"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& P \\land (\\exists x (Q(x))) \\\\"<<endl;
-    fout<<"\\iff & \\exists x (P \\land (Q(x)))"<<endl;
-    fout<<"\\end{align*}"<<endl;
-    fout<<"\\end{prop}"<<endl;
-    fout<<endl;
-    
-    fout<<"\\begin{axm}"<<endl;
-    fout<<"\\label{Axiom:forall_independent_variable}"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& \\forall x (P(y)) \\\\"<<endl;
-    fout<<"\\iff & P(y)"<<endl;
-    fout<<"\\end{align*}"<<endl;
-    fout<<"\\end{axm}"<<endl;
-    fout<<endl;
-    
-    fout<<"\\begin{axm}"<<endl;
-    fout<<"\\label{Axiom:exists_independent_variable}"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& \\exists x (P(y)) \\\\"<<endl;
-    fout<<"\\iff & P(y)"<<endl;
-    fout<<"\\end{align*}"<<endl;
-    fout<<"\\end{axm}"<<endl;
-    fout<<endl;
+    {
+        logic_variable* a = new logic_variable("a");
+        set_variable* c = new set_variable("c");
+        logic_variable* b = new logic_variable("b");
+        existential_quantifier* e1 = new existential_quantifier(c,b);
+        logic_binary_operator_logic_logic* a_and_e1 = new logic_binary_operator_logic_logic("\\land", a, e1);
+        
+        a = new logic_variable("a");
+        b = new logic_variable("b");
+        logic_binary_operator_logic_logic* a_and_b = new logic_binary_operator_logic_logic("\\land", a, b);
+        c = new set_variable("c");
+        existential_quantifier* e2 = new existential_quantifier(c, a_and_b);
+        
+        logic_binary_operator_logic_logic* iff = new logic_binary_operator_logic_logic("\\iff", a_and_e1, e2);
+        
+        b = new logic_variable("b");
+        universal_quantifier* ub = new universal_quantifier(b, iff);
+        a = new logic_variable("a");
+        universal_quantifier* ua = new universal_quantifier(a, ub);
+        
+        Proposition::Current = new Proposition("land_exists_distributivity", ua);
+    }
+    Proposition::addProposition(fout, Proposition::Current);
     
     {
         logic_variable* a = new logic_variable("a");

@@ -1075,6 +1075,22 @@ Existential quantifier is denoted by $\exists$.
 \end{align*}
 \end{defn}
 
+\begin{axm}
+\label{Axiom:forall_independent_variable}
+\begin{align*}
+& \forall x (P(y)) \\
+\iff & P(y)
+\end{align*}
+\end{axm}
+
+\begin{axm}
+\label{Axiom:exists_independent_variable}
+\begin{align*}
+& \exists x (P(y)) \\
+\iff & P(y)
+\end{align*}
+\end{axm}
+
 \begin{prop}
 \label{Proposition:forall_land_commutativity}
 \begin{align*}
@@ -1154,34 +1170,18 @@ For n = k+1,
 \begin{prop}
 \label{Proposition:lor_forall_distributivity}
 \begin{align*}
-& P \lor (\forall x (Q(x))) \\
-\iff & \forall x (P \lor (Q(x)))
+& a \lor (\forall c (b)) \\
+\iff & \forall c (a \lor b)
 \end{align*}
 \end{prop}
 
 \begin{prop}
 \label{Proposition:land_exists_distributivity}
 \begin{align*}
-& P \land (\exists x (Q(x))) \\
-\iff & \exists x (P \land (Q(x)))
+& a \land (\exists c (b)) \\
+\iff & \exists c (a \land b)
 \end{align*}
 \end{prop}
-
-\begin{axm}
-\label{Axiom:forall_independent_variable}
-\begin{align*}
-& \forall x (P(y)) \\
-\iff & P(y)
-\end{align*}
-\end{axm}
-
-\begin{axm}
-\label{Axiom:exists_independent_variable}
-\begin{align*}
-& \exists x (P(y)) \\
-\iff & P(y)
-\end{align*}
-\end{axm}
 
 \begin{prop}
 \label{Proposition:De_Morgan_1}
