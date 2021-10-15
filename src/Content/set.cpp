@@ -17,7 +17,6 @@ void set()
     fout<<endl;
     
     Axiom* axiom = nullptr;
-    statement* law = nullptr;
     proof_block* block = nullptr;
     vector<substitution*> sub;
     string description;

@@ -1175,6 +1175,26 @@ For n = k+1,
 \end{align*}
 \end{prop}
 
+Proof of Proposition \ref{Proposition:lor_forall_distributivity} \\
+For n = 2,
+\begin{align*}
+& a \lor (b_1 \land b_2) \\
+\iff & (a \lor b_1) \land (a \lor b_2)
+& & \text{Proposition \ref{Proposition:lor_land_distributivity_1}} \\
+\end{align*}
+For n = k+1,
+\begin{align*}
+& a \lor ((( \dots (b_1 \land b_2) \dots ) \land b_k ) \land b_{k+1}) \\
+\iff & a \lor (( \dots (b_1 \land b_2) \dots ) \land ( b_k \land b_{k+1}))
+& & \text{Proposition \ref{Proposition:land_associativity}} \\
+\iff & ( \dots ((a \lor b_1) \land (a \lor b_2)) \dots ) \land (a \lor (b_k \land b_{k+1}))
+& & \text{Assumption for n=k} \\
+\iff & ( \dots ((a \lor b_1) \land (a \lor b_2)) \dots ) \land ((a \lor b_k) \land (a \lor b_{k+1}))
+& & \text{Proposition \ref{Proposition:lor_land_distributivity_1}} \\
+\iff & (( \dots ((a \lor b_1) \land (a \lor b_2)) \dots ) \land (a \lor b_k)) \land (a \lor b_{k+1})
+& & \text{Proposition \ref{Proposition:land_associativity}} \\
+\end{align*}
+
 \begin{prop}
 \label{Proposition:land_exists_distributivity}
 \begin{align*}
@@ -1182,6 +1202,26 @@ For n = k+1,
 \iff & \exists c (a \land b)
 \end{align*}
 \end{prop}
+
+Proof of Proposition \ref{Proposition:land_exists_distributivity} \\
+For n = 2,
+\begin{align*}
+& a \land (b_1 \lor b_2) \\
+\iff & (a \land b_1) \lor (a \land b_2)
+& & \text{Proposition \ref{Proposition:land_lor_distributivity_1}} \\
+\end{align*}
+For n = k+1,
+\begin{align*}
+& a \land ((( \dots (b_1 \lor b_2) \dots ) \lor b_k ) \lor b_{k+1}) \\
+\iff & a \land (( \dots (b_1 \lor b_2) \dots ) \lor ( b_k \lor b_{k+1}))
+& & \text{Proposition \ref{Proposition:lor_associativity}} \\
+\iff & ( \dots ((a \land b_1) \lor (a \land b_2)) \dots ) \lor (a \land (b_k \lor b_{k+1}))
+& & \text{Assumption for n=k} \\
+\iff & ( \dots ((a \land b_1) \lor (a \land b_2)) \dots ) \lor ((a \land b_k) \lor (a \land b_{k+1}))
+& & \text{Proposition \ref{Proposition:land_lor_distributivity_1}} \\
+\iff & (( \dots ((a \land b_1) \lor (a \land b_2)) \dots ) \lor (a \land b_k)) \lor (a \land b_{k+1})
+& & \text{Proposition \ref{Proposition:lor_associativity}} \\
+\end{align*}
 
 \begin{prop}
 \label{Proposition:De_Morgan_1}

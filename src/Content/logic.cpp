@@ -50,7 +50,6 @@ void logic()
     Definition::addDefinition(fout, new Definition("implies", LOGIC, "\\forall a \\forall b ((a \\implies b) \\iff ((\\lnot a) \\lor b))"));
     
     //Boolean algebra
-    statement* law = nullptr;
     proof_block* block = nullptr;
     vector<substitution*> sub;
     string description;
@@ -677,6 +676,28 @@ void logic()
     }
     Proposition::addProposition(fout, Proposition::Current);
     
+    fout<<"Proof of Proposition \\ref{Proposition:lor_forall_distributivity} \\\\"<<endl;
+    fout<<"For n = 2,"<<endl;
+    fout<<"\\begin{align*}"<<endl;
+    fout<<"& a \\lor (b_1 \\land b_2) \\\\"<<endl;
+    fout<<"\\iff & (a \\lor b_1) \\land (a \\lor b_2)"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:lor_land_distributivity_1}} \\\\"<<endl;
+    fout<<"\\end{align*}"<<endl;
+    
+    fout<<"For n = k+1,"<<endl;
+    fout<<"\\begin{align*}"<<endl;
+    fout<<"& a \\lor ((( \\dots (b_1 \\land b_2) \\dots ) \\land b_k ) \\land b_{k+1}) \\\\"<<endl;
+    fout<<"\\iff & a \\lor (( \\dots (b_1 \\land b_2) \\dots ) \\land ( b_k \\land b_{k+1}))"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:land_associativity}} \\\\"<<endl;
+    fout<<"\\iff & ( \\dots ((a \\lor b_1) \\land (a \\lor b_2)) \\dots ) \\land (a \\lor (b_k \\land b_{k+1}))"<<endl;
+    fout<<"& & \\text{Assumption for n=k} \\\\"<<endl;
+    fout<<"\\iff & ( \\dots ((a \\lor b_1) \\land (a \\lor b_2)) \\dots ) \\land ((a \\lor b_k) \\land (a \\lor b_{k+1}))"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:lor_land_distributivity_1}} \\\\"<<endl;
+    fout<<"\\iff & (( \\dots ((a \\lor b_1) \\land (a \\lor b_2)) \\dots ) \\land (a \\lor b_k)) \\land (a \\lor b_{k+1})"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:land_associativity}} \\\\"<<endl;
+    fout<<"\\end{align*}"<<endl;
+    fout<<endl;
+    
     {
         logic_variable* a = new logic_variable("a");
         set_variable* c = new set_variable("c");
@@ -700,6 +721,28 @@ void logic()
         Proposition::Current = new Proposition("land_exists_distributivity", ua);
     }
     Proposition::addProposition(fout, Proposition::Current);
+    
+    fout<<"Proof of Proposition \\ref{Proposition:land_exists_distributivity} \\\\"<<endl;
+    fout<<"For n = 2,"<<endl;
+    fout<<"\\begin{align*}"<<endl;
+    fout<<"& a \\land (b_1 \\lor b_2) \\\\"<<endl;
+    fout<<"\\iff & (a \\land b_1) \\lor (a \\land b_2)"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:land_lor_distributivity_1}} \\\\"<<endl;
+    fout<<"\\end{align*}"<<endl;
+    
+    fout<<"For n = k+1,"<<endl;
+    fout<<"\\begin{align*}"<<endl;
+    fout<<"& a \\land ((( \\dots (b_1 \\lor b_2) \\dots ) \\lor b_k ) \\lor b_{k+1}) \\\\"<<endl;
+    fout<<"\\iff & a \\land (( \\dots (b_1 \\lor b_2) \\dots ) \\lor ( b_k \\lor b_{k+1}))"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:lor_associativity}} \\\\"<<endl;
+    fout<<"\\iff & ( \\dots ((a \\land b_1) \\lor (a \\land b_2)) \\dots ) \\lor (a \\land (b_k \\lor b_{k+1}))"<<endl;
+    fout<<"& & \\text{Assumption for n=k} \\\\"<<endl;
+    fout<<"\\iff & ( \\dots ((a \\land b_1) \\lor (a \\land b_2)) \\dots ) \\lor ((a \\land b_k) \\lor (a \\land b_{k+1}))"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:land_lor_distributivity_1}} \\\\"<<endl;
+    fout<<"\\iff & (( \\dots ((a \\land b_1) \\lor (a \\land b_2)) \\dots ) \\lor (a \\land b_k)) \\lor (a \\land b_{k+1})"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:lor_associativity}} \\\\"<<endl;
+    fout<<"\\end{align*}"<<endl;
+    fout<<endl;
     
     {
         logic_variable* a = new logic_variable("a");
