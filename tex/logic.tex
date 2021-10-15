@@ -1232,6 +1232,26 @@ De Morgan's law
 \end{align*}
 \end{prop}
 
+Proof of Proposition \ref{Proposition:De_Morgan_1} \\
+For n = 2,
+\begin{align*}
+& \lnot (a_1 \land a_2) \\
+\iff & (\lnot a_1) \lor (\lnot a_2)
+& & \text{Proposition \ref{Proposition:De_Morgan_land}} \\
+\end{align*}
+For n = k+1,
+\begin{align*}
+& \lnot ((( \dots (a_1 \land a_2) \dots ) \land a_k ) \land a_{k+1}) \\
+\iff & \lnot (( \dots (a_1 \land a_2) \dots ) \land ( a_k \land a_{k+1}))
+& & \text{Proposition \ref{Proposition:land_associativity}} \\
+\iff & ( \dots ((\lnot a_1) \lor (\lnot a_2)) \dots ) \lor (\lnot (a_k \land a_{k+1}))
+& & \text{Assumption for n=k} \\
+\iff & ( \dots ((\lnot a_1) \lor (\lnot a_2)) \dots ) \lor ((\lnot a_k) \lor (\lnot a_{k+1}))
+& & \text{Proposition \ref{Proposition:De_Morgan_land}} \\
+\iff & (( \dots ((\lnot a_1) \lor (\lnot a_2)) \dots ) \lor (\lnot a_k)) \lor (\lnot a_{k+1})
+& & \text{Proposition \ref{Proposition:lor_associativity}} \\
+\end{align*}
+
 \begin{prop}
 \label{Proposition:De_Morgan_2}
 De Morgan's law
@@ -1240,6 +1260,26 @@ De Morgan's law
 \iff & \forall b (\lnot a)
 \end{align*}
 \end{prop}
+
+Proof of Proposition \ref{Proposition:De_Morgan_2} \\
+For n = 2,
+\begin{align*}
+& \lnot (a_1 \lor a_2) \\
+\iff & (\lnot a_1) \land (\lnot a_2)
+& & \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
+\end{align*}
+For n = k+1,
+\begin{align*}
+& \lnot ((( \dots (a_1 \lor a_2) \dots ) \lor a_k ) \lor a_{k+1}) \\
+\iff & \lnot (( \dots (a_1 \lor a_2) \dots ) \lor ( a_k \lor a_{k+1}))
+& & \text{Proposition \ref{Proposition:lor_associativity}} \\
+\iff & ( \dots ((\lnot a_1) \land (\lnot a_2)) \dots ) \land (\lnot (a_k \lor a_{k+1}))
+& & \text{Assumption for n=k} \\
+\iff & ( \dots ((\lnot a_1) \land (\lnot a_2)) \dots ) \land ((\lnot a_k) \land (\lnot a_{k+1}))
+& & \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
+\iff & (( \dots ((\lnot a_1) \land (\lnot a_2)) \dots ) \land (\lnot a_k)) \land (\lnot a_{k+1})
+& & \text{Proposition \ref{Proposition:land_associativity}} \\
+\end{align*}
 
 \begin{defn}
 \label{Definition:uniqueness_quantifier}

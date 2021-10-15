@@ -764,6 +764,28 @@ void logic()
     }
     Proposition::addProposition(fout, Proposition::Current, "De Morgan's law");
     
+    fout<<"Proof of Proposition \\ref{Proposition:De_Morgan_1} \\\\"<<endl;
+    fout<<"For n = 2,"<<endl;
+    fout<<"\\begin{align*}"<<endl;
+    fout<<"& \\lnot (a_1 \\land a_2) \\\\"<<endl;
+    fout<<"\\iff & (\\lnot a_1) \\lor (\\lnot a_2)"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:De_Morgan_land}} \\\\"<<endl;
+    fout<<"\\end{align*}"<<endl;
+    
+    fout<<"For n = k+1,"<<endl;
+    fout<<"\\begin{align*}"<<endl;
+    fout<<"& \\lnot ((( \\dots (a_1 \\land a_2) \\dots ) \\land a_k ) \\land a_{k+1}) \\\\"<<endl;
+    fout<<"\\iff & \\lnot (( \\dots (a_1 \\land a_2) \\dots ) \\land ( a_k \\land a_{k+1}))"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:land_associativity}} \\\\"<<endl;
+    fout<<"\\iff & ( \\dots ((\\lnot a_1) \\lor (\\lnot a_2)) \\dots ) \\lor (\\lnot (a_k \\land a_{k+1}))"<<endl;
+    fout<<"& & \\text{Assumption for n=k} \\\\"<<endl;
+    fout<<"\\iff & ( \\dots ((\\lnot a_1) \\lor (\\lnot a_2)) \\dots ) \\lor ((\\lnot a_k) \\lor (\\lnot a_{k+1}))"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:De_Morgan_land}} \\\\"<<endl;
+    fout<<"\\iff & (( \\dots ((\\lnot a_1) \\lor (\\lnot a_2)) \\dots ) \\lor (\\lnot a_k)) \\lor (\\lnot a_{k+1})"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:lor_associativity}} \\\\"<<endl;
+    fout<<"\\end{align*}"<<endl;
+    fout<<endl;
+    
     {
         logic_variable* a = new logic_variable("a");
         set_variable* b = new set_variable("b");
@@ -783,6 +805,28 @@ void logic()
         Proposition::Current = new Proposition("De_Morgan_2", u3);
     }
     Proposition::addProposition(fout, Proposition::Current, "De Morgan's law");
+    
+    fout<<"Proof of Proposition \\ref{Proposition:De_Morgan_2} \\\\"<<endl;
+    fout<<"For n = 2,"<<endl;
+    fout<<"\\begin{align*}"<<endl;
+    fout<<"& \\lnot (a_1 \\lor a_2) \\\\"<<endl;
+    fout<<"\\iff & (\\lnot a_1) \\land (\\lnot a_2)"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:De_Morgan_lor}} \\\\"<<endl;
+    fout<<"\\end{align*}"<<endl;
+    
+    fout<<"For n = k+1,"<<endl;
+    fout<<"\\begin{align*}"<<endl;
+    fout<<"& \\lnot ((( \\dots (a_1 \\lor a_2) \\dots ) \\lor a_k ) \\lor a_{k+1}) \\\\"<<endl;
+    fout<<"\\iff & \\lnot (( \\dots (a_1 \\lor a_2) \\dots ) \\lor ( a_k \\lor a_{k+1}))"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:lor_associativity}} \\\\"<<endl;
+    fout<<"\\iff & ( \\dots ((\\lnot a_1) \\land (\\lnot a_2)) \\dots ) \\land (\\lnot (a_k \\lor a_{k+1}))"<<endl;
+    fout<<"& & \\text{Assumption for n=k} \\\\"<<endl;
+    fout<<"\\iff & ( \\dots ((\\lnot a_1) \\land (\\lnot a_2)) \\dots ) \\land ((\\lnot a_k) \\land (\\lnot a_{k+1}))"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:De_Morgan_lor}} \\\\"<<endl;
+    fout<<"\\iff & (( \\dots ((\\lnot a_1) \\land (\\lnot a_2)) \\dots ) \\land (\\lnot a_k)) \\land (\\lnot a_{k+1})"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:land_associativity}} \\\\"<<endl;
+    fout<<"\\end{align*}"<<endl;
+    fout<<endl;
     
     fout<<"\\begin{defn}"<<endl;
     fout<<"\\label{Definition:uniqueness_quantifier}"<<endl;
