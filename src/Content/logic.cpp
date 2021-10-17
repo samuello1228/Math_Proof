@@ -171,6 +171,15 @@ void logic()
     
     //Condition satisfied
     fout<<"\\subsection{Condition satisfied}"<<endl;
+    Proposition::Current = new Proposition("a_implies_a_lor_b", LOGIC, "\\forall a \\forall b (a \\implies (a \\lor b))");
+    block = new proof_block("a_implies_a_lor_b", Proposition::Current, backward);
+    block->append_binary_operator(input({}, "Definition:implies", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_associativity", RightToLeft));
+    block->append_binary_operator(input({1}, "Proposition:lor_complement_2", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_annihilator_2", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current);
+    
     Proposition::Current = new Proposition("a_land_b_implies_a", LOGIC, "\\forall a \\forall b ((a \\land b) \\implies a)");
     block = new proof_block("a_land_b_implies_a", Proposition::Current, backward);
     block->append_binary_operator(input({}, "Definition:implies", LeftToRight));
@@ -1052,9 +1061,6 @@ void logic()
     block->append_binary_operator(input({}, "Proposition:lor_complement_1", LeftToRight, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
-    
-    Proposition::Current = new Proposition("land_implies_iff", LOGIC, "\\forall a \\forall b ((a \\land b) \\implies (a \\iff b))");
-    Proposition::addProposition(fout, Proposition::Current);
     
     fout.close();
 }

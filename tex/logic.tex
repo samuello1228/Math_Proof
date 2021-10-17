@@ -452,6 +452,26 @@ Proof of Proposition \ref{Proposition:multiple_assumption}
 
 \subsection{Condition satisfied}
 \begin{prop}
+\label{Proposition:a_implies_a_lor_b}
+\begin{align*}
+& a \\
+\implies & a \lor b
+\end{align*}
+Proof of Proposition \ref{Proposition:a_implies_a_lor_b}
+\begin{align*}
+& a \implies (a \lor b) \\
+\overset{\operatorname{def}}{\iff} & (\lnot a) \lor (a \lor b)
+& & \text{Definition \ref{Definition:implies}} \\
+\iff & ((\lnot a) \lor a) \lor b
+& & \text{Proposition \ref{Proposition:lor_associativity}} \\
+\iff & (\text{True}) \lor b
+& & \text{Proposition \ref{Proposition:lor_complement_2}} \\
+\iff & \text{True}
+& & \text{Proposition \ref{Proposition:lor_annihilator_2}} \\
+\end{align*}
+\end{prop}
+
+\begin{prop}
 \label{Proposition:a_land_b_implies_a}
 \begin{align*}
 & a \land b \\
@@ -1436,14 +1456,6 @@ Proof of Proposition \ref{Proposition:iff_reflexive}
 & & \text{Proposition \ref{Proposition:land_idempotence}} \\
 \iff & \text{True}
 & & \text{Proposition \ref{Proposition:lor_complement_1}} \\
-\end{align*}
-\end{prop}
-
-\begin{prop}
-\label{Proposition:land_implies_iff}
-\begin{align*}
-& a \land b \\
-\implies & a \iff b
 \end{align*}
 \end{prop}
 
