@@ -40,9 +40,6 @@ void set()
     fout<<"\\end{defn}"<<endl;
     fout<<endl;
     
-    Proposition::Current = new Proposition("forall_true", SET, "(\\forall a (\\text{True})) \\iff (\\text{True})");
-    Proposition::addProposition(fout, Proposition::Current);
-    
     //Equality
     fout<<"\\section{Equality of sets}"<<endl;
     Definition::addDefinition(fout, new Definition("equality", SET, "\\forall a \\forall b ((a = b) \\iff (\\forall c ((c \\in a) \\iff (c \\in b))))"), "Definition of $=$.");
@@ -54,7 +51,7 @@ void set()
     block = new proof_block("equality_reflexive", Proposition::Current, backward);
     block->append_binary_operator(input({}, "Definition:equality", LeftToRight));
     block->append_binary_operator(input({1}, "Proposition:iff_reflexive", PToTrue));
-    block->append_binary_operator(input({}, "Proposition:forall_true", LeftToRight, true));
+    block->append_binary_operator(input({}, "Axiom:forall_true", LeftToRight, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
@@ -266,7 +263,7 @@ void set()
     block->append_binary_operator(input({1,2}, "Proposition:pairwise_union_property", LeftToRight));
     block->append_binary_operator(input({1,2}, "Proposition:lor_commutativity", LeftToRight));
     block->append_binary_operator(input({1}, "Proposition:iff_reflexive", PToTrue));
-    block->append_binary_operator(input({}, "Proposition:forall_true", LeftToRight, true));
+    block->append_binary_operator(input({}, "Axiom:forall_true", LeftToRight, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
@@ -281,7 +278,7 @@ void set()
     block->append_binary_operator(input({1,1,2}, "Definition:lnot_True", LeftToRight));
     block->append_binary_operator(input({1,1}, "Proposition:lor_identity_1", LeftToRight));
     block->append_binary_operator(input({1}, "Proposition:iff_reflexive", PToTrue));
-    block->append_binary_operator(input({}, "Proposition:forall_true", LeftToRight, true));
+    block->append_binary_operator(input({}, "Axiom:forall_true", LeftToRight, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     

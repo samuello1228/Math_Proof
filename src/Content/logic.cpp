@@ -50,6 +50,7 @@ void logic()
     Definition::addDefinition(fout, new Definition("implies", LOGIC, "\\forall a \\forall b ((a \\implies b) \\iff ((\\lnot a) \\lor b))"));
     
     //Boolean algebra
+    Axiom* axiom = nullptr;
     proof_block* block = nullptr;
     vector<substitution*> sub;
     string description;
@@ -1038,6 +1039,10 @@ void logic()
     fout<<"\\end{align*}"<<endl;
     fout<<"\\end{axm}"<<endl;
     fout<<endl;
+    
+    fout<<"\\subsection{Axiom}"<<endl;
+    axiom = new Axiom("forall_true", SET, "(\\forall a (\\text{True})) \\iff (\\text{True})");
+    Axiom::addAxiom(fout, axiom);
     
     //Logic proposition
     fout<<"\\section{Logic proposition}"<<endl;
