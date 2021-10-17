@@ -1388,11 +1388,15 @@ For n = k+1,
 & & \text{Proposition \ref{Proposition:iff_substitution_exists_1}} \\
 \end{align*}
 
+\subsection{Axiom of Existence}
 \begin{axm}
-\label{Axiom:axiom_of_substitution}
-Axiom of Substitution
+\label{Axiom:axiom_of_existence}
+Axiom of Existence
 \begin{align*}
-\forall x ((\exists y ((y = x) \land P(y))) \iff P(x))
+& \forall a ( \\
+& & & P(a,a) \\
+& & \iff & \exists b ((b = a) \land (P(a,b))) \\
+& )
 \end{align*}
 \end{axm}
 

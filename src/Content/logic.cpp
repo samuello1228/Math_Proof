@@ -1017,11 +1017,15 @@ void logic()
     fout<<"\\end{align*}"<<endl;
     fout<<endl;
     
+    fout<<"\\subsection{Axiom of Existence}"<<endl;
     fout<<"\\begin{axm}"<<endl;
-    fout<<"\\label{Axiom:axiom_of_substitution}"<<endl;
-    fout<<"Axiom of Substitution"<<endl;
+    fout<<"\\label{Axiom:axiom_of_existence}"<<endl;
+    fout<<"Axiom of Existence"<<endl;
     fout<<"\\begin{align*}"<<endl;
-    fout<<"\\forall x ((\\exists y ((y = x) \\land P(y))) \\iff P(x))"<<endl;
+    fout<<"& \\forall a ( \\\\"<<endl;
+    fout<<"& & & P(a,a) \\\\"<<endl;
+    fout<<"& & \\iff & \\exists b ((b = a) \\land (P(a,b))) \\\\"<<endl;
+    fout<<"& )"<<endl;
     fout<<"\\end{align*}"<<endl;
     fout<<"\\end{axm}"<<endl;
     fout<<endl;
