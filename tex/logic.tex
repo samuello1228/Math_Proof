@@ -148,6 +148,32 @@ Proposition is a statement that is either true or false, but not both.
 & (a \land b) \land c \\
 \iff & a \land (b \land c)
 \end{align*}
+Proof of Proposition \ref{Proposition:land_associativity}
+\begin{align*}
+& (a \land b) \land c \\
+\iff & ((\lnot (\lnot a)) \land b) \land c
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\iff & ((\lnot (\lnot a)) \land (\lnot (\lnot b))) \land c
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\iff & (\lnot ((\lnot a) \lor (\lnot b))) \land c
+& & \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
+\iff & (\lnot ((\lnot a) \lor (\lnot b))) \land (\lnot (\lnot c))
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\iff & \lnot (((\lnot a) \lor (\lnot b)) \lor (\lnot c))
+& & \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
+\iff & \lnot ((\lnot a) \lor ((\lnot b) \lor (\lnot c)))
+& & \text{Proposition \ref{Proposition:lor_associativity}} \\
+\iff & (\lnot (\lnot a)) \land (\lnot ((\lnot b) \lor (\lnot c)))
+& & \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
+\iff & a \land (\lnot ((\lnot b) \lor (\lnot c)))
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\iff & a \land ((\lnot (\lnot b)) \land (\lnot (\lnot c)))
+& & \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
+\iff & a \land (b \land (\lnot (\lnot c)))
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\iff & a \land (b \land c)
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\end{align*}
 \end{prop}
 
 \subsection{Commutativity of $\lor$}

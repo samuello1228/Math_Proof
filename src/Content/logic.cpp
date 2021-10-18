@@ -69,7 +69,21 @@ void logic()
     Proposition::addProposition(fout, new Proposition("lor_associativity", LOGIC, "\\forall a \\forall b \\forall c (((a \\lor b) \\lor c) \\iff (a \\lor (b \\lor c)))"));
     
     fout<<"\\subsection{Associativity of $\\land$}"<<endl;
-    Proposition::addProposition(fout, new Proposition("land_associativity", LOGIC, "\\forall a \\forall b \\forall c (((a \\land b) \\land c) \\iff (a \\land (b \\land c)))"));
+    Proposition::Current = new Proposition("land_associativity", LOGIC, "\\forall a \\forall b \\forall c (((a \\land b) \\land c) \\iff (a \\land (b \\land c)))");
+    block = new proof_block("land_associativity", Proposition::Current, deduction);
+    block->append_binary_operator(input({1,1}, "Proposition:double_negation", RightToLeft));
+    block->append_binary_operator(input({1,2}, "Proposition:double_negation", RightToLeft));
+    block->append_binary_operator(input({1}, "Proposition:De_Morgan_lor", RightToLeft));
+    block->append_binary_operator(input({2}, "Proposition:double_negation", RightToLeft));
+    block->append_binary_operator(input({}, "Proposition:De_Morgan_lor", RightToLeft));
+    block->append_binary_operator(input({1}, "Proposition:lor_associativity", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:De_Morgan_lor", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:double_negation", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:De_Morgan_lor", LeftToRight));
+    block->append_binary_operator(input({2,1}, "Proposition:double_negation", LeftToRight));
+    block->append_binary_operator(input({2,2}, "Proposition:double_negation", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current);
     
     //Commutativity
     fout<<"\\subsection{Commutativity of $\\lor$}"<<endl;
