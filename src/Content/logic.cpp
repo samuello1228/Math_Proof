@@ -107,11 +107,29 @@ void logic()
     Proposition::addProposition(fout, new Proposition("lor_identity_1", LOGIC, "\\forall a ((a \\lor (\\text{False})) \\iff a)"));
     
     Proposition::Current = new Proposition("lor_identity_2", LOGIC, "\\forall a (((\\text{False}) \\lor a) \\iff a)");
+    block = new proof_block("lor_identity_2", Proposition::Current, deduction);
+    block->append_binary_operator(input({}, "Proposition:lor_commutativity", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_identity_1", LeftToRight, true));
+    Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current);
     
     fout<<"\\subsection{Identity of $\\land$}"<<endl;
-    Proposition::addProposition(fout, new Proposition("land_identity_1", LOGIC, "\\forall a ((a \\land (\\text{True})) \\iff a)"));
-    Proposition::addProposition(fout, new Proposition("land_identity_2", LOGIC, "\\forall a (((\\text{True}) \\land a) \\iff a)"));
+    Proposition::Current = new Proposition("land_identity_1", LOGIC, "\\forall a ((a \\land (\\text{True})) \\iff a)");
+    block = new proof_block("land_identity_1", Proposition::Current, deduction);
+    block->append_binary_operator(input({1}, "Proposition:double_negation", RightToLeft));
+    block->append_binary_operator(input({2}, "Definition:lnot_False", RightToLeft));
+    block->append_binary_operator(input({}, "Proposition:De_Morgan_lor", RightToLeft));
+    block->append_binary_operator(input({1}, "Proposition:lor_identity_1", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:double_negation", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current);
+    
+    Proposition::Current = new Proposition("land_identity_2", LOGIC, "\\forall a (((\\text{True}) \\land a) \\iff a)");
+    block = new proof_block("land_identity_2", Proposition::Current, deduction);
+    block->append_binary_operator(input({}, "Proposition:land_commutativity", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:land_identity_1", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current);
     
     //Annihilator
     fout<<"\\subsection{Annihilator of $\\lor$}"<<endl;

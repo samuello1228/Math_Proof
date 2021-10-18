@@ -227,6 +227,14 @@ Proof of Proposition \ref{Proposition:land_commutativity}
 & (\text{False}) \lor a \\
 \iff & a
 \end{align*}
+Proof of Proposition \ref{Proposition:lor_identity_2}
+\begin{align*}
+& (\text{False}) \lor a \\
+\iff & a \lor (\text{False})
+& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
+\iff & a
+& & \text{Proposition \ref{Proposition:lor_identity_1}} \\
+\end{align*}
 \end{prop}
 
 \subsection{Identity of $\land$}
@@ -236,6 +244,20 @@ Proof of Proposition \ref{Proposition:land_commutativity}
 & a \land (\text{True}) \\
 \iff & a
 \end{align*}
+Proof of Proposition \ref{Proposition:land_identity_1}
+\begin{align*}
+& a \land (\text{True}) \\
+\iff & (\lnot (\lnot a)) \land (\text{True})
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\overset{\operatorname{def}}{\iff} & (\lnot (\lnot a)) \land (\lnot (\text{False}))
+& & \text{Definition \ref{Definition:lnot_False}} \\
+\iff & \lnot ((\lnot a) \lor (\text{False}))
+& & \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
+\iff & \lnot (\lnot a)
+& & \text{Proposition \ref{Proposition:lor_identity_1}} \\
+\iff & a
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\end{align*}
 \end{prop}
 
 \begin{prop}
@@ -243,6 +265,14 @@ Proof of Proposition \ref{Proposition:land_commutativity}
 \begin{align*}
 & (\text{True}) \land a \\
 \iff & a
+\end{align*}
+Proof of Proposition \ref{Proposition:land_identity_2}
+\begin{align*}
+& (\text{True}) \land a \\
+\iff & a \land (\text{True})
+& & \text{Proposition \ref{Proposition:land_commutativity}} \\
+\iff & a
+& & \text{Proposition \ref{Proposition:land_identity_1}} \\
 \end{align*}
 \end{prop}
 
