@@ -520,6 +520,53 @@ Proof of Proposition \ref{Proposition:implies_satisfied}
 \end{align*}
 \end{prop}
 
+\subsection{Associativity and Commutativity}
+\begin{prop}
+\label{Proposition:lor_commutativity_2_2}
+Commutativity of $\lor$.
+\begin{align*}
+& (a \lor b) \lor (c \lor d) \\
+\iff & (a \lor c) \lor (b \lor d)
+\end{align*}
+Proof of Proposition \ref{Proposition:lor_commutativity_2_2}
+\begin{align*}
+& (a \lor b) \lor (c \lor d) \\
+\iff & ((a \lor b) \lor c) \lor d
+& & \text{Proposition \ref{Proposition:lor_associativity}} \\
+\iff & (a \lor (b \lor c)) \lor d
+& & \text{Proposition \ref{Proposition:lor_associativity}} \\
+\iff & (a \lor (c \lor b)) \lor d
+& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
+\iff & ((a \lor c) \lor b) \lor d
+& & \text{Proposition \ref{Proposition:lor_associativity}} \\
+\iff & (a \lor c) \lor (b \lor d)
+& & \text{Proposition \ref{Proposition:lor_associativity}} \\
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:land_commutativity_2_2}
+Commutativity of $\land$.
+\begin{align*}
+& (a \land b) \land (c \land d) \\
+\iff & (a \land c) \land (b \land d)
+\end{align*}
+Proof of Proposition \ref{Proposition:land_commutativity_2_2}
+\begin{align*}
+& (a \land b) \land (c \land d) \\
+\iff & ((a \land b) \land c) \land d
+& & \text{Proposition \ref{Proposition:land_associativity}} \\
+\iff & (a \land (b \land c)) \land d
+& & \text{Proposition \ref{Proposition:land_associativity}} \\
+\iff & (a \land (c \land b)) \land d
+& & \text{Proposition \ref{Proposition:land_commutativity}} \\
+\iff & ((a \land c) \land b) \land d
+& & \text{Proposition \ref{Proposition:land_associativity}} \\
+\iff & (a \land c) \land (b \land d)
+& & \text{Proposition \ref{Proposition:land_associativity}} \\
+\end{align*}
+\end{prop}
+
 \section{Proof technique}
 \begin{prop}
 \label{Proposition:true_statement}
@@ -572,32 +619,18 @@ Proof of Proposition \ref{Proposition:implies_transitive}
 & & \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
 \iff & ((a \land (\lnot b)) \lor (b \land (\lnot c))) \lor ((\lnot a) \lor c)
 & & \text{Proposition \ref{Proposition:double_negation}} \\
-\iff & (a \land (\lnot b)) \lor ((b \land (\lnot c)) \lor ((\lnot a) \lor c))
-& & \text{Proposition \ref{Proposition:lor_associativity}} \\
-\iff & (a \land (\lnot b)) \lor (((\lnot a) \lor c) \lor (b \land (\lnot c)))
-& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
-\iff & (a \land (\lnot b)) \lor ((\lnot a) \lor (c \lor (b \land (\lnot c))))
-& & \text{Proposition \ref{Proposition:lor_associativity}} \\
-\iff & ((a \land (\lnot b)) \lor (\lnot a)) \lor (c \lor (b \land (\lnot c)))
-& & \text{Proposition \ref{Proposition:lor_associativity}} \\
-\iff & (((\lnot b) \land a) \lor (\lnot a)) \lor (c \lor (b \land (\lnot c)))
-& & \text{Proposition \ref{Proposition:land_commutativity}} \\
+\iff & ((a \land (\lnot b)) \lor (\lnot a)) \lor ((b \land (\lnot c)) \lor c)
+& & \text{Proposition \ref{Proposition:lor_commutativity_2_2}} \\
 \iff & (((\lnot b) \land a) \lor (\lnot a)) \lor ((b \land (\lnot c)) \lor c)
-& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
+& & \text{Proposition \ref{Proposition:land_commutativity}} \\
 \iff & ((\lnot b) \lor (\lnot a)) \lor ((b \land (\lnot c)) \lor c)
 & & \text{Proposition \ref{Proposition:a_lor_b_complement_2}} \\
 \iff & ((\lnot b) \lor (\lnot a)) \lor (b \lor c)
 & & \text{Proposition \ref{Proposition:a_lor_b_complement_1}} \\
-\iff & (((\lnot b) \lor (\lnot a)) \lor b) \lor c
-& & \text{Proposition \ref{Proposition:lor_associativity}} \\
-\iff & (b \lor ((\lnot b) \lor (\lnot a))) \lor c
-& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
-\iff & ((b \lor (\lnot b)) \lor (\lnot a)) \lor c
-& & \text{Proposition \ref{Proposition:lor_associativity}} \\
-\iff & ((\text{True}) \lor (\lnot a)) \lor c
-& & \text{Proposition \ref{Proposition:lor_complement_1}} \\
-\iff & (\text{True}) \lor c
-& & \text{Proposition \ref{Proposition:lor_annihilator_2}} \\
+\iff & ((\lnot b) \lor b) \lor ((\lnot a) \lor c)
+& & \text{Proposition \ref{Proposition:lor_commutativity_2_2}} \\
+\iff & (\text{True}) \lor ((\lnot a) \lor c)
+& & \text{Proposition \ref{Proposition:lor_complement_2}} \\
 \iff & \text{True}
 & & \text{Proposition \ref{Proposition:lor_annihilator_2}} \\
 \end{align*}
@@ -626,28 +659,22 @@ Proof of Proposition \ref{Proposition:implies_substitution_lor}
 & & \text{Proposition \ref{Proposition:double_negation}} \\
 \iff & (a \land (\lnot b)) \lor (((\lnot a) \land (\lnot c)) \lor (b \lor c))
 & & \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
-\iff & (a \land (\lnot b)) \lor (((\lnot a) \land (\lnot c)) \lor (c \lor b))
-& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
-\iff & (a \land (\lnot b)) \lor ((((\lnot a) \land (\lnot c)) \lor c) \lor b)
+\iff & (a \land (\lnot b)) \lor ((((\lnot a) \land (\lnot c)) \lor b) \lor c)
 & & \text{Proposition \ref{Proposition:lor_associativity}} \\
-\iff & (a \land (\lnot b)) \lor (b \lor (((\lnot a) \land (\lnot c)) \lor c))
+\iff & (a \land (\lnot b)) \lor ((b \lor ((\lnot a) \land (\lnot c))) \lor c)
 & & \text{Proposition \ref{Proposition:lor_commutativity}} \\
+\iff & (a \land (\lnot b)) \lor (b \lor (((\lnot a) \land (\lnot c)) \lor c))
+& & \text{Proposition \ref{Proposition:lor_associativity}} \\
 \iff & ((a \land (\lnot b)) \lor b) \lor (((\lnot a) \land (\lnot c)) \lor c)
 & & \text{Proposition \ref{Proposition:lor_associativity}} \\
 \iff & (a \lor b) \lor (((\lnot a) \land (\lnot c)) \lor c)
 & & \text{Proposition \ref{Proposition:a_lor_b_complement_1}} \\
 \iff & (a \lor b) \lor ((\lnot a) \lor c)
 & & \text{Proposition \ref{Proposition:a_lor_b_complement_1}} \\
-\iff & ((a \lor b) \lor (\lnot a)) \lor c
-& & \text{Proposition \ref{Proposition:lor_associativity}} \\
-\iff & ((\lnot a) \lor (a \lor b)) \lor c
-& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
-\iff & (((\lnot a) \lor a) \lor b) \lor c
-& & \text{Proposition \ref{Proposition:lor_associativity}} \\
-\iff & ((\text{True}) \lor b) \lor c
-& & \text{Proposition \ref{Proposition:lor_complement_2}} \\
-\iff & (\text{True}) \lor c
-& & \text{Proposition \ref{Proposition:lor_annihilator_2}} \\
+\iff & (a \lor (\lnot a)) \lor (b \lor c)
+& & \text{Proposition \ref{Proposition:lor_commutativity_2_2}} \\
+\iff & (\text{True}) \lor (b \lor c)
+& & \text{Proposition \ref{Proposition:lor_complement_1}} \\
 \iff & \text{True}
 & & \text{Proposition \ref{Proposition:lor_annihilator_2}} \\
 \end{align*}
@@ -687,16 +714,10 @@ Proof of Proposition \ref{Proposition:implies_substitution_land}
 & & \text{Proposition \ref{Proposition:a_lor_b_complement_2}} \\
 \iff & ((\lnot b) \lor (\lnot a)) \lor (b \lor (\lnot c))
 & & \text{Proposition \ref{Proposition:a_lor_b_complement_2}} \\
-\iff & (((\lnot b) \lor (\lnot a)) \lor b) \lor (\lnot c)
-& & \text{Proposition \ref{Proposition:lor_associativity}} \\
-\iff & (b \lor ((\lnot b) \lor (\lnot a))) \lor (\lnot c)
-& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
-\iff & ((b \lor (\lnot b)) \lor (\lnot a)) \lor (\lnot c)
-& & \text{Proposition \ref{Proposition:lor_associativity}} \\
-\iff & ((\text{True}) \lor (\lnot a)) \lor (\lnot c)
-& & \text{Proposition \ref{Proposition:lor_complement_1}} \\
-\iff & (\text{True}) \lor (\lnot c)
-& & \text{Proposition \ref{Proposition:lor_annihilator_2}} \\
+\iff & ((\lnot b) \lor b) \lor ((\lnot a) \lor (\lnot c))
+& & \text{Proposition \ref{Proposition:lor_commutativity_2_2}} \\
+\iff & (\text{True}) \lor ((\lnot a) \lor (\lnot c))
+& & \text{Proposition \ref{Proposition:lor_complement_2}} \\
 \iff & \text{True}
 & & \text{Proposition \ref{Proposition:lor_annihilator_2}} \\
 \end{align*}
@@ -817,16 +838,8 @@ Proof of Proposition \ref{Proposition:iff_transitive}
 & & \text{Proposition \ref{Proposition:iff_implies}} \\
 \iff & ((a \implies b) \land (b \implies a)) \land ((b \implies c) \land (c \implies b))
 & & \text{Proposition \ref{Proposition:iff_implies}} \\
-\iff & (((a \implies b) \land (b \implies a)) \land (b \implies c)) \land (c \implies b)
-& & \text{Proposition \ref{Proposition:land_associativity}} \\
-\iff & ((b \implies c) \land ((a \implies b) \land (b \implies a))) \land (c \implies b)
-& & \text{Proposition \ref{Proposition:land_commutativity}} \\
-\iff & (((b \implies c) \land (a \implies b)) \land (b \implies a)) \land (c \implies b)
-& & \text{Proposition \ref{Proposition:land_associativity}} \\
-\iff & ((b \implies c) \land (a \implies b)) \land ((b \implies a) \land (c \implies b))
-& & \text{Proposition \ref{Proposition:land_associativity}} \\
 \iff & ((a \implies b) \land (b \implies c)) \land ((b \implies a) \land (c \implies b))
-& & \text{Proposition \ref{Proposition:land_commutativity}} \\
+& & \text{Proposition \ref{Proposition:land_commutativity_2_2}} \\
 \iff & ((a \implies b) \land (b \implies c)) \land ((c \implies b) \land (b \implies a))
 & & \text{Proposition \ref{Proposition:land_commutativity}} \\
 \implies & (a \implies c) \land ((c \implies b) \land (b \implies a))
@@ -943,16 +956,8 @@ Proof of Proposition (1)
 & ((a \implies b) \land (c \implies d)) \land (a \land c) \\
 \iff & (a \land c) \land ((a \implies b) \land (c \implies d))
 & & \text{Proposition \ref{Proposition:land_commutativity}} \\
-\iff & (c \land a) \land ((a \implies b) \land (c \implies d))
-& & \text{Proposition \ref{Proposition:land_commutativity}} \\
-\iff & ((c \land a) \land (a \implies b)) \land (c \implies d)
-& & \text{Proposition \ref{Proposition:land_associativity}} \\
-\iff & (c \land (a \land (a \implies b))) \land (c \implies d)
-& & \text{Proposition \ref{Proposition:land_associativity}} \\
-\iff & ((a \land (a \implies b)) \land c) \land (c \implies d)
-& & \text{Proposition \ref{Proposition:land_commutativity}} \\
 \iff & (a \land (a \implies b)) \land (c \land (c \implies d))
-& & \text{Proposition \ref{Proposition:land_associativity}} \\
+& & \text{Proposition \ref{Proposition:land_commutativity_2_2}} \\
 \implies & b \land (c \land (c \implies d))
 & & \text{Proposition \ref{Proposition:implies_satisfied}} \\
 \implies & b \land d
@@ -1026,16 +1031,8 @@ Proof of Proposition \ref{Proposition:iff_substitution_forall_1}
 & & \text{Proposition \ref{Proposition:iff_implies}} \\
 \iff & ((a \implies b) \land (b \implies a)) \land ((c \implies d) \land (d \implies c))
 & & \text{Proposition \ref{Proposition:iff_implies}} \\
-\iff & (((a \implies b) \land (b \implies a)) \land (c \implies d)) \land (d \implies c)
-& & \text{Proposition \ref{Proposition:land_associativity}} \\
-\iff & ((a \implies b) \land ((b \implies a) \land (c \implies d))) \land (d \implies c)
-& & \text{Proposition \ref{Proposition:land_associativity}} \\
-\iff & ((a \implies b) \land ((c \implies d) \land (b \implies a))) \land (d \implies c)
-& & \text{Proposition \ref{Proposition:land_commutativity}} \\
-\iff & (((a \implies b) \land (c \implies d)) \land (b \implies a)) \land (d \implies c)
-& & \text{Proposition \ref{Proposition:land_associativity}} \\
 \iff & ((a \implies b) \land (c \implies d)) \land ((b \implies a) \land (d \implies c))
-& & \text{Proposition \ref{Proposition:land_associativity}} \\
+& & \text{Proposition \ref{Proposition:land_commutativity_2_2}} \\
 \implies & ((a \land c) \implies (b \land d)) \land ((b \implies a) \land (d \implies c))
 & & \text{Proposition \ref{Proposition:implies_substitution_forall_1}} \\
 \implies & ((a \land c) \implies (b \land d)) \land ((b \land d) \implies (a \land c))
@@ -1059,16 +1056,8 @@ Proof of Proposition \ref{Proposition:iff_substitution_exists_1}
 & & \text{Proposition \ref{Proposition:iff_implies}} \\
 \iff & ((a \implies b) \land (b \implies a)) \land ((c \implies d) \land (d \implies c))
 & & \text{Proposition \ref{Proposition:iff_implies}} \\
-\iff & (((a \implies b) \land (b \implies a)) \land (c \implies d)) \land (d \implies c)
-& & \text{Proposition \ref{Proposition:land_associativity}} \\
-\iff & ((a \implies b) \land ((b \implies a) \land (c \implies d))) \land (d \implies c)
-& & \text{Proposition \ref{Proposition:land_associativity}} \\
-\iff & ((a \implies b) \land ((c \implies d) \land (b \implies a))) \land (d \implies c)
-& & \text{Proposition \ref{Proposition:land_commutativity}} \\
-\iff & (((a \implies b) \land (c \implies d)) \land (b \implies a)) \land (d \implies c)
-& & \text{Proposition \ref{Proposition:land_associativity}} \\
 \iff & ((a \implies b) \land (c \implies d)) \land ((b \implies a) \land (d \implies c))
-& & \text{Proposition \ref{Proposition:land_associativity}} \\
+& & \text{Proposition \ref{Proposition:land_commutativity_2_2}} \\
 \implies & ((a \lor c) \implies (b \lor d)) \land ((b \implies a) \land (d \implies c))
 & & \text{Proposition \ref{Proposition:implies_substitution_exists_1}} \\
 \implies & ((a \lor c) \implies (b \lor d)) \land ((b \lor d) \implies (a \lor c))
@@ -1133,16 +1122,8 @@ Proof of Proposition \ref{Proposition:forall_land_commutativity} \\
 For n = 2,
 \begin{align*}
 & (a_1 \land a_2) \land (b_1 \land b_2) \\
-\iff & ((a_1 \land a_2) \land b_1) \land b_2
-& & \text{Proposition \ref{Proposition:land_associativity}} \\
-\iff & (a_1 \land (a_2 \land b_1)) \land b_2
-& & \text{Proposition \ref{Proposition:land_associativity}} \\
-\iff & (a_1 \land (b_1 \land a_2)) \land b_2
-& & \text{Proposition \ref{Proposition:land_commutativity}} \\
-\iff & ((a_1 \land b_1) \land a_2) \land b_2
-& & \text{Proposition \ref{Proposition:land_associativity}} \\
 \iff & (a_1 \land b_1) \land (a_2 \land b_2)
-& & \text{Proposition \ref{Proposition:land_associativity}} \\
+& & \text{Proposition \ref{Proposition:land_commutativity_2_2}} \\
 \end{align*}
 For n = k+1,
 \begin{align*}
@@ -1154,7 +1135,7 @@ For n = k+1,
 \iff & ( \dots ((a_1 \land b_1) \land (a_2 \land b_2)) \dots ) \land ((a_k \land a_{k+1}) \land (b_k \land b_{k+1}))
 & & \text{Assumption for n=k} \\
 \iff & ( \dots ((a_1 \land b_1) \land (a_2 \land b_2)) \dots ) \land ((a_k \land b_k) \land (a_{k+1} \land b_{k+1}))
-& & \text{Assumption for n=2} \\
+& & \text{Proposition \ref{Proposition:land_commutativity_2_2}} \\
 \iff & (( \dots ((a_1 \land b_1) \land (a_2 \land b_2)) \dots ) \land (a_k \land b_k)) \land (a_{k+1} \land b_{k+1})
 & & \text{Proposition \ref{Proposition:land_associativity}} \\
 \end{align*}
@@ -1171,16 +1152,8 @@ Proof of Proposition \ref{Proposition:exists_lor_commutativity} \\
 For n = 2,
 \begin{align*}
 & (a_1 \lor a_2) \lor (b_1 \lor b_2) \\
-\iff & ((a_1 \lor a_2) \lor b_1) \lor b_2
-& & \text{Proposition \ref{Proposition:lor_associativity}} \\
-\iff & (a_1 \lor (a_2 \lor b_1)) \lor b_2
-& & \text{Proposition \ref{Proposition:lor_associativity}} \\
-\iff & (a_1 \lor (b_1 \lor a_2)) \lor b_2
-& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
-\iff & ((a_1 \lor b_1) \lor a_2) \lor b_2
-& & \text{Proposition \ref{Proposition:lor_associativity}} \\
 \iff & (a_1 \lor b_1) \lor (a_2 \lor b_2)
-& & \text{Proposition \ref{Proposition:lor_associativity}} \\
+& & \text{Proposition \ref{Proposition:lor_commutativity_2_2}} \\
 \end{align*}
 For n = k+1,
 \begin{align*}
@@ -1192,7 +1165,7 @@ For n = k+1,
 \iff & ( \dots ((a_1 \lor b_1) \lor (a_2 \lor b_2)) \dots ) \lor ((a_k \lor a_{k+1}) \lor (b_k \lor b_{k+1}))
 & & \text{Assumption for n=k} \\
 \iff & ( \dots ((a_1 \lor b_1) \lor (a_2 \lor b_2)) \dots ) \lor ((a_k \lor b_k) \lor (a_{k+1} \lor b_{k+1}))
-& & \text{Assumption for n=2} \\
+& & \text{Proposition \ref{Proposition:lor_commutativity_2_2}} \\
 \iff & (( \dots ((a_1 \lor b_1) \lor (a_2 \lor b_2)) \dots ) \lor (a_k \lor b_k)) \lor (a_{k+1} \lor b_{k+1})
 & & \text{Proposition \ref{Proposition:lor_associativity}} \\
 \end{align*}

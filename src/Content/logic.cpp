@@ -204,6 +204,29 @@ void logic()
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
+    fout<<"\\subsection{Associativity and Commutativity}"<<endl;
+    Proposition::Current = new Proposition("lor_commutativity_2_2", LOGIC, "\\forall a \\forall b \\forall c \\forall d (((a \\lor b) \\lor (c \\lor d)) \\iff ((a \\lor c) \\lor (b \\lor d)))");
+    description = "Commutativity of $\\lor$.";
+    block = new proof_block("implies_satisfied", Proposition::Current, deduction);
+    block->append_binary_operator(input({}, "Proposition:lor_associativity", RightToLeft));
+    block->append_binary_operator(input({1}, "Proposition:lor_associativity", LeftToRight));
+    block->append_binary_operator(input({1,2}, "Proposition:lor_commutativity", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:lor_associativity", RightToLeft));
+    block->append_binary_operator(input({}, "Proposition:lor_associativity", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current, description);
+    
+    Proposition::Current = new Proposition("land_commutativity_2_2", LOGIC, "\\forall a \\forall b \\forall c \\forall d (((a \\land b) \\land (c \\land d)) \\iff ((a \\land c) \\land (b \\land d)))");
+    description = "Commutativity of $\\land$.";
+    block = new proof_block("implies_satisfied", Proposition::Current, deduction);
+    block->append_binary_operator(input({}, "Proposition:land_associativity", RightToLeft));
+    block->append_binary_operator(input({1}, "Proposition:land_associativity", LeftToRight));
+    block->append_binary_operator(input({1,2}, "Proposition:land_commutativity", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:land_associativity", RightToLeft));
+    block->append_binary_operator(input({}, "Proposition:land_associativity", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current, description);
+    
     //Proof technique
     fout<<"\\section{Proof technique}"<<endl;
     
@@ -232,19 +255,12 @@ void logic()
     block->append_binary_operator(input({1,1,1}, "Proposition:double_negation", LeftToRight));
     block->append_binary_operator(input({1,2}, "Proposition:De_Morgan_lor", LeftToRight));
     block->append_binary_operator(input({1,2,1}, "Proposition:double_negation", LeftToRight));
-    block->append_binary_operator(input({}, "Proposition:lor_associativity", LeftToRight));
-    block->append_binary_operator(input({2}, "Proposition:lor_commutativity", LeftToRight));
-    block->append_binary_operator(input({2}, "Proposition:lor_associativity", LeftToRight));
-    block->append_binary_operator(input({}, "Proposition:lor_associativity", RightToLeft));
+    block->append_binary_operator(input({}, "Proposition:lor_commutativity_2_2", LeftToRight));
     block->append_binary_operator(input({1,1}, "Proposition:land_commutativity", LeftToRight));
-    block->append_binary_operator(input({2}, "Proposition:lor_commutativity", LeftToRight));
     block->append_binary_operator(input({1}, "Proposition:a_lor_b_complement_2", LeftToRight));
     block->append_binary_operator(input({2}, "Proposition:a_lor_b_complement_1", LeftToRight));
-    block->append_binary_operator(input({}, "Proposition:lor_associativity", RightToLeft));
-    block->append_binary_operator(input({1}, "Proposition:lor_commutativity", LeftToRight));
-    block->append_binary_operator(input({1}, "Proposition:lor_associativity", RightToLeft));
-    block->append_binary_operator(input({1,1}, "Proposition:lor_complement_1", LeftToRight));
-    block->append_binary_operator(input({1}, "Proposition:lor_annihilator_2", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_commutativity_2_2", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:lor_complement_2", LeftToRight));
     block->append_binary_operator(input({}, "Proposition:lor_annihilator_2", LeftToRight, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
@@ -259,17 +275,14 @@ void logic()
     block->append_binary_operator(input({1}, "Proposition:De_Morgan_lor", LeftToRight));
     block->append_binary_operator(input({1,1}, "Proposition:double_negation", LeftToRight));
     block->append_binary_operator(input({2,1}, "Proposition:De_Morgan_lor", LeftToRight));
-    block->append_binary_operator(input({2,2}, "Proposition:lor_commutativity", LeftToRight));
     block->append_binary_operator(input({2}, "Proposition:lor_associativity", RightToLeft));
-    block->append_binary_operator(input({2}, "Proposition:lor_commutativity", LeftToRight));
+    block->append_binary_operator(input({2,1}, "Proposition:lor_commutativity", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:lor_associativity", LeftToRight));
     block->append_binary_operator(input({}, "Proposition:lor_associativity", RightToLeft));
     block->append_binary_operator(input({1}, "Proposition:a_lor_b_complement_1", LeftToRight));
     block->append_binary_operator(input({2}, "Proposition:a_lor_b_complement_1", LeftToRight));
-    block->append_binary_operator(input({}, "Proposition:lor_associativity", RightToLeft));
-    block->append_binary_operator(input({1}, "Proposition:lor_commutativity", LeftToRight));
-    block->append_binary_operator(input({1}, "Proposition:lor_associativity", RightToLeft));
-    block->append_binary_operator(input({1,1}, "Proposition:lor_complement_2", LeftToRight));
-    block->append_binary_operator(input({1}, "Proposition:lor_annihilator_2", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_commutativity_2_2", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:lor_complement_1", LeftToRight));
     block->append_binary_operator(input({}, "Proposition:lor_annihilator_2", LeftToRight, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
@@ -289,11 +302,8 @@ void logic()
     block->append_binary_operator(input({2}, "Proposition:lor_commutativity", LeftToRight));
     block->append_binary_operator(input({1}, "Proposition:a_lor_b_complement_2", LeftToRight));
     block->append_binary_operator(input({2}, "Proposition:a_lor_b_complement_2", LeftToRight));
-    block->append_binary_operator(input({}, "Proposition:lor_associativity", RightToLeft));
-    block->append_binary_operator(input({1}, "Proposition:lor_commutativity", LeftToRight));
-    block->append_binary_operator(input({1}, "Proposition:lor_associativity", RightToLeft));
-    block->append_binary_operator(input({1,1}, "Proposition:lor_complement_1", LeftToRight));
-    block->append_binary_operator(input({1}, "Proposition:lor_annihilator_2", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_commutativity_2_2", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:lor_complement_2", LeftToRight));
     block->append_binary_operator(input({}, "Proposition:lor_annihilator_2", LeftToRight, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
@@ -358,11 +368,7 @@ void logic()
     block = new proof_block("contrapositive", Proposition::Current, deduction);
     block->append_binary_operator(input({1}, "Proposition:iff_implies", LeftToRight));
     block->append_binary_operator(input({2}, "Proposition:iff_implies", LeftToRight));
-    block->append_binary_operator(input({}, "Proposition:land_associativity", RightToLeft));
-    block->append_binary_operator(input({1}, "Proposition:land_commutativity", LeftToRight));
-    block->append_binary_operator(input({1}, "Proposition:land_associativity", RightToLeft));
-    block->append_binary_operator(input({}, "Proposition:land_associativity", LeftToRight));
-    block->append_binary_operator(input({1}, "Proposition:land_commutativity", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:land_commutativity_2_2", LeftToRight));
     block->append_binary_operator(input({2}, "Proposition:land_commutativity", LeftToRight));
     block->append_binary_operator(input({1}, "Proposition:implies_transitive", LeftToRight));
     block->append_binary_operator(input({2}, "Proposition:implies_transitive", LeftToRight));
@@ -434,11 +440,7 @@ void logic()
     
     block = new proof_block("1", Proposition("", LOGIC, "\\forall a \\forall b \\forall c \\forall d ((((a \\implies b) \\land (c \\implies d)) \\land (a \\land c)) \\implies (b \\land d))"), deduction);
     block->append_binary_operator(input({}, "Proposition:land_commutativity", LeftToRight));
-    block->append_binary_operator(input({1}, "Proposition:land_commutativity", LeftToRight));
-    block->append_binary_operator(input({}, "Proposition:land_associativity", RightToLeft));
-    block->append_binary_operator(input({1}, "Proposition:land_associativity", LeftToRight));
-    block->append_binary_operator(input({1}, "Proposition:land_commutativity", LeftToRight));
-    block->append_binary_operator(input({}, "Proposition:land_associativity", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:land_commutativity_2_2", RightToLeft));
     block->append_binary_operator(input({1}, "Proposition:implies_satisfied", LeftToRight));
     block->append_binary_operator(input({2}, "Proposition:implies_satisfied", LeftToRight, true));
     Proposition::Current->append(block);
@@ -474,11 +476,7 @@ void logic()
     block = new proof_block("iff_substitution_forall_1", Proposition::Current, deduction);
     block->append_binary_operator(input({1}, "Proposition:iff_implies", LeftToRight));
     block->append_binary_operator(input({2}, "Proposition:iff_implies", LeftToRight));
-    block->append_binary_operator(input({}, "Proposition:land_associativity", RightToLeft));
-    block->append_binary_operator(input({1}, "Proposition:land_associativity", LeftToRight));
-    block->append_binary_operator(input({1,2}, "Proposition:land_commutativity", LeftToRight));
-    block->append_binary_operator(input({1}, "Proposition:land_associativity", RightToLeft));
-    block->append_binary_operator(input({}, "Proposition:land_associativity", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:land_commutativity_2_2", RightToLeft));
     block->append_binary_operator(input({1}, "Proposition:implies_substitution_forall_1", LeftToRight));
     block->append_binary_operator(input({2}, "Proposition:implies_substitution_forall_1", LeftToRight));
     block->append_binary_operator(input({}, "Proposition:iff_implies", RightToLeft, true));
@@ -490,11 +488,7 @@ void logic()
     block = new proof_block("iff_substitution_exists_1", Proposition::Current, deduction);
     block->append_binary_operator(input({1}, "Proposition:iff_implies", LeftToRight));
     block->append_binary_operator(input({2}, "Proposition:iff_implies", LeftToRight));
-    block->append_binary_operator(input({}, "Proposition:land_associativity", RightToLeft));
-    block->append_binary_operator(input({1}, "Proposition:land_associativity", LeftToRight));
-    block->append_binary_operator(input({1,2}, "Proposition:land_commutativity", LeftToRight));
-    block->append_binary_operator(input({1}, "Proposition:land_associativity", RightToLeft));
-    block->append_binary_operator(input({}, "Proposition:land_associativity", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:land_commutativity_2_2", RightToLeft));
     block->append_binary_operator(input({1}, "Proposition:implies_substitution_exists_1", LeftToRight));
     block->append_binary_operator(input({2}, "Proposition:implies_substitution_exists_1", LeftToRight));
     block->append_binary_operator(input({}, "Proposition:iff_implies", RightToLeft, true));
@@ -585,16 +579,8 @@ void logic()
     fout<<"For n = 2,"<<endl;
     fout<<"\\begin{align*}"<<endl;
     fout<<"& (a_1 \\land a_2) \\land (b_1 \\land b_2) \\\\"<<endl;
-    fout<<"\\iff & ((a_1 \\land a_2) \\land b_1) \\land b_2"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:land_associativity}} \\\\"<<endl;
-    fout<<"\\iff & (a_1 \\land (a_2 \\land b_1)) \\land b_2"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:land_associativity}} \\\\"<<endl;
-    fout<<"\\iff & (a_1 \\land (b_1 \\land a_2)) \\land b_2"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:land_commutativity}} \\\\"<<endl;
-    fout<<"\\iff & ((a_1 \\land b_1) \\land a_2) \\land b_2"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:land_associativity}} \\\\"<<endl;
     fout<<"\\iff & (a_1 \\land b_1) \\land (a_2 \\land b_2)"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:land_associativity}} \\\\"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:land_commutativity_2_2}} \\\\"<<endl;
     fout<<"\\end{align*}"<<endl;
     
     fout<<"For n = k+1,"<<endl;
@@ -607,7 +593,7 @@ void logic()
     fout<<"\\iff & ( \\dots ((a_1 \\land b_1) \\land (a_2 \\land b_2)) \\dots ) \\land ((a_k \\land a_{k+1}) \\land (b_k \\land b_{k+1}))"<<endl;
     fout<<"& & \\text{Assumption for n=k} \\\\"<<endl;
     fout<<"\\iff & ( \\dots ((a_1 \\land b_1) \\land (a_2 \\land b_2)) \\dots ) \\land ((a_k \\land b_k) \\land (a_{k+1} \\land b_{k+1}))"<<endl;
-    fout<<"& & \\text{Assumption for n=2} \\\\"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:land_commutativity_2_2}} \\\\"<<endl;
     fout<<"\\iff & (( \\dots ((a_1 \\land b_1) \\land (a_2 \\land b_2)) \\dots ) \\land (a_k \\land b_k)) \\land (a_{k+1} \\land b_{k+1})"<<endl;
     fout<<"& & \\text{Proposition \\ref{Proposition:land_associativity}} \\\\"<<endl;
     fout<<"\\end{align*}"<<endl;
@@ -645,16 +631,8 @@ void logic()
     fout<<"For n = 2,"<<endl;
     fout<<"\\begin{align*}"<<endl;
     fout<<"& (a_1 \\lor a_2) \\lor (b_1 \\lor b_2) \\\\"<<endl;
-    fout<<"\\iff & ((a_1 \\lor a_2) \\lor b_1) \\lor b_2"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:lor_associativity}} \\\\"<<endl;
-    fout<<"\\iff & (a_1 \\lor (a_2 \\lor b_1)) \\lor b_2"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:lor_associativity}} \\\\"<<endl;
-    fout<<"\\iff & (a_1 \\lor (b_1 \\lor a_2)) \\lor b_2"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:lor_commutativity}} \\\\"<<endl;
-    fout<<"\\iff & ((a_1 \\lor b_1) \\lor a_2) \\lor b_2"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:lor_associativity}} \\\\"<<endl;
     fout<<"\\iff & (a_1 \\lor b_1) \\lor (a_2 \\lor b_2)"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:lor_associativity}} \\\\"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:lor_commutativity_2_2}} \\\\"<<endl;
     fout<<"\\end{align*}"<<endl;
     
     fout<<"For n = k+1,"<<endl;
@@ -667,7 +645,7 @@ void logic()
     fout<<"\\iff & ( \\dots ((a_1 \\lor b_1) \\lor (a_2 \\lor b_2)) \\dots ) \\lor ((a_k \\lor a_{k+1}) \\lor (b_k \\lor b_{k+1}))"<<endl;
     fout<<"& & \\text{Assumption for n=k} \\\\"<<endl;
     fout<<"\\iff & ( \\dots ((a_1 \\lor b_1) \\lor (a_2 \\lor b_2)) \\dots ) \\lor ((a_k \\lor b_k) \\lor (a_{k+1} \\lor b_{k+1}))"<<endl;
-    fout<<"& & \\text{Assumption for n=2} \\\\"<<endl;
+    fout<<"& & \\text{Proposition \\ref{Proposition:lor_commutativity_2_2}} \\\\"<<endl;
     fout<<"\\iff & (( \\dots ((a_1 \\lor b_1) \\lor (a_2 \\lor b_2)) \\dots ) \\lor (a_k \\lor b_k)) \\lor (a_{k+1} \\lor b_{k+1})"<<endl;
     fout<<"& & \\text{Proposition \\ref{Proposition:lor_associativity}} \\\\"<<endl;
     fout<<"\\end{align*}"<<endl;
