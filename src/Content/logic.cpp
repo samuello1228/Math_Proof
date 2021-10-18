@@ -434,6 +434,121 @@ void logic()
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
+    Proposition::Current = new Proposition("iff_substitution_implies_1", LOGIC, "\\forall a \\forall b \\forall c ((a \\iff b) \\implies ((a \\implies c) \\iff (b \\implies c)))");
+    description = "Substitution of $\\iff$ for $\\implies$.";
+    block = new proof_block("iff_substitution_implies_1", Proposition::Current, deduction);
+    block->append_binary_operator(input({}, "Proposition:iff_substitution_lnot", LeftToRight));
+    sub.clear();
+    sub.push_back(new substitution("a", "\\lnot a", LOGIC));
+    sub.push_back(new substitution("b", "\\lnot b", LOGIC));
+    sub.push_back(new substitution("c", "c", LOGIC));
+    block->append_binary_operator(input({}, "Proposition:iff_substitution_lor", LeftToRight, sub));
+    block->append_binary_operator(input({1}, "Definition:implies", RightToLeft));
+    block->append_binary_operator(input({2}, "Definition:implies", RightToLeft, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current, description);
+    
+    Proposition::Current = new Proposition("iff_substitution_implies_2", LOGIC, "\\forall a \\forall b \\forall c ((a \\iff b) \\implies ((c \\implies a) \\iff (c \\implies b)))");
+    description = "Substitution of $\\iff$ for $\\implies$.";
+    block = new proof_block("iff_substitution_implies_2", Proposition::Current, deduction);
+    sub.clear();
+    sub.push_back(new substitution("a", "a", LOGIC));
+    sub.push_back(new substitution("b", "b", LOGIC));
+    sub.push_back(new substitution("c", "\\lnot c", LOGIC));
+    block->append_binary_operator(input({}, "Proposition:iff_substitution_lor", LeftToRight, sub));
+    block->append_binary_operator(input({1}, "Proposition:lor_commutativity", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:lor_commutativity", LeftToRight));
+    block->append_binary_operator(input({1}, "Definition:implies", RightToLeft));
+    block->append_binary_operator(input({2}, "Definition:implies", RightToLeft, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current, description);
+    
+    Proposition::Current = new Proposition("iff_substitution_iff", LOGIC, "\\forall a \\forall b \\forall c ((a \\iff b) \\iff ((a \\iff c) \\iff (b \\iff c)))");
+    description = "Substitution of $\\iff$ for $\\iff$.";
+    
+    block = new proof_block("1", Proposition("", LOGIC, "\\forall a \\forall b \\forall c (((a \\land c) \\land (b \\land c)) \\iff ((a \\land b) \\land c))"), deduction);
+    block->append_binary_operator(input({}, "Proposition:land_commutativity_2_2", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:land_idempotence", LeftToRight, true));
+    Proposition::Current->append(block);
+    
+    block = new proof_block("2", Proposition("", LOGIC, "\\forall a \\forall b \\forall c (((a \\land c) \\land (b \\land (\\lnot c))) \\iff (\\text{False}))"), deduction);
+    block->append_binary_operator(input({}, "Proposition:land_commutativity_2_2", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:land_complement_1", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:land_annihilator_1", LeftToRight, true));
+    Proposition::Current->append(block);
+    
+    block = new proof_block("3", Proposition("", LOGIC, "\\forall a \\forall b ((\\lnot (a \\iff b)) \\iff (a \\iff (\\lnot b)))"), deduction);
+    block->append_binary_operator(input({1}, "Definition:iff", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:De_Morgan_lor", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:De_Morgan_land", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:De_Morgan_land", LeftToRight));
+    block->append_binary_operator(input({2,1}, "Proposition:double_negation", LeftToRight));
+    block->append_binary_operator(input({2,2}, "Proposition:double_negation", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:land_lor_distributivity_2", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:land_lor_distributivity_1", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:land_lor_distributivity_1", LeftToRight));
+    block->append_binary_operator(input({1,1}, "Proposition:land_complement_2", LeftToRight));
+    block->append_binary_operator(input({2,2}, "Proposition:land_complement_2", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:lor_identity_2", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:lor_identity_1", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:land_commutativity", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_commutativity", LeftToRight));
+    block->append_binary_operator(input({2,2}, "Proposition:double_negation", RightToLeft));
+    block->append_binary_operator(input({}, "Definition:iff", RightToLeft, true));
+    Proposition::Current->append(block);
+    
+    block = new proof_block("4", Proposition("", LOGIC, "\\forall a \\forall b \\forall c (((a \\iff c) \\land (b \\iff c)) \\iff (((a \\land b) \\land c) \\lor (((\\lnot a) \\land (\\lnot b)) \\land (\\lnot c))))"), deduction);
+    block->append_binary_operator(input({1}, "Definition:iff", LeftToRight));
+    block->append_binary_operator(input({2}, "Definition:iff", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:land_lor_distributivity_2", LeftToRight));
+    block->set_split_point({{2}});
+    block->append_binary_operator(input({1}, "Proposition:land_lor_distributivity_1", LeftToRight));
+    block->set_split_point({{2}});
+    block->append_binary_operator(input({2}, "Proposition:land_lor_distributivity_1", LeftToRight));
+    block->set_split_point({{2}});
+    block->append_binary_operator(input({1,1}, "Local:1", LeftToRight));
+    block->set_split_point({{2}});
+    block->append_binary_operator(input({1,2}, "Local:2", LeftToRight));
+    block->set_split_point({{2}});
+    block->append_binary_operator(input({2,1,2,2}, "Proposition:double_negation", RightToLeft));
+    block->set_split_point({{2}});
+    block->append_binary_operator(input({2,1}, "Local:2", LeftToRight));
+    block->set_split_point({{2}});
+    block->append_binary_operator(input({2,2}, "Local:1", LeftToRight));
+    block->set_split_point({{2}});
+    block->append_binary_operator(input({1}, "Proposition:lor_identity_1", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:lor_identity_2", LeftToRight, true));
+    Proposition::Current->append(block);
+    
+    block = new proof_block("5", Proposition("", LOGIC, "\\forall a \\forall b \\forall c (((a \\iff c) \\land (b \\iff c)) \\iff ((a \\iff b) \\land (a \\iff c)))"), deduction);
+    block->append_binary_operator(input({}, "Local:4", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:land_associativity", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:land_associativity", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:land_commutativity", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:land_commutativity", LeftToRight));
+    block->append_binary_operator(input({}, "Local:4", RightToLeft));
+    block->append_binary_operator(input({1}, "Proposition:iff_symmetric", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:iff_symmetric", LeftToRight, true));
+    Proposition::Current->append(block);
+    
+    block = new proof_block("6", Proposition("", LOGIC, "\\forall a \\forall b \\forall c (((a \\iff c) \\iff (b \\iff c)) \\iff (a \\iff b))"), deduction);
+    block->append_binary_operator(input({}, "Definition:iff", LeftToRight));
+    block->append_binary_operator(input({2,1}, "Local:3", LeftToRight));
+    block->append_binary_operator(input({2,2}, "Local:3", LeftToRight));
+    block->append_binary_operator(input({1}, "Local:5", LeftToRight));
+    block->append_binary_operator(input({2}, "Local:5", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:land_lor_distributivity_1", RightToLeft));
+    block->append_binary_operator(input({2,2}, "Local:3", RightToLeft));
+    block->append_binary_operator(input({2}, "Proposition:lor_complement_1", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:land_identity_1", LeftToRight));
+    Proposition::Current->append(block);
+    
+    block = new proof_block("iff_substitution_iff", Proposition::Current, backward);
+    block->append_binary_operator(input({}, "Proposition:iff_symmetric", LeftToRight));
+    block->append_binary_operator(input({}, "Local:6", PToTrue, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current, description);
+    
     fout<<"\\subsection{Axiom of Substitution for quantifiers}"<<endl;
     Proposition::Current = new Proposition("implies_substitution_forall_1", LOGIC, "\\forall a \\forall b \\forall c \\forall d (((a \\implies b) \\land (c \\implies d)) \\implies ((a \\land c) \\implies (b \\land d)))");
     description = "Substitution of $\\implies$ for $\\forall$.";

@@ -938,6 +938,231 @@ Proof of Proposition \ref{Proposition:iff_substitution_lnot}
 \end{align*}
 \end{prop}
 
+\begin{prop}
+\label{Proposition:iff_substitution_implies_1}
+Substitution of $\iff$ for $\implies$.
+\begin{align*}
+& a \iff b \\
+\implies & (a \implies c) \iff (b \implies c)
+\end{align*}
+Proof of Proposition \ref{Proposition:iff_substitution_implies_1}
+\begin{align*}
+& a \iff b \\
+\iff & (\lnot a) \iff (\lnot b)
+& & \text{Proposition \ref{Proposition:iff_substitution_lnot}} \\
+\implies & ((\lnot a) \lor c) \iff ((\lnot b) \lor c)
+& & \text{Proposition \ref{Proposition:iff_substitution_lor}} \\
+\overset{\operatorname{def}}{\iff} & (a \implies c) \iff ((\lnot b) \lor c)
+& & \text{Definition \ref{Definition:implies}} \\
+\overset{\operatorname{def}}{\iff} & (a \implies c) \iff (b \implies c)
+& & \text{Definition \ref{Definition:implies}} \\
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:iff_substitution_implies_2}
+Substitution of $\iff$ for $\implies$.
+\begin{align*}
+& a \iff b \\
+\implies & (c \implies a) \iff (c \implies b)
+\end{align*}
+Proof of Proposition \ref{Proposition:iff_substitution_implies_2}
+\begin{align*}
+& a \iff b \\
+\implies & (a \lor (\lnot c)) \iff (b \lor (\lnot c))
+& & \text{Proposition \ref{Proposition:iff_substitution_lor}} \\
+\iff & ((\lnot c) \lor a) \iff (b \lor (\lnot c))
+& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
+\iff & ((\lnot c) \lor a) \iff ((\lnot c) \lor b)
+& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
+\overset{\operatorname{def}}{\iff} & (c \implies a) \iff ((\lnot c) \lor b)
+& & \text{Definition \ref{Definition:implies}} \\
+\overset{\operatorname{def}}{\iff} & (c \implies a) \iff (c \implies b)
+& & \text{Definition \ref{Definition:implies}} \\
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:iff_substitution_iff}
+Substitution of $\iff$ for $\iff$.
+\begin{align*}
+& a \iff b \\
+\iff & (a \iff c) \iff (b \iff c)
+\end{align*}
+Proposition (1)
+\begin{align*}
+& (a \land c) \land (b \land c) \\
+\iff & (a \land b) \land c
+\end{align*}
+Proof of Proposition (1)
+\begin{align*}
+& (a \land c) \land (b \land c) \\
+\iff & (a \land b) \land (c \land c)
+& & \text{Proposition \ref{Proposition:land_commutativity_2_2}} \\
+\iff & (a \land b) \land c
+& & \text{Proposition \ref{Proposition:land_idempotence}} \\
+\end{align*}
+Proposition (2)
+\begin{align*}
+& (a \land c) \land (b \land (\lnot c)) \\
+\iff & \text{False}
+\end{align*}
+Proof of Proposition (2)
+\begin{align*}
+& (a \land c) \land (b \land (\lnot c)) \\
+\iff & (a \land b) \land (c \land (\lnot c))
+& & \text{Proposition \ref{Proposition:land_commutativity_2_2}} \\
+\iff & (a \land b) \land (\text{False})
+& & \text{Proposition \ref{Proposition:land_complement_1}} \\
+\iff & \text{False}
+& & \text{Proposition \ref{Proposition:land_annihilator_1}} \\
+\end{align*}
+Proposition (3)
+\begin{align*}
+& \lnot (a \iff b) \\
+\iff & a \iff (\lnot b)
+\end{align*}
+Proof of Proposition (3)
+\begin{align*}
+& \lnot (a \iff b) \\
+\overset{\operatorname{def}}{\iff} & \lnot ((a \land b) \lor ((\lnot a) \land (\lnot b)))
+& & \text{Definition \ref{Definition:iff}} \\
+\iff & (\lnot (a \land b)) \land (\lnot ((\lnot a) \land (\lnot b)))
+& & \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
+\iff & ((\lnot a) \lor (\lnot b)) \land (\lnot ((\lnot a) \land (\lnot b)))
+& & \text{Proposition \ref{Proposition:De_Morgan_land}} \\
+\iff & ((\lnot a) \lor (\lnot b)) \land ((\lnot (\lnot a)) \lor (\lnot (\lnot b)))
+& & \text{Proposition \ref{Proposition:De_Morgan_land}} \\
+\iff & ((\lnot a) \lor (\lnot b)) \land (a \lor (\lnot (\lnot b)))
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\iff & ((\lnot a) \lor (\lnot b)) \land (a \lor b)
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\iff & ((\lnot a) \land (a \lor b)) \lor ((\lnot b) \land (a \lor b))
+& & \text{Proposition \ref{Proposition:land_lor_distributivity_2}} \\
+\iff & (((\lnot a) \land a) \lor ((\lnot a) \land b)) \lor ((\lnot b) \land (a \lor b))
+& & \text{Proposition \ref{Proposition:land_lor_distributivity_1}} \\
+\iff & (((\lnot a) \land a) \lor ((\lnot a) \land b)) \lor (((\lnot b) \land a) \lor ((\lnot b) \land b))
+& & \text{Proposition \ref{Proposition:land_lor_distributivity_1}} \\
+\iff & ((\text{False}) \lor ((\lnot a) \land b)) \lor (((\lnot b) \land a) \lor ((\lnot b) \land b))
+& & \text{Proposition \ref{Proposition:land_complement_2}} \\
+\iff & ((\text{False}) \lor ((\lnot a) \land b)) \lor (((\lnot b) \land a) \lor (\text{False}))
+& & \text{Proposition \ref{Proposition:land_complement_2}} \\
+\iff & ((\lnot a) \land b) \lor (((\lnot b) \land a) \lor (\text{False}))
+& & \text{Proposition \ref{Proposition:lor_identity_2}} \\
+\iff & ((\lnot a) \land b) \lor ((\lnot b) \land a)
+& & \text{Proposition \ref{Proposition:lor_identity_1}} \\
+\iff & ((\lnot a) \land b) \lor (a \land (\lnot b))
+& & \text{Proposition \ref{Proposition:land_commutativity}} \\
+\iff & (a \land (\lnot b)) \lor ((\lnot a) \land b)
+& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
+\iff & (a \land (\lnot b)) \lor ((\lnot a) \land (\lnot (\lnot b)))
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\overset{\operatorname{def}}{\iff} & a \iff (\lnot b)
+& & \text{Definition \ref{Definition:iff}} \\
+\end{align*}
+Proposition (4)
+\begin{align*}
+& (a \iff c) \land (b \iff c) \\
+\iff & ((a \land b) \land c) \lor (((\lnot a) \land (\lnot b)) \land (\lnot c))
+\end{align*}
+Proof of Proposition (4)
+\begin{align*}
+& (a \iff c) \land (b \iff c) \\
+\overset{\operatorname{def}}{\iff} & ((a \land c) \lor ((\lnot a) \land (\lnot c))) \land (b \iff c)
+& & \text{Definition \ref{Definition:iff}} \\
+\overset{\operatorname{def}}{\iff} & ((a \land c) \lor ((\lnot a) \land (\lnot c))) \land ((b \land c) \lor ((\lnot b) \land (\lnot c)))
+& & \text{Definition \ref{Definition:iff}} \\
+\iff & ((a \land c) \land ((b \land c) \lor ((\lnot b) \land (\lnot c)))) \\
+& \lor (((\lnot a) \land (\lnot c)) \land ((b \land c) \lor ((\lnot b) \land (\lnot c))))
+& & \text{Proposition \ref{Proposition:land_lor_distributivity_2}} \\
+\iff & (((a \land c) \land (b \land c)) \lor ((a \land c) \land ((\lnot b) \land (\lnot c)))) \\
+& \lor (((\lnot a) \land (\lnot c)) \land ((b \land c) \lor ((\lnot b) \land (\lnot c))))
+& & \text{Proposition \ref{Proposition:land_lor_distributivity_1}} \\
+\iff & (((a \land c) \land (b \land c)) \lor ((a \land c) \land ((\lnot b) \land (\lnot c)))) \\
+& \lor ((((\lnot a) \land (\lnot c)) \land (b \land c)) \lor (((\lnot a) \land (\lnot c)) \land ((\lnot b) \land (\lnot c))))
+& & \text{Proposition \ref{Proposition:land_lor_distributivity_1}} \\
+\iff & (((a \land b) \land c) \lor ((a \land c) \land ((\lnot b) \land (\lnot c)))) \\
+& \lor ((((\lnot a) \land (\lnot c)) \land (b \land c)) \lor (((\lnot a) \land (\lnot c)) \land ((\lnot b) \land (\lnot c))))
+& & \text{Proposition (1)} \\
+\iff & (((a \land b) \land c) \lor (\text{False})) \\
+& \lor ((((\lnot a) \land (\lnot c)) \land (b \land c)) \lor (((\lnot a) \land (\lnot c)) \land ((\lnot b) \land (\lnot c))))
+& & \text{Proposition (2)} \\
+\iff & (((a \land b) \land c) \lor (\text{False})) \\
+& \lor ((((\lnot a) \land (\lnot c)) \land (b \land (\lnot (\lnot c)))) \lor (((\lnot a) \land (\lnot c)) \land ((\lnot b) \land (\lnot c))))
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\iff & (((a \land b) \land c) \lor (\text{False})) \\
+& \lor ((\text{False}) \lor (((\lnot a) \land (\lnot c)) \land ((\lnot b) \land (\lnot c))))
+& & \text{Proposition (2)} \\
+\iff & (((a \land b) \land c) \lor (\text{False})) \\
+& \lor ((\text{False}) \lor (((\lnot a) \land (\lnot b)) \land (\lnot c)))
+& & \text{Proposition (1)} \\
+\iff & ((a \land b) \land c) \lor ((\text{False}) \lor (((\lnot a) \land (\lnot b)) \land (\lnot c)))
+& & \text{Proposition \ref{Proposition:lor_identity_1}} \\
+\iff & ((a \land b) \land c) \lor (((\lnot a) \land (\lnot b)) \land (\lnot c))
+& & \text{Proposition \ref{Proposition:lor_identity_2}} \\
+\end{align*}
+Proposition (5)
+\begin{align*}
+& (a \iff c) \land (b \iff c) \\
+\iff & (a \iff b) \land (a \iff c)
+\end{align*}
+Proof of Proposition (5)
+\begin{align*}
+& (a \iff c) \land (b \iff c) \\
+\iff & ((a \land b) \land c) \lor (((\lnot a) \land (\lnot b)) \land (\lnot c))
+& & \text{Proposition (4)} \\
+\iff & (a \land (b \land c)) \lor (((\lnot a) \land (\lnot b)) \land (\lnot c))
+& & \text{Proposition \ref{Proposition:land_associativity}} \\
+\iff & (a \land (b \land c)) \lor ((\lnot a) \land ((\lnot b) \land (\lnot c)))
+& & \text{Proposition \ref{Proposition:land_associativity}} \\
+\iff & ((b \land c) \land a) \lor ((\lnot a) \land ((\lnot b) \land (\lnot c)))
+& & \text{Proposition \ref{Proposition:land_commutativity}} \\
+\iff & ((b \land c) \land a) \lor (((\lnot b) \land (\lnot c)) \land (\lnot a))
+& & \text{Proposition \ref{Proposition:land_commutativity}} \\
+\iff & (b \iff a) \land (c \iff a)
+& & \text{Proposition (4)} \\
+\iff & (a \iff b) \land (c \iff a)
+& & \text{Proposition \ref{Proposition:iff_symmetric}} \\
+\iff & (a \iff b) \land (a \iff c)
+& & \text{Proposition \ref{Proposition:iff_symmetric}} \\
+\end{align*}
+Proposition (6)
+\begin{align*}
+& (a \iff c) \iff (b \iff c) \\
+\iff & a \iff b
+\end{align*}
+Proof of Proposition (6)
+\begin{align*}
+& (a \iff c) \iff (b \iff c) \\
+\overset{\operatorname{def}}{\iff} & ((a \iff c) \land (b \iff c)) \lor ((\lnot (a \iff c)) \land (\lnot (b \iff c)))
+& & \text{Definition \ref{Definition:iff}} \\
+\iff & ((a \iff c) \land (b \iff c)) \lor ((a \iff (\lnot c)) \land (\lnot (b \iff c)))
+& & \text{Proposition (3)} \\
+\iff & ((a \iff c) \land (b \iff c)) \lor ((a \iff (\lnot c)) \land (b \iff (\lnot c)))
+& & \text{Proposition (3)} \\
+\iff & ((a \iff b) \land (a \iff c)) \lor ((a \iff (\lnot c)) \land (b \iff (\lnot c)))
+& & \text{Proposition (5)} \\
+\iff & ((a \iff b) \land (a \iff c)) \lor ((a \iff b) \land (a \iff (\lnot c)))
+& & \text{Proposition (5)} \\
+\iff & (a \iff b) \land ((a \iff c) \lor (a \iff (\lnot c)))
+& & \text{Proposition \ref{Proposition:land_lor_distributivity_1}} \\
+\iff & (a \iff b) \land ((a \iff c) \lor (\lnot (a \iff c)))
+& & \text{Proposition (3)} \\
+\iff & (a \iff b) \land (\text{True})
+& & \text{Proposition \ref{Proposition:lor_complement_1}} \\
+\iff & a \iff b
+& & \text{Proposition \ref{Proposition:land_identity_1}} \\
+\end{align*}
+Proof of Proposition \ref{Proposition:iff_substitution_iff}
+\begin{align*}
+& (a \iff b) \iff ((a \iff c) \iff (b \iff c)) \\
+\iff & ((a \iff c) \iff (b \iff c)) \iff (a \iff b)
+& & \text{Proposition \ref{Proposition:iff_symmetric}} \\
+\iff & \text{True}
+& & \text{Proposition (6)} \\
+\end{align*}
+\end{prop}
+
 \subsection{Axiom of Substitution for quantifiers}
 \begin{prop}
 \label{Proposition:implies_substitution_forall_1}
