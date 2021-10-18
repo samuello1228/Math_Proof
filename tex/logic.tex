@@ -106,6 +106,32 @@ Proposition is a statement that is either true or false, but not both.
 \end{defn}
 
 \section{Boolean algebra}
+\subsection{Double negation}
+\begin{prop}
+\label{Proposition:double_negation}
+\begin{align*}
+& \lnot (\lnot a) \\
+\iff & a
+\end{align*}
+\end{prop}
+
+\subsection{De Morgan's laws}
+\begin{prop}
+\label{Proposition:De_Morgan_lor}
+\begin{align*}
+& \lnot (a \lor b) \\
+\iff & (\lnot a) \land (\lnot b)
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:De_Morgan_land}
+\begin{align*}
+& \lnot (a \land b) \\
+\iff & (\lnot a) \lor (\lnot b)
+\end{align*}
+\end{prop}
+
 \subsection{Associativity of $\lor$}
 \begin{prop}
 \label{Proposition:lor_associativity}
@@ -262,72 +288,6 @@ Proposition is a statement that is either true or false, but not both.
 \end{align*}
 \end{prop}
 
-\subsection{Absorption of $\lor$ over $\land$}
-\begin{prop}
-\label{Proposition:lor_land_absorption_1}
-\begin{align*}
-& a \lor (a \land b) \\
-\iff & a
-\end{align*}
-\end{prop}
-
-\begin{prop}
-\label{Proposition:lor_land_absorption_2}
-\begin{align*}
-& a \lor (b \land a) \\
-\iff & a
-\end{align*}
-\end{prop}
-
-\begin{prop}
-\label{Proposition:lor_land_absorption_3}
-\begin{align*}
-& (a \land b) \lor a \\
-\iff & a
-\end{align*}
-\end{prop}
-
-\begin{prop}
-\label{Proposition:lor_land_absorption_4}
-\begin{align*}
-& (b \land a) \lor a \\
-\iff & a
-\end{align*}
-\end{prop}
-
-\subsection{Absorption of $\land$ over $\lor$}
-\begin{prop}
-\label{Proposition:land_lor_absorption_1}
-\begin{align*}
-& a \land (a \lor b) \\
-\iff & a
-\end{align*}
-\end{prop}
-
-\begin{prop}
-\label{Proposition:land_lor_absorption_2}
-\begin{align*}
-& a \land (b \lor a) \\
-\iff & a
-\end{align*}
-\end{prop}
-
-\begin{prop}
-\label{Proposition:land_lor_absorption_3}
-\begin{align*}
-& (a \lor b) \land a \\
-\iff & a
-\end{align*}
-\end{prop}
-
-\begin{prop}
-\label{Proposition:land_lor_absorption_4}
-\begin{align*}
-& (b \lor a) \land a \\
-\iff & a
-\end{align*}
-\end{prop}
-
 \subsection{Distributivity of $\lor$ over $\land$}
 \begin{prop}
 \label{Proposition:lor_land_distributivity_1}
@@ -362,29 +322,53 @@ Proposition is a statement that is either true or false, but not both.
 \end{align*}
 \end{prop}
 
-\subsection{Double negation}
+\subsection{Absorption of $\lor$ over $\land$}
 \begin{prop}
-\label{Proposition:double_negation}
+\label{Proposition:lor_land_absorption}
 \begin{align*}
-& \lnot (\lnot a) \\
+& a \lor (a \land b) \\
 \iff & a
 \end{align*}
-\end{prop}
-
-\subsection{De Morgan's laws}
-\begin{prop}
-\label{Proposition:De_Morgan_lor}
+Proof of Proposition \ref{Proposition:lor_land_absorption}
 \begin{align*}
-& \lnot (a \lor b) \\
-\iff & (\lnot a) \land (\lnot b)
+& a \lor (a \land b) \\
+\iff & (a \land (\text{True})) \lor (a \land b)
+& & \text{Proposition \ref{Proposition:land_identity_1}} \\
+\iff & (a \land (b \lor (\lnot b))) \lor (a \land b)
+& & \text{Proposition \ref{Proposition:lor_complement_1}} \\
+\iff & ((a \land b) \lor (a \land (\lnot b))) \lor (a \land b)
+& & \text{Proposition \ref{Proposition:land_lor_distributivity_1}} \\
+\iff & (a \land b) \lor ((a \land b) \lor (a \land (\lnot b)))
+& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
+\iff & ((a \land b) \lor (a \land b)) \lor (a \land (\lnot b))
+& & \text{Proposition \ref{Proposition:lor_associativity}} \\
+\iff & (a \land b) \lor (a \land (\lnot b))
+& & \text{Proposition \ref{Proposition:lor_idempotence}} \\
+\iff & a \land (b \lor (\lnot b))
+& & \text{Proposition \ref{Proposition:land_lor_distributivity_1}} \\
+\iff & a \land (\text{True})
+& & \text{Proposition \ref{Proposition:lor_complement_1}} \\
+\iff & a
+& & \text{Proposition \ref{Proposition:land_identity_1}} \\
 \end{align*}
 \end{prop}
 
+\subsection{Absorption of $\land$ over $\lor$}
 \begin{prop}
-\label{Proposition:De_Morgan_land}
+\label{Proposition:land_lor_absorption}
 \begin{align*}
-& \lnot (a \land b) \\
-\iff & (\lnot a) \lor (\lnot b)
+& a \land (a \lor b) \\
+\iff & a
+\end{align*}
+Proof of Proposition \ref{Proposition:land_lor_absorption}
+\begin{align*}
+& a \land (a \lor b) \\
+\iff & (a \land a) \lor (a \land b)
+& & \text{Proposition \ref{Proposition:land_lor_distributivity_1}} \\
+\iff & a \lor (a \land b)
+& & \text{Proposition \ref{Proposition:land_idempotence}} \\
+\iff & a
+& & \text{Proposition \ref{Proposition:lor_land_absorption}} \\
 \end{align*}
 \end{prop}
 

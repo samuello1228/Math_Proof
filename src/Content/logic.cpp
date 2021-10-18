@@ -55,6 +55,15 @@ void logic()
     vector<substitution*> sub;
     string description;
     fout<<"\\section{Boolean algebra}"<<endl;
+    //Double negation
+    fout<<"\\subsection{Double negation}"<<endl;
+    Proposition::addProposition(fout, new Proposition("double_negation", LOGIC, "\\forall a ((\\lnot (\\lnot a)) \\iff a)"));
+    
+    //De Morgan's laws
+    fout<<"\\subsection{De Morgan's laws}"<<endl;
+    Proposition::addProposition(fout, new Proposition("De_Morgan_lor", LOGIC, "\\forall a \\forall b ((\\lnot (a \\lor b)) \\iff ((\\lnot a) \\land (\\lnot b)))"));
+    Proposition::addProposition(fout, new Proposition("De_Morgan_land", LOGIC, "\\forall a \\forall b ((\\lnot (a \\land b)) \\iff ((\\lnot a) \\lor (\\lnot b)))"));
+    
     //Associativity
     fout<<"\\subsection{Associativity of $\\lor$}"<<endl;
     Proposition::addProposition(fout, new Proposition("lor_associativity", LOGIC, "\\forall a \\forall b \\forall c (((a \\lor b) \\lor c) \\iff (a \\lor (b \\lor c)))"));
@@ -105,19 +114,6 @@ void logic()
     Proposition::addProposition(fout, new Proposition("land_complement_1", LOGIC, "\\forall a ((a \\land (\\lnot a)) \\iff (\\text{False}))"));
     Proposition::addProposition(fout, new Proposition("land_complement_2", LOGIC, "\\forall a (((\\lnot a) \\land a) \\iff (\\text{False}))"));
     
-    //Absorption
-    fout<<"\\subsection{Absorption of $\\lor$ over $\\land$}"<<endl;
-    Proposition::addProposition(fout, new Proposition("lor_land_absorption_1", LOGIC, "\\forall a \\forall b ((a \\lor (a \\land b)) \\iff a)"));
-    Proposition::addProposition(fout, new Proposition("lor_land_absorption_2", LOGIC, "\\forall a \\forall b ((a \\lor (b \\land a)) \\iff a)"));
-    Proposition::addProposition(fout, new Proposition("lor_land_absorption_3", LOGIC, "\\forall a \\forall b (((a \\land b) \\lor a) \\iff a)"));
-    Proposition::addProposition(fout, new Proposition("lor_land_absorption_4", LOGIC, "\\forall a \\forall b (((b \\land a) \\lor a) \\iff a)"));
-    
-    fout<<"\\subsection{Absorption of $\\land$ over $\\lor$}"<<endl;
-    Proposition::addProposition(fout, new Proposition("land_lor_absorption_1", LOGIC, "\\forall a \\forall b ((a \\land (a \\lor b)) \\iff a)"));
-    Proposition::addProposition(fout, new Proposition("land_lor_absorption_2", LOGIC, "\\forall a \\forall b ((a \\land (b \\lor a)) \\iff a)"));
-    Proposition::addProposition(fout, new Proposition("land_lor_absorption_3", LOGIC, "\\forall a \\forall b (((a \\lor b) \\land a) \\iff a)"));
-    Proposition::addProposition(fout, new Proposition("land_lor_absorption_4", LOGIC, "\\forall a \\forall b (((b \\lor a) \\land a) \\iff a)"));
-    
     //Distributivity
     fout<<"\\subsection{Distributivity of $\\lor$ over $\\land$}"<<endl;
     Proposition::addProposition(fout, new Proposition("lor_land_distributivity_1", LOGIC, "\\forall a \\forall b \\forall c ((a \\lor (b \\land c)) \\iff ((a \\lor b) \\land (a \\lor c)))"));
@@ -127,14 +123,31 @@ void logic()
     Proposition::addProposition(fout, new Proposition("land_lor_distributivity_1", LOGIC, "\\forall a \\forall b \\forall c ((a \\land (b \\lor c)) \\iff ((a \\land b) \\lor (a \\land c)))"));
     Proposition::addProposition(fout, new Proposition("land_lor_distributivity_2", LOGIC, "\\forall a \\forall b \\forall c (((a \\lor b) \\land c) \\iff ((a \\land c) \\lor (b \\land c)))"));
     
-    //Double negation
-    fout<<"\\subsection{Double negation}"<<endl;
-    Proposition::addProposition(fout, new Proposition("double_negation", LOGIC, "\\forall a ((\\lnot (\\lnot a)) \\iff a)"));
+    //Absorption
+    fout<<"\\subsection{Absorption of $\\lor$ over $\\land$}"<<endl;
+    Proposition::Current = new Proposition("lor_land_absorption", LOGIC, "\\forall a \\forall b ((a \\lor (a \\land b)) \\iff a)");
+    block = new proof_block("lor_land_absorption", Proposition::Current, deduction);
+    block->append_binary_operator(input({1}, "Proposition:land_identity_1", RightToLeft));
+    sub.clear(); sub.push_back(new substitution("a", "b", LOGIC));
+    block->append_binary_operator(input({1,2}, "Proposition:lor_complement_1", RightToLeft, sub));
+    block->append_binary_operator(input({1}, "Proposition:land_lor_distributivity_1", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_commutativity", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_associativity", RightToLeft));
+    block->append_binary_operator(input({1}, "Proposition:lor_idempotence", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:land_lor_distributivity_1", RightToLeft));
+    block->append_binary_operator(input({2}, "Proposition:lor_complement_1", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:land_identity_1", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current);
     
-    //De Morgan's laws
-    fout<<"\\subsection{De Morgan's laws}"<<endl;
-    Proposition::addProposition(fout, new Proposition("De_Morgan_lor", LOGIC, "\\forall a \\forall b ((\\lnot (a \\lor b)) \\iff ((\\lnot a) \\land (\\lnot b)))"));
-    Proposition::addProposition(fout, new Proposition("De_Morgan_land", LOGIC, "\\forall a \\forall b ((\\lnot (a \\land b)) \\iff ((\\lnot a) \\lor (\\lnot b)))"));
+    fout<<"\\subsection{Absorption of $\\land$ over $\\lor$}"<<endl;
+    Proposition::Current = new Proposition("land_lor_absorption", LOGIC, "\\forall a \\forall b ((a \\land (a \\lor b)) \\iff a)");
+    block = new proof_block("land_lor_absorption", Proposition::Current, deduction);
+    block->append_binary_operator(input({}, "Proposition:land_lor_distributivity_1", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:land_idempotence", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_land_absorption", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current);
     
     //Basic Proposition
     fout<<"\\section{Basic Proposition}"<<endl;
