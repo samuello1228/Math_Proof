@@ -298,11 +298,11 @@ void logic()
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current);
     
-    //Multiple assumption
-    fout<<"\\subsection{Multiple assumption}"<<endl;
-    Proposition::Current = new Proposition("multiple_assumption", LOGIC, "\\forall a \\forall b \\forall c ((a \\implies (b \\implies c)) \\iff ((a \\land b) \\implies c))");
-    description = "Multiple assumption.";
-    block = new proof_block("multiple_assumption", Proposition::Current, deduction);
+    //Multiple condition
+    fout<<"\\subsection{Multiple condition}"<<endl;
+    Proposition::Current = new Proposition("multiple_condition", LOGIC, "\\forall a \\forall b \\forall c ((a \\implies (b \\implies c)) \\iff ((a \\land b) \\implies c))");
+    description = "Multiple condition.";
+    block = new proof_block("multiple_condition", Proposition::Current, deduction);
     block->append_binary_operator(input({2}, "Definition:implies", LeftToRight));
     block->append_binary_operator(input({}, "Definition:implies", LeftToRight));
     block->append_binary_operator(input({}, "Proposition:lor_associativity", RightToLeft));
@@ -458,7 +458,7 @@ void logic()
     sub.push_back(new substitution("c", "b", LOGIC));
     block->append_binary_operator(input({}, "Proposition:implies_transitive", TrueToP, sub));
     block->append_binary_operator(input({1}, "Proposition:land_commutativity", LeftToRight));
-    block->append_binary_operator(input({}, "Proposition:multiple_assumption", RightToLeft, true));
+    block->append_binary_operator(input({}, "Proposition:multiple_condition", RightToLeft, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
@@ -702,7 +702,7 @@ void logic()
     Proposition::Current->append(block);
     
     block = new proof_block("implies_substitution_forall_1", Proposition::Current, backward);
-    block->append_binary_operator(input({}, "Proposition:multiple_assumption", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:multiple_condition", LeftToRight));
     block->append_binary_operator(input({}, "Local:1", PToTrue, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
@@ -722,7 +722,7 @@ void logic()
     Proposition::Current->append(block);
     
     block = new proof_block("implies_substitution_forall_1", Proposition::Current, backward);
-    block->append_binary_operator(input({}, "Proposition:multiple_assumption", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:multiple_condition", LeftToRight));
     block->append_binary_operator(input({}, "Local:1", PToTrue, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
@@ -1300,6 +1300,19 @@ void logic()
     block->append_binary_operator(input({}, "Proposition:lor_complement_1", LeftToRight, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
+    
+    //lemma_substitution
+    Proposition::Current = new Proposition("lemma_substitution", LOGIC, "\\forall a \\forall b \\forall c ((a \\implies (b \\iff c)) \\iff (((a \\land b) \\implies c) \\land ((a \\land c) \\implies b)))");
+    block = new proof_block("lemma_substitution", Proposition::Current, deduction);
+    block->append_binary_operator(input({2}, "Proposition:iff_implies", LeftToRight));
+    block->append_binary_operator(input({}, "Definition:implies", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_land_distributivity_1", LeftToRight));
+    block->append_binary_operator(input({1}, "Definition:implies", RightToLeft));
+    block->append_binary_operator(input({2}, "Definition:implies", RightToLeft));
+    block->append_binary_operator(input({1}, "Proposition:multiple_condition", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:multiple_condition", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current);
     
     fout.close();
 }

@@ -188,6 +188,25 @@ Substitution of $=$ for $=$.
 & & \implies & (a = c) \iff (b = c) \\
 & )
 \end{align*}
+Proof of Proposition \ref{Proposition:equality_substitution_equality}
+\begin{align*}
+& \forall a \forall b \forall c ( \\
+& & & (a = b) \implies ((a = c) \iff (b = c)) \\
+& & \iff & (((a = b) \land (a = c)) \implies (b = c)) \\
+& & & \land (((a = b) \land (b = c)) \implies (a = c))
+& & \text{Proposition \ref{Proposition:lemma_substitution}} \\
+& & \iff & (((b = a) \land (a = c)) \implies (b = c)) \\
+& & & \land (((a = b) \land (b = c)) \implies (a = c))
+& & \text{Proposition \ref{Proposition:equality_symmetric}} \\
+& & \iff & (\text{True}) \\
+& & & \land (((a = b) \land (b = c)) \implies (a = c))
+& & \text{Proposition \ref{Proposition:equality_transitive}} \\
+& & \iff & (\text{True}) \land (\text{True})
+& & \text{Proposition \ref{Proposition:equality_transitive}} \\
+& & \overset{\operatorname{def}}{\iff} & \text{True}
+& & \text{Definition \ref{Definition:land_True_True}} \\
+& )
+\end{align*}
 \end{prop}
 
 \subsection{Empty set}

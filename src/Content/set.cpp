@@ -98,6 +98,16 @@ void set()
     fout<<"\\subsection{Axiom of Substitution for $=$}"<<endl;
     Proposition::Current = new Proposition("equality_substitution_equality", SET, "\\forall a \\forall b \\forall c ((a = b) \\implies ((a = c) \\iff (b = c)))");
     description = "Substitution of $=$ for $=$.";
+    block = new proof_block("equality_substitution_equality", Proposition::Current, backward);
+    block->append_binary_operator(input({}, "Proposition:lemma_substitution", LeftToRight));
+    block->set_split_point({{2}});
+    block->append_binary_operator(input({1,1,1}, "Proposition:equality_symmetric", LeftToRight));
+    block->set_split_point({{2}});
+    block->append_binary_operator(input({1}, "Proposition:equality_transitive", PToTrue));
+    block->set_split_point({{2}});
+    block->append_binary_operator(input({2}, "Proposition:equality_transitive", PToTrue));
+    block->append_binary_operator(input({}, "Definition:land_True_True", LeftToRight, true));
+    Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
     fout<<"\\subsection{Empty set}"<<endl;

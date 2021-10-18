@@ -622,15 +622,15 @@ Proof of Proposition \ref{Proposition:a_lor_b_complement_2}
 \end{align*}
 \end{prop}
 
-\subsection{Multiple assumption}
+\subsection{Multiple condition}
 \begin{prop}
-\label{Proposition:multiple_assumption}
-Multiple assumption.
+\label{Proposition:multiple_condition}
+Multiple condition.
 \begin{align*}
 & a \implies (b \implies c) \\
 \iff & (a \land b) \implies c
 \end{align*}
-Proof of Proposition \ref{Proposition:multiple_assumption}
+Proof of Proposition \ref{Proposition:multiple_condition}
 \begin{align*}
 & a \implies (b \implies c) \\
 \overset{\operatorname{def}}{\iff} & a \implies ((\lnot b) \lor c)
@@ -934,7 +934,7 @@ Proof of Proposition \ref{Proposition:implies_substitution_implies}
 \iff & ((a \implies b) \land (c \implies a)) \implies (c \implies b)
 & & \text{Proposition \ref{Proposition:land_commutativity}} \\
 \iff & (a \implies b) \implies ((c \implies a) \implies (c \implies b))
-& & \text{Proposition \ref{Proposition:multiple_assumption}} \\
+& & \text{Proposition \ref{Proposition:multiple_condition}} \\
 \end{align*}
 \end{prop}
 
@@ -1388,7 +1388,7 @@ Proof of Proposition \ref{Proposition:implies_substitution_forall_1}
 \begin{align*}
 & ((a \implies b) \land (c \implies d)) \implies ((a \land c) \implies (b \land d)) \\
 \iff & (((a \implies b) \land (c \implies d)) \land (a \land c)) \implies (b \land d)
-& & \text{Proposition \ref{Proposition:multiple_assumption}} \\
+& & \text{Proposition \ref{Proposition:multiple_condition}} \\
 \iff & \text{True}
 & & \text{Proposition (1)} \\
 \end{align*}
@@ -1432,7 +1432,7 @@ Proof of Proposition \ref{Proposition:implies_substitution_exists_1}
 \begin{align*}
 & ((a \implies b) \land (c \implies d)) \implies ((a \lor c) \implies (b \lor d)) \\
 \iff & (((a \implies b) \land (c \implies d)) \land (a \lor c)) \implies (b \lor d)
-& & \text{Proposition \ref{Proposition:multiple_assumption}} \\
+& & \text{Proposition \ref{Proposition:multiple_condition}} \\
 \iff & \text{True}
 & & \text{Proposition (1)} \\
 \end{align*}
@@ -1859,6 +1859,32 @@ Proof of Proposition \ref{Proposition:iff_reflexive}
 & & \text{Proposition \ref{Proposition:land_idempotence}} \\
 \iff & \text{True}
 & & \text{Proposition \ref{Proposition:lor_complement_1}} \\
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:lemma_substitution}
+\begin{align*}
+& a \implies (b \iff c) \\
+\iff & ((a \land b) \implies c) \land ((a \land c) \implies b)
+\end{align*}
+Proof of Proposition \ref{Proposition:lemma_substitution}
+\begin{align*}
+& a \implies (b \iff c) \\
+\iff & a \implies ((b \implies c) \land (c \implies b))
+& & \text{Proposition \ref{Proposition:iff_implies}} \\
+\overset{\operatorname{def}}{\iff} & (\lnot a) \lor ((b \implies c) \land (c \implies b))
+& & \text{Definition \ref{Definition:implies}} \\
+\iff & ((\lnot a) \lor (b \implies c)) \land ((\lnot a) \lor (c \implies b))
+& & \text{Proposition \ref{Proposition:lor_land_distributivity_1}} \\
+\overset{\operatorname{def}}{\iff} & (a \implies (b \implies c)) \land ((\lnot a) \lor (c \implies b))
+& & \text{Definition \ref{Definition:implies}} \\
+\overset{\operatorname{def}}{\iff} & (a \implies (b \implies c)) \land (a \implies (c \implies b))
+& & \text{Definition \ref{Definition:implies}} \\
+\iff & ((a \land b) \implies c) \land (a \implies (c \implies b))
+& & \text{Proposition \ref{Proposition:multiple_condition}} \\
+\iff & ((a \land b) \implies c) \land ((a \land c) \implies b)
+& & \text{Proposition \ref{Proposition:multiple_condition}} \\
 \end{align*}
 \end{prop}
 
