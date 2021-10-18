@@ -134,11 +134,31 @@ void logic()
     //Annihilator
     fout<<"\\subsection{Annihilator of $\\lor$}"<<endl;
     Proposition::addProposition(fout, new Proposition("lor_annihilator_1", LOGIC, "\\forall a ((a \\lor (\\text{True})) \\iff (\\text{True}))"));
-    Proposition::addProposition(fout, new Proposition("lor_annihilator_2", LOGIC, "\\forall a (((\\text{True}) \\lor a) \\iff (\\text{True}))"));
+    
+    Proposition::Current = new Proposition("lor_annihilator_2", LOGIC, "\\forall a (((\\text{True}) \\lor a) \\iff (\\text{True}))");
+    block = new proof_block("lor_annihilator_2", Proposition::Current, deduction);
+    block->append_binary_operator(input({}, "Proposition:lor_commutativity", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_annihilator_1", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current);
     
     fout<<"\\subsection{Annihilator of $\\land$}"<<endl;
-    Proposition::addProposition(fout, new Proposition("land_annihilator_1", LOGIC, "\\forall a ((a \\land (\\text{False})) \\iff (\\text{False}))"));
-    Proposition::addProposition(fout, new Proposition("land_annihilator_2", LOGIC, "\\forall a (((\\text{False}) \\land a) \\iff (\\text{False}))"));
+    Proposition::Current = new Proposition("land_annihilator_1", LOGIC, "\\forall a ((a \\land (\\text{False})) \\iff (\\text{False}))");
+    block = new proof_block("land_annihilator_1", Proposition::Current, deduction);
+    block->append_binary_operator(input({1}, "Proposition:double_negation", RightToLeft));
+    block->append_binary_operator(input({2}, "Definition:lnot_True", RightToLeft));
+    block->append_binary_operator(input({}, "Proposition:De_Morgan_lor", RightToLeft));
+    block->append_binary_operator(input({1}, "Proposition:lor_annihilator_1", LeftToRight));
+    block->append_binary_operator(input({}, "Definition:lnot_True", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current);
+    
+    Proposition::Current = new Proposition("land_annihilator_2", LOGIC, "\\forall a (((\\text{False}) \\land a) \\iff (\\text{False}))");
+    block = new proof_block("land_annihilator_2", Proposition::Current, deduction);
+    block->append_binary_operator(input({}, "Proposition:land_commutativity", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:land_annihilator_1", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current);
     
     //Idempotence
     fout<<"\\subsection{Idempotence of $\\lor$}"<<endl;

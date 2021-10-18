@@ -291,6 +291,14 @@ Proof of Proposition \ref{Proposition:land_identity_2}
 & (\text{True}) \lor a \\
 \iff & \text{True}
 \end{align*}
+Proof of Proposition \ref{Proposition:lor_annihilator_2}
+\begin{align*}
+& (\text{True}) \lor a \\
+\iff & a \lor (\text{True})
+& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
+\iff & \text{True}
+& & \text{Proposition \ref{Proposition:lor_annihilator_1}} \\
+\end{align*}
 \end{prop}
 
 \subsection{Annihilator of $\land$}
@@ -300,6 +308,20 @@ Proof of Proposition \ref{Proposition:land_identity_2}
 & a \land (\text{False}) \\
 \iff & \text{False}
 \end{align*}
+Proof of Proposition \ref{Proposition:land_annihilator_1}
+\begin{align*}
+& a \land (\text{False}) \\
+\iff & (\lnot (\lnot a)) \land (\text{False})
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\overset{\operatorname{def}}{\iff} & (\lnot (\lnot a)) \land (\lnot (\text{True}))
+& & \text{Definition \ref{Definition:lnot_True}} \\
+\iff & \lnot ((\lnot a) \lor (\text{True}))
+& & \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
+\iff & \lnot (\text{True})
+& & \text{Proposition \ref{Proposition:lor_annihilator_1}} \\
+\overset{\operatorname{def}}{\iff} & \text{False}
+& & \text{Definition \ref{Definition:lnot_True}} \\
+\end{align*}
 \end{prop}
 
 \begin{prop}
@@ -307,6 +329,14 @@ Proof of Proposition \ref{Proposition:land_identity_2}
 \begin{align*}
 & (\text{False}) \land a \\
 \iff & \text{False}
+\end{align*}
+Proof of Proposition \ref{Proposition:land_annihilator_2}
+\begin{align*}
+& (\text{False}) \land a \\
+\iff & a \land (\text{False})
+& & \text{Proposition \ref{Proposition:land_commutativity}} \\
+\iff & \text{False}
+& & \text{Proposition \ref{Proposition:land_annihilator_1}} \\
 \end{align*}
 \end{prop}
 
