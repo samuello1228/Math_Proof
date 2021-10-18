@@ -86,6 +86,21 @@ void set()
     description = "Substitution of $=$.";
     Axiom::addAxiom(fout, axiom, description);
     
+    fout<<"\\subsection{Axiom of Substitution for $\\in$}"<<endl;
+    Proposition::Current = new Proposition("equality_substitution_in_1", SET, "\\forall a \\forall b \\forall c ((a = b) \\implies ((c \\in a) \\iff (c \\in b)))");
+    description = "Substitution of $=$ for $\\in$.";
+    Proposition::addProposition(fout, Proposition::Current, description);
+    
+    Proposition::Current = new Proposition("equality_substitution_in_2", SET, "\\forall a \\forall b \\forall c ((a = b) \\implies ((a \\in c) \\iff (b \\in c)))");
+    description = "Substitution of $=$ for $\\in$.";
+    Proposition::addProposition(fout, Proposition::Current, description);
+    
+    fout<<"\\subsection{Axiom of Substitution for $=$}"<<endl;
+    Proposition::Current = new Proposition("equality_substitution_equality", SET, "\\forall a \\forall b \\forall c ((a = b) \\implies ((a = c) \\iff (b = c)))");
+    description = "Substitution of $=$ for $=$.";
+    Proposition::addProposition(fout, Proposition::Current, description);
+    
+    fout<<"\\subsection{Empty set}"<<endl;
     axiom = new Axiom("existence_of_empty_set", SET, "\\forall a (a \\notin \\emptyset)");
     Axiom::addAxiom(fout, axiom, "Existence of empty set");
     
@@ -116,6 +131,7 @@ void set()
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
+    fout<<"\\subsection{Pair set}"<<endl;
     axiom = new Axiom("existence_of_pair_set", SET, "\\forall a \\forall b \\forall c ((c \\in \\{ a , b \\}) \\iff ((c = a) \\lor (c = b)))");
     Axiom::addAxiom(fout, axiom, "Existence of pair set");
     
@@ -162,6 +178,7 @@ void set()
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
+    fout<<"\\subsection{Singleton set}"<<endl;
     Definition::addDefinition(fout, new Definition("singleton_set", SET, "\\forall a (\\{ a \\} = \\{ a , a \\})"), "Definition of singleton set.");
     
     //Property of singleton set
@@ -206,6 +223,7 @@ void set()
     axiom = new Axiom("existence_of_union_set", SET, "\\forall a \\forall b ((b \\in (\\bigcup a)) \\iff (\\exists c ((b \\in c) \\land (c \\in a))))");
     Axiom::addAxiom(fout, axiom, "Existence of union set.");
     
+    fout<<"\\subsection{Union set}"<<endl;
     //Uniqueness of union set
     Proposition::Current = new Proposition("uniqueness_of_union_set", SET, "\\forall a \\forall b ((\\forall c ((c \\in b) \\iff (\\exists d ((c \\in d) \\land (d \\in a))))) \\implies (b = (\\bigcup a)))");
     description = "Uniqueness of union set.";
@@ -223,6 +241,7 @@ void set()
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
+    fout<<"\\subsection{Pairwise union}"<<endl;
     Definition::addDefinition(fout, new Definition("pairwise_union", SET, "\\forall a \\forall b ((a \\cup b) = (\\bigcup \\{ a , b \\}))"), "Definition of pairwise union $a \\cup b$.");
     
     //Property of pairwise union
@@ -282,6 +301,7 @@ void set()
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
+    fout<<"\\subsection{Integer}"<<endl;
     //zero
     Definition::addDefinition(fout, new Definition("zero", SET, "0 = \\emptyset"), "Definition of 0.");
     
