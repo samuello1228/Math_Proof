@@ -117,11 +117,43 @@ void logic()
     //Distributivity
     fout<<"\\subsection{Distributivity of $\\lor$ over $\\land$}"<<endl;
     Proposition::addProposition(fout, new Proposition("lor_land_distributivity_1", LOGIC, "\\forall a \\forall b \\forall c ((a \\lor (b \\land c)) \\iff ((a \\lor b) \\land (a \\lor c)))"));
-    Proposition::addProposition(fout, new Proposition("lor_land_distributivity_2", LOGIC, "\\forall a \\forall b \\forall c (((a \\land b) \\lor c) \\iff ((a \\lor c) \\land (b \\lor c)))"));
+    
+    Proposition::Current = new Proposition("lor_land_distributivity_2", LOGIC, "\\forall a \\forall b \\forall c (((a \\land b) \\lor c) \\iff ((a \\lor c) \\land (b \\lor c)))");
+    block = new proof_block("lor_land_distributivity_2", Proposition::Current, deduction);
+    block->append_binary_operator(input({}, "Proposition:lor_commutativity", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:lor_land_distributivity_1", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:lor_commutativity", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:lor_commutativity", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current);
     
     fout<<"\\subsection{Distributivity of $\\land$ over $\\lor$}"<<endl;
-    Proposition::addProposition(fout, new Proposition("land_lor_distributivity_1", LOGIC, "\\forall a \\forall b \\forall c ((a \\land (b \\lor c)) \\iff ((a \\land b) \\lor (a \\land c)))"));
-    Proposition::addProposition(fout, new Proposition("land_lor_distributivity_2", LOGIC, "\\forall a \\forall b \\forall c (((a \\lor b) \\land c) \\iff ((a \\land c) \\lor (b \\land c)))"));
+    Proposition::Current = new Proposition("land_lor_distributivity_1", LOGIC, "\\forall a \\forall b \\forall c ((a \\land (b \\lor c)) \\iff ((a \\land b) \\lor (a \\land c)))");
+    block = new proof_block("land_lor_distributivity_1", Proposition::Current, deduction);
+    block->append_binary_operator(input({2,1}, "Proposition:double_negation", RightToLeft));
+    block->append_binary_operator(input({2,2}, "Proposition:double_negation", RightToLeft));
+    block->append_binary_operator(input({2}, "Proposition:De_Morgan_land", RightToLeft));
+    block->append_binary_operator(input({1}, "Proposition:double_negation", RightToLeft));
+    block->append_binary_operator(input({}, "Proposition:De_Morgan_lor", RightToLeft));
+    block->append_binary_operator(input({1}, "Proposition:lor_land_distributivity_1", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:De_Morgan_land", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:De_Morgan_lor", LeftToRight));
+    block->append_binary_operator(input({1,1}, "Proposition:double_negation", LeftToRight));
+    block->append_binary_operator(input({1,2}, "Proposition:double_negation", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:De_Morgan_lor", LeftToRight));
+    block->append_binary_operator(input({2,1}, "Proposition:double_negation", LeftToRight));
+    block->append_binary_operator(input({2,2}, "Proposition:double_negation", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current);
+    
+    Proposition::Current = new Proposition("land_lor_distributivity_2", LOGIC, "\\forall a \\forall b \\forall c (((a \\lor b) \\land c) \\iff ((a \\land c) \\lor (b \\land c)))");
+    block = new proof_block("land_lor_distributivity_2", Proposition::Current, deduction);
+    block->append_binary_operator(input({}, "Proposition:land_commutativity", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:land_lor_distributivity_1", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:land_commutativity", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:land_commutativity", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current);
     
     //Absorption
     fout<<"\\subsection{Absorption of $\\lor$ over $\\land$}"<<endl;

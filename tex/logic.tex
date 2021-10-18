@@ -303,6 +303,18 @@ Proposition is a statement that is either true or false, but not both.
 & (a \land b) \lor c \\
 \iff & (a \lor c) \land (b \lor c)
 \end{align*}
+Proof of Proposition \ref{Proposition:lor_land_distributivity_2}
+\begin{align*}
+& (a \land b) \lor c \\
+\iff & c \lor (a \land b)
+& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
+\iff & (c \lor a) \land (c \lor b)
+& & \text{Proposition \ref{Proposition:lor_land_distributivity_1}} \\
+\iff & (a \lor c) \land (c \lor b)
+& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
+\iff & (a \lor c) \land (b \lor c)
+& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
+\end{align*}
 \end{prop}
 
 \subsection{Distributivity of $\land$ over $\lor$}
@@ -312,6 +324,36 @@ Proposition is a statement that is either true or false, but not both.
 & a \land (b \lor c) \\
 \iff & (a \land b) \lor (a \land c)
 \end{align*}
+Proof of Proposition \ref{Proposition:land_lor_distributivity_1}
+\begin{align*}
+& a \land (b \lor c) \\
+\iff & a \land ((\lnot (\lnot b)) \lor c)
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\iff & a \land ((\lnot (\lnot b)) \lor (\lnot (\lnot c)))
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\iff & a \land (\lnot ((\lnot b) \land (\lnot c)))
+& & \text{Proposition \ref{Proposition:De_Morgan_land}} \\
+\iff & (\lnot (\lnot a)) \land (\lnot ((\lnot b) \land (\lnot c)))
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\iff & \lnot ((\lnot a) \lor ((\lnot b) \land (\lnot c)))
+& & \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
+\iff & \lnot (((\lnot a) \lor (\lnot b)) \land ((\lnot a) \lor (\lnot c)))
+& & \text{Proposition \ref{Proposition:lor_land_distributivity_1}} \\
+\iff & (\lnot ((\lnot a) \lor (\lnot b))) \lor (\lnot ((\lnot a) \lor (\lnot c)))
+& & \text{Proposition \ref{Proposition:De_Morgan_land}} \\
+\iff & ((\lnot (\lnot a)) \land (\lnot (\lnot b))) \lor (\lnot ((\lnot a) \lor (\lnot c)))
+& & \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
+\iff & (a \land (\lnot (\lnot b))) \lor (\lnot ((\lnot a) \lor (\lnot c)))
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\iff & (a \land b) \lor (\lnot ((\lnot a) \lor (\lnot c)))
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\iff & (a \land b) \lor ((\lnot (\lnot a)) \land (\lnot (\lnot c)))
+& & \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
+\iff & (a \land b) \lor (a \land (\lnot (\lnot c)))
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\iff & (a \land b) \lor (a \land c)
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\end{align*}
 \end{prop}
 
 \begin{prop}
@@ -319,6 +361,18 @@ Proposition is a statement that is either true or false, but not both.
 \begin{align*}
 & (a \lor b) \land c \\
 \iff & (a \land c) \lor (b \land c)
+\end{align*}
+Proof of Proposition \ref{Proposition:land_lor_distributivity_2}
+\begin{align*}
+& (a \lor b) \land c \\
+\iff & c \land (a \lor b)
+& & \text{Proposition \ref{Proposition:land_commutativity}} \\
+\iff & (c \land a) \lor (c \land b)
+& & \text{Proposition \ref{Proposition:land_lor_distributivity_1}} \\
+\iff & (a \land c) \lor (c \land b)
+& & \text{Proposition \ref{Proposition:land_commutativity}} \\
+\iff & (a \land c) \lor (b \land c)
+& & \text{Proposition \ref{Proposition:land_commutativity}} \\
 \end{align*}
 \end{prop}
 
