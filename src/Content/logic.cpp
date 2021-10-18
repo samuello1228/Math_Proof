@@ -62,7 +62,15 @@ void logic()
     //De Morgan's laws
     fout<<"\\subsection{De Morgan's laws}"<<endl;
     Proposition::addProposition(fout, new Proposition("De_Morgan_lor", LOGIC, "\\forall a \\forall b ((\\lnot (a \\lor b)) \\iff ((\\lnot a) \\land (\\lnot b)))"));
-    Proposition::addProposition(fout, new Proposition("De_Morgan_land", LOGIC, "\\forall a \\forall b ((\\lnot (a \\land b)) \\iff ((\\lnot a) \\lor (\\lnot b)))"));
+    
+    Proposition::Current = new Proposition("De_Morgan_land", LOGIC, "\\forall a \\forall b ((\\lnot (a \\land b)) \\iff ((\\lnot a) \\lor (\\lnot b)))");
+    block = new proof_block("De_Morgan_land", Proposition::Current, deduction);
+    block->append_binary_operator(input({1,1}, "Proposition:double_negation", RightToLeft));
+    block->append_binary_operator(input({1,2}, "Proposition:double_negation", RightToLeft));
+    block->append_binary_operator(input({1}, "Proposition:De_Morgan_lor", RightToLeft));
+    block->append_binary_operator(input({}, "Proposition:double_negation", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current);
     
     //Associativity
     fout<<"\\subsection{Associativity of $\\lor$}"<<endl;

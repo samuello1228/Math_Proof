@@ -130,6 +130,18 @@ Proposition is a statement that is either true or false, but not both.
 & \lnot (a \land b) \\
 \iff & (\lnot a) \lor (\lnot b)
 \end{align*}
+Proof of Proposition \ref{Proposition:De_Morgan_land}
+\begin{align*}
+& \lnot (a \land b) \\
+\iff & \lnot ((\lnot (\lnot a)) \land b)
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\iff & \lnot ((\lnot (\lnot a)) \land (\lnot (\lnot b)))
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\iff & \lnot (\lnot ((\lnot a) \lor (\lnot b)))
+& & \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
+\iff & (\lnot a) \lor (\lnot b)
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\end{align*}
 \end{prop}
 
 \subsection{Associativity of $\lor$}
