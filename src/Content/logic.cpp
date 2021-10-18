@@ -165,7 +165,15 @@ void logic()
     Proposition::addProposition(fout, new Proposition("lor_idempotence", LOGIC, "\\forall a ((a \\lor a) \\iff a)"));
     
     fout<<"\\subsection{Idempotence of $\\land$}"<<endl;
-    Proposition::addProposition(fout, new Proposition("land_idempotence", LOGIC, "\\forall a ((a \\land a) \\iff a)"));
+    Proposition::Current = new Proposition("land_idempotence", LOGIC, "\\forall a ((a \\land a) \\iff a)");
+    block = new proof_block("land_idempotence", Proposition::Current, deduction);
+    block->append_binary_operator(input({1}, "Proposition:double_negation", RightToLeft));
+    block->append_binary_operator(input({2}, "Proposition:double_negation", RightToLeft));
+    block->append_binary_operator(input({}, "Proposition:De_Morgan_lor", RightToLeft));
+    block->append_binary_operator(input({1}, "Proposition:lor_idempotence", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:double_negation", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current);
     
     //Complement
     fout<<"\\subsection{Complement of $\\lor$}"<<endl;

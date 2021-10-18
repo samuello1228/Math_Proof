@@ -356,6 +356,20 @@ Proof of Proposition \ref{Proposition:land_annihilator_2}
 & a \land a \\
 \iff & a
 \end{align*}
+Proof of Proposition \ref{Proposition:land_idempotence}
+\begin{align*}
+& a \land a \\
+\iff & (\lnot (\lnot a)) \land a
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\iff & (\lnot (\lnot a)) \land (\lnot (\lnot a))
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\iff & \lnot ((\lnot a) \lor (\lnot a))
+& & \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
+\iff & \lnot (\lnot a)
+& & \text{Proposition \ref{Proposition:lor_idempotence}} \\
+\iff & a
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\end{align*}
 \end{prop}
 
 \subsection{Complement of $\lor$}
