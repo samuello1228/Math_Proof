@@ -90,7 +90,17 @@ void logic()
     Proposition::addProposition(fout, new Proposition("lor_commutativity", LOGIC, "\\forall a \\forall b ((a \\lor b) \\iff (b \\lor a))"));
     
     fout<<"\\subsection{Commutativity of $\\land$}"<<endl;
-    Proposition::addProposition(fout, new Proposition("land_commutativity", LOGIC, "\\forall a \\forall b ((a \\land b) \\iff (b \\land a))"));
+    Proposition::Current = new Proposition("land_commutativity", LOGIC, "\\forall a \\forall b ((a \\land b) \\iff (b \\land a))");
+    block = new proof_block("land_commutativity", Proposition::Current, deduction);
+    block->append_binary_operator(input({1}, "Proposition:double_negation", RightToLeft));
+    block->append_binary_operator(input({2}, "Proposition:double_negation", RightToLeft));
+    block->append_binary_operator(input({}, "Proposition:De_Morgan_lor", RightToLeft));
+    block->append_binary_operator(input({1}, "Proposition:lor_commutativity", LeftToRight));
+    block->append_binary_operator(input({}, "Proposition:De_Morgan_lor", LeftToRight));
+    block->append_binary_operator(input({1}, "Proposition:double_negation", LeftToRight));
+    block->append_binary_operator(input({2}, "Proposition:double_negation", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current);
     
     //Identity
     fout<<"\\subsection{Identity of $\\lor$}"<<endl;

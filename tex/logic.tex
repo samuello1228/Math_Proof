@@ -192,6 +192,24 @@ Proof of Proposition \ref{Proposition:land_associativity}
 & a \land b \\
 \iff & b \land a
 \end{align*}
+Proof of Proposition \ref{Proposition:land_commutativity}
+\begin{align*}
+& a \land b \\
+\iff & (\lnot (\lnot a)) \land b
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\iff & (\lnot (\lnot a)) \land (\lnot (\lnot b))
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\iff & \lnot ((\lnot a) \lor (\lnot b))
+& & \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
+\iff & \lnot ((\lnot b) \lor (\lnot a))
+& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
+\iff & (\lnot (\lnot b)) \land (\lnot (\lnot a))
+& & \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
+\iff & b \land (\lnot (\lnot a))
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\iff & b \land a
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+\end{align*}
 \end{prop}
 
 \subsection{Identity of $\lor$}
