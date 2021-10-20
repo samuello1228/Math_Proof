@@ -783,21 +783,6 @@ void Axiom::addAxiom(ofstream& fout, Axiom* x, string description)
     fout<<endl;
 }
 
-input::input(vector<int> new_relative_path, statement* new_law, direction new_dir, bool new_isFinished, bool new_isPrint)
-{
-    relative_path = new_relative_path;
-    
-    law = new_law;
-    law_label = "";
-    
-    dir = new_dir;
-    
-    sub_type = automatic;
-    
-    isFinished = new_isFinished;
-    isPrint = new_isPrint;
-}
-
 input::input(vector<int> new_relative_path, string new_law_label, direction new_dir, bool new_isFinished, bool new_isPrint)
 {
     relative_path = new_relative_path;
@@ -808,22 +793,6 @@ input::input(vector<int> new_relative_path, string new_law_label, direction new_
     dir = new_dir;
     
     sub_type = automatic;
-    
-    isFinished = new_isFinished;
-    isPrint = new_isPrint;
-}
-
-input::input(vector<int> new_relative_path, statement* new_law, direction new_dir, vector<vector<int> > sub, bool new_isFinished, bool new_isPrint)
-{
-    relative_path = new_relative_path;
-    
-    law = new_law;
-    law_label = "";
-    
-    dir = new_dir;
-    
-    sub_type = source_specified;
-    source_specified_substitution = sub;
     
     isFinished = new_isFinished;
     isPrint = new_isPrint;
@@ -840,22 +809,6 @@ input::input(vector<int> new_relative_path, string new_law_label, direction new_
     
     sub_type = source_specified;
     source_specified_substitution = sub;
-    
-    isFinished = new_isFinished;
-    isPrint = new_isPrint;
-}
-
-input::input(vector<int> new_relative_path, statement* new_law, direction new_dir, vector<substitution*> sub, bool new_isFinished, bool new_isPrint)
-{
-    relative_path = new_relative_path;
-    
-    law = new_law;
-    law_label = "";
-    
-    dir = new_dir;
-    
-    sub_type = full;
-    full_substitution = sub;
     
     isFinished = new_isFinished;
     isPrint = new_isPrint;
