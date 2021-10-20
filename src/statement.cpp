@@ -786,48 +786,45 @@ void Axiom::addAxiom(ofstream& fout, Axiom* x, string description)
 input::input(vector<int> new_relative_path, string new_law_label, direction new_dir, bool new_isFinished, bool new_isPrint)
 {
     relative_path = new_relative_path;
+    isFinished = new_isFinished;
+    isPrint = new_isPrint;
     
     law = nullptr;
     law_label = new_law_label;
-    
     dir = new_dir;
-    
     sub_type = automatic;
     
-    isFinished = new_isFinished;
-    isPrint = new_isPrint;
+    forall_substitution = nullptr;
 }
 
 input::input(vector<int> new_relative_path, string new_law_label, direction new_dir, vector<vector<int> > sub, bool new_isFinished, bool new_isPrint)
 {
     relative_path = new_relative_path;
+    isFinished = new_isFinished;
+    isPrint = new_isPrint;
     
     law = nullptr;
     law_label = new_law_label;
-    
     dir = new_dir;
-    
     sub_type = source_specified;
     source_specified_substitution = sub;
     
-    isFinished = new_isFinished;
-    isPrint = new_isPrint;
+    forall_substitution = nullptr;
 }
 
 input::input(vector<int> new_relative_path, string new_law_label, direction new_dir, vector<substitution*> sub, bool new_isFinished, bool new_isPrint)
 {
     relative_path = new_relative_path;
+    isFinished = new_isFinished;
+    isPrint = new_isPrint;
     
     law = nullptr;
     law_label = new_law_label;
-    
     dir = new_dir;
-    
     sub_type = full;
     full_substitution = sub;
     
-    isFinished = new_isFinished;
-    isPrint = new_isPrint;
+    forall_substitution = nullptr;
 }
 
 proof_block::proof_block(string newLabel, statement* x, proof_method new_method)

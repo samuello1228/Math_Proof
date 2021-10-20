@@ -89,18 +89,19 @@ class input
 {
 public:
     vector<int> relative_path;
+    bool isFinished;
+    bool isPrint;
     
+    //for binary operator
     statement* law;
     string law_label;
-    
     direction dir;
-    
     substitution_type sub_type;
     vector<vector<int> > source_specified_substitution;
     vector<substitution*> full_substitution;
     
-    bool isFinished;
-    bool isPrint;
+    //for forall substitution
+    expression* forall_substitution;
     
     input(vector<int> relative_path, string law_label, direction dir, bool isFinished = false, bool isPrint = false);
     input(vector<int> relative_path, string law_label, direction dir, vector<vector<int> > sub, bool isFinished = false, bool isPrint = false);
