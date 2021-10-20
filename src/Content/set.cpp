@@ -78,14 +78,6 @@ void set()
     axiom = new Axiom("extensionality", SET, "\\forall a \\forall b ((a = b) \\implies (\\forall c ((a \\in c) \\iff (b \\in c))))");
     Axiom::addAxiom(fout, axiom, "Axiom of extensionality");
     
-    axiom = new Axiom("substitution_in", SET, "\\forall a \\forall b ((\\exists c ((c = b) \\land (a \\in c))) \\iff (a \\in b))");
-    description = "Substitution of $\\in$.";
-    Axiom::addAxiom(fout, axiom, description);
-    
-    axiom = new Axiom("substitution_of_equality", SET, "\\forall a \\forall b ((a = b) \\iff (\\forall c ((c = a) \\iff (c = b))))");
-    description = "Substitution of $=$.";
-    Axiom::addAxiom(fout, axiom, description);
-    
     fout<<"\\subsection{Axiom of Substitution for $\\in$}"<<endl;
     Proposition::Current = new Proposition("equality_substitution_in_1", SET, "\\forall a \\forall b \\forall c ((a = b) \\implies ((c \\in a) \\iff (c \\in b)))");
     description = "Substitution of $=$ for $\\in$.";
@@ -97,6 +89,10 @@ void set()
     
     Proposition::Current = new Proposition("equality_substitution_in_2", SET, "\\forall a \\forall b \\forall c ((a = b) \\implies ((a \\in c) \\iff (b \\in c)))");
     description = "Substitution of $=$ for $\\in$.";
+    block = new proof_block("equality_substitution_in_2", Proposition::Current, deduction);
+    block->append(input({}, "Axiom:extensionality", LeftToRight));
+    block->append(input({}, expression::createFromLatex("c", SET), true));
+    Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
     fout<<"\\subsection{Axiom of Substitution for $=$}"<<endl;
@@ -113,6 +109,15 @@ void set()
     block->append(input({}, "Definition:land_True_True", LeftToRight, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
+    
+    fout<<"\\subsection{Basic Propositions}"<<endl;
+    axiom = new Axiom("substitution_in", SET, "\\forall a \\forall b ((\\exists c ((c = b) \\land (a \\in c))) \\iff (a \\in b))");
+    description = "Substitution of $\\in$.";
+    Axiom::addAxiom(fout, axiom, description);
+    
+    axiom = new Axiom("substitution_of_equality", SET, "\\forall a \\forall b ((a = b) \\iff (\\forall c ((c = a) \\iff (c = b))))");
+    description = "Substitution of $=$.";
+    Axiom::addAxiom(fout, axiom, description);
     
     fout<<"\\subsection{Empty set}"<<endl;
     axiom = new Axiom("existence_of_empty_set", SET, "\\forall a (a \\notin \\emptyset)");

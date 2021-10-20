@@ -133,28 +133,6 @@ Axiom of extensionality
 \end{align*}
 \end{axm}
 
-\begin{axm}
-\label{Axiom:substitution_in}
-Substitution of $\in$.
-\begin{align*}
-& \forall a \forall b ( \\
-& & & \exists c ((c = b) \land (a \in c)) \\
-& & \iff & a \in b \\
-& )
-\end{align*}
-\end{axm}
-
-\begin{axm}
-\label{Axiom:substitution_of_equality}
-Substitution of $=$.
-\begin{align*}
-& \forall a \forall b ( \\
-& & & a = b \\
-& & \iff & \forall c ((c = a) \iff (c = b)) \\
-& )
-\end{align*}
-\end{axm}
-
 \subsection{Axiom of Substitution for $\in$}
 \begin{prop}
 \label{Proposition:equality_substitution_in_1}
@@ -184,6 +162,16 @@ Substitution of $=$ for $\in$.
 & \forall a \forall b \forall c ( \\
 & & & a = b \\
 & & \implies & (a \in c) \iff (b \in c) \\
+& )
+\end{align*}
+Proof of Proposition \ref{Proposition:equality_substitution_in_2}
+\begin{align*}
+& \forall a \forall b \forall c ( \\
+& & & a = b \\
+& & \implies & \forall d ((a \in d) \iff (b \in d))
+& & \text{Axiom \ref{Axiom:extensionality}} \\
+& & \implies & (a \in c) \iff (b \in c)
+& & \text{Substitution for d} \\
 & )
 \end{align*}
 \end{prop}
@@ -218,6 +206,29 @@ Proof of Proposition \ref{Proposition:equality_substitution_equality}
 & )
 \end{align*}
 \end{prop}
+
+\subsection{Basic Propositions}
+\begin{axm}
+\label{Axiom:substitution_in}
+Substitution of $\in$.
+\begin{align*}
+& \forall a \forall b ( \\
+& & & \exists c ((c = b) \land (a \in c)) \\
+& & \iff & a \in b \\
+& )
+\end{align*}
+\end{axm}
+
+\begin{axm}
+\label{Axiom:substitution_of_equality}
+Substitution of $=$.
+\begin{align*}
+& \forall a \forall b ( \\
+& & & a = b \\
+& & \iff & \forall c ((c = a) \iff (c = b)) \\
+& )
+\end{align*}
+\end{axm}
 
 \subsection{Empty set}
 \begin{axm}
