@@ -348,7 +348,7 @@ void logic()
     fout<<"\\subsection{Associativity and Commutativity}"<<endl;
     Proposition::Current = new Proposition("lor_commutativity_2_2", LOGIC, "\\forall a \\forall b \\forall c \\forall d (((a \\lor b) \\lor (c \\lor d)) \\iff ((a \\lor c) \\lor (b \\lor d)))");
     description = "Commutativity of $\\lor$.";
-    block = new proof_block("implies_satisfied", Proposition::Current, deduction);
+    block = new proof_block("lor_commutativity_2_2", Proposition::Current, deduction);
     block->append_binary_operator(input({}, "Proposition:lor_associativity", RightToLeft));
     block->append_binary_operator(input({1}, "Proposition:lor_associativity", LeftToRight));
     block->append_binary_operator(input({1,2}, "Proposition:lor_commutativity", LeftToRight));
@@ -359,7 +359,7 @@ void logic()
     
     Proposition::Current = new Proposition("land_commutativity_2_2", LOGIC, "\\forall a \\forall b \\forall c \\forall d (((a \\land b) \\land (c \\land d)) \\iff ((a \\land c) \\land (b \\land d)))");
     description = "Commutativity of $\\land$.";
-    block = new proof_block("implies_satisfied", Proposition::Current, deduction);
+    block = new proof_block("land_commutativity_2_2", Proposition::Current, deduction);
     block->append_binary_operator(input({}, "Proposition:land_associativity", RightToLeft));
     block->append_binary_operator(input({1}, "Proposition:land_associativity", LeftToRight));
     block->append_binary_operator(input({1,2}, "Proposition:land_commutativity", LeftToRight));
@@ -477,7 +477,7 @@ void logic()
     fout<<"\\subsection{Properties of $\\iff$}"<<endl;
     //iff and implies
     Proposition::Current = new Proposition("iff_implies", LOGIC, "\\forall a \\forall b ((a \\iff b) \\iff ((a \\implies b) \\land (b \\implies a)))");
-    block = new proof_block("contrapositive", Proposition::Current, deduction);
+    block = new proof_block("iff_implies", Proposition::Current, deduction);
     block->append_binary_operator(input({}, "Definition:iff", LeftToRight));
     block->append_binary_operator(input({}, "Proposition:lor_land_distributivity_2", LeftToRight));
     block->append_binary_operator(input({1}, "Proposition:lor_land_distributivity_1", LeftToRight));
@@ -506,7 +506,7 @@ void logic()
     
     Proposition::Current = new Proposition("iff_transitive", LOGIC, "\\forall a \\forall b \\forall c (((a \\iff b) \\land (b \\iff c)) \\implies (a \\iff c))");
     description = "Transitive property of $\\iff$.";
-    block = new proof_block("contrapositive", Proposition::Current, deduction);
+    block = new proof_block("iff_transitive", Proposition::Current, deduction);
     block->append_binary_operator(input({1}, "Proposition:iff_implies", LeftToRight));
     block->append_binary_operator(input({2}, "Proposition:iff_implies", LeftToRight));
     block->append_binary_operator(input({}, "Proposition:land_commutativity_2_2", LeftToRight));
@@ -721,7 +721,7 @@ void logic()
     block->append_binary_operator(input({2}, "Proposition:implies_satisfied", LeftToRight, true));
     Proposition::Current->append(block);
     
-    block = new proof_block("implies_substitution_forall_1", Proposition::Current, backward);
+    block = new proof_block("implies_substitution_exists_1", Proposition::Current, backward);
     block->append_binary_operator(input({}, "Proposition:multiple_condition", LeftToRight));
     block->append_binary_operator(input({}, "Local:1", PToTrue, true));
     Proposition::Current->append(block, true);

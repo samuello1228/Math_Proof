@@ -1362,6 +1362,11 @@ void Proposition::append(proof_block* x, bool isFinished)
         {
             cout<<"Error: The proof does not matched the content."<<endl;
         }
+        
+        if(x->label != label)
+        {
+            cout<<"Error: The label does not matched the content."<<endl;
+        }
     }
     
     proof.push_back(x);
