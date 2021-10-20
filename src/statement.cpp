@@ -999,7 +999,7 @@ void proof_block::append_binary_operator(input x)
     }
     
     //fill the x.law
-    string Local_label = "";
+    Print_Info reference;
     if(x.law == nullptr)
     {
         string statement_type;
@@ -1026,7 +1026,8 @@ void proof_block::append_binary_operator(input x)
                 if(Proposition::Current->proof[i]->label == statement_label)
                 {
                     x.law = Proposition::Current->proof[i]->target;
-                    Local_label = statement_label;
+                    reference.ref_type = "Local";
+                    reference.ref = statement_label;
                     break;
                 }
             }
@@ -1040,12 +1041,18 @@ void proof_block::append_binary_operator(input x)
     }
     
     //get a copy of law
-    string Definition_label = "";
-    string Axiom_label = "";
     if(x.dir == TrueToP || x.dir == PToTrue)
     {
-        if(dynamic_cast<Definition*>(x.law)) Definition_label = x.law->label;
-        if(dynamic_cast<Axiom*>(x.law)) Axiom_label = x.law->label;
+        if(dynamic_cast<Definition*>(x.law))
+        {
+            reference.ref_type = "Definition";
+            reference.ref = x.law->label;
+        }
+        else if(dynamic_cast<Axiom*>(x.law))
+        {
+            reference.ref_type = "Axiom";
+            reference.ref = x.law->label;
+        }
         
         x.law = new Proposition(x.law->label, x.law->content->getCopy());
         x.law->upgrade_to_true(x.dir);
@@ -1178,40 +1185,27 @@ void proof_block::append_binary_operator(input x)
     if(x.isFinished) check_finished(x.law);
     
     //fill print_info
-    Print_Info element;
-    if(Definition_label != "")
+    if(reference.ref_type == "")
     {
-        element.ref_type = "Definition";
-        element.ref = Definition_label;
-    }
-    else if(Axiom_label != "")
-    {
-        element.ref_type = "Axiom";
-        element.ref = Axiom_label;
-    }
-    else if(Local_label != "")
-    {
-        element.ref_type = "Local";
-        element.ref = Local_label;
-    }
-    else if(dynamic_cast<Definition*>(x.law))
-    {
-        element.ref_type= "Definition";
-        element.ref = x.law->label;
-    }
-    else if(dynamic_cast<Axiom*>(x.law))
-    {
-        element.ref_type = "Axiom";
-        element.ref = x.law->label;
-    }
-    else if(dynamic_cast<Proposition*>(x.law))
-    {
-        element.ref_type = "Proposition";
-        element.ref = x.law->label;
+        if(dynamic_cast<Definition*>(x.law))
+        {
+            reference.ref_type= "Definition";
+            reference.ref = x.law->label;
+        }
+        else if(dynamic_cast<Axiom*>(x.law))
+        {
+            reference.ref_type = "Axiom";
+            reference.ref = x.law->label;
+        }
+        else if(dynamic_cast<Proposition*>(x.law))
+        {
+            reference.ref_type = "Proposition";
+            reference.ref = x.law->label;
+        }
     }
     
-    element.split_point.clear();
-    print_info.push_back(element);
+    reference.split_point.clear();
+    print_info.push_back(reference);
     
     chain_of_deductive.push_back(x.law);
 }
