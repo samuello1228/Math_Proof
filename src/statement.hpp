@@ -141,7 +141,7 @@ public:
     
     void apply_binary_operator(input&, vector<variable*>, expression*, Print_Info&);
     
-    void append_binary_operator(input x);
+    void append(input x);
 };
 
 class Proposition : public statement

@@ -1122,7 +1122,7 @@ void proof_block::check_finished(statement* step)
     }
 }
 
-void proof_block::append_binary_operator(input x)
+void proof_block::append(input x)
 {
     if(x.isPrint) cout<<"New step:"<<endl;
     expression* source = get_next_source();

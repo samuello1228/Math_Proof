@@ -49,29 +49,29 @@ void set()
     Proposition::Current = new Proposition("equality_reflexive", SET, "\\forall a (a = a)");
     description = "Reflexive property of equality.";
     block = new proof_block("equality_reflexive", Proposition::Current, backward);
-    block->append_binary_operator(input({}, "Definition:equality", LeftToRight));
-    block->append_binary_operator(input({1}, "Proposition:iff_reflexive", PToTrue));
-    block->append_binary_operator(input({}, "Axiom:forall_true", LeftToRight, true));
+    block->append(input({}, "Definition:equality", LeftToRight));
+    block->append(input({1}, "Proposition:iff_reflexive", PToTrue));
+    block->append(input({}, "Axiom:forall_true", LeftToRight, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
     Proposition::Current = new Proposition("equality_symmetric", SET, "\\forall a \\forall b ((a = b) \\iff (b = a))");
     description = "Symmetric property of equality.";
     block = new proof_block("equality_symmetric", Proposition::Current, deduction);
-    block->append_binary_operator(input({}, "Definition:equality", LeftToRight));
-    block->append_binary_operator(input({1}, "Proposition:iff_symmetric", LeftToRight));
-    block->append_binary_operator(input({}, "Definition:equality", RightToLeft, true));
+    block->append(input({}, "Definition:equality", LeftToRight));
+    block->append(input({1}, "Proposition:iff_symmetric", LeftToRight));
+    block->append(input({}, "Definition:equality", RightToLeft, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
     Proposition::Current = new Proposition("equality_transitive", SET, "\\forall a \\forall b \\forall c (((a = b) \\land (b = c)) \\implies (a = c))");
     description = "Transitive property of equality.";
     block = new proof_block("equality_transitive", Proposition::Current, deduction);
-    block->append_binary_operator(input({1}, "Definition:equality", LeftToRight));
-    block->append_binary_operator(input({2}, "Definition:equality", LeftToRight));
-    block->append_binary_operator(input({}, "Proposition:forall_land_commutativity", LeftToRight));
-    block->append_binary_operator(input({1}, "Proposition:iff_transitive", LeftToRight));
-    block->append_binary_operator(input({}, "Definition:equality", RightToLeft, true));
+    block->append(input({1}, "Definition:equality", LeftToRight));
+    block->append(input({2}, "Definition:equality", LeftToRight));
+    block->append(input({}, "Proposition:forall_land_commutativity", LeftToRight));
+    block->append(input({1}, "Proposition:iff_transitive", LeftToRight));
+    block->append(input({}, "Definition:equality", RightToLeft, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
@@ -99,14 +99,14 @@ void set()
     Proposition::Current = new Proposition("equality_substitution_equality", SET, "\\forall a \\forall b \\forall c ((a = b) \\implies ((a = c) \\iff (b = c)))");
     description = "Substitution of $=$ for $=$.";
     block = new proof_block("equality_substitution_equality", Proposition::Current, backward);
-    block->append_binary_operator(input({}, "Proposition:lemma_substitution", LeftToRight));
+    block->append(input({}, "Proposition:lemma_substitution", LeftToRight));
     block->set_split_point({{2}});
-    block->append_binary_operator(input({1,1,1}, "Proposition:equality_symmetric", LeftToRight));
+    block->append(input({1,1,1}, "Proposition:equality_symmetric", LeftToRight));
     block->set_split_point({{2}});
-    block->append_binary_operator(input({1}, "Proposition:equality_transitive", PToTrue));
+    block->append(input({1}, "Proposition:equality_transitive", PToTrue));
     block->set_split_point({{2}});
-    block->append_binary_operator(input({2}, "Proposition:equality_transitive", PToTrue));
-    block->append_binary_operator(input({}, "Definition:land_True_True", LeftToRight, true));
+    block->append(input({2}, "Proposition:equality_transitive", PToTrue));
+    block->append(input({}, "Definition:land_True_True", LeftToRight, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
@@ -117,13 +117,13 @@ void set()
     Proposition::Current = new Proposition("uniqueness_of_empty_set", SET, "\\forall a ((\\forall b (b \\notin a)) \\iff (a = \\emptyset))");
     description = "Uniqueness of $\\emptyset$";
     block = new proof_block("uniqueness_of_empty_set", Proposition::Current, deduction);
-    block->append_binary_operator(input({1}, "Proposition:true_statement", RightToLeft));
+    block->append(input({1}, "Proposition:true_statement", RightToLeft));
     sub.clear(); sub.push_back(new substitution("a", "b", SET));
-    block->append_binary_operator(input({1,2}, "Axiom:existence_of_empty_set", TrueToP, sub));
-    block->append_binary_operator(input({1,1}, "Definition:notin", LeftToRight));
-    block->append_binary_operator(input({1,2}, "Definition:notin", LeftToRight));
-    block->append_binary_operator(input({1}, "Proposition:iff_substitution_lnot", RightToLeft));
-    block->append_binary_operator(input({}, "Definition:equality", RightToLeft, true));
+    block->append(input({1,2}, "Axiom:existence_of_empty_set", TrueToP, sub));
+    block->append(input({1,1}, "Definition:notin", LeftToRight));
+    block->append(input({1,2}, "Definition:notin", LeftToRight));
+    block->append(input({1}, "Proposition:iff_substitution_lnot", RightToLeft));
+    block->append(input({}, "Definition:equality", RightToLeft, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
@@ -131,13 +131,13 @@ void set()
     description = "Single choice";
     block = new proof_block("single_choice", Proposition::Current, direct);
     sub.clear(); sub.push_back(new substitution("a", "a", SET));
-    block->append_binary_operator(input({}, "Proposition:uniqueness_of_empty_set", TrueToP, sub));
-    block->append_binary_operator(input({}, "Proposition:iff_symmetric", LeftToRight));
-    block->append_binary_operator(input({}, "Proposition:iff_substitution_lnot", LeftToRight));
-    block->append_binary_operator(input({1}, "Definition:neq", RightToLeft));
-    block->append_binary_operator(input({2}, "Proposition:De_Morgan_1", LeftToRight));
-    block->append_binary_operator(input({2,1,1}, "Definition:notin", LeftToRight));
-    block->append_binary_operator(input({2,1}, "Proposition:double_negation", LeftToRight, true));
+    block->append(input({}, "Proposition:uniqueness_of_empty_set", TrueToP, sub));
+    block->append(input({}, "Proposition:iff_symmetric", LeftToRight));
+    block->append(input({}, "Proposition:iff_substitution_lnot", LeftToRight));
+    block->append(input({1}, "Definition:neq", RightToLeft));
+    block->append(input({2}, "Proposition:De_Morgan_1", LeftToRight));
+    block->append(input({2,1,1}, "Definition:notin", LeftToRight));
+    block->append(input({2,1}, "Proposition:double_negation", LeftToRight, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
@@ -148,24 +148,24 @@ void set()
     Proposition::Current = new Proposition("uniqueness_of_pair_set", SET, "\\forall a \\forall b \\forall c ((\\forall d ((d \\in c) \\iff ((d = a) \\lor (d = b)))) \\implies (c = \\{ a , b \\}))");
     description = "Uniqueness of pair set";
     block = new proof_block("uniqueness_of_pair_set", Proposition::Current, deduction);
-    block->append_binary_operator(input({1}, "Proposition:land_identity_1", RightToLeft));
+    block->append(input({1}, "Proposition:land_identity_1", RightToLeft));
     sub.clear();
     sub.push_back(new substitution("a", "a", SET));
     sub.push_back(new substitution("b", "b", SET));
     sub.push_back(new substitution("c", "d", SET));
-    block->append_binary_operator(input({1,2}, "Axiom:existence_of_pair_set", TrueToP, sub));
+    block->append(input({1,2}, "Axiom:existence_of_pair_set", TrueToP, sub));
     block->set_split_point({{1,2}});
-    block->append_binary_operator(input({1,2}, "Proposition:iff_symmetric", LeftToRight));
+    block->append(input({1,2}, "Proposition:iff_symmetric", LeftToRight));
     block->set_split_point({{1,2}});
-    block->append_binary_operator(input({1}, "Proposition:iff_transitive", LeftToRight));
-    block->append_binary_operator(input({}, "Definition:equality", RightToLeft, true));
+    block->append(input({1}, "Proposition:iff_transitive", LeftToRight));
+    block->append(input({}, "Definition:equality", RightToLeft, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
     Proposition::Current = new Proposition("substitution_of_pair_set", SET, "\\forall a \\forall b \\forall c ((a = b) \\implies (\\{ a , c \\} = \\{ b , c \\}))");
     description = "Substitution for pair set.";
     block = new proof_block("substitution_of_pair_set", Proposition::Current, deduction);
-    block->append_binary_operator(input({}, "Axiom:substitution_of_equality", LeftToRight));
+    block->append(input({}, "Axiom:substitution_of_equality", LeftToRight));
     
     {
         sub.clear();
@@ -181,10 +181,10 @@ void set()
         d = expression::createFromLatex("d = c", SET);
         sub.push_back(new substitution(var, d));
     }
-    block->append_binary_operator(input({1}, "Proposition:iff_substitution_lor", LeftToRight, sub));
-    block->append_binary_operator(input({1,1}, "Axiom:existence_of_pair_set", RightToLeft));
-    block->append_binary_operator(input({1,2}, "Axiom:existence_of_pair_set", RightToLeft));
-    block->append_binary_operator(input({}, "Definition:equality", RightToLeft, true));
+    block->append(input({1}, "Proposition:iff_substitution_lor", LeftToRight, sub));
+    block->append(input({1,1}, "Axiom:existence_of_pair_set", RightToLeft));
+    block->append(input({1,2}, "Axiom:existence_of_pair_set", RightToLeft));
+    block->append(input({}, "Definition:equality", RightToLeft, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
@@ -198,14 +198,14 @@ void set()
     block = new proof_block("1", Proposition("", SET, "\\forall a \\forall b ((b \\in \\{ a \\}) \\iff (b \\in \\{ a , a \\}))"), direct);
     block->set_target_forall_variable(1);
     sub.clear(); sub.push_back(new substitution("a", "a", SET));
-    block->append_binary_operator(input({}, "Definition:singleton_set", TrueToP, sub));
-    block->append_binary_operator(input({}, "Definition:equality", LeftToRight, true));
+    block->append(input({}, "Definition:singleton_set", TrueToP, sub));
+    block->append(input({}, "Definition:equality", LeftToRight, true));
     Proposition::Current->append(block);
     
     block = new proof_block("singleton_set_property", Proposition::Current, deduction);
-    block->append_binary_operator(input({}, "Local:1", LeftToRight));
-    block->append_binary_operator(input({}, "Axiom:existence_of_pair_set", LeftToRight));
-    block->append_binary_operator(input({}, "Proposition:lor_idempotence", LeftToRight, true));
+    block->append(input({}, "Local:1", LeftToRight));
+    block->append(input({}, "Axiom:existence_of_pair_set", LeftToRight));
+    block->append(input({}, "Proposition:lor_idempotence", LeftToRight, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
@@ -213,16 +213,16 @@ void set()
     Proposition::Current = new Proposition("uniqueness_of_singleton_set", SET, "\\forall a \\forall b ((\\forall c ((c \\in b) \\iff (c = a))) \\implies (b = \\{ a \\}))");
     description = "Uniqueness of singleton set.";
     block = new proof_block("uniqueness_of_singleton_set", Proposition::Current, deduction);
-    block->append_binary_operator(input({1}, "Proposition:land_identity_1", RightToLeft));
+    block->append(input({1}, "Proposition:land_identity_1", RightToLeft));
     sub.clear();
     sub.push_back(new substitution("a", "a", SET));
     sub.push_back(new substitution("b", "c", SET));
-    block->append_binary_operator(input({1,2}, "Proposition:singleton_set_property", TrueToP, sub));
+    block->append(input({1,2}, "Proposition:singleton_set_property", TrueToP, sub));
     block->set_split_point({{1,2}});
-    block->append_binary_operator(input({1,2}, "Proposition:iff_symmetric", LeftToRight));
+    block->append(input({1,2}, "Proposition:iff_symmetric", LeftToRight));
     block->set_split_point({{1,2}});
-    block->append_binary_operator(input({1}, "Proposition:iff_transitive", LeftToRight));
-    block->append_binary_operator(input({}, "Definition:equality", RightToLeft, true));
+    block->append(input({1}, "Proposition:iff_transitive", LeftToRight));
+    block->append(input({}, "Definition:equality", RightToLeft, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
@@ -238,16 +238,16 @@ void set()
     Proposition::Current = new Proposition("uniqueness_of_union_set", SET, "\\forall a \\forall b ((\\forall c ((c \\in b) \\iff (\\exists d ((c \\in d) \\land (d \\in a))))) \\implies (b = (\\bigcup a)))");
     description = "Uniqueness of union set.";
     block = new proof_block("uniqueness_of_union_set", Proposition::Current, deduction);
-    block->append_binary_operator(input({1}, "Proposition:land_identity_1", RightToLeft));
+    block->append(input({1}, "Proposition:land_identity_1", RightToLeft));
     sub.clear();
     sub.push_back(new substitution("a", "a", SET));
     sub.push_back(new substitution("b", "c", SET));
-    block->append_binary_operator(input({1,2}, "Axiom:existence_of_union_set", TrueToP, sub));
+    block->append(input({1,2}, "Axiom:existence_of_union_set", TrueToP, sub));
     block->set_split_point({{1,2}});
-    block->append_binary_operator(input({1,2}, "Proposition:iff_symmetric", LeftToRight));
+    block->append(input({1,2}, "Proposition:iff_symmetric", LeftToRight));
     block->set_split_point({{1,2}});
-    block->append_binary_operator(input({1}, "Proposition:iff_transitive", LeftToRight));
-    block->append_binary_operator(input({}, "Definition:equality", RightToLeft, true));
+    block->append(input({1}, "Proposition:iff_transitive", LeftToRight));
+    block->append(input({}, "Definition:equality", RightToLeft, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
@@ -263,20 +263,20 @@ void set()
     sub.clear();
     sub.push_back(new substitution("a", "a", SET));
     sub.push_back(new substitution("b", "b", SET));
-    block->append_binary_operator(input({}, "Definition:pairwise_union", TrueToP, sub));
-    block->append_binary_operator(input({}, "Definition:equality", LeftToRight, true));
+    block->append(input({}, "Definition:pairwise_union", TrueToP, sub));
+    block->append(input({}, "Definition:equality", LeftToRight, true));
     Proposition::Current->append(block);
     
     block = new proof_block("pairwise_union_property", Proposition::Current, deduction);
-    block->append_binary_operator(input({}, "Local:1", LeftToRight));
-    block->append_binary_operator(input({}, "Axiom:existence_of_union_set", LeftToRight));
-    block->append_binary_operator(input({1,2}, "Axiom:existence_of_pair_set", LeftToRight));
-    block->append_binary_operator(input({1}, "Proposition:land_lor_distributivity_1", LeftToRight));
-    block->append_binary_operator(input({}, "Proposition:exists_lor_commutativity", RightToLeft));
-    block->append_binary_operator(input({1,1}, "Proposition:land_commutativity", LeftToRight));
-    block->append_binary_operator(input({2,1}, "Proposition:land_commutativity", LeftToRight));
-    block->append_binary_operator(input({1}, "Axiom:substitution_in", LeftToRight));
-    block->append_binary_operator(input({2}, "Axiom:substitution_in", LeftToRight, true));
+    block->append(input({}, "Local:1", LeftToRight));
+    block->append(input({}, "Axiom:existence_of_union_set", LeftToRight));
+    block->append(input({1,2}, "Axiom:existence_of_pair_set", LeftToRight));
+    block->append(input({1}, "Proposition:land_lor_distributivity_1", LeftToRight));
+    block->append(input({}, "Proposition:exists_lor_commutativity", RightToLeft));
+    block->append(input({1,1}, "Proposition:land_commutativity", LeftToRight));
+    block->append(input({2,1}, "Proposition:land_commutativity", LeftToRight));
+    block->append(input({1}, "Axiom:substitution_in", LeftToRight));
+    block->append(input({2}, "Axiom:substitution_in", LeftToRight, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
@@ -287,27 +287,27 @@ void set()
     Proposition::Current = new Proposition("pairwise_union_commutativity", SET, "\\forall a \\forall b ((a \\cup b) = (b \\cup a))");
     description = "Commutativity of $\\cup$.";
     block = new proof_block("pairwise_union_commutativity", Proposition::Current, backward);
-    block->append_binary_operator(input({}, "Definition:equality", LeftToRight));
-    block->append_binary_operator(input({1,1}, "Proposition:pairwise_union_property", LeftToRight));
-    block->append_binary_operator(input({1,2}, "Proposition:pairwise_union_property", LeftToRight));
-    block->append_binary_operator(input({1,2}, "Proposition:lor_commutativity", LeftToRight));
-    block->append_binary_operator(input({1}, "Proposition:iff_reflexive", PToTrue));
-    block->append_binary_operator(input({}, "Axiom:forall_true", LeftToRight, true));
+    block->append(input({}, "Definition:equality", LeftToRight));
+    block->append(input({1,1}, "Proposition:pairwise_union_property", LeftToRight));
+    block->append(input({1,2}, "Proposition:pairwise_union_property", LeftToRight));
+    block->append(input({1,2}, "Proposition:lor_commutativity", LeftToRight));
+    block->append(input({1}, "Proposition:iff_reflexive", PToTrue));
+    block->append(input({}, "Axiom:forall_true", LeftToRight, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
     Proposition::Current = new Proposition("pairwise_union_identity", SET, "\\forall a ((a \\cup \\emptyset) = a)");
     description = "Identity of $\\cup$.";
     block = new proof_block("pairwise_union_identity", Proposition::Current, backward);
-    block->append_binary_operator(input({}, "Definition:equality", LeftToRight));
-    block->append_binary_operator(input({1,1}, "Proposition:pairwise_union_property", LeftToRight));
-    block->append_binary_operator(input({1,1,2}, "Proposition:double_negation", RightToLeft));
-    block->append_binary_operator(input({1,1,2,1}, "Definition:notin", RightToLeft));
-    block->append_binary_operator(input({1,1,2,1}, "Axiom:existence_of_empty_set", PToTrue));
-    block->append_binary_operator(input({1,1,2}, "Definition:lnot_True", LeftToRight));
-    block->append_binary_operator(input({1,1}, "Proposition:lor_identity_1", LeftToRight));
-    block->append_binary_operator(input({1}, "Proposition:iff_reflexive", PToTrue));
-    block->append_binary_operator(input({}, "Axiom:forall_true", LeftToRight, true));
+    block->append(input({}, "Definition:equality", LeftToRight));
+    block->append(input({1,1}, "Proposition:pairwise_union_property", LeftToRight));
+    block->append(input({1,1,2}, "Proposition:double_negation", RightToLeft));
+    block->append(input({1,1,2,1}, "Definition:notin", RightToLeft));
+    block->append(input({1,1,2,1}, "Axiom:existence_of_empty_set", PToTrue));
+    block->append(input({1,1,2}, "Definition:lnot_True", LeftToRight));
+    block->append(input({1,1}, "Proposition:lor_identity_1", LeftToRight));
+    block->append(input({1}, "Proposition:iff_reflexive", PToTrue));
+    block->append(input({}, "Axiom:forall_true", LeftToRight, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
@@ -324,11 +324,11 @@ void set()
     Proposition::Current = new Proposition("one_expand", SET, "1 = \\{ \\emptyset \\}");
     description = "Express 1 in term of $\\emptyset$.";
     block = new proof_block("one_expand", Proposition::Current, deduction);
-    block->append_binary_operator(input({}, "Definition:one", LeftToRight));
-    block->append_binary_operator(input({1}, "Definition:zero", LeftToRight));
-    block->append_binary_operator(input({}, "Definition:successor", LeftToRight));
-    block->append_binary_operator(input({}, "Proposition:pairwise_union_commutativity", LeftToRight));
-    block->append_binary_operator(input({}, "Proposition:pairwise_union_identity", LeftToRight, true));
+    block->append(input({}, "Definition:one", LeftToRight));
+    block->append(input({1}, "Definition:zero", LeftToRight));
+    block->append(input({}, "Definition:successor", LeftToRight));
+    block->append(input({}, "Proposition:pairwise_union_commutativity", LeftToRight));
+    block->append(input({}, "Proposition:pairwise_union_identity", LeftToRight, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
