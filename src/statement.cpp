@@ -1158,6 +1158,12 @@ void proof_block::append(input x)
             
             reference.ref_type = "forall_substitution";
             reference.ref = "Substitution for " + var->getLatex().getNormal();
+            
+            //delete full_substitution
+            for(long i=0;i<x.full_substitution.size();i++)
+            {
+                delete x.full_substitution[i];
+            }
         }
         else
         {

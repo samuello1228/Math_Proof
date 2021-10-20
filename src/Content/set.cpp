@@ -89,6 +89,10 @@ void set()
     fout<<"\\subsection{Axiom of Substitution for $\\in$}"<<endl;
     Proposition::Current = new Proposition("equality_substitution_in_1", SET, "\\forall a \\forall b \\forall c ((a = b) \\implies ((c \\in a) \\iff (c \\in b)))");
     description = "Substitution of $=$ for $\\in$.";
+    block = new proof_block("equality_substitution_in_1", Proposition::Current, deduction);
+    block->append(input({}, "Definition:equality", LeftToRight));
+    block->append(input({}, expression::createFromLatex("c", SET), true));
+    Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
     Proposition::Current = new Proposition("equality_substitution_in_2", SET, "\\forall a \\forall b \\forall c ((a = b) \\implies ((a \\in c) \\iff (b \\in c)))");
