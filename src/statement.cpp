@@ -451,37 +451,200 @@ void statement::upgrade_to_true(direction dir)
     }
 }
 
-void statement::apply_binary_operator(vector<variable*> forall_variable_proof, expression* source, vector<int> path, vector<substitution*> sub, bool isPrint)
+void proof_block::apply_binary_operator(input& in, vector<variable*> forall_variable_proof, expression* source, Print_Info& reference)
 {
+    //fill the x.law, find the law by the law_label
+    string statement_type;
+    string statement_label;
+    long index = in.law_label.find(":");
+    if(index != string::npos)
+    {
+        statement_type = in.law_label.substr(0, index);
+        statement_label = in.law_label.substr(index+1, in.law_label.size());
+    }
+    else
+    {
+        cout<<"Error: cannot process the law label: "<<in.law_label<<endl;
+        return;
+    }
+    
+    if(statement_type == "Definition") in.law = Definition::FindByRef(statement_label);
+    else if(statement_type == "Axiom") in.law = Axiom::FindByRef(statement_label);
+    else if(statement_type == "Proposition") in.law = Proposition::FindByRef(statement_label);
+    else if(statement_type == "Local")
+    {
+        for(long i=0;i<Proposition::Current->proof.size();i++)
+        {
+            if(Proposition::Current->proof[i]->label == statement_label)
+            {
+                in.law = Proposition::Current->proof[i]->target;
+                reference.ref_type = "Local";
+                reference.ref = statement_label;
+                break;
+            }
+        }
+    }
+    
+    if(!in.law)
+    {
+        cout<<"Error: cannot find the law label: "<<in.law_label<<endl;
+        return;
+    }
+    
+    //get a copy of law
+    if(in.dir == TrueToP || in.dir == PToTrue)
+    {
+        if(dynamic_cast<Definition*>(in.law))
+        {
+            reference.ref_type = "Definition";
+            reference.ref = in.law->label;
+        }
+        else if(dynamic_cast<Axiom*>(in.law))
+        {
+            reference.ref_type = "Axiom";
+            reference.ref = in.law->label;
+        }
+        
+        in.law = new Proposition(in.law->label, in.law->content->getCopy());
+        in.law->upgrade_to_true(in.dir);
+    }
+    else
+    {
+        in.law = in.law->getCopy();
+    }
+    
+    if(in.isPrint)
+    {
+        cout<<"law:"<<endl;
+        cout<<in.law->content->getLatex().getNormal()<<endl;
+        cout<<endl;
+    }
+    
+    //fill the x.full_substitution
+    if(method == direct && chain_of_deductive.size() == 0)
+    {
+        if(in.sub_type != full && in.law->forall_variable.size() >= 1)
+        {
+            cout<<"Error: cannot do this. please use the full substitution."<<endl;
+            return;
+        }
+    }
+    else
+    {
+        if(in.sub_type == source_specified)
+        {
+            in.full_substitution = createSubstitution(in.law->forall_variable, source, in.source_specified_substitution);
+        }
+        else if(in.sub_type == automatic)
+        {
+            vector<vector<int> > substitute_path = {};
+            if(in.law->forall_variable.size() != 0)
+            {
+                if(in.dir == LeftToRight)
+                {
+                    in.law->find_all_path_of_variable(in.isPrint);
+                    if(in.law->path_of_variable_operand1.size() == 0)
+                    {
+                        cout<<"Error: cannot do automatic substitution for LeftToRight."<<endl;
+                        return;
+                    }
+                    substitute_path = in.law->path_of_variable_operand1;
+                }
+                else if(in.dir == RightToLeft)
+                {
+                    in.law->find_all_path_of_variable(in.isPrint);
+                    if(in.law->path_of_variable_operand2.size() == 0)
+                    {
+                        cout<<"Error: cannot do automatic substitution for RightToLeft."<<endl;
+                        return;
+                    }
+                    substitute_path = in.law->path_of_variable_operand2;
+                }
+                else if(in.dir == PToTrue)
+                {
+                    in.law->find_all_path_of_variable(in.isPrint);
+                    if(in.law->path_of_variable_operand1.size() == 0)
+                    {
+                        cout<<"Error: cannot do automatic substitution for PToTrue."<<endl;
+                        return;
+                    }
+                    substitute_path = in.law->path_of_variable_operand1;
+                }
+                else if(in.dir == TrueToP)
+                {
+                    cout<<"Error: cannot do automatic substitution for TrueToP."<<endl;
+                    return;
+                }
+            }
+            
+            expression* source_part = source->getPart(in.relative_path);
+            in.full_substitution = createSubstitution(in.law->forall_variable, source_part, substitute_path);
+        }
+    }
+    
+    //Swap for direction Right to Left
+    if(in.dir == RightToLeft)
+    {
+        if(in.law->get_binary_operator_latex() == "\\iff")
+        {
+            //swap
+            if(in.law->binary_operator_type == LOGIC)
+            {
+                logic_value* temp = in.law->binary_operator_logic->operand1;
+                in.law->binary_operator_logic->operand1 = in.law->binary_operator_logic->operand2;
+                in.law->binary_operator_logic->operand2 = temp;
+            }
+            else if(in.law->binary_operator_type == SET)
+            {
+                Set* temp = in.law->binary_operator_set->operand1;
+                in.law->binary_operator_set->operand1 = in.law->binary_operator_set->operand2;
+                in.law->binary_operator_set->operand2 = temp;
+            }
+            
+            if(in.isPrint)
+            {
+                cout<<"Swap two operands for the direction RightToLeft"<<endl;
+                cout<<in.law->content->getLatex().getNormal()<<endl;
+            }
+        }
+        else
+        {
+            cout<<"Error: cannot apply for the RightToLeft direction."<<endl;
+        }
+    }
+    
     //print substitution
-    if(isPrint)
+    if(in.isPrint)
     {
         cout<<"Substitution:"<<endl;
-        for(long i=0;i<sub.size();i++)
+        for(long i=0;i<in.full_substitution.size();i++)
         {
-            cout<<sub[i]->x->getLatex().getNormal()<<" is replaced by "<<sub[i]->y->getLatex().getNormal()<<endl;
+            cout<<in.full_substitution[i]->x->getLatex().getNormal()<<" is replaced by "<<in.full_substitution[i]->y->getLatex().getNormal()<<endl;
         }
         cout<<endl;
     }
     
     //get external dependence of source part
-    vector<variable*> external_dependence_source_part = forall_variable_proof;
-    source->getPartExternalDependence(path, external_dependence_source_part);
-    if(isPrint)
+    vector<variable*> external_dependence_source_part;
+    source->getPartExternalDependence(in.relative_path, external_dependence_source_part);
+    
+    vector<variable*> all_dependence_source_part = external_dependence_source_part;
+    all_dependence_source_part.insert(all_dependence_source_part.begin(), forall_variable_proof.begin(), forall_variable_proof.end());
+    
+    if(in.isPrint)
     {
         cout<<"External dependence of source part:"<<endl;
-        for(long i=0;i<external_dependence_source_part.size();i++)
+        for(long i=0;i<all_dependence_source_part.size();i++)
         {
-            cout<<external_dependence_source_part[i]->getLatex().getNormal()<<" ";
+            cout<<all_dependence_source_part[i]->getLatex().getNormal()<<" ";
         }
         cout<<endl;
     }
     
     //get all dependence of source part
-    expression* source_part = source->getPart(path);
-    vector<variable*> all_dependence_source_part = external_dependence_source_part;
+    expression* source_part = source->getPart(in.relative_path);
     source_part->getInternalDependence(all_dependence_source_part);
-    if(isPrint)
+    if(in.isPrint)
     {
         cout<<"All dependence of source part:"<<endl;
         for(long i=0;i<all_dependence_source_part.size();i++)
@@ -493,9 +656,9 @@ void statement::apply_binary_operator(vector<variable*> forall_variable_proof, e
     
     //get all dependence of law
     vector<variable*> all_dependence_law;
-    get_binary_operator()->getInternalDependence(all_dependence_law);
-    content->getInternalDependence(all_dependence_law);
-    if(isPrint)
+    in.law->get_binary_operator()->getInternalDependence(all_dependence_law);
+    in.law->content->getInternalDependence(all_dependence_law);
+    if(in.isPrint)
     {
         cout<<"All dependence of law:"<<endl;
         for(long i=0;i<all_dependence_law.size();i++)
@@ -507,7 +670,7 @@ void statement::apply_binary_operator(vector<variable*> forall_variable_proof, e
     
     //create replacement by exclusion
     vector<substitution*> replacement = createReplacement(all_dependence_law, all_dependence_source_part);
-    if(isPrint)
+    if(in.isPrint)
     {
         cout<<"Replacement:"<<endl;
         for(long i=0;i<replacement.size();i++)
@@ -518,27 +681,27 @@ void statement::apply_binary_operator(vector<variable*> forall_variable_proof, e
     }
     
     //do replacement for law
-    content->replace_variable(replacement);
-    if(isPrint) cout<<content->getLatex().getNormal()<<endl;
+    in.law->content->replace_variable(replacement);
+    if(in.isPrint) cout<<in.law->content->getLatex().getNormal()<<endl;
     
     //do replacement for sub
-    for(long i=0;i<sub.size();i++)
+    for(long i=0;i<in.full_substitution.size();i++)
     {
         for(long j=0;j<replacement.size();j++)
         {
-            if(replacement[j]->x->isEqual(sub[i]->x))
+            if(replacement[j]->x->isEqual(in.full_substitution[i]->x))
             {
-                delete sub[i]->x;
-                sub[i]->x = dynamic_cast<variable*>(replacement[j]->y->getCopy());
+                delete in.full_substitution[i]->x;
+                in.full_substitution[i]->x = dynamic_cast<variable*>(replacement[j]->y->getCopy());
                 break;
             }
         }
     }
-    if(isPrint)
+    if(in.isPrint)
     {
-        for(long i=0;i<sub.size();i++)
+        for(long i=0;i<in.full_substitution.size();i++)
         {
-            cout<<sub[i]->x->getLatex().getNormal()<<" is replaced by "<<sub[i]->y->getLatex().getNormal()<<endl;
+            cout<<in.full_substitution[i]->x->getLatex().getNormal()<<" is replaced by "<<in.full_substitution[i]->y->getLatex().getNormal()<<endl;
         }
         cout<<endl;
     }
@@ -550,36 +713,36 @@ void statement::apply_binary_operator(vector<variable*> forall_variable_proof, e
     }
     
     //do substitution
-    content = dynamic_cast<logic_value*>(expression::substitute_forall_variable(content, sub));
-    if(isPrint)
+    in.law->content = dynamic_cast<logic_value*>(expression::substitute_forall_variable(in.law->content, in.full_substitution));
+    if(in.isPrint)
     {
         cout<<"Do substitution:"<<endl;
-        cout<<content->getLatex().getNormal()<<endl<<endl;
+        cout<<in.law->content->getLatex().getNormal()<<endl<<endl;
     }
     
     //delete sub
-    for(long i=0;i<sub.size();i++)
+    for(long i=0;i<in.full_substitution.size();i++)
     {
-        delete sub[i];
+        delete in.full_substitution[i];
     }
     
     //add universal quantifier at the beginning
-    forall_variable.clear();
+    in.law->forall_variable.clear();
     for(long i = external_dependence_source_part.size()-1; i>=0; i--)
     {
         variable* variable_copy = dynamic_cast<variable*>(external_dependence_source_part[i]->getCopy());
-        content = new universal_quantifier(variable_copy, content);
-        forall_variable.insert(forall_variable.begin(), variable_copy);
+        in.law->content = new universal_quantifier(variable_copy, in.law->content);
+        in.law->forall_variable.insert(in.law->forall_variable.begin(), variable_copy);
     }
-    if(isPrint)
+    if(in.isPrint)
     {
         cout<<"Add universal quantifier at the beginning:"<<endl;
-        cout<<content->getLatex().getNormal()<<endl<<endl;
+        cout<<in.law->content->getLatex().getNormal()<<endl<<endl;
     }
     
     //do replacement for internal dependence
     vector<variable*> internal_dependence_law;
-    get_oeprand(1)->getInternalDependence(internal_dependence_law);
+    in.law->get_oeprand(1)->getInternalDependence(internal_dependence_law);
     
     vector<variable*> internal_dependence_source_part;
     source_part->getInternalDependence(internal_dependence_source_part);
@@ -595,7 +758,7 @@ void statement::apply_binary_operator(vector<variable*> forall_variable_proof, e
         variable* var_copy = dynamic_cast<variable*>(internal_dependence_law[i]->getCopy());
         replacement.push_back(new substitution(var_copy, internal_dependence_source_part[i]->getCopy()));
     }
-    if(isPrint)
+    if(in.isPrint)
     {
         cout<<"Replacement for internal dependence:"<<endl;
         for(long i=0;i<replacement.size();i++)
@@ -605,54 +768,12 @@ void statement::apply_binary_operator(vector<variable*> forall_variable_proof, e
         cout<<endl;
     }
     
-    content->replace_variable(replacement);
-    if(isPrint) cout<<content->getLatex().getNormal()<<endl<<endl;
-    
-    if(!get_oeprand(1)->isEqual(source_part))
-    {
-        cout<<"Error: the operand1 of law and the source part are different."<<endl;
-        cout<<source_part->getLatex().getNormal()<<endl;
-        cout<<get_oeprand(1)->getLatex().getNormal()<<endl;
-    }
+    in.law->content->replace_variable(replacement);
     
     //delete replacement
     for(long i=0;i<replacement.size();i++)
     {
         delete replacement[i];
-    }
-    
-    //assemble to the original source
-    if(isPrint) cout<<"Do the assembly:"<<endl;
-    while(true)
-    {
-        if(path.size() == 0) break;
-        
-        int p = path[path.size() -1];
-        path.erase(path.end() -1);
-        
-        bool isChanged = expression::assemble(this, source->getPart(path), p);
-        if(isPrint && isChanged) cout<<content->getLatex().getNormal()<<endl;
-    }
-    if(isPrint) cout<<endl;
-    
-    //check whether the operand1 of law is equal to the source
-    if(!get_oeprand(1)->isEqual(source))
-    {
-        cout<<"Error: the operand1 of law and the source are different."<<endl;
-    }
-    
-    //check forall_variable
-    if(forall_variable.size() != forall_variable_proof.size())
-    {
-        cout<<"Error: The forall_variable doese not matched."<<endl;
-    }
-    
-    for(long i=0;i<forall_variable.size();i++)
-    {
-        if(! forall_variable[i]->isEqual(forall_variable_proof[i]))
-        {
-            cout<<"Error: The forall_variable does not matched."<<endl;
-        }
     }
 }
 
@@ -834,6 +955,18 @@ input::input(vector<int> new_relative_path, string new_law_label, direction new_
     forall_substitution = nullptr;
 }
 
+input::input(vector<int> new_relative_path, expression* forall_sub, bool new_isFinished, bool new_isPrint)
+{
+    law = nullptr;
+    law_label = "forall_substitution";
+    
+    relative_path = new_relative_path;
+    isFinished = new_isFinished;
+    isPrint = new_isPrint;
+    
+    forall_substitution = forall_sub;
+}
+
 proof_block::proof_block(string newLabel, statement* x, proof_method new_method)
 {
     label = newLabel;
@@ -914,7 +1047,10 @@ string proof_block::getLatex()
             output += "\n";
         }
         
-        if(print_info[i].ref_type != "Local") output += "& & \\text{" + print_info[i].ref_type + " \\ref{" + print_info[i].ref_type + ":" + print_info[i].ref + "}} \\\\" + "\n";
+        if(print_info[i].ref_type == "forall_substitution")
+            output += "& & \\text{" + print_info[i].ref + "} \\\\" + "\n";
+        else if(print_info[i].ref_type != "Local")
+            output += "& & \\text{" + print_info[i].ref_type + " \\ref{" + print_info[i].ref_type + ":" + print_info[i].ref + "}} \\\\" + "\n";
         else output += "& & \\text{Proposition (" + print_info[i].ref + ")} \\\\" + "\n";
     }
     
@@ -1005,173 +1141,77 @@ void proof_block::append_binary_operator(input x)
         cout<<endl;
     }
     
-    //fill the x.law
     Print_Info reference;
-    if(x.law == nullptr)
+    expression* source_part = source->getPart(x.relative_path);
+    if(x.law_label == "forall_substitution")
     {
-        string statement_type;
-        string statement_label;
-        long index = x.law_label.find(":");
-        if(index != string::npos)
+        if(universal_quantifier* y = dynamic_cast<universal_quantifier*>(source_part->getCopy()))
         {
-            statement_type = x.law_label.substr(0, index);
-            statement_label = x.law_label.substr(index+1, x.law_label.size());
+            logic_value* operand1 = dynamic_cast<logic_value*>(source_part->getCopy());
+            
+            variable* var = dynamic_cast<variable*>(y->var->getCopy());
+            x.full_substitution.push_back(new substitution(var, x.forall_substitution));
+            logic_value* operand2 = dynamic_cast<logic_value*>(expression::substitute_forall_variable(y, x.full_substitution));
+            
+            expression* z = new logic_binary_operator_logic_logic("\\implies", operand1, operand2);
+            x.law = new Axiom("forall_substitution", z);
+            
+            reference.ref_type = "forall_substitution";
+            reference.ref = "Substitution for " + var->getLatex().getNormal();
         }
         else
         {
-            cout<<"Error: cannot process the law label: "<<x.law_label<<endl;
-            return;
-        }
-        
-        if(statement_type == "Definition") x.law = Definition::FindByRef(statement_label);
-        else if(statement_type == "Axiom") x.law = Axiom::FindByRef(statement_label);
-        else if(statement_type == "Proposition") x.law = Proposition::FindByRef(statement_label);
-        else if(statement_type == "Local")
-        {
-            for(long i=0;i<Proposition::Current->proof.size();i++)
-            {
-                if(Proposition::Current->proof[i]->label == statement_label)
-                {
-                    x.law = Proposition::Current->proof[i]->target;
-                    reference.ref_type = "Local";
-                    reference.ref = statement_label;
-                    break;
-                }
-            }
-        }
-        
-        if(!x.law)
-        {
-            cout<<"Error: cannot find the law label: "<<x.law_label<<endl;
+            cout<<"Error: the source part is not universal quantifier. cannot do forall substitution."<<endl;
             return;
         }
     }
-    
-    //get a copy of law
-    if(x.dir == TrueToP || x.dir == PToTrue)
+    else if(x.law_label != "")
     {
-        if(dynamic_cast<Definition*>(x.law))
-        {
-            reference.ref_type = "Definition";
-            reference.ref = x.law->label;
-        }
-        else if(dynamic_cast<Axiom*>(x.law))
-        {
-            reference.ref_type = "Axiom";
-            reference.ref = x.law->label;
-        }
-        
-        x.law = new Proposition(x.law->label, x.law->content->getCopy());
-        x.law->upgrade_to_true(x.dir);
+        proof_block::apply_binary_operator(x, forall_variable_proof, source, reference);
     }
     else
     {
-        x.law = x.law->getCopy();
+        cout<<"Error: Unknown method."<<endl;
     }
     
-    if(x.isPrint)
+    if(x.isPrint) cout<<x.law->content->getLatex().getNormal()<<endl<<endl;
+    
+    //check whether the operand1 of law and the source part are the same.
+    if(!x.law->get_oeprand(1)->isEqual(source_part))
     {
-        cout<<"law:"<<endl;
-        cout<<x.law->content->getLatex().getNormal()<<endl;
-        cout<<endl;
+        cout<<"Error: the operand1 of law and the source part are different."<<endl;
+        cout<<source_part->getLatex().getNormal()<<endl;
+        cout<<x.law->get_oeprand(1)->getLatex().getNormal()<<endl;
     }
     
-    //fill the x.full_substitution
-    if(method == direct && chain_of_deductive.size() == 0)
+    //assemble to the original source
+    if(x.isPrint) cout<<"Do the assembly:"<<endl;
+    while(true)
     {
-        if(x.sub_type != full && x.law->forall_variable.size() >= 1)
-        {
-            cout<<"Error: cannot do this. please use the full substitution."<<endl;
-            return;
-        }
+        if(x.relative_path.size() == 0) break;
+        
+        int p = x.relative_path[x.relative_path.size() -1];
+        x.relative_path.erase(x.relative_path.end() -1);
+        
+        bool isChanged = expression::assemble(x.law, source->getPart(x.relative_path), p);
+        if(x.isPrint && isChanged) cout<<x.law->content->getLatex().getNormal()<<endl;
     }
-    else
-    {
-        if(x.sub_type == source_specified)
-        {
-            x.full_substitution = createSubstitution(x.law->forall_variable, source, x.source_specified_substitution);
-        }
-        else if(x.sub_type == automatic)
-        {
-            vector<vector<int> > substitute_path = {};
-            if(x.law->forall_variable.size() != 0)
-            {
-                if(x.dir == LeftToRight)
-                {
-                    x.law->find_all_path_of_variable(x.isPrint);
-                    if(x.law->path_of_variable_operand1.size() == 0)
-                    {
-                        cout<<"Error: cannot do automatic substitution for LeftToRight."<<endl;
-                        return;
-                    }
-                    substitute_path = x.law->path_of_variable_operand1;
-                }
-                else if(x.dir == RightToLeft)
-                {
-                    x.law->find_all_path_of_variable(x.isPrint);
-                    if(x.law->path_of_variable_operand2.size() == 0)
-                    {
-                        cout<<"Error: cannot do automatic substitution for RightToLeft."<<endl;
-                        return;
-                    }
-                    substitute_path = x.law->path_of_variable_operand2;
-                }
-                else if(x.dir == PToTrue)
-                {
-                    x.law->find_all_path_of_variable(x.isPrint);
-                    if(x.law->path_of_variable_operand1.size() == 0)
-                    {
-                        cout<<"Error: cannot do automatic substitution for PToTrue."<<endl;
-                        return;
-                    }
-                    substitute_path = x.law->path_of_variable_operand1;
-                }
-                else if(x.dir == TrueToP)
-                {
-                    cout<<"Error: cannot do automatic substitution for TrueToP."<<endl;
-                    return;
-                }
-            }
-            
-            expression* source_part = source->getPart(x.relative_path);
-            x.full_substitution = createSubstitution(x.law->forall_variable, source_part, substitute_path);
-        }
-    }
+    if(x.isPrint) cout<<endl;
     
-    //Swap for direction Right to Left
-    if(x.dir == RightToLeft)
+    //check whether the operand1 of law is equal to the source
+    if(!x.law->get_oeprand(1)->isEqual(source))
     {
-        if(x.law->get_binary_operator_latex() == "\\iff")
-        {
-            //swap
-            if(x.law->binary_operator_type == LOGIC)
-            {
-                logic_value* temp = x.law->binary_operator_logic->operand1;
-                x.law->binary_operator_logic->operand1 = x.law->binary_operator_logic->operand2;
-                x.law->binary_operator_logic->operand2 = temp;
-            }
-            else if(x.law->binary_operator_type == SET)
-            {
-                Set* temp = x.law->binary_operator_set->operand1;
-                x.law->binary_operator_set->operand1 = x.law->binary_operator_set->operand2;
-                x.law->binary_operator_set->operand2 = temp;
-            }
-            
-            if(x.isPrint)
-            {
-                cout<<"Swap two operands for the direction RightToLeft"<<endl;
-                cout<<x.law->content->getLatex().getNormal()<<endl;
-            }
-        }
-        else
-        {
-            cout<<"Error: cannot apply for the RightToLeft direction."<<endl;
-        }
+        cout<<"Error: the operand1 of law and the source are different."<<endl;
     }
-    
-    x.law->apply_binary_operator(forall_variable_proof, source, x.relative_path, x.full_substitution, x.isPrint);
     delete source;
     
+    //check forall_variable
+    if(x.law->forall_variable.size() != 0)
+    {
+        cout<<"Error: The forall_variable of law is not empty."<<endl;
+    }
+    
+    //check whether the binary operator is allowed.
     if(method == deduction)
     {
         if(x.law->get_binary_operator_latex() == "\\implies" && target->get_binary_operator_latex() == "\\iff")
@@ -1189,6 +1229,7 @@ void proof_block::append_binary_operator(input x)
         }
     }
     
+    //check_finished
     if(x.isFinished) check_finished(x.law);
     
     //fill print_info

@@ -53,7 +53,6 @@ public:
     virtual statement* getCopy()=0;
     void delete_the_last_universal_quantifier();
     void upgrade_to_true(direction);
-    void apply_binary_operator(vector<variable*>, expression*, vector<int>, vector<substitution*>, bool isPrint = false);
 };
 
 class Definition : public statement
@@ -106,6 +105,8 @@ public:
     input(vector<int> relative_path, string law_label, direction dir, bool isFinished = false, bool isPrint = false);
     input(vector<int> relative_path, string law_label, direction dir, vector<vector<int> > sub, bool isFinished = false, bool isPrint = false);
     input(vector<int> relative_path, string law_label, direction dir, vector<substitution*> sub, bool isFinished = false, bool isPrint = false);
+    
+    input(vector<int> relative_path, expression* forall_substitution, bool isFinished = false, bool isPrint = false);
 };
 
 struct Print_Info
@@ -137,6 +138,9 @@ public:
     void set_target_forall_variable(long);
     expression* get_next_source();
     void check_finished(statement*);
+    
+    void apply_binary_operator(input&, vector<variable*>, expression*, Print_Info&);
+    
     void append_binary_operator(input x);
 };
 
