@@ -139,7 +139,8 @@ public:
     expression* get_next_source();
     void check_finished(statement*);
     
-    void apply_binary_operator(input&, vector<variable*>, expression*, Print_Info&);
+    void apply_binary_operator(input&, expression*, Print_Info&);
+    void apply_forall_substitution(input&, expression*, Print_Info&);
     
     void append(input x);
 };
