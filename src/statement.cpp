@@ -159,13 +159,6 @@ void statement::constructor_aux()
         binary_operator_logic = nullptr;
         binary_operator_set = nullptr;
     }
-    
-    //check variable
-    if(!content->check_variable({}))
-    {
-        cout<<"Error: Check fail for variable."<<endl;
-        cout<<content->getLatex().getNormal()<<endl;
-    }
 }
 
 void statement::set_forall_variable(vector<variable*>& new_forall_variable, long depth)
@@ -706,6 +699,13 @@ void Definition::addDefinition(ofstream& fout, Definition* x, string description
         }
     }
     
+    //check variable
+    if(!x->content->check_variable({}))
+    {
+        cout<<"Error: Check fail for variable."<<endl;
+        cout<<x->content->getLatex().getNormal()<<endl;
+    }
+    
     All_Definition.push_back(x);
     
     cout<< "Definition:" << x->label <<endl;
@@ -764,6 +764,13 @@ void Axiom::addAxiom(ofstream& fout, Axiom* x, string description)
             cout<<"Error: the label is not distinct: "<<x->label<<endl;
             return;
         }
+    }
+    
+    //check variable
+    if(!x->content->check_variable({}))
+    {
+        cout<<"Error: Check fail for variable."<<endl;
+        cout<<x->content->getLatex().getNormal()<<endl;
     }
     
     All_Axiom.push_back(x);
@@ -1256,6 +1263,13 @@ void Proposition::addProposition(ofstream& fout, Proposition* x, string descript
             cout<<"Error: the label is not distinct: "<<x->label<<endl;
             return;
         }
+    }
+    
+    //check variable
+    if(!x->content->check_variable({}))
+    {
+        cout<<"Error: Check fail for variable."<<endl;
+        cout<<x->content->getLatex().getNormal()<<endl;
     }
     
     All_Proposition.push_back(x);
