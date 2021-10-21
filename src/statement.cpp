@@ -1140,6 +1140,37 @@ void proof_block::apply_binary_operator(input& in, expression* source, Print_Inf
     {
         delete replacement[i];
     }
+    
+    //check whether a is independent of c.
+    if(in.law_label == "Proposition:lor_forall_distributivity" ||
+       in.law_label == "Proposition:land_exists_distributivity" ||
+       in.law_label == "Proposition:implies_forall_distributivity" )
+    {
+        logic_binary_operator_logic_logic* iff = dynamic_cast<logic_binary_operator_logic_logic*>(in.law->content);
+        logic_binary_operator_logic_logic* lor = nullptr;
+        if(in.dir == LeftToRight)
+        {
+            lor = dynamic_cast<logic_binary_operator_logic_logic*>(iff->operand1);
+        }
+        else if(in.dir == RightToLeft)
+        {
+            lor = dynamic_cast<logic_binary_operator_logic_logic*>(iff->operand2);
+        }
+        else
+        {
+            cout<<"Error: Need to add code for this case."<<endl;
+        }
+        
+        expression* a = lor->operand1;
+        universal_quantifier* uc = dynamic_cast<universal_quantifier*>(lor->operand2);
+        set_variable* var_c = dynamic_cast<set_variable*>(uc->var);
+        
+        if(a->contain_variable(var_c))
+        {
+            cout<<"Error: a is not independent of c. cannot use this law."<<endl;
+            return;
+        }
+    }
 }
 
 void proof_block::apply_forall_substitution(input& in, expression* source_part, Print_Info& reference)
