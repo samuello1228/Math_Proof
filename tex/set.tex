@@ -219,8 +219,8 @@ Substitution of $\in$.
 \end{align*}
 \end{axm}
 
-\begin{axm}
-\label{Axiom:substitution_of_equality}
+\begin{prop}
+\label{Proposition:substitution_of_equality}
 Substitution of $=$.
 \begin{align*}
 & \forall a \forall b ( \\
@@ -228,7 +228,24 @@ Substitution of $=$.
 & & \iff & \forall c ((c = a) \iff (c = b)) \\
 & )
 \end{align*}
-\end{axm}
+Proposition (1)
+\begin{align*}
+& \forall a \forall b ( \\
+& & & a = b \\
+& & \implies & \forall c ((c = a) \iff (c = b)) \\
+& )
+\end{align*}
+Proof of Proposition (1)
+\begin{align*}
+& \forall a \forall b ( \\
+& & & \text{True} \\
+& & \iff & \forall c ((a = b) \implies ((a = c) \iff (b = c)))
+& & \text{Proposition \ref{Proposition:equality_substitution_equality}} \\
+& & \implies & (\forall c (a = b)) \implies (\forall c ((a = c) \iff (b = c)))
+& & \text{Proposition \ref{Proposition:implies_substitution_forall_2}} \\
+& )
+\end{align*}
+\end{prop}
 
 \subsection{Empty set}
 \begin{axm}
@@ -356,7 +373,7 @@ Proof of Proposition \ref{Proposition:substitution_of_pair_set}
 & \forall a \forall b \forall c ( \\
 & & & a = b \\
 & & \iff & \forall d ((d = a) \iff (d = b))
-& & \text{Axiom \ref{Axiom:substitution_of_equality}} \\
+& & \text{Proposition \ref{Proposition:substitution_of_equality}} \\
 & & \implies & \forall d (((d = a) \lor (d = c)) \iff ((d = b) \lor (d = c)))
 & & \text{Proposition \ref{Proposition:iff_substitution_lor}} \\
 & & \iff & \forall d ((d \in \{ a , c \}) \iff ((d = b) \lor (d = c)))
@@ -461,6 +478,7 @@ Substitution for singleton set.
 \end{align*}
 \end{prop}
 
+\subsection{Union set}
 \begin{axm}
 \label{Axiom:existence_of_union_set}
 Existence of union set.
@@ -472,7 +490,6 @@ Existence of union set.
 \end{align*}
 \end{axm}
 
-\subsection{Union set}
 \begin{prop}
 \label{Proposition:uniqueness_of_union_set}
 Uniqueness of union set.

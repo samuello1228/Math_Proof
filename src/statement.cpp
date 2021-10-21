@@ -418,11 +418,11 @@ void statement::delete_the_last_universal_quantifier()
     forall_variable.erase(forall_variable.end() -1);
 }
 
-void statement::upgrade_to_true(direction dir)
+void statement::upgrade_to_true(direction dir, long depth)
 {
     universal_quantifier* x = nullptr;
     universal_quantifier* y = dynamic_cast<universal_quantifier*>(content);
-    while(true)
+    while(depth >= 1)
     {
         if(y)
         {
@@ -430,6 +430,8 @@ void statement::upgrade_to_true(direction dir)
             y = dynamic_cast<universal_quantifier*>(y->operand);
         }
         else break;
+        
+        depth--;
     }
     
     logic_value* True = dynamic_cast<logic_value*>(expression::createFromLatex("\\text{True}", LOGIC));
@@ -851,7 +853,12 @@ void proof_block::apply_binary_operator(input& in, expression* source, Print_Inf
         }
         
         in.law = new Proposition(in.law->label, in.law->content->getCopy());
-        in.law->upgrade_to_true(in.dir);
+        
+        long depth = in.law->forall_variable.size();
+        if(in.sub_type == full) depth = in.full_substitution.size();
+        else if(in.sub_type == source_specified) depth = in.source_specified_substitution.size();
+        
+        in.law->upgrade_to_true(in.dir, depth);
     }
     else
     {

@@ -52,7 +52,7 @@ public:
     string getLatex();
     virtual statement* getCopy()=0;
     void delete_the_last_universal_quantifier();
-    void upgrade_to_true(direction);
+    void upgrade_to_true(direction, long);
 };
 
 class Definition : public statement

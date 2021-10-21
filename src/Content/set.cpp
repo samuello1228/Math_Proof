@@ -115,9 +115,18 @@ void set()
     description = "Substitution of $\\in$.";
     Axiom::addAxiom(fout, axiom, description);
     
-    axiom = new Axiom("substitution_of_equality", SET, "\\forall a \\forall b ((a = b) \\iff (\\forall c ((c = a) \\iff (c = b))))");
+    Proposition::Current = new Proposition("substitution_of_equality", SET, "\\forall a \\forall b ((a = b) \\iff (\\forall c ((c = a) \\iff (c = b))))");
     description = "Substitution of $=$.";
-    Axiom::addAxiom(fout, axiom, description);
+    
+    block = new proof_block("1", Proposition("", SET, "\\forall a \\forall b ((a = b) \\implies (\\forall c ((c = a) \\iff (c = b))))"), direct);
+    sub.clear();
+    sub.push_back(new substitution("a", "a", SET));
+    sub.push_back(new substitution("b", "b", SET));
+    block->append(input({}, "Proposition:equality_substitution_equality", TrueToP, sub));
+    block->append(input({}, "Proposition:implies_substitution_forall_2", LeftToRight));
+    Proposition::Current->append(block);
+    
+    Proposition::addProposition(fout, Proposition::Current, description);
     
     fout<<"\\subsection{Empty set}"<<endl;
     axiom = new Axiom("existence_of_empty_set", SET, "\\forall a (a \\notin \\emptyset)");
@@ -174,7 +183,7 @@ void set()
     Proposition::Current = new Proposition("substitution_of_pair_set", SET, "\\forall a \\forall b \\forall c ((a = b) \\implies (\\{ a , c \\} = \\{ b , c \\}))");
     description = "Substitution for pair set.";
     block = new proof_block("substitution_of_pair_set", Proposition::Current, deduction);
-    block->append(input({}, "Axiom:substitution_of_equality", LeftToRight));
+    block->append(input({}, "Proposition:substitution_of_equality", LeftToRight));
     
     {
         sub.clear();
@@ -239,10 +248,10 @@ void set()
     description = "Substitution for singleton set.";
     Proposition::addProposition(fout, Proposition::Current, description);
     
+    fout<<"\\subsection{Union set}"<<endl;
     axiom = new Axiom("existence_of_union_set", SET, "\\forall a \\forall b ((b \\in (\\bigcup a)) \\iff (\\exists c ((b \\in c) \\land (c \\in a))))");
     Axiom::addAxiom(fout, axiom, "Existence of union set.");
     
-    fout<<"\\subsection{Union set}"<<endl;
     //Uniqueness of union set
     Proposition::Current = new Proposition("uniqueness_of_union_set", SET, "\\forall a \\forall b ((\\forall c ((c \\in b) \\iff (\\exists d ((c \\in d) \\land (d \\in a))))) \\implies (b = (\\bigcup a)))");
     description = "Uniqueness of union set.";
