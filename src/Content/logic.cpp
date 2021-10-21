@@ -943,7 +943,7 @@ void logic()
         
         Proposition::Current = new Proposition("lor_forall_distributivity", ua);
     }
-    Proposition::addProposition(fout, Proposition::Current);
+    Proposition::addProposition(fout, Proposition::Current, "$a$ is independent of $c$.");
     
     fout<<"Proof of Proposition \\ref{Proposition:lor_forall_distributivity} \\\\"<<endl;
     fout<<"For n = 2,"<<endl;
@@ -989,7 +989,7 @@ void logic()
         
         Proposition::Current = new Proposition("land_exists_distributivity", ua);
     }
-    Proposition::addProposition(fout, Proposition::Current);
+    Proposition::addProposition(fout, Proposition::Current, "$a$ is independent of $c$.");
     
     fout<<"Proof of Proposition \\ref{Proposition:land_exists_distributivity} \\\\"<<endl;
     fout<<"For n = 2,"<<endl;
@@ -1012,6 +1012,35 @@ void logic()
     fout<<"& & \\text{Proposition \\ref{Proposition:lor_associativity}} \\\\"<<endl;
     fout<<"\\end{align*}"<<endl;
     fout<<endl;
+    
+    {
+        logic_variable* a = new logic_variable("a");
+        set_variable* c = new set_variable("c");
+        logic_variable* b = new logic_variable("b");
+        universal_quantifier* u1 = new universal_quantifier(c,b);
+        logic_binary_operator_logic_logic* a_implies_u1 = new logic_binary_operator_logic_logic("\\implies", a, u1);
+        
+        a = new logic_variable("a");
+        b = new logic_variable("b");
+        logic_binary_operator_logic_logic* a_implies_b = new logic_binary_operator_logic_logic("\\implies", a, b);
+        c = new set_variable("c");
+        universal_quantifier* u2 = new universal_quantifier(c, a_implies_b);
+        
+        logic_binary_operator_logic_logic* iff = new logic_binary_operator_logic_logic("\\iff", a_implies_u1, u2);
+        
+        b = new logic_variable("b");
+        universal_quantifier* ub = new universal_quantifier(b, iff);
+        a = new logic_variable("a");
+        universal_quantifier* ua = new universal_quantifier(a, ub);
+        
+        Proposition::Current = new Proposition("implies_forall_distributivity", ua);
+    }
+    block = new proof_block("implies_forall_distributivity", Proposition::Current, deduction);
+    block->append(input({}, "Definition:implies", LeftToRight));
+    block->append(input({}, "Proposition:lor_forall_distributivity", LeftToRight));
+    block->append(input({1}, "Definition:implies", RightToLeft, true));
+    Proposition::Current->append(block);
+    Proposition::addProposition(fout, Proposition::Current, "$a$ is independent of $c$.");
     
     {
         logic_variable* a = new logic_variable("a");

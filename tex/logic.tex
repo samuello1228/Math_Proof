@@ -1595,6 +1595,7 @@ For n = k+1,
 
 \begin{prop}
 \label{Proposition:lor_forall_distributivity}
+$a$ is independent of $c$.
 \begin{align*}
 & a \lor (\forall c (b)) \\
 \iff & \forall c (a \lor b)
@@ -1623,6 +1624,7 @@ For n = k+1,
 
 \begin{prop}
 \label{Proposition:land_exists_distributivity}
+$a$ is independent of $c$.
 \begin{align*}
 & a \land (\exists c (b)) \\
 \iff & \exists c (a \land b)
@@ -1648,6 +1650,25 @@ For n = k+1,
 \iff & (( \dots ((a \land b_1) \lor (a \land b_2)) \dots ) \lor (a \land b_k)) \lor (a \land b_{k+1})
 & & \text{Proposition \ref{Proposition:lor_associativity}} \\
 \end{align*}
+
+\begin{prop}
+\label{Proposition:implies_forall_distributivity}
+$a$ is independent of $c$.
+\begin{align*}
+& a \implies (\forall c (b)) \\
+\iff & \forall c (a \implies b)
+\end{align*}
+Proof of Proposition \ref{Proposition:implies_forall_distributivity}
+\begin{align*}
+& a \implies (\forall c (b)) \\
+\overset{\operatorname{def}}{\iff} & (\lnot a) \lor (\forall c (b))
+& & \text{Definition \ref{Definition:implies}} \\
+\iff & \forall c ((\lnot a) \lor b)
+& & \text{Proposition \ref{Proposition:lor_forall_distributivity}} \\
+\overset{\operatorname{def}}{\iff} & \forall c (a \implies b)
+& & \text{Definition \ref{Definition:implies}} \\
+\end{align*}
+\end{prop}
 
 \begin{prop}
 \label{Proposition:De_Morgan_1}
