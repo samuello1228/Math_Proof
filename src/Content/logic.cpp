@@ -784,23 +784,37 @@ void logic()
     fout<<"\\end{defn}"<<endl;
     fout<<endl;
     
-    fout<<"\\begin{axm}"<<endl;
-    fout<<"\\label{Axiom:forall_independent_variable}"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& \\forall x (P(y)) \\\\"<<endl;
-    fout<<"\\iff & P(y)"<<endl;
-    fout<<"\\end{align*}"<<endl;
-    fout<<"\\end{axm}"<<endl;
-    fout<<endl;
+    {
+        logic_variable* a = new logic_variable("a");
+        set_variable* b = new set_variable("b");
+        universal_quantifier* u1 = new universal_quantifier(b,a);
+        
+        a = new logic_variable("a");
+        
+        logic_binary_operator_logic_logic* iff = new logic_binary_operator_logic_logic("\\iff", u1, a);
+        
+        a = new logic_variable("a");
+        universal_quantifier* u0 = new universal_quantifier(a, iff);
+        
+        axiom = new Axiom("forall_independent_variable", u0);
+    }
+    Axiom::addAxiom(fout, axiom, "$a$ is independent of $b$.");
     
-    fout<<"\\begin{axm}"<<endl;
-    fout<<"\\label{Axiom:exists_independent_variable}"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& \\exists x (P(y)) \\\\"<<endl;
-    fout<<"\\iff & P(y)"<<endl;
-    fout<<"\\end{align*}"<<endl;
-    fout<<"\\end{axm}"<<endl;
-    fout<<endl;
+    {
+        logic_variable* a = new logic_variable("a");
+        set_variable* b = new set_variable("b");
+        existential_quantifier* e1 = new existential_quantifier(b,a);
+        
+        a = new logic_variable("a");
+        
+        logic_binary_operator_logic_logic* iff = new logic_binary_operator_logic_logic("\\iff", e1, a);
+        
+        a = new logic_variable("a");
+        universal_quantifier* u0 = new universal_quantifier(a, iff);
+        
+        axiom = new Axiom("exists_independent_variable", u0);
+    }
+    Axiom::addAxiom(fout, axiom, "$a$ is independent of $b$.");
     
     fout<<"\\subsection{Boolean algebra for quantifier}"<<endl;
     {
