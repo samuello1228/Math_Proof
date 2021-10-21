@@ -64,6 +64,7 @@ public:
     virtual void getPartExternalDependence(vector<int>, vector<variable*>&)=0;
     virtual void getInternalDependence(vector<variable*>&)=0;
     virtual void find_path_of_variable(variable*, vector<int>, vector<vector<int> >&)=0;
+    virtual bool contain_variable(variable*)=0;
     
     static bool assemble(statement*, expression*, int);
 };
@@ -79,6 +80,7 @@ public:
     void replace_variable(vector<substitution*>);
     bool check_variable(vector<variable*>);
     void find_path_of_variable(variable*, vector<int>, vector<vector<int> >&);
+    bool contain_variable(variable*);
 };
 
 class logic_value : virtual public expression
@@ -108,6 +110,7 @@ public:
     
     bool check_variable(vector<variable*>) {return true;}
     void find_path_of_variable(variable*, vector<int>, vector<vector<int> >&) {return;}
+    bool contain_variable(variable*) {return false;}
 };
 
 class logic_variable : public elementary_logic, public variable
@@ -152,6 +155,7 @@ public:
     
     bool check_variable(vector<variable*>) {return true;}
     void find_path_of_variable(variable*, vector<int>, vector<vector<int> >&) {return;}
+    bool contain_variable(variable*) {return false;}
 };
 
 class set_variable : public elementary_set, public variable
@@ -186,6 +190,7 @@ public:
     void getPartExternalDependence(vector<int>, vector<variable*>&);
     void getInternalDependence(vector<variable*>&);
     void find_path_of_variable(variable*, vector<int>, vector<vector<int> >&);
+    bool contain_variable(variable*);
 };
 
 class universal_quantifier : public quantifier
@@ -225,6 +230,7 @@ public:
     void getPartExternalDependence(vector<int>, vector<variable*>&);
     void getInternalDependence(vector<variable*>&);
     void find_path_of_variable(variable*, vector<int>, vector<vector<int> >&);
+    bool contain_variable(variable*);
 };
 
 class logic_binary_operator_logic_logic : public compound_logic
@@ -247,6 +253,7 @@ public:
     void getPartExternalDependence(vector<int>, vector<variable*>&);
     void getInternalDependence(vector<variable*>&);
     void find_path_of_variable(variable*, vector<int>, vector<vector<int> >&);
+    bool contain_variable(variable*);
 };
 
 class logic_binary_operator_set_set : public compound_logic
@@ -269,6 +276,7 @@ public:
     void getPartExternalDependence(vector<int>, vector<variable*>&);
     void getInternalDependence(vector<variable*>&);
     void find_path_of_variable(variable*, vector<int>, vector<vector<int> >&);
+    bool contain_variable(variable*);
 };
 
 class set_unary_operator_set : public compound_set
@@ -290,6 +298,7 @@ public:
     void getPartExternalDependence(vector<int>, vector<variable*>&);
     void getInternalDependence(vector<variable*>&);
     void find_path_of_variable(variable*, vector<int>, vector<vector<int> >&);
+    bool contain_variable(variable*);
 };
 
 class set_binary_operator_set_set : public compound_set
@@ -312,6 +321,7 @@ public:
     void getPartExternalDependence(vector<int>, vector<variable*>&);
     void getInternalDependence(vector<variable*>&);
     void find_path_of_variable(variable*, vector<int>, vector<vector<int> >&);
+    bool contain_variable(variable*);
 };
 
 #endif /* expression_hpp */

@@ -941,8 +941,14 @@ bool variable::check_variable(vector<variable*> var_list)
         }
     }
     
-    cout<<"Error: variable "<<this->getLatex().getNormal()<<" is not declared in the quantifier."<<endl;
+    cout<<"Error: variable "<<getLatex().getNormal()<<" is not declared in the quantifier."<<endl;
     return false;
+}
+
+bool variable::contain_variable(variable* x)
+{
+    if(isEqual(x)) return true;
+    else return false;
 }
 
 void variable::find_path_of_variable(variable* var, vector<int> current_path, vector<vector<int> >& all_path)
@@ -1187,6 +1193,11 @@ void quantifier::find_path_of_variable(variable* var, vector<int> current_path, 
     operand->find_path_of_variable(var, current_path_1, all_path);
 }
 
+bool quantifier::contain_variable(variable* x)
+{
+    return operand->contain_variable(x);
+}
+
 universal_quantifier::universal_quantifier(variable* x, logic_value* y) : quantifier(x,y)
 {
 }
@@ -1409,6 +1420,11 @@ void logic_unary_operator_logic::find_path_of_variable(variable* var, vector<int
     find_path_of_variable_1_operand<logic_unary_operator_logic>(this, var, current_path, all_path);
 }
 
+bool logic_unary_operator_logic::contain_variable(variable* x)
+{
+    return operand->contain_variable(x);
+}
+
 logic_binary_operator_logic_logic::logic_binary_operator_logic_logic(const string& newLatex, logic_value* x, logic_value* y)
 {
     operator_latex = newLatex;
@@ -1489,6 +1505,11 @@ void logic_binary_operator_logic_logic::getInternalDependence(vector<variable*>&
 void logic_binary_operator_logic_logic::find_path_of_variable(variable* var, vector<int> current_path, vector<vector<int> >& all_path)
 {
     find_path_of_variable_2_operand<logic_binary_operator_logic_logic>(this, var, current_path, all_path);
+}
+
+bool logic_binary_operator_logic_logic::contain_variable(variable* x)
+{
+    return (operand1->contain_variable(x) || operand2->contain_variable(x));
 }
 
 logic_binary_operator_set_set::logic_binary_operator_set_set(const string& newLatex, Set* x, Set* y)
@@ -1573,6 +1594,11 @@ void logic_binary_operator_set_set::find_path_of_variable(variable* var, vector<
     find_path_of_variable_2_operand<logic_binary_operator_set_set>(this, var, current_path, all_path);
 }
 
+bool logic_binary_operator_set_set::contain_variable(variable* x)
+{
+    return (operand1->contain_variable(x) || operand2->contain_variable(x));
+}
+
 set_unary_operator_set::set_unary_operator_set(const string& newLatex, Set* x)
 {
     operator_latex = newLatex;
@@ -1654,6 +1680,11 @@ void set_unary_operator_set::find_path_of_variable(variable* var, vector<int> cu
     find_path_of_variable_1_operand<set_unary_operator_set>(this, var, current_path, all_path);
 }
 
+bool set_unary_operator_set::contain_variable(variable* x)
+{
+    return operand->contain_variable(x);
+}
+
 set_binary_operator_set_set::set_binary_operator_set_set(const string& newLatex, Set* x, Set* y)
 {
     operator_latex = newLatex;
@@ -1733,4 +1764,9 @@ void set_binary_operator_set_set::getInternalDependence(vector<variable*>& depen
 void set_binary_operator_set_set::find_path_of_variable(variable* var, vector<int> current_path, vector<vector<int> >& all_path)
 {
     find_path_of_variable_2_operand<set_binary_operator_set_set>(this, var, current_path, all_path);
+}
+
+bool set_binary_operator_set_set::contain_variable(variable* x)
+{
+    return (operand1->contain_variable(x) || operand2->contain_variable(x));
 }
