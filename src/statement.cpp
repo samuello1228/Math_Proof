@@ -649,6 +649,13 @@ proof_block::proof_block(string newLabel, statement* x, proof_method new_method)
     target = x->getCopy();
     method = new_method;
     forall_variable_proof = target->forall_variable;
+    
+    //check variable
+    if(!target->content->check_variable({}))
+    {
+        cout<<"Error: Check fail for variable."<<endl;
+        cout<<target->content->getLatex().getNormal()<<endl;
+    }
 }
 
 proof_block::proof_block(string newLabel, Proposition x, proof_method new_method)
@@ -657,6 +664,13 @@ proof_block::proof_block(string newLabel, Proposition x, proof_method new_method
     target = x.getCopy();
     method = new_method;
     forall_variable_proof = target->forall_variable;
+    
+    //check variable
+    if(!target->content->check_variable({}))
+    {
+        cout<<"Error: Check fail for variable."<<endl;
+        cout<<target->content->getLatex().getNormal()<<endl;
+    }
 }
 
 proof_block::~proof_block()
@@ -1226,6 +1240,14 @@ void proof_block::append(input x)
     if(x.law->forall_variable.size() != 0)
     {
         cout<<"Error: The forall_variable of law is not empty."<<endl;
+    }
+    
+    //check variable
+    vector<variable*> forall_variable_proof_copy = forall_variable_proof;
+    if(!x.law->content->check_variable(forall_variable_proof_copy))
+    {
+        cout<<"Error: Check fail for variable for law."<<endl;
+        cout<<x.law->content->getLatex().getNormal()<<endl;
     }
     
     //check whether the binary operator is allowed.
