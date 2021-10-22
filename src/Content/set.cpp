@@ -51,7 +51,7 @@ void set()
     block = new proof_block("equality_reflexive", Proposition::Current, backward);
     block->append(input({}, "Definition:equality", LeftToRight));
     block->append(input({1}, "Proposition:iff_reflexive", PToTrue));
-    block->append(input({}, "Axiom:forall_true", LeftToRight, true));
+    block->append(input({}, "Axiom:forall_independent_variable", LeftToRight, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
@@ -326,7 +326,7 @@ void set()
     block->append(input({1,2}, "Proposition:pairwise_union_property", LeftToRight));
     block->append(input({1,2}, "Proposition:lor_commutativity", LeftToRight));
     block->append(input({1}, "Proposition:iff_reflexive", PToTrue));
-    block->append(input({}, "Axiom:forall_true", LeftToRight, true));
+    block->append(input({}, "Axiom:forall_independent_variable", LeftToRight, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
@@ -341,7 +341,7 @@ void set()
     block->append(input({1,1,2}, "Definition:lnot_True", LeftToRight));
     block->append(input({1,1}, "Proposition:lor_identity_1", LeftToRight));
     block->append(input({1}, "Proposition:iff_reflexive", PToTrue));
-    block->append(input({}, "Axiom:forall_true", LeftToRight, true));
+    block->append(input({}, "Axiom:forall_independent_variable", LeftToRight, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     

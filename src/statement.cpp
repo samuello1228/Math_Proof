@@ -1170,6 +1170,35 @@ void proof_block::apply_binary_operator(input& in, expression* source, Print_Inf
         delete replacement[i];
     }
     
+    //check whether a is independent of b.
+    if(in.law_label == "Axiom:forall_independent_variable" ||
+       in.law_label == "Axiom:exists_independent_variable" )
+    {
+        logic_binary_operator_logic_logic* iff = dynamic_cast<logic_binary_operator_logic_logic*>(in.law->content);
+        universal_quantifier* ub = nullptr;
+        if(in.dir == LeftToRight)
+        {
+            ub = dynamic_cast<universal_quantifier*>(iff->operand1);
+        }
+        else if(in.dir == RightToLeft)
+        {
+            ub = dynamic_cast<universal_quantifier*>(iff->operand2);
+        }
+        else
+        {
+            cout<<"Error: Need to add code for this case."<<endl;
+        }
+        
+        expression* a = ub->operand;
+        set_variable* var_b = dynamic_cast<set_variable*>(ub->var);
+        
+        if(a->contain_variable(var_b))
+        {
+            cout<<"Error: a is not independent of b. cannot use this law."<<endl;
+            return;
+        }
+    }
+    
     //check whether a is independent of c.
     if(in.law_label == "Proposition:lor_forall_distributivity" ||
        in.law_label == "Proposition:land_exists_distributivity" ||

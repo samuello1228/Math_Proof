@@ -1317,10 +1317,6 @@ void logic()
     fout<<"\\end{axm}"<<endl;
     fout<<endl;
     
-    fout<<"\\subsection{Axiom}"<<endl;
-    axiom = new Axiom("forall_true", SET, "(\\forall a (\\text{True})) \\iff (\\text{True})");
-    Axiom::addAxiom(fout, axiom);
-    
     //Logic proposition
     fout<<"\\section{Logic proposition}"<<endl;
     
