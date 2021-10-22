@@ -503,6 +503,20 @@ void Definition::addDefinition(ofstream& fout, Definition* x, string description
         cout<<x->content->getLatex().getNormal()<<endl;
     }
     
+    vector<variable*> all_dependence;
+    x->content->getInternalDependence(all_dependence);
+    for(long i=0;i<all_dependence.size();i++)
+    {
+        if(!x->content->contain_variable(all_dependence[i]))
+        {
+            if(true)
+            {
+                cout<<x->label<<endl;
+                cout<<"Error: A quantifier is unused: "<<all_dependence[i]->getLatex().getNormal()<<endl;
+            }
+        }
+    }
+    
     All_Definition.push_back(x);
     
     cout<< "Definition:" << x->label <<endl;
@@ -568,6 +582,21 @@ void Axiom::addAxiom(ofstream& fout, Axiom* x, string description)
     {
         cout<<"Error: Check fail for variable."<<endl;
         cout<<x->content->getLatex().getNormal()<<endl;
+    }
+    
+    vector<variable*> all_dependence;
+    x->content->getInternalDependence(all_dependence);
+    for(long i=0;i<all_dependence.size();i++)
+    {
+        if(!x->content->contain_variable(all_dependence[i]))
+        {
+            if(x->label != "forall_independent_variable" &&
+               x->label != "exists_independent_variable" )
+            {
+                cout<<x->label<<endl;
+                cout<<"Error: A quantifier is unused: "<<all_dependence[i]->getLatex().getNormal()<<endl;
+            }
+        }
     }
     
     All_Axiom.push_back(x);
@@ -1381,6 +1410,30 @@ void Proposition::addProposition(ofstream& fout, Proposition* x, string descript
     {
         cout<<"Error: Check fail for variable."<<endl;
         cout<<x->content->getLatex().getNormal()<<endl;
+    }
+    
+    vector<variable*> all_dependence;
+    x->content->getInternalDependence(all_dependence);
+    for(long i=0;i<all_dependence.size();i++)
+    {
+        if(!x->content->contain_variable(all_dependence[i]))
+        {
+            if(x->label != "forall_land_commutativity" &&
+               x->label != "exists_lor_commutativity" &&
+               x->label != "lor_forall_distributivity" &&
+               x->label != "land_exists_distributivity" &&
+               x->label != "implies_forall_distributivity" &&
+               x->label != "De_Morgan_1" &&
+               x->label != "De_Morgan_2" &&
+               x->label != "implies_substitution_forall_2" &&
+               x->label != "implies_substitution_exists_2" &&
+               x->label != "iff_substitution_forall_2" &&
+               x->label != "iff_substitution_exists_2" )
+            {
+                cout<<x->label<<endl;
+                cout<<"Error: A quantifier is unused: "<<all_dependence[i]->getLatex().getNormal()<<endl;
+            }
+        }
     }
     
     All_Proposition.push_back(x);
