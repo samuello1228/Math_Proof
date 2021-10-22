@@ -115,17 +115,33 @@ void set()
     description = "Substitution of $\\in$.";
     Axiom::addAxiom(fout, axiom, description);
     
-    Proposition::Current = new Proposition("substitution_of_equality", SET, "\\forall a \\forall b ((a = b) \\iff (\\forall c ((c = a) \\iff (c = b))))");
-    description = "Substitution of $=$.";
+    Proposition::Current = new Proposition("equality_property_1", SET, "\\forall a \\forall b ((a = b) \\iff (\\forall c ((c = a) \\iff (c = b))))");
+    description = "Property of $=$.";
     
     block = new proof_block("1", Proposition("", SET, "\\forall a \\forall b ((a = b) \\implies (\\forall c ((c = a) \\iff (c = b))))"), direct);
     sub.clear();
     sub.push_back(new substitution("a", "a", SET));
     sub.push_back(new substitution("b", "b", SET));
     block->append(input({}, "Proposition:equality_substitution_equality", TrueToP, sub));
-    block->append(input({}, "Proposition:implies_substitution_forall_2", LeftToRight));
+    block->append(input({}, "Proposition:implies_forall_distributivity", RightToLeft));
+    block->append(input({2,1,1}, "Proposition:equality_symmetric", LeftToRight));
+    block->append(input({2,1,2}, "Proposition:equality_symmetric", LeftToRight, true));
     Proposition::Current->append(block);
     
+    block = new proof_block("2", Proposition("", SET, "\\forall a \\forall b ((\\forall c ((c = a) \\iff (c = b))) \\implies (a = b))"), deduction);
+    block->append(input({}, expression::createFromLatex("a", SET)));
+    block->append(input({1}, "Proposition:equality_reflexive", PToTrue));
+    block->append(input({}, "Proposition:iff_symmetric", LeftToRight));
+    block->append(input({}, "Proposition:true_statement", LeftToRight, true));
+    Proposition::Current->append(block);
+    
+    block = new proof_block("equality_property_1", Proposition::Current, backward);
+    block->append(input({}, "Proposition:iff_implies", LeftToRight));
+    block->set_split_point({{2}});
+    block->append(input({1}, "Local:1", PToTrue));
+    block->append(input({2}, "Local:2", PToTrue));
+    block->append(input({}, "Definition:land_True_True", LeftToRight, true));
+    Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
     fout<<"\\subsection{Empty set}"<<endl;
@@ -183,7 +199,7 @@ void set()
     Proposition::Current = new Proposition("substitution_of_pair_set", SET, "\\forall a \\forall b \\forall c ((a = b) \\implies (\\{ a , c \\} = \\{ b , c \\}))");
     description = "Substitution for pair set.";
     block = new proof_block("substitution_of_pair_set", Proposition::Current, deduction);
-    block->append(input({}, "Proposition:substitution_of_equality", LeftToRight));
+    block->append(input({}, "Proposition:equality_property_1", LeftToRight));
     
     {
         sub.clear();

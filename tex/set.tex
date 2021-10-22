@@ -220,8 +220,8 @@ Substitution of $\in$.
 \end{axm}
 
 \begin{prop}
-\label{Proposition:substitution_of_equality}
-Substitution of $=$.
+\label{Proposition:equality_property_1}
+Property of $=$.
 \begin{align*}
 & \forall a \forall b ( \\
 & & & a = b \\
@@ -241,8 +241,48 @@ Proof of Proposition (1)
 & & & \text{True} \\
 & & \iff & \forall c ((a = b) \implies ((a = c) \iff (b = c)))
 & & \text{Proposition \ref{Proposition:equality_substitution_equality}} \\
-& & \implies & (\forall c (a = b)) \implies (\forall c ((a = c) \iff (b = c)))
-& & \text{Proposition \ref{Proposition:implies_substitution_forall_2}} \\
+& & \iff & (a = b) \implies (\forall c ((a = c) \iff (b = c)))
+& & \text{Proposition \ref{Proposition:implies_forall_distributivity}} \\
+& & \iff & (a = b) \implies (\forall c ((c = a) \iff (b = c)))
+& & \text{Proposition \ref{Proposition:equality_symmetric}} \\
+& & \iff & (a = b) \implies (\forall c ((c = a) \iff (c = b)))
+& & \text{Proposition \ref{Proposition:equality_symmetric}} \\
+& )
+\end{align*}
+Proposition (2)
+\begin{align*}
+& \forall a \forall b ( \\
+& & & \forall c ((c = a) \iff (c = b)) \\
+& & \implies & a = b \\
+& )
+\end{align*}
+Proof of Proposition (2)
+\begin{align*}
+& \forall a \forall b ( \\
+& & & \forall c ((c = a) \iff (c = b)) \\
+& & \implies & (a = a) \iff (a = b)
+& & \text{Substitution for c} \\
+& & \iff & (\text{True}) \iff (a = b)
+& & \text{Proposition \ref{Proposition:equality_reflexive}} \\
+& & \iff & (a = b) \iff (\text{True})
+& & \text{Proposition \ref{Proposition:iff_symmetric}} \\
+& & \iff & a = b
+& & \text{Proposition \ref{Proposition:true_statement}} \\
+& )
+\end{align*}
+Proof of Proposition \ref{Proposition:equality_property_1}
+\begin{align*}
+& \forall a \forall b ( \\
+& & & (a = b) \iff (\forall c ((c = a) \iff (c = b))) \\
+& & \iff & ((a = b) \implies (\forall c ((c = a) \iff (c = b)))) \\
+& & & \land ((\forall c ((c = a) \iff (c = b))) \implies (a = b))
+& & \text{Proposition \ref{Proposition:iff_implies}} \\
+& & \iff & (\text{True}) \land ((\forall c ((c = a) \iff (c = b))) \implies (a = b))
+& & \text{Proposition (1)} \\
+& & \iff & (\text{True}) \land (\text{True})
+& & \text{Proposition (2)} \\
+& & \overset{\operatorname{def}}{\iff} & \text{True}
+& & \text{Definition \ref{Definition:land_True_True}} \\
 & )
 \end{align*}
 \end{prop}
@@ -373,7 +413,7 @@ Proof of Proposition \ref{Proposition:substitution_of_pair_set}
 & \forall a \forall b \forall c ( \\
 & & & a = b \\
 & & \iff & \forall d ((d = a) \iff (d = b))
-& & \text{Proposition \ref{Proposition:substitution_of_equality}} \\
+& & \text{Proposition \ref{Proposition:equality_property_1}} \\
 & & \implies & \forall d (((d = a) \lor (d = c)) \iff ((d = b) \lor (d = c)))
 & & \text{Proposition \ref{Proposition:iff_substitution_lor}} \\
 & & \iff & \forall d ((d \in \{ a , c \}) \iff ((d = b) \lor (d = c)))
