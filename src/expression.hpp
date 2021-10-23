@@ -18,6 +18,7 @@ class substitution;
 class expression;
 class variable;
 class logic_value;
+class Set;
 class logic_binary_operator_logic_logic;
 class logic_binary_operator_set_set;
 
@@ -57,7 +58,8 @@ public:
     virtual bool isEqual(expression*)=0;
     virtual expression* getCopy()=0;
     virtual void replace_variable(vector<substitution*>)=0;
-    static expression* substitute_forall_variable(expression* ,vector<substitution*>);
+    static expression* substitute_forall_variable(expression*, vector<substitution*>);
+    static void replace_by_set(logic_value*, vector<int>, Set*);
     
     virtual bool check_variable(vector<variable*>)=0;
     virtual expression* getPart(vector<int>)=0;

@@ -733,6 +733,61 @@ expression* expression::substitute_forall_variable(expression* x, vector<substit
     return x;
 }
 
+void expression::replace_by_set(logic_value* x, vector<int> path, Set* y)
+{
+    if(path.size() == 0)
+    {
+        cout<<"Error: it is not allowed. The part must be set, not logic value."<<endl;
+        return;
+    }
+    
+    //get the last class that contain x as operand.
+    int p = path.back();
+    path.pop_back();
+    expression* z = x->getPart(path);
+    if(logic_binary_operator_set_set* z_copy = dynamic_cast<logic_binary_operator_set_set*>(z))
+    {
+        if(p==1)
+        {
+            delete z_copy->operand1;
+            z_copy->operand1 = dynamic_cast<Set*>(y->getCopy());
+        }
+        else if(p==2)
+        {
+            delete z_copy->operand2;
+            z_copy->operand2 = dynamic_cast<Set*>(y->getCopy());
+        }
+        else cout<<"Error: The path for binary operator is not 1 or 2."<<endl;
+    }
+    else if(set_unary_operator_set* z_copy = dynamic_cast<set_unary_operator_set*>(z))
+    {
+        if(p==1)
+        {
+            delete z_copy->operand;
+            z_copy->operand = dynamic_cast<Set*>(y->getCopy());
+        }
+        else cout<<"Error: The path for unary operator is not 1."<<endl;
+    }
+    else if(set_binary_operator_set_set* z_copy = dynamic_cast<set_binary_operator_set_set*>(z))
+    {
+        if(p==1)
+        {
+            delete z_copy->operand1;
+            z_copy->operand1 = dynamic_cast<Set*>(y->getCopy());
+        }
+        else if(p==2)
+        {
+            delete z_copy->operand2;
+            z_copy->operand2 = dynamic_cast<Set*>(y->getCopy());
+        }
+        else cout<<"Error: The path for binary operator is not 1 or 2."<<endl;
+    }
+    else
+    {
+        cout<<"Error: it is not allowed. The part must be set, not logic value."<<endl;
+    }
+}
+
 bool expression::assemble(statement* step, expression* source_part, int p)
 {
     if(quantifier* source_part_copy = dynamic_cast<quantifier*>(source_part))
