@@ -1260,6 +1260,166 @@ void proof_block::apply_forall_substitution(input& in, expression* source_part, 
     }
 }
 
+void proof_block::apply_axiom_of_existence(input& in, expression* source)
+{
+    if(in.dir != LeftToRight && in.dir != RightToLeft)
+    {
+        cout<<"Error: Need to add code for this case."<<endl;
+        return;
+    }
+    
+    //get external dependence of source part
+    vector<variable*> external_dependence_source_part;
+    source->getPartExternalDependence(in.relative_path, external_dependence_source_part);
+    
+    expression* source_part = source->getPart(in.relative_path);
+    if(in.isPrint)
+    {
+        cout<<"The source part is:"<<endl;
+        cout<<source_part->getLatex().getNormal()<<endl<<endl;
+    }
+    
+    logic_value* operand2 = nullptr;
+    if(in.dir == LeftToRight)
+    {
+        if(in.sub_type != source_specified)
+        {
+            cout<<"Error: Need to use source specified substitution."<<endl;
+            return;
+        }
+        
+        //get all dependence of source part
+        vector<variable*> all_dependence_source_part = external_dependence_source_part;
+        all_dependence_source_part.insert(all_dependence_source_part.begin(), forall_variable_proof.begin(), forall_variable_proof.end());
+        source_part->getInternalDependence(all_dependence_source_part);
+        if(in.isPrint)
+        {
+            cout<<"All dependence of source part:"<<endl;
+            for(long i=0;i<all_dependence_source_part.size();i++)
+            {
+                cout<<all_dependence_source_part[i]->getLatex().getNormal()<<" ";
+            }
+            cout<<endl<<endl;
+        }
+        
+        //get the variable b for the existential quantifier
+        set_variable original_b = set_variable("b");
+        vector<variable*> vector_b;
+        vector_b.push_back(&original_b);
+        vector<substitution*> replacement = createReplacement(vector_b, all_dependence_source_part);
+        set_variable* var_b = dynamic_cast<set_variable*>(replacement[0]->y);
+        if(in.isPrint)
+        {
+            cout<<"The variable for the existential quantifier is "<<var_b->getLatex().getNormal()<<endl;
+        }
+        
+        //get the expression a
+        expression* a = source_part->getPart(in.source_specified_substitution[0]);
+        if(in.isPrint)
+        {
+            cout<<"The expression, which will be replaced by "<<var_b->getLatex().getNormal()<< ", is "<<a->getLatex().getNormal()<<endl;
+        }
+        
+        operand2 = dynamic_cast<logic_value*>(source_part->getCopy());
+        for(long i=0;i<in.source_specified_substitution.size();i++)
+        {
+            //check whether each a are the same
+            expression* a_same = source_part->getPart(in.source_specified_substitution[i]);
+            if(!a_same->isEqual(a))
+            {
+                cout<<"Error: The path for the source_specified_substitution are wrong."<<endl;
+                return;
+            }
+            
+            //replace a by var_b
+            expression::replace_by_set(operand2, in.source_specified_substitution[i], var_b);
+        }
+        
+        if(in.isPrint)
+        {
+            cout<<"After replacement:"<<endl;
+            cout<<operand2->getLatex().getNormal()<<endl<<endl;
+        }
+        
+        //Construct the operand2
+        logic_binary_operator_set_set* b_equal_a = new logic_binary_operator_set_set("=", dynamic_cast<set_variable*>(var_b->getCopy()), dynamic_cast<Set*>(a->getCopy()));
+        operand2 = new logic_binary_operator_logic_logic("\\land", b_equal_a, operand2);
+        operand2 = new existential_quantifier(dynamic_cast<set_variable*>(var_b->getCopy()), operand2);
+        
+        //delete replacement
+        delete replacement[0];
+    }
+    else if(in.dir == RightToLeft)
+    {
+        if(in.sub_type != automatic)
+        {
+            cout<<"Error: Using Automatic substitution should be enough."<<endl;
+            return;
+        }
+        
+        existential_quantifier* exists = dynamic_cast<existential_quantifier*>(source_part);
+        set_variable* var_b = dynamic_cast<set_variable*>(exists->var);
+        logic_binary_operator_logic_logic* land = dynamic_cast<logic_binary_operator_logic_logic*>(exists->operand);
+        logic_binary_operator_set_set* equal = dynamic_cast<logic_binary_operator_set_set*>(land->operand1);
+        Set* a = dynamic_cast<Set*>(equal->operand2);
+        operand2 = dynamic_cast<logic_value*>(land->operand2->getCopy());
+        
+        if(in.isPrint)
+        {
+            cout<<"P:"<<endl;
+            cout<<operand2->getLatex().getNormal()<<endl<<endl;
+        }
+        
+        //find all paths that is variable b
+        vector<vector<int> > all_path;
+        operand2->find_path_of_variable(var_b, {}, all_path);
+        if(in.isPrint)
+        {
+            cout<<"All the found paths:"<<endl;
+            for(long i=0;i<all_path.size();i++)
+            {
+                for(long j=0;j<all_path[i].size();j++)
+                {
+                    cout<<all_path[i][j]<<" ";
+                }
+                cout<<endl;
+            }
+            cout<<endl;
+        }
+        
+        //replace all b by a
+        for(long i=0;i<all_path.size();i++)
+        {
+            expression::replace_by_set(operand2, all_path[i], a);
+        }
+        
+        if(in.isPrint)
+        {
+            cout<<"After replacement:"<<endl;
+            cout<<operand2->getLatex().getNormal()<<endl<<endl;
+        }
+    }
+    
+    //Construct the law
+    expression* law = new logic_binary_operator_logic_logic("\\iff", dynamic_cast<logic_value*>(source_part->getCopy()), operand2);
+    in.law = new Axiom("axiom_of_existence", law);
+    
+    //add universal quantifier at the beginning
+    in.law->forall_variable.clear();
+    for(long i = external_dependence_source_part.size()-1; i>=0; i--)
+    {
+        variable* variable_copy = dynamic_cast<variable*>(external_dependence_source_part[i]->getCopy());
+        in.law->content = new universal_quantifier(variable_copy, in.law->content);
+        in.law->forall_variable.insert(in.law->forall_variable.begin(), variable_copy);
+    }
+    
+    if(in.isPrint)
+    {
+        cout<<"Add universal quantifier at the beginning:"<<endl;
+        cout<<in.law->content->getLatex().getNormal()<<endl<<endl;
+    }
+}
+
 void proof_block::append(input x)
 {
     if(x.isPrint) cout<<"New step:"<<endl;
@@ -1284,6 +1444,12 @@ void proof_block::append(input x)
     if(x.law_label == "forall_substitution")
     {
         apply_forall_substitution(x, source_part, reference);
+    }
+    else if(x.law_label == "Axiom:axiom_of_existence")
+    {
+        reference.ref_type = "Axiom";
+        reference.ref = "axiom_of_existence";
+        apply_axiom_of_existence(x, source);
     }
     else if(x.law_label != "")
     {

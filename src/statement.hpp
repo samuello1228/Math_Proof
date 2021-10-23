@@ -141,6 +141,7 @@ public:
     
     void apply_binary_operator(input&, expression*, Print_Info&);
     void apply_forall_substitution(input&, expression*, Print_Info&);
+    void apply_axiom_of_existence(input&, expression*);
     
     void append(input x);
 };
