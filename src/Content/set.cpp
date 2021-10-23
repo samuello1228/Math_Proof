@@ -111,10 +111,6 @@ void set()
     Proposition::addProposition(fout, Proposition::Current, description);
     
     fout<<"\\subsection{Basic Propositions}"<<endl;
-    axiom = new Axiom("substitution_in", SET, "\\forall a \\forall b ((\\exists c ((c = b) \\land (a \\in c))) \\iff (a \\in b))");
-    description = "Substitution of $\\in$.";
-    Axiom::addAxiom(fout, axiom, description);
-    
     Proposition::Current = new Proposition("equality_property_1", SET, "\\forall a \\forall b ((a = b) \\iff (\\forall c ((c = a) \\iff (c = b))))");
     description = "Property of $=$.";
     
@@ -309,8 +305,8 @@ void set()
     block->append(input({}, "Proposition:exists_lor_commutativity", RightToLeft));
     block->append(input({1,1}, "Proposition:land_commutativity", LeftToRight));
     block->append(input({2,1}, "Proposition:land_commutativity", LeftToRight));
-    block->append(input({1}, "Axiom:substitution_in", LeftToRight));
-    block->append(input({2}, "Axiom:substitution_in", LeftToRight, true));
+    block->append(input({1}, "Axiom:axiom_of_existence", RightToLeft));
+    block->append(input({2}, "Axiom:axiom_of_existence", RightToLeft, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     

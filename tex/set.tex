@@ -208,17 +208,6 @@ Proof of Proposition \ref{Proposition:equality_substitution_equality}
 \end{prop}
 
 \subsection{Basic Propositions}
-\begin{axm}
-\label{Axiom:substitution_in}
-Substitution of $\in$.
-\begin{align*}
-& \forall a \forall b ( \\
-& & & \exists c ((c = b) \land (a \in c)) \\
-& & \iff & a \in b \\
-& )
-\end{align*}
-\end{axm}
-
 \begin{prop}
 \label{Proposition:equality_property_1}
 Property of $=$.
@@ -616,9 +605,9 @@ Proof of Proposition \ref{Proposition:pairwise_union_property}
 & & \iff & (\exists d ((d = a) \land (c \in d))) \lor (\exists d ((d = b) \land (c \in d)))
 & & \text{Proposition \ref{Proposition:land_commutativity}} \\
 & & \iff & (c \in a) \lor (\exists d ((d = b) \land (c \in d)))
-& & \text{Axiom \ref{Axiom:substitution_in}} \\
+& & \text{Axiom \ref{Axiom:axiom_of_existence}} \\
 & & \iff & (c \in a) \lor (c \in b)
-& & \text{Axiom \ref{Axiom:substitution_in}} \\
+& & \text{Axiom \ref{Axiom:axiom_of_existence}} \\
 & )
 \end{align*}
 \end{prop}
