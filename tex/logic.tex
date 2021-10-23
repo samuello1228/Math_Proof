@@ -1322,12 +1322,7 @@ Proof of Proposition (5)
 \iff & (a \iff b) \land (a \iff c)
 & & \text{Proposition \ref{Proposition:iff_symmetric}} \\
 \end{align*}
-Proposition (6)
-\begin{align*}
-& (a \iff c) \iff (b \iff c) \\
-\iff & a \iff b
-\end{align*}
-Proof of Proposition (6)
+Proof of Proposition \ref{Proposition:iff_substitution_iff}
 \begin{align*}
 & (a \iff c) \iff (b \iff c) \\
 \overset{\operatorname{def}}{\iff} & ((a \iff c) \land (b \iff c)) \lor ((\lnot (a \iff c)) \land (\lnot (b \iff c)))
@@ -1348,14 +1343,6 @@ Proof of Proposition (6)
 & & \text{Proposition \ref{Proposition:lor_complement_1}} \\
 \iff & a \iff b
 & & \text{Proposition \ref{Proposition:land_identity_1}} \\
-\end{align*}
-Proof of Proposition \ref{Proposition:iff_substitution_iff}
-\begin{align*}
-& (a \iff b) \iff ((a \iff c) \iff (b \iff c)) \\
-\iff & ((a \iff c) \iff (b \iff c)) \iff (a \iff b)
-& & \text{Proposition \ref{Proposition:iff_symmetric}} \\
-\iff & \text{True}
-& & \text{Proposition (6)} \\
 \end{align*}
 \end{prop}
 

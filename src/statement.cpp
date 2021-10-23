@@ -787,9 +787,13 @@ expression* proof_block::get_next_source()
     expression* source = nullptr;
     if(chain_of_deductive.size() == 0)
     {
-        if(method == deduction)
+        if(method == deduction_LeftToRight)
         {
             source = target->get_oeprand(1)->getCopy();
+        }
+        if(method == deduction_RightToLeft)
+        {
+            source = target->get_oeprand(2)->getCopy();
         }
         else if(method == direct)
         {
@@ -812,32 +816,36 @@ expression* proof_block::get_next_source()
 
 void proof_block::check_finished(statement* step)
 {
-    if(method == deduction || method == direct || method == backward)
+    if(method == deduction_LeftToRight)
     {
-        if(method == deduction)
+        if(!step->get_oeprand(2)->isEqual(target->get_oeprand(2)))
         {
-            if(!step->get_oeprand(2)->isEqual(target->get_oeprand(2)))
-            {
-                cout<<"Error: The operand2 does not matched the operand2 of target."<<endl;
-            }
+            cout<<"Error: The operand2 does not matched the operand2 of target."<<endl;
         }
-        else if(method == direct)
+    }
+    if(method == deduction_RightToLeft)
+    {
+        if(!step->get_oeprand(2)->isEqual(target->get_oeprand(1)))
         {
-            vector<int> path(forall_variable_proof.size(), 1);
-            if(!step->get_oeprand(2)->isEqual(target->content->getPart(path)))
-            {
-                cout<<"Error: The operand2 does not matched the target."<<endl;
-            }
+            cout<<"Error: The operand2 does not matched the operand1 of target."<<endl;
         }
-        else if(method == backward)
+    }
+    else if(method == direct)
+    {
+        vector<int> path(forall_variable_proof.size(), 1);
+        if(!step->get_oeprand(2)->isEqual(target->content->getPart(path)))
         {
-            expression* True = expression::createFromLatex("\\text{True}", LOGIC);
-            if(!step->get_oeprand(2)->isEqual(True))
-            {
-                cout<<"Error: The operand2 is not True."<<endl;
-            }
-            delete True;
+            cout<<"Error: The operand2 does not matched the target."<<endl;
         }
+    }
+    else if(method == backward)
+    {
+        expression* True = expression::createFromLatex("\\text{True}", LOGIC);
+        if(!step->get_oeprand(2)->isEqual(True))
+        {
+            cout<<"Error: The operand2 is not True."<<endl;
+        }
+        delete True;
     }
 }
 
@@ -1506,9 +1514,17 @@ void proof_block::append(input x)
     }
     
     //check whether the binary operator is allowed.
-    if(method == deduction)
+    if(method == deduction_LeftToRight)
     {
         if(x.law->get_binary_operator_latex() == "\\implies" && target->get_binary_operator_latex() == "\\iff")
+        {
+            cout<<"Error: The deduction method cannot work for \\implies."<<endl;
+            return;
+        }
+    }
+    if(method == deduction_RightToLeft)
+    {
+        if(x.law->get_binary_operator_latex() == "\\implies")
         {
             cout<<"Error: The deduction method cannot work for \\implies."<<endl;
             return;

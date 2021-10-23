@@ -116,7 +116,7 @@ struct Print_Info
     vector<vector<int> > split_point;
 };
 
-enum proof_method {direct, backward, deduction};
+enum proof_method {direct, backward, deduction_LeftToRight, deduction_RightToLeft};
 class proof_block
 {
 public:
