@@ -267,16 +267,8 @@ void set()
     //Property of singleton set
     Proposition::Current = new Proposition("singleton_set_property", SET, "\\forall a \\forall b ((b \\in \\{ a \\}) \\iff (b = a))");
     description = "Property of singleton set.";
-    
-    block = new proof_block("1", Proposition("", SET, "\\forall a \\forall b ((b \\in \\{ a \\}) \\iff (b \\in \\{ a , a \\}))"), direct);
-    block->set_target_forall_variable(1);
-    sub.clear(); sub.push_back(new substitution("a", "a", SET));
-    block->append(input({}, "Definition:singleton_set", TrueToP, sub));
-    block->append(input({}, "Definition:equality", LeftToRight, true));
-    Proposition::Current->append(block);
-    
     block = new proof_block("singleton_set_property", Proposition::Current, deduction_LeftToRight);
-    block->append(input({}, "Local:1", LeftToRight));
+    block->append(input({2}, "Definition:singleton_set", LeftToRight));
     block->append(input({}, "Axiom:existence_of_pair_set", LeftToRight));
     block->append(input({}, "Proposition:lor_idempotence", LeftToRight, true));
     Proposition::Current->append(block, true);

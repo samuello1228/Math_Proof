@@ -530,29 +530,12 @@ Property of singleton set.
 & & \iff & b = a \\
 & )
 \end{align*}
-Proposition (1)
-\begin{align*}
-& \forall a \forall b ( \\
-& & & b \in \{ a \} \\
-& & \iff & b \in \{ a , a \} \\
-& )
-\end{align*}
-Proof of Proposition (1)
-\begin{align*}
-& \forall a ( \\
-& & & \text{True} \\
-& & \iff & \{ a \} = \{ a , a \}
-& & \text{Definition \ref{Definition:singleton_set}} \\
-& & \overset{\operatorname{def}}{\iff} & \forall b ((b \in \{ a \}) \iff (b \in \{ a , a \}))
-& & \text{Definition \ref{Definition:equality}} \\
-& )
-\end{align*}
 Proof of Proposition \ref{Proposition:singleton_set_property}
 \begin{align*}
 & \forall a \forall b ( \\
 & & & b \in \{ a \} \\
-& & \iff & b \in \{ a , a \}
-& & \text{Proposition (1)} \\
+& & \overset{\operatorname{def}}{\iff} & b \in \{ a , a \}
+& & \text{Definition \ref{Definition:singleton_set}} \\
 & & \iff & (b = a) \lor (b = a)
 & & \text{Axiom \ref{Axiom:existence_of_pair_set}} \\
 & & \iff & b = a
