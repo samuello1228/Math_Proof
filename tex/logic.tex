@@ -1889,3 +1889,44 @@ Proof of Proposition \ref{Proposition:lemma_substitution}
 \end{align*}
 \end{prop}
 
+\begin{prop}
+\label{Proposition:lor_iff_distributivity}
+Distributivity of $\lor$ over $\iff$
+\begin{align*}
+& a \lor (b \iff c) \\
+\iff & (a \lor b) \iff (a \lor c)
+\end{align*}
+Proof of Proposition \ref{Proposition:lor_iff_distributivity}
+\begin{align*}
+& (a \lor b) \iff (a \lor c) \\
+\overset{\operatorname{def}}{\iff} & ((a \lor b) \land (a \lor c)) \lor ((\lnot (a \lor b)) \land (\lnot (a \lor c)))
+& & \text{Definition \ref{Definition:iff}} \\
+\iff & (a \lor (b \land c)) \lor ((\lnot (a \lor b)) \land (\lnot (a \lor c)))
+& & \text{Proposition \ref{Proposition:lor_land_distributivity_1}} \\
+\iff & (a \lor (b \land c)) \lor (((\lnot a) \land (\lnot b)) \land (\lnot (a \lor c)))
+& & \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
+\iff & (a \lor (b \land c)) \lor (((\lnot a) \land (\lnot b)) \land ((\lnot a) \land (\lnot c)))
+& & \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
+\iff & (a \lor (b \land c)) \lor (((\lnot a) \land (\lnot a)) \land ((\lnot b) \land (\lnot c)))
+& & \text{Proposition \ref{Proposition:land_commutativity_2_2}} \\
+\iff & (a \lor (b \land c)) \lor ((\lnot a) \land ((\lnot b) \land (\lnot c)))
+& & \text{Proposition \ref{Proposition:land_idempotence}} \\
+\iff & ((a \lor (b \land c)) \lor (\lnot a)) \land ((a \lor (b \land c)) \lor ((\lnot b) \land (\lnot c)))
+& & \text{Proposition \ref{Proposition:lor_land_distributivity_1}} \\
+\iff & ((\lnot a) \lor (a \lor (b \land c))) \land ((a \lor (b \land c)) \lor ((\lnot b) \land (\lnot c)))
+& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
+\iff & (((\lnot a) \lor a) \lor (b \land c)) \land ((a \lor (b \land c)) \lor ((\lnot b) \land (\lnot c)))
+& & \text{Proposition \ref{Proposition:lor_associativity}} \\
+\iff & ((\text{True}) \lor (b \land c)) \land ((a \lor (b \land c)) \lor ((\lnot b) \land (\lnot c)))
+& & \text{Proposition \ref{Proposition:lor_complement_2}} \\
+\iff & (\text{True}) \land ((a \lor (b \land c)) \lor ((\lnot b) \land (\lnot c)))
+& & \text{Proposition \ref{Proposition:lor_annihilator_2}} \\
+\iff & (a \lor (b \land c)) \lor ((\lnot b) \land (\lnot c))
+& & \text{Proposition \ref{Proposition:land_identity_2}} \\
+\iff & a \lor ((b \land c) \lor ((\lnot b) \land (\lnot c)))
+& & \text{Proposition \ref{Proposition:lor_associativity}} \\
+\overset{\operatorname{def}}{\iff} & a \lor (b \iff c)
+& & \text{Definition \ref{Definition:iff}} \\
+\end{align*}
+\end{prop}
+

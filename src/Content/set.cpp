@@ -140,6 +140,65 @@ void set()
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
+    Proposition::Current = new Proposition("equality_property_2", SET, "\\forall a \\forall b \\forall c ((a = b) \\iff (\\forall d (((d = a) \\lor (d = c)) \\iff ((d = b) \\lor (d = c)))))");
+    description = "Property of $=$.";
+    
+    block = new proof_block("1", Proposition("", SET, "\\forall a \\forall b \\forall c ((a = b) \\implies (\\forall d (((d = a) \\lor (d = c)) \\iff ((d = b) \\lor (d = c)))))"), deduction_LeftToRight);
+    block->append(input({}, "Proposition:equality_property_1", LeftToRight));
+    {
+        sub.clear();
+        logic_variable* var = new logic_variable("a");
+        expression* d = expression::createFromLatex("d = a", SET);
+        sub.push_back(new substitution(var, d));
+        
+        var = new logic_variable("b");
+        d = expression::createFromLatex("d = b", SET);
+        sub.push_back(new substitution(var, d));
+        
+        var = new logic_variable("c");
+        d = expression::createFromLatex("d = c", SET);
+        sub.push_back(new substitution(var, d));
+    }
+    block->append(input({1}, "Proposition:iff_substitution_lor", LeftToRight, sub, true));
+    Proposition::Current->append(block);
+    
+    block = new proof_block("2", Proposition("", SET, "\\forall a \\forall b \\forall c ((\\forall d (((d = a) \\lor (d = c)) \\iff ((d = b) \\lor (d = c)))) \\implies (a = b))"), deduction_LeftToRight);
+    block->append(input({}, "Proposition:land_idempotence", RightToLeft));
+    block->set_split_point({{2}});
+    block->append(input({1}, expression::createFromLatex("a", SET)));
+    block->set_split_point({{2}});
+    block->append(input({2}, expression::createFromLatex("b", SET)));
+    block->set_split_point({{2}});
+    block->append(input({1,1,1}, "Proposition:equality_reflexive", PToTrue));
+    block->set_split_point({{2}});
+    block->append(input({1,1}, "Proposition:lor_annihilator_2", LeftToRight));
+    block->set_split_point({{2}});
+    block->append(input({1}, "Proposition:iff_symmetric", LeftToRight));
+    block->set_split_point({{2}});
+    block->append(input({1}, "Proposition:true_statement", LeftToRight));
+    block->set_split_point({{2}});
+    block->append(input({2,2,1}, "Proposition:equality_reflexive", PToTrue));
+    block->set_split_point({{2}});
+    block->append(input({2,2}, "Proposition:lor_annihilator_2", LeftToRight));
+    block->set_split_point({{2}});
+    block->append(input({2}, "Proposition:true_statement", LeftToRight));
+    block->append(input({2,1}, "Proposition:equality_symmetric", LeftToRight));
+    block->append(input({}, "Proposition:lor_land_distributivity_1", RightToLeft));
+    block->append(input({2,2}, "Proposition:equality_symmetric", LeftToRight));
+    block->append(input({2}, "Proposition:equality_transitive", LeftToRight));
+    block->append(input({}, "Proposition:lor_idempotence", LeftToRight, true));
+    Proposition::Current->append(block);
+    
+    block = new proof_block("equality_property_2", Proposition::Current, backward);
+    block->append(input({}, "Proposition:iff_implies", LeftToRight));
+    block->set_split_point({{2}});
+    block->append(input({1}, "Local:1", PToTrue));
+    block->set_split_point({{2}});
+    block->append(input({2}, "Local:2", PToTrue));
+    block->append(input({}, "Definition:land_True_True", LeftToRight, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current, description);
+    
     fout<<"\\subsection{Empty set}"<<endl;
     axiom = new Axiom("existence_of_empty_set", SET, "\\forall a (a \\notin \\emptyset)");
     Axiom::addAxiom(fout, axiom, "Existence of empty set");
@@ -192,29 +251,13 @@ void set()
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
-    Proposition::Current = new Proposition("equality_substitution_pair_set", SET, "\\forall a \\forall b \\forall c ((a = b) \\implies (\\{ a , c \\} = \\{ b , c \\}))");
+    Proposition::Current = new Proposition("equality_substitution_pair_set", SET, "\\forall a \\forall b \\forall c ((a = b) \\iff (\\{ a , c \\} = \\{ b , c \\}))");
     description = "Axiom of Substitution for pair set.";
-    block = new proof_block("equality_substitution_pair_set", Proposition::Current, deduction_LeftToRight);
-    block->append(input({}, "Proposition:equality_property_1", LeftToRight));
-    
-    {
-        sub.clear();
-        logic_variable* var = new logic_variable("a");
-        expression* d = expression::createFromLatex("d = a", SET);
-        sub.push_back(new substitution(var, d));
-        
-        var = new logic_variable("b");
-        d = expression::createFromLatex("d = b", SET);
-        sub.push_back(new substitution(var, d));
-        
-        var = new logic_variable("c");
-        d = expression::createFromLatex("d = c", SET);
-        sub.push_back(new substitution(var, d));
-    }
-    block->append(input({1}, "Proposition:iff_substitution_lor", LeftToRight, sub));
-    block->append(input({1,1}, "Axiom:existence_of_pair_set", RightToLeft));
-    block->append(input({1,2}, "Axiom:existence_of_pair_set", RightToLeft));
-    block->append(input({}, "Definition:equality", RightToLeft, true));
+    block = new proof_block("equality_substitution_pair_set", Proposition::Current, deduction_RightToLeft);
+    block->append(input({}, "Definition:equality", LeftToRight));
+    block->append(input({1,1}, "Axiom:existence_of_pair_set", LeftToRight));
+    block->append(input({1,2}, "Axiom:existence_of_pair_set", LeftToRight));
+    block->append(input({}, "Proposition:equality_property_2", RightToLeft, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     

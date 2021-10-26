@@ -1348,5 +1348,25 @@ void logic()
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current);
     
+    Proposition::Current = new Proposition("lor_iff_distributivity", LOGIC, "\\forall a \\forall b \\forall c ((a \\lor (b \\iff c)) \\iff ((a \\lor b) \\iff (a \\lor c)))");
+    description = "Distributivity of $\\lor$ over $\\iff$";
+    block = new proof_block("lor_iff_distributivity", Proposition::Current, deduction_RightToLeft);
+    block->append(input({}, "Definition:iff", LeftToRight));
+    block->append(input({1}, "Proposition:lor_land_distributivity_1", RightToLeft));
+    block->append(input({2,1}, "Proposition:De_Morgan_lor", LeftToRight));
+    block->append(input({2,2}, "Proposition:De_Morgan_lor", LeftToRight));
+    block->append(input({2}, "Proposition:land_commutativity_2_2", LeftToRight));
+    block->append(input({2,1}, "Proposition:land_idempotence", LeftToRight));
+    block->append(input({}, "Proposition:lor_land_distributivity_1", LeftToRight));
+    block->append(input({1}, "Proposition:lor_commutativity", LeftToRight));
+    block->append(input({1}, "Proposition:lor_associativity", RightToLeft));
+    block->append(input({1,1}, "Proposition:lor_complement_2", LeftToRight));
+    block->append(input({1}, "Proposition:lor_annihilator_2", LeftToRight));
+    block->append(input({}, "Proposition:land_identity_2", LeftToRight));
+    block->append(input({}, "Proposition:lor_associativity", LeftToRight));
+    block->append(input({2}, "Definition:iff", RightToLeft, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current, description);
+    
     fout.close();
 }

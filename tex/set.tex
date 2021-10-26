@@ -276,6 +276,102 @@ Proof of Proposition \ref{Proposition:equality_property_1}
 \end{align*}
 \end{prop}
 
+\begin{prop}
+\label{Proposition:equality_property_2}
+Property of $=$.
+\begin{align*}
+& \forall a \forall b \forall c ( \\
+& & & a = b \\
+& & \iff & \forall d (((d = a) \lor (d = c)) \iff ((d = b) \lor (d = c))) \\
+& )
+\end{align*}
+Proposition (1)
+\begin{align*}
+& \forall a \forall b \forall c ( \\
+& & & a = b \\
+& & \implies & \forall d (((d = a) \lor (d = c)) \iff ((d = b) \lor (d = c))) \\
+& )
+\end{align*}
+Proof of Proposition (1)
+\begin{align*}
+& \forall a \forall b \forall c ( \\
+& & & a = b \\
+& & \iff & \forall d ((d = a) \iff (d = b))
+& & \text{Proposition \ref{Proposition:equality_property_1}} \\
+& & \implies & \forall d (((d = a) \lor (d = c)) \iff ((d = b) \lor (d = c)))
+& & \text{Proposition \ref{Proposition:iff_substitution_lor}} \\
+& )
+\end{align*}
+Proposition (2)
+\begin{align*}
+& \forall a \forall b \forall c ( \\
+& & & \forall d (((d = a) \lor (d = c)) \iff ((d = b) \lor (d = c))) \\
+& & \implies & a = b \\
+& )
+\end{align*}
+Proof of Proposition (2)
+\begin{align*}
+& \forall a \forall b \forall c ( \\
+& & & \forall d (((d = a) \lor (d = c)) \iff ((d = b) \lor (d = c))) \\
+& & \iff & (\forall d (((d = a) \lor (d = c)) \iff ((d = b) \lor (d = c)))) \\
+& & & \land (\forall d (((d = a) \lor (d = c)) \iff ((d = b) \lor (d = c))))
+& & \text{Proposition \ref{Proposition:land_idempotence}} \\
+& & \implies & (((a = a) \lor (a = c)) \iff ((a = b) \lor (a = c))) \\
+& & & \land (\forall d (((d = a) \lor (d = c)) \iff ((d = b) \lor (d = c))))
+& & \text{Substitution for d} \\
+& & \implies & (((a = a) \lor (a = c)) \iff ((a = b) \lor (a = c))) \\
+& & & \land (((b = a) \lor (b = c)) \iff ((b = b) \lor (b = c)))
+& & \text{Substitution for d} \\
+& & \iff & (((\text{True}) \lor (a = c)) \iff ((a = b) \lor (a = c))) \\
+& & & \land (((b = a) \lor (b = c)) \iff ((b = b) \lor (b = c)))
+& & \text{Proposition \ref{Proposition:equality_reflexive}} \\
+& & \iff & ((\text{True}) \iff ((a = b) \lor (a = c))) \\
+& & & \land (((b = a) \lor (b = c)) \iff ((b = b) \lor (b = c)))
+& & \text{Proposition \ref{Proposition:lor_annihilator_2}} \\
+& & \iff & (((a = b) \lor (a = c)) \iff (\text{True})) \\
+& & & \land (((b = a) \lor (b = c)) \iff ((b = b) \lor (b = c)))
+& & \text{Proposition \ref{Proposition:iff_symmetric}} \\
+& & \iff & ((a = b) \lor (a = c)) \\
+& & & \land (((b = a) \lor (b = c)) \iff ((b = b) \lor (b = c)))
+& & \text{Proposition \ref{Proposition:true_statement}} \\
+& & \iff & ((a = b) \lor (a = c)) \\
+& & & \land (((b = a) \lor (b = c)) \iff ((\text{True}) \lor (b = c)))
+& & \text{Proposition \ref{Proposition:equality_reflexive}} \\
+& & \iff & ((a = b) \lor (a = c)) \\
+& & & \land (((b = a) \lor (b = c)) \iff (\text{True}))
+& & \text{Proposition \ref{Proposition:lor_annihilator_2}} \\
+& & \iff & ((a = b) \lor (a = c)) \land ((b = a) \lor (b = c))
+& & \text{Proposition \ref{Proposition:true_statement}} \\
+& & \iff & ((a = b) \lor (a = c)) \land ((a = b) \lor (b = c))
+& & \text{Proposition \ref{Proposition:equality_symmetric}} \\
+& & \iff & (a = b) \lor ((a = c) \land (b = c))
+& & \text{Proposition \ref{Proposition:lor_land_distributivity_1}} \\
+& & \iff & (a = b) \lor ((a = c) \land (c = b))
+& & \text{Proposition \ref{Proposition:equality_symmetric}} \\
+& & \implies & (a = b) \lor (a = b)
+& & \text{Proposition \ref{Proposition:equality_transitive}} \\
+& & \iff & a = b
+& & \text{Proposition \ref{Proposition:lor_idempotence}} \\
+& )
+\end{align*}
+Proof of Proposition \ref{Proposition:equality_property_2}
+\begin{align*}
+& \forall a \forall b \forall c ( \\
+& & & (a = b) \iff (\forall d (((d = a) \lor (d = c)) \iff ((d = b) \lor (d = c)))) \\
+& & \iff & ((a = b) \implies (\forall d (((d = a) \lor (d = c)) \iff ((d = b) \lor (d = c))))) \\
+& & & \land ((\forall d (((d = a) \lor (d = c)) \iff ((d = b) \lor (d = c)))) \implies (a = b))
+& & \text{Proposition \ref{Proposition:iff_implies}} \\
+& & \iff & (\text{True}) \\
+& & & \land ((\forall d (((d = a) \lor (d = c)) \iff ((d = b) \lor (d = c)))) \implies (a = b))
+& & \text{Proposition (1)} \\
+& & \iff & (\text{True}) \land (\text{True})
+& & \text{Proposition (2)} \\
+& & \overset{\operatorname{def}}{\iff} & \text{True}
+& & \text{Definition \ref{Definition:land_True_True}} \\
+& )
+\end{align*}
+\end{prop}
+
 \subsection{Empty set}
 \begin{axm}
 \label{Axiom:existence_of_empty_set}
@@ -394,23 +490,21 @@ Axiom of Substitution for pair set.
 \begin{align*}
 & \forall a \forall b \forall c ( \\
 & & & a = b \\
-& & \implies & \{ a , c \} = \{ b , c \} \\
+& & \iff & \{ a , c \} = \{ b , c \} \\
 & )
 \end{align*}
 Proof of Proposition \ref{Proposition:equality_substitution_pair_set}
 \begin{align*}
 & \forall a \forall b \forall c ( \\
-& & & a = b \\
-& & \iff & \forall d ((d = a) \iff (d = b))
-& & \text{Proposition \ref{Proposition:equality_property_1}} \\
-& & \implies & \forall d (((d = a) \lor (d = c)) \iff ((d = b) \lor (d = c)))
-& & \text{Proposition \ref{Proposition:iff_substitution_lor}} \\
-& & \iff & \forall d ((d \in \{ a , c \}) \iff ((d = b) \lor (d = c)))
-& & \text{Axiom \ref{Axiom:existence_of_pair_set}} \\
-& & \iff & \forall d ((d \in \{ a , c \}) \iff (d \in \{ b , c \}))
-& & \text{Axiom \ref{Axiom:existence_of_pair_set}} \\
-& & \overset{\operatorname{def}}{\iff} & \{ a , c \} = \{ b , c \}
+& & & \{ a , c \} = \{ b , c \} \\
+& & \overset{\operatorname{def}}{\iff} & \forall d ((d \in \{ a , c \}) \iff (d \in \{ b , c \}))
 & & \text{Definition \ref{Definition:equality}} \\
+& & \iff & \forall d (((d = a) \lor (d = c)) \iff (d \in \{ b , c \}))
+& & \text{Axiom \ref{Axiom:existence_of_pair_set}} \\
+& & \iff & \forall d (((d = a) \lor (d = c)) \iff ((d = b) \lor (d = c)))
+& & \text{Axiom \ref{Axiom:existence_of_pair_set}} \\
+& & \iff & a = b
+& & \text{Proposition \ref{Proposition:equality_property_2}} \\
 & )
 \end{align*}
 \end{prop}
