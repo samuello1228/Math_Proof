@@ -574,12 +574,34 @@ Proof of Proposition \ref{Proposition:uniqueness_of_singleton_set}
 \end{prop}
 
 \begin{prop}
-\label{Proposition:substitution_of_singleton_set}
-Substitution for singleton set.
+\label{Proposition:equality_substitution_singleton_set}
+Axiom of Substitution for singleton set.
 \begin{align*}
 & \forall a \forall b ( \\
 & & & a = b \\
 & & \implies & \{ a \} = \{ b \} \\
+& )
+\end{align*}
+Proof of Proposition \ref{Proposition:equality_substitution_singleton_set}
+\begin{align*}
+& \forall a \forall b ( \\
+& & & \{ a \} = \{ b \} \\
+& & \overset{\operatorname{def}}{\iff} & \{ a , a \} = \{ b \}
+& & \text{Definition \ref{Definition:singleton_set}} \\
+& & \overset{\operatorname{def}}{\iff} & \{ a , a \} = \{ b , b \}
+& & \text{Definition \ref{Definition:singleton_set}} \\
+& & \overset{\operatorname{def}}{\iff} & \forall c ((c \in \{ a , a \}) \iff (c \in \{ b , b \}))
+& & \text{Definition \ref{Definition:equality}} \\
+& & \iff & \forall c (((c = a) \lor (c = a)) \iff (c \in \{ b , b \}))
+& & \text{Axiom \ref{Axiom:existence_of_pair_set}} \\
+& & \iff & \forall c (((c = a) \lor (c = a)) \iff ((c = b) \lor (c = b)))
+& & \text{Axiom \ref{Axiom:existence_of_pair_set}} \\
+& & \iff & \forall c ((c = a) \iff ((c = b) \lor (c = b)))
+& & \text{Proposition \ref{Proposition:lor_idempotence}} \\
+& & \iff & \forall c ((c = a) \iff (c = b))
+& & \text{Proposition \ref{Proposition:lor_idempotence}} \\
+& & \iff & a = b
+& & \text{Proposition \ref{Proposition:equality_property_1}} \\
 & )
 \end{align*}
 \end{prop}

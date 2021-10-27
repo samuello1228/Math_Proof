@@ -291,8 +291,18 @@ void set()
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
-    Proposition::Current = new Proposition("substitution_of_singleton_set", SET, "\\forall a \\forall b ((a = b) \\implies (\\{ a \\} = \\{ b \\}))");
-    description = "Substitution for singleton set.";
+    Proposition::Current = new Proposition("equality_substitution_singleton_set", SET, "\\forall a \\forall b ((a = b) \\implies (\\{ a \\} = \\{ b \\}))");
+    description = "Axiom of Substitution for singleton set.";
+    block = new proof_block("equality_substitution_singleton_set", Proposition::Current, deduction_RightToLeft);
+    block->append(input({1}, "Definition:singleton_set", LeftToRight));
+    block->append(input({2}, "Definition:singleton_set", LeftToRight));
+    block->append(input({}, "Definition:equality", LeftToRight));
+    block->append(input({1,1}, "Axiom:existence_of_pair_set", LeftToRight));
+    block->append(input({1,2}, "Axiom:existence_of_pair_set", LeftToRight));
+    block->append(input({1,1}, "Proposition:lor_idempotence", LeftToRight));
+    block->append(input({1,2}, "Proposition:lor_idempotence", LeftToRight));
+    block->append(input({}, "Proposition:equality_property_1", RightToLeft, true));
+    Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
     fout<<"\\subsection{Union set}"<<endl;
