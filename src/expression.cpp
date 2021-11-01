@@ -39,12 +39,20 @@ substitution::substitution(variable* new_x, expression* new_y)
 
 substitution::substitution(string x_latex, string y_latex, variable_type var_type)
 {
-    x = dynamic_cast<variable*>(expression::createFromLatex(x_latex, var_type));
+    y = expression::createFromLatex(y_latex, var_type);
+    if(dynamic_cast<logic_value*>(y))
+    {
+        x = dynamic_cast<variable*>(expression::createFromLatex(x_latex, LOGIC));
+    }
+    else if(dynamic_cast<Set*>(y))
+    {
+        x = dynamic_cast<variable*>(expression::createFromLatex(x_latex, SET));
+    }
+    
     if(!x)
     {
         cout<<"Error: The substitution is not variable."<<endl;
     }
-    y = expression::createFromLatex(y_latex, var_type);
 }
 
 substitution::~substitution()
