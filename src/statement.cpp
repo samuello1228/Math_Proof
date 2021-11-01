@@ -1128,20 +1128,6 @@ void proof_block::apply_binary_operator(input& in, expression* source, Print_Inf
         delete in.full_substitution[i];
     }
     
-    //add universal quantifier at the beginning
-    in.law->forall_variable.clear();
-    for(long i = external_dependence_source_part.size()-1; i>=0; i--)
-    {
-        variable* variable_copy = dynamic_cast<variable*>(external_dependence_source_part[i]->getCopy());
-        in.law->content = new universal_quantifier(variable_copy, in.law->content);
-        in.law->forall_variable.insert(in.law->forall_variable.begin(), variable_copy);
-    }
-    if(in.isPrint)
-    {
-        cout<<"Add universal quantifier at the beginning:"<<endl;
-        cout<<in.law->content->getLatex().getNormal()<<endl<<endl;
-    }
-    
     //do replacement for internal dependence
     vector<variable*> internal_dependence_law;
     in.law->get_oeprand(1)->getInternalDependence(internal_dependence_law);
@@ -1236,6 +1222,20 @@ void proof_block::apply_binary_operator(input& in, expression* source, Print_Inf
             cout<<"Error: a is not independent of c. cannot use this law."<<endl;
             return;
         }
+    }
+    
+    //add universal quantifier at the beginning
+    in.law->forall_variable.clear();
+    for(long i = external_dependence_source_part.size()-1; i>=0; i--)
+    {
+        variable* variable_copy = dynamic_cast<variable*>(external_dependence_source_part[i]->getCopy());
+        in.law->content = new universal_quantifier(variable_copy, in.law->content);
+        in.law->forall_variable.insert(in.law->forall_variable.begin(), variable_copy);
+    }
+    if(in.isPrint)
+    {
+        cout<<"Add universal quantifier at the beginning:"<<endl;
+        cout<<in.law->content->getLatex().getNormal()<<endl<<endl;
     }
 }
 
