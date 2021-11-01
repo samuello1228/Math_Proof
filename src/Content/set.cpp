@@ -291,7 +291,7 @@ void set()
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
-    Proposition::Current = new Proposition("equality_substitution_singleton_set", SET, "\\forall a \\forall b ((a = b) \\implies (\\{ a \\} = \\{ b \\}))");
+    Proposition::Current = new Proposition("equality_substitution_singleton_set", SET, "\\forall a \\forall b ((a = b) \\iff (\\{ a \\} = \\{ b \\}))");
     description = "Axiom of Substitution for singleton set.";
     block = new proof_block("equality_substitution_singleton_set", Proposition::Current, deduction_RightToLeft);
     block->append(input({1}, "Definition:singleton_set", LeftToRight));
@@ -323,6 +323,30 @@ void set()
     block->set_split_point({{1,2}});
     block->append(input({1}, "Proposition:iff_transitive", LeftToRight));
     block->append(input({}, "Definition:equality", RightToLeft, true));
+    Proposition::Current->append(block, true);
+    Proposition::addProposition(fout, Proposition::Current, description);
+    
+    Proposition::Current = new Proposition("equality_substitution_union_set", SET, "\\forall a \\forall b ((a = b) \\implies ((\\bigcup a) = (\\bigcup b)))");
+    description = "Axiom of Substitution for union set.";
+    block = new proof_block("equality_substitution_union_set", Proposition::Current, deduction_LeftToRight);
+    block->append(input({}, "Axiom:forall_independent_variable", RightToLeft));
+    block->append(input({1}, "Axiom:forall_independent_variable", RightToLeft));
+    sub.clear();
+    sub.push_back(new substitution("a", "a", SET));
+    sub.push_back(new substitution("b", "b", SET));
+    sub.push_back(new substitution("c", "d", SET));
+    block->append(input({1,1}, "Proposition:equality_substitution_in_1", LeftToRight, sub));
+    sub.clear();
+    sub.push_back(new substitution("a", "d \\in a", SET));
+    sub.push_back(new substitution("b", "d \\in b", SET));
+    sub.push_back(new substitution("c", "c \\in d", SET));
+    block->append(input({1,1}, "Proposition:iff_substitution_land", LeftToRight, sub));
+    block->append(input({1,1,1}, "Proposition:land_commutativity", LeftToRight));
+    block->append(input({1,1,2}, "Proposition:land_commutativity", LeftToRight));
+    block->append(input({1}, "Proposition:iff_substitution_exists_2", LeftToRight));
+    block->append(input({1,1}, "Axiom:existence_of_union_set", RightToLeft));
+    block->append(input({1,2}, "Axiom:existence_of_union_set", RightToLeft));
+    block->append(input({}, "Definition:equality", RightToLeft));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
