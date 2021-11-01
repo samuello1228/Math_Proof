@@ -356,18 +356,8 @@ void set()
     //Property of pairwise union
     Proposition::Current = new Proposition("pairwise_union_property", SET, "\\forall a \\forall b \\forall c ((c \\in (a \\cup b)) \\iff ((c \\in a) \\lor (c \\in b)))");
     description = "Property of pairwise union.";
-    
-    block = new proof_block("1", Proposition("", SET, "\\forall a \\forall b \\forall c ((c \\in (a \\cup b)) \\iff (c \\in (\\bigcup \\{ a , b \\})))"), direct);
-    block->set_target_forall_variable(2);
-    sub.clear();
-    sub.push_back(new substitution("a", "a", SET));
-    sub.push_back(new substitution("b", "b", SET));
-    block->append(input({}, "Definition:pairwise_union", TrueToP, sub));
-    block->append(input({}, "Definition:equality", LeftToRight, true));
-    Proposition::Current->append(block);
-    
     block = new proof_block("pairwise_union_property", Proposition::Current, deduction_LeftToRight);
-    block->append(input({}, "Local:1", LeftToRight));
+    block->append(input({2}, "Definition:pairwise_union", LeftToRight));
     block->append(input({}, "Axiom:existence_of_union_set", LeftToRight));
     block->append(input({1,2}, "Axiom:existence_of_pair_set", LeftToRight));
     block->append(input({1}, "Proposition:land_lor_distributivity_1", LeftToRight));
@@ -379,8 +369,8 @@ void set()
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
-    Proposition::Current = new Proposition("substitution_of_pairwise_union", SET, "\\forall a \\forall b \\forall c ((a = b) \\implies ((a \\cup c) = (b \\cup c)))");
-    description = "Substitution for pairwise union.";
+    Proposition::Current = new Proposition("equality_substitution_pairwise_union", SET, "\\forall a \\forall b \\forall c ((a = b) \\implies ((a \\cup c) = (b \\cup c)))");
+    description = "Axiom of Substitution for pairwise union.";
     Proposition::addProposition(fout, Proposition::Current, description);
     
     Proposition::Current = new Proposition("pairwise_union_commutativity", SET, "\\forall a \\forall b ((a \\cup b) = (b \\cup a))");

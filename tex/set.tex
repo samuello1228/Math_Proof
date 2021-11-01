@@ -705,29 +705,12 @@ Property of pairwise union.
 & & \iff & (c \in a) \lor (c \in b) \\
 & )
 \end{align*}
-Proposition (1)
-\begin{align*}
-& \forall a \forall b \forall c ( \\
-& & & c \in (a \cup b) \\
-& & \iff & c \in (\bigcup \{ a , b \}) \\
-& )
-\end{align*}
-Proof of Proposition (1)
-\begin{align*}
-& \forall a \forall b ( \\
-& & & \text{True} \\
-& & \iff & (a \cup b) = (\bigcup \{ a , b \})
-& & \text{Definition \ref{Definition:pairwise_union}} \\
-& & \overset{\operatorname{def}}{\iff} & \forall c ((c \in (a \cup b)) \iff (c \in (\bigcup \{ a , b \})))
-& & \text{Definition \ref{Definition:equality}} \\
-& )
-\end{align*}
 Proof of Proposition \ref{Proposition:pairwise_union_property}
 \begin{align*}
 & \forall a \forall b \forall c ( \\
 & & & c \in (a \cup b) \\
-& & \iff & c \in (\bigcup \{ a , b \})
-& & \text{Proposition (1)} \\
+& & \overset{\operatorname{def}}{\iff} & c \in (\bigcup \{ a , b \})
+& & \text{Definition \ref{Definition:pairwise_union}} \\
 & & \iff & \exists d ((c \in d) \land (d \in \{ a , b \}))
 & & \text{Axiom \ref{Axiom:existence_of_union_set}} \\
 & & \iff & \exists d ((c \in d) \land ((d = a) \lor (d = b)))
@@ -749,8 +732,8 @@ Proof of Proposition \ref{Proposition:pairwise_union_property}
 \end{prop}
 
 \begin{prop}
-\label{Proposition:substitution_of_pairwise_union}
-Substitution for pairwise union.
+\label{Proposition:equality_substitution_pairwise_union}
+Axiom of Substitution for pairwise union.
 \begin{align*}
 & \forall a \forall b \forall c ( \\
 & & & a = b \\
