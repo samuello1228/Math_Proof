@@ -740,6 +740,22 @@ Axiom of Substitution for pairwise union.
 & & \implies & (a \cup c) = (b \cup c) \\
 & )
 \end{align*}
+Proof of Proposition \ref{Proposition:equality_substitution_pairwise_union}
+\begin{align*}
+& \forall a \forall b \forall c ( \\
+& & & a = b \\
+& & \overset{\operatorname{def}}{\iff} & \forall d ((d \in a) \iff (d \in b))
+& & \text{Definition \ref{Definition:equality}} \\
+& & \implies & \forall d (((d \in a) \lor (d \in c)) \iff ((d \in b) \lor (d \in c)))
+& & \text{Proposition \ref{Proposition:iff_substitution_lor}} \\
+& & \iff & \forall d ((d \in (a \cup c)) \iff ((d \in b) \lor (d \in c)))
+& & \text{Proposition \ref{Proposition:pairwise_union_property}} \\
+& & \iff & \forall d ((d \in (a \cup c)) \iff (d \in (b \cup c)))
+& & \text{Proposition \ref{Proposition:pairwise_union_property}} \\
+& & \overset{\operatorname{def}}{\iff} & (a \cup c) = (b \cup c)
+& & \text{Definition \ref{Definition:equality}} \\
+& )
+\end{align*}
 \end{prop}
 
 \begin{prop}

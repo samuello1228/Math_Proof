@@ -513,7 +513,7 @@ void logic()
     block->append(input({2}, "Proposition:land_commutativity", LeftToRight));
     block->append(input({1}, "Proposition:implies_transitive", LeftToRight));
     block->append(input({2}, "Proposition:implies_transitive", LeftToRight));
-    block->append(input({}, "Proposition:iff_implies", RightToLeft));
+    block->append(input({}, "Proposition:iff_implies", RightToLeft, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     

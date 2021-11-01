@@ -346,7 +346,7 @@ void set()
     block->append(input({1}, "Proposition:iff_substitution_exists_2", LeftToRight));
     block->append(input({1,1}, "Axiom:existence_of_union_set", RightToLeft));
     block->append(input({1,2}, "Axiom:existence_of_union_set", RightToLeft));
-    block->append(input({}, "Definition:equality", RightToLeft));
+    block->append(input({}, "Definition:equality", RightToLeft, true));
     Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
@@ -371,6 +371,17 @@ void set()
     
     Proposition::Current = new Proposition("equality_substitution_pairwise_union", SET, "\\forall a \\forall b \\forall c ((a = b) \\implies ((a \\cup c) = (b \\cup c)))");
     description = "Axiom of Substitution for pairwise union.";
+    block = new proof_block("equality_substitution_pairwise_union", Proposition::Current, deduction_LeftToRight);
+    block->append(input({}, "Definition:equality", LeftToRight));
+    sub.clear();
+    sub.push_back(new substitution("a", "d \\in a", SET));
+    sub.push_back(new substitution("b", "d \\in b", SET));
+    sub.push_back(new substitution("c", "d \\in c", SET));
+    block->append(input({1}, "Proposition:iff_substitution_lor", LeftToRight, sub));
+    block->append(input({1,1}, "Proposition:pairwise_union_property", RightToLeft));
+    block->append(input({1,2}, "Proposition:pairwise_union_property", RightToLeft));
+    block->append(input({}, "Definition:equality", RightToLeft, true));
+    Proposition::Current->append(block, true);
     Proposition::addProposition(fout, Proposition::Current, description);
     
     Proposition::Current = new Proposition("pairwise_union_commutativity", SET, "\\forall a \\forall b ((a \\cup b) = (b \\cup a))");
