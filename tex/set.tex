@@ -1024,3 +1024,33 @@ Proof of Proposition \ref{Proposition:one_expand}
 \end{align*}
 \end{prop}
 
+\begin{axm}
+\label{Axiom:zero_is_natural_number}
+0 is a natural number.
+\begin{align*}
+0 \in \mathbb{N}
+\end{align*}
+\end{axm}
+
+\begin{axm}
+\label{Axiom:successor_is_natural_number}
+Successor is a natural number.
+\begin{align*}
+& \forall a ( \\
+& & & a \in \mathbb{N} \\
+& & \implies & (S(a)) \in \mathbb{N} \\
+& )
+\end{align*}
+\end{axm}
+
+\begin{axm}
+\label{Axiom:induction}
+Axiom of induction.
+\begin{align*}
+& \forall a ( \\
+& & & (0 \in a) \land (\forall b (((b \in \mathbb{N}) \land (b \in a)) \implies ((S(b)) \in a))) \\
+& & \implies & \mathbb{N} \subseteq a \\
+& )
+\end{align*}
+\end{axm}
+

@@ -508,5 +508,14 @@ void set()
     Proposition::Current->append(block);
     Proposition::addProposition(description);
     
+    Axiom::Current = new Axiom("zero_is_natural_number", SET, "0 \\in \\mathbb{N}");
+    Axiom::addAxiom("0 is a natural number.");
+    
+    Axiom::Current = new Axiom("successor_is_natural_number", SET, "\\forall a ((a \\in \\mathbb{N}) \\implies ((S(a)) \\in \\mathbb{N}))");
+    Axiom::addAxiom("Successor is a natural number.");
+    
+    Axiom::Current = new Axiom("induction", SET, "\\forall a (((0 \\in a) \\land (\\forall b (((b \\in \\mathbb{N}) \\land (b \\in a)) \\implies ((S(b)) \\in a)))) \\implies (\\mathbb{N} \\subseteq a))");
+    Axiom::addAxiom("Axiom of induction.");
+    
     fout.close();
 }

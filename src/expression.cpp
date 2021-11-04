@@ -148,6 +148,7 @@ bool expression::needParenthesis(expression* operand)
     if(set_element* x = dynamic_cast<set_element*>(operand))
     {
         condition_set_element = (x->latex == "\\emptyset" ||
+                                 x->latex == "\\mathbb{N}" ||
                                  x->latex == "0" ||
                                  x->latex == "1" );
     }
@@ -433,6 +434,7 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
             return output;
         }
         else if(elements[0] == "\\emptyset" ||
+                elements[0] == "\\mathbb{N}" ||
                 elements[0] == "0" ||
                 elements[0] == "1")
         {
