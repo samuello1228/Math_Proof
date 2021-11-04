@@ -816,18 +816,21 @@ expression* proof_block::get_next_source()
     return source;
 }
 
-void proof_block::check_finished(statement* step)
+void proof_block::check_finished()
 {
+    statement* final_step = chain_of_deductive[chain_of_deductive.size()-1];
+    expression* operand2 = final_step->get_oeprand(2);
+    
     if(method == deduction_LeftToRight)
     {
-        if(!step->get_oeprand(2)->isEqual(target->get_oeprand(2)))
+        if(!operand2->isEqual(target->get_oeprand(2)))
         {
             cout<<"Error: The operand2 does not matched the operand2 of target."<<endl;
         }
     }
     if(method == deduction_RightToLeft)
     {
-        if(!step->get_oeprand(2)->isEqual(target->get_oeprand(1)))
+        if(!operand2->isEqual(target->get_oeprand(1)))
         {
             cout<<"Error: The operand2 does not matched the operand1 of target."<<endl;
         }
@@ -835,7 +838,7 @@ void proof_block::check_finished(statement* step)
     else if(method == direct)
     {
         vector<int> path(forall_variable_proof.size(), 1);
-        if(!step->get_oeprand(2)->isEqual(target->content->getPart(path)))
+        if(!operand2->isEqual(target->content->getPart(path)))
         {
             cout<<"Error: The operand2 does not matched the target."<<endl;
         }
@@ -843,7 +846,7 @@ void proof_block::check_finished(statement* step)
     else if(method == backward)
     {
         expression* True = expression::createFromLatex("\\text{True}", LOGIC);
-        if(!step->get_oeprand(2)->isEqual(True))
+        if(!operand2->isEqual(True))
         {
             cout<<"Error: The operand2 is not True."<<endl;
         }
@@ -1688,7 +1691,7 @@ void Proposition::addProposition(string description)
 
 void Proposition::append(proof_block* x, bool isFinished)
 {
-    x->check_finished(x->chain_of_deductive[x->chain_of_deductive.size()-1]);
+    x->check_finished();
     
     if(isFinished)
     {

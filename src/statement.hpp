@@ -139,7 +139,7 @@ public:
     
     void set_target_forall_variable(long);
     expression* get_next_source();
-    void check_finished(statement*);
+    void check_finished();
     
     void apply_binary_operator(input&, expression*, Print_Info&);
     void apply_forall_substitution(input&, expression*, Print_Info&);
