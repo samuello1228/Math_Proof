@@ -67,7 +67,7 @@ public:
     
     static vector<Definition*> All_Definition;
     static Definition* FindByRef(string);
-    static void addDefinition(ofstream&, Definition*, string description = "");
+    static void addDefinition(Definition*, string description = "");
 };
 
 class Axiom : public statement

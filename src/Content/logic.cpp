@@ -24,30 +24,30 @@ void logic()
     fout<<"\\section{Logical operations}"<<endl;
     //Definition of NOT
     fout<<"\\subsection{Definition of $\\lnot$}"<<endl;
-    Definition::addDefinition(fout, new Definition("lnot_True", LOGIC, "(\\lnot (\\text{True})) \\iff (\\text{False})"));
-    Definition::addDefinition(fout, new Definition("lnot_False", LOGIC, "(\\lnot (\\text{False})) \\iff (\\text{True})"));
+    Definition::addDefinition(new Definition("lnot_True", LOGIC, "(\\lnot (\\text{True})) \\iff (\\text{False})"));
+    Definition::addDefinition(new Definition("lnot_False", LOGIC, "(\\lnot (\\text{False})) \\iff (\\text{True})"));
     
     //Definition of OR
     fout<<"\\subsection{Definition of $\\lor$}"<<endl;
-    Definition::addDefinition(fout, new Definition("lor_True_True", LOGIC, "((\\text{True}) \\lor (\\text{True})) \\iff (\\text{True})"));
-    Definition::addDefinition(fout, new Definition("lor_True_False", LOGIC, "((\\text{True}) \\lor (\\text{False})) \\iff (\\text{True})"));
-    Definition::addDefinition(fout, new Definition("lor_False_True", LOGIC, "((\\text{False}) \\lor (\\text{True})) \\iff (\\text{True})"));
-    Definition::addDefinition(fout, new Definition("lor_False_False", LOGIC, "((\\text{False}) \\lor (\\text{False})) \\iff (\\text{False})"));
+    Definition::addDefinition(new Definition("lor_True_True", LOGIC, "((\\text{True}) \\lor (\\text{True})) \\iff (\\text{True})"));
+    Definition::addDefinition(new Definition("lor_True_False", LOGIC, "((\\text{True}) \\lor (\\text{False})) \\iff (\\text{True})"));
+    Definition::addDefinition(new Definition("lor_False_True", LOGIC, "((\\text{False}) \\lor (\\text{True})) \\iff (\\text{True})"));
+    Definition::addDefinition(new Definition("lor_False_False", LOGIC, "((\\text{False}) \\lor (\\text{False})) \\iff (\\text{False})"));
     
     //Definition of AND
     fout<<"\\subsection{Definition of $\\land$}"<<endl;
-    Definition::addDefinition(fout, new Definition("land_True_True", LOGIC, "((\\text{True}) \\land (\\text{True})) \\iff (\\text{True})"));
-    Definition::addDefinition(fout, new Definition("land_True_False", LOGIC, "((\\text{True}) \\land (\\text{False})) \\iff (\\text{False})"));
-    Definition::addDefinition(fout, new Definition("land_False_True", LOGIC, "((\\text{False}) \\land (\\text{True})) \\iff (\\text{False})"));
-    Definition::addDefinition(fout, new Definition("land_False_False", LOGIC, "((\\text{False}) \\land (\\text{False})) \\iff (\\text{False})"));
+    Definition::addDefinition(new Definition("land_True_True", LOGIC, "((\\text{True}) \\land (\\text{True})) \\iff (\\text{True})"));
+    Definition::addDefinition(new Definition("land_True_False", LOGIC, "((\\text{True}) \\land (\\text{False})) \\iff (\\text{False})"));
+    Definition::addDefinition(new Definition("land_False_True", LOGIC, "((\\text{False}) \\land (\\text{True})) \\iff (\\text{False})"));
+    Definition::addDefinition(new Definition("land_False_False", LOGIC, "((\\text{False}) \\land (\\text{False})) \\iff (\\text{False})"));
     
     //Definition of iff
     fout<<"\\subsection{Definition of $\\iff$}"<<endl;
-    Definition::addDefinition(fout, new Definition("iff", LOGIC, "\\forall a \\forall b ((a \\iff b) \\iff ((a \\land b) \\lor ((\\lnot a) \\land (\\lnot b))))"));
+    Definition::addDefinition(new Definition("iff", LOGIC, "\\forall a \\forall b ((a \\iff b) \\iff ((a \\land b) \\lor ((\\lnot a) \\land (\\lnot b))))"));
     
     //Definition of implies
     fout<<"\\subsection{Definition of $\\implies$}"<<endl;
-    Definition::addDefinition(fout, new Definition("implies", LOGIC, "\\forall a \\forall b ((a \\implies b) \\iff ((\\lnot a) \\lor b))"));
+    Definition::addDefinition(new Definition("implies", LOGIC, "\\forall a \\forall b ((a \\implies b) \\iff ((\\lnot a) \\lor b))"));
     
     //Boolean algebra
     Axiom* axiom = nullptr;

@@ -485,7 +485,7 @@ Definition* Definition::FindByRef(string Name)
     return nullptr;
 }
 
-void Definition::addDefinition(ofstream& fout, Definition* x, string description)
+void Definition::addDefinition(Definition* x, string description)
 {
     //check whether the label is distinct
     for(long i=0;i<All_Definition.size();i++)

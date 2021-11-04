@@ -22,7 +22,7 @@ void set()
     string description;
     
     //notin
-    Definition::addDefinition(fout, new Definition("notin", SET, "\\forall a \\forall b ((a \\notin b) \\iff (\\lnot (a \\in b)))"), "Definition of $\\notin$.");
+    Definition::addDefinition(new Definition("notin", SET, "\\forall a \\forall b ((a \\notin b) \\iff (\\lnot (a \\in b)))"), "Definition of $\\notin$.");
     
     fout<<"\\begin{defn}"<<endl;
     fout<<"\\begin{align*}"<<endl;
@@ -42,9 +42,9 @@ void set()
     
     //Equality
     fout<<"\\section{Equality of sets}"<<endl;
-    Definition::addDefinition(fout, new Definition("equality", SET, "\\forall a \\forall b ((a = b) \\iff (\\forall c ((c \\in a) \\iff (c \\in b))))"), "Definition of $=$.");
+    Definition::addDefinition(new Definition("equality", SET, "\\forall a \\forall b ((a = b) \\iff (\\forall c ((c \\in a) \\iff (c \\in b))))"), "Definition of $=$.");
     
-    Definition::addDefinition(fout, new Definition("neq", SET, "\\forall a \\forall b ((a \\neq b) \\iff (\\lnot (a = b)))"), "Definition of $\\neq$.");
+    Definition::addDefinition(new Definition("neq", SET, "\\forall a \\forall b ((a \\neq b) \\iff (\\lnot (a = b)))"), "Definition of $\\neq$.");
     
     Proposition::Current = new Proposition("equality_reflexive", SET, "\\forall a (a = a)");
     description = "Reflexive property of equality.";
@@ -262,7 +262,7 @@ void set()
     Proposition::addProposition(description);
     
     fout<<"\\subsection{Singleton set}"<<endl;
-    Definition::addDefinition(fout, new Definition("singleton_set", SET, "\\forall a (\\{ a \\} = \\{ a , a \\})"), "Definition of singleton set.");
+    Definition::addDefinition(new Definition("singleton_set", SET, "\\forall a (\\{ a \\} = \\{ a , a \\})"), "Definition of singleton set.");
     
     //Property of singleton set
     Proposition::Current = new Proposition("singleton_set_property", SET, "\\forall a \\forall b ((b \\in \\{ a \\}) \\iff (b = a))");
@@ -351,7 +351,7 @@ void set()
     Proposition::addProposition(description);
     
     fout<<"\\subsection{Pairwise union}"<<endl;
-    Definition::addDefinition(fout, new Definition("pairwise_union", SET, "\\forall a \\forall b ((a \\cup b) = (\\bigcup \\{ a , b \\}))"), "Definition of pairwise union $a \\cup b$.");
+    Definition::addDefinition(new Definition("pairwise_union", SET, "\\forall a \\forall b ((a \\cup b) = (\\bigcup \\{ a , b \\}))"), "Definition of pairwise union $a \\cup b$.");
     
     //Property of pairwise union
     Proposition::Current = new Proposition("pairwise_union_property", SET, "\\forall a \\forall b \\forall c ((c \\in (a \\cup b)) \\iff ((c \\in a) \\lor (c \\in b)))");
@@ -413,13 +413,13 @@ void set()
     
     fout<<"\\subsection{Integer}"<<endl;
     //zero
-    Definition::addDefinition(fout, new Definition("zero", SET, "0 = \\emptyset"), "Definition of 0.");
+    Definition::addDefinition(new Definition("zero", SET, "0 = \\emptyset"), "Definition of 0.");
     
     //successor
-    Definition::addDefinition(fout, new Definition("successor", SET, "\\forall a ((S(a)) = (a \\cup \\{ a \\}))"), "Definition of successor $S(x)$.");
+    Definition::addDefinition(new Definition("successor", SET, "\\forall a ((S(a)) = (a \\cup \\{ a \\}))"), "Definition of successor $S(x)$.");
     
     //one
-    Definition::addDefinition(fout, new Definition("one", SET, "1 = (S(0))"), "Definition of 1.");
+    Definition::addDefinition(new Definition("one", SET, "1 = (S(0))"), "Definition of 1.");
     
     Proposition::Current = new Proposition("one_expand", SET, "1 = \\{ \\emptyset \\}");
     description = "Express 1 in term of $\\emptyset$.";
