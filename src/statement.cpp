@@ -320,6 +320,7 @@ expression* statement::get_oeprand(int x)
     return nullptr;
 }
 
+ofstream statement::fout;
 string statement::getLatex()
 {
     string output = "";
@@ -1607,7 +1608,7 @@ Proposition* Proposition::FindByRef(string Name)
     return nullptr;
 }
 
-void Proposition::addProposition(ofstream& fout, string description)
+void Proposition::addProposition(string description)
 {
     //check whether the label is distinct
     for(long i=0;i<All_Proposition.size();i++)

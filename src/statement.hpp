@@ -49,6 +49,7 @@ public:
     string get_binary_operator_latex();
     expression* get_oeprand(int);
     
+    static ofstream fout;
     string getLatex();
     virtual statement* getCopy()=0;
     void delete_the_last_universal_quantifier();
@@ -161,7 +162,7 @@ public:
     static vector<Proposition*> All_Proposition;
     static Proposition* Current;
     static Proposition* FindByRef(string);
-    static void addProposition(ofstream&, string description = "");
+    static void addProposition(string description = "");
 };
 
 #endif /* statement_hpp */
