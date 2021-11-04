@@ -918,6 +918,59 @@ Proof of Proposition \ref{Proposition:equality_substitution_subset_2}
 \end{align*}
 \end{prop}
 
+\begin{prop}
+\label{Proposition:subset_transitive}
+Transitive property of subset.
+\begin{align*}
+& \forall a \forall b \forall c ( \\
+& & & (a \subseteq b) \land (b \subseteq c) \\
+& & \implies & a \subseteq c \\
+& )
+\end{align*}
+Proof of Proposition \ref{Proposition:subset_transitive}
+\begin{align*}
+& \forall a \forall b \forall c ( \\
+& & & (a \subseteq b) \land (b \subseteq c) \\
+& & \overset{\operatorname{def}}{\iff} & (\forall d ((d \in a) \implies (d \in b))) \land (b \subseteq c)
+& & \text{Definition \ref{Definition:subset}} \\
+& & \overset{\operatorname{def}}{\iff} & (\forall d ((d \in a) \implies (d \in b))) \land (\forall d ((d \in b) \implies (d \in c)))
+& & \text{Definition \ref{Definition:subset}} \\
+& & \iff & \forall d (((d \in a) \implies (d \in b)) \land ((d \in b) \implies (d \in c)))
+& & \text{Proposition \ref{Proposition:forall_land_commutativity}} \\
+& & \implies & \forall d ((d \in a) \implies (d \in c))
+& & \text{Proposition \ref{Proposition:implies_transitive}} \\
+& & \overset{\operatorname{def}}{\iff} & a \subseteq c
+& & \text{Definition \ref{Definition:subset}} \\
+& )
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:subset_equality}
+\begin{align*}
+& \forall a \forall b ( \\
+& & & (a \subseteq b) \land (b \subseteq a) \\
+& & \implies & a = b \\
+& )
+\end{align*}
+Proof of Proposition \ref{Proposition:subset_equality}
+\begin{align*}
+& \forall a \forall b ( \\
+& & & (a \subseteq b) \land (b \subseteq a) \\
+& & \overset{\operatorname{def}}{\iff} & (\forall c ((c \in a) \implies (c \in b))) \land (b \subseteq a)
+& & \text{Definition \ref{Definition:subset}} \\
+& & \overset{\operatorname{def}}{\iff} & (\forall c ((c \in a) \implies (c \in b))) \land (\forall c ((c \in b) \implies (c \in a)))
+& & \text{Definition \ref{Definition:subset}} \\
+& & \iff & \forall c (((c \in a) \implies (c \in b)) \land ((c \in b) \implies (c \in a)))
+& & \text{Proposition \ref{Proposition:forall_land_commutativity}} \\
+& & \iff & \forall c ((c \in a) \iff (c \in b))
+& & \text{Proposition \ref{Proposition:iff_implies}} \\
+& & \overset{\operatorname{def}}{\iff} & a = b
+& & \text{Definition \ref{Definition:equality}} \\
+& )
+\end{align*}
+\end{prop}
+
 \subsection{Peano axioms}
 \begin{defn}
 \label{Definition:zero}

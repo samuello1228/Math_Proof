@@ -462,6 +462,27 @@ void set()
     Proposition::Current->append(block);
     Proposition::addProposition(description);
     
+    Proposition::Current = new Proposition("subset_transitive", SET, "\\forall a \\forall b \\forall c (((a \\subseteq b) \\land (b \\subseteq c)) \\implies (a \\subseteq c))");
+    description = "Transitive property of subset.";
+    block = new proof_block(deduction_LeftToRight);
+    block->append(input({1}, "Definition:subset", LeftToRight));
+    block->append(input({2}, "Definition:subset", LeftToRight));
+    block->append(input({}, "Proposition:forall_land_commutativity", LeftToRight));
+    block->append(input({1}, "Proposition:implies_transitive", LeftToRight));
+    block->append(input({}, "Definition:subset", RightToLeft));
+    Proposition::Current->append(block);
+    Proposition::addProposition(description);
+    
+    Proposition::Current = new Proposition("subset_equality", SET, "\\forall a \\forall b (((a \\subseteq b) \\land (b \\subseteq a)) \\implies (a = b))");
+    block = new proof_block(deduction_LeftToRight);
+    block->append(input({1}, "Definition:subset", LeftToRight));
+    block->append(input({2}, "Definition:subset", LeftToRight));
+    block->append(input({}, "Proposition:forall_land_commutativity", LeftToRight));
+    block->append(input({1}, "Proposition:iff_implies", RightToLeft));
+    block->append(input({}, "Definition:equality", RightToLeft));
+    Proposition::Current->append(block);
+    Proposition::addProposition();
+    
     //Peano axioms
     fout<<"\\subsection{Peano axioms}"<<endl;
     //zero
