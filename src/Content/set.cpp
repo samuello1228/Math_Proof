@@ -53,7 +53,7 @@ void set()
     block = new proof_block(backward);
     block->append(input({}, "Definition:equality", LeftToRight));
     block->append(input({1}, "Proposition:iff_reflexive", PToTrue));
-    block->append(input({}, "Axiom:forall_independent_variable", LeftToRight, true));
+    block->append(input({}, "Axiom:forall_independent_variable", LeftToRight));
     Proposition::Current->append(block, true);
     Proposition::addProposition(description);
     
@@ -62,7 +62,7 @@ void set()
     block = new proof_block(deduction_LeftToRight);
     block->append(input({}, "Definition:equality", LeftToRight));
     block->append(input({1}, "Proposition:iff_symmetric", LeftToRight));
-    block->append(input({}, "Definition:equality", RightToLeft, true));
+    block->append(input({}, "Definition:equality", RightToLeft));
     Proposition::Current->append(block, true);
     Proposition::addProposition(description);
     
@@ -73,7 +73,7 @@ void set()
     block->append(input({2}, "Definition:equality", LeftToRight));
     block->append(input({}, "Proposition:forall_land_commutativity", LeftToRight));
     block->append(input({1}, "Proposition:iff_transitive", LeftToRight));
-    block->append(input({}, "Definition:equality", RightToLeft, true));
+    block->append(input({}, "Definition:equality", RightToLeft));
     Proposition::Current->append(block, true);
     Proposition::addProposition(description);
     
@@ -85,7 +85,7 @@ void set()
     description = "Substitution of $=$ for $\\in$.";
     block = new proof_block(deduction_LeftToRight);
     block->append(input({}, "Definition:equality", LeftToRight));
-    block->append(input({}, expression::createFromLatex("c", SET), true));
+    block->append(input({}, expression::createFromLatex("c", SET)));
     Proposition::Current->append(block, true);
     Proposition::addProposition(description);
     
@@ -93,7 +93,7 @@ void set()
     description = "Substitution of $=$ for $\\in$.";
     block = new proof_block(deduction_LeftToRight);
     block->append(input({}, "Axiom:extensionality", LeftToRight));
-    block->append(input({}, expression::createFromLatex("c", SET), true));
+    block->append(input({}, expression::createFromLatex("c", SET)));
     Proposition::Current->append(block, true);
     Proposition::addProposition(description);
     
@@ -108,7 +108,7 @@ void set()
     block->append(input({1}, "Proposition:equality_transitive", PToTrue));
     block->set_split_point({{2}});
     block->append(input({2}, "Proposition:equality_transitive", PToTrue));
-    block->append(input({}, "Definition:land_True_True", LeftToRight, true));
+    block->append(input({}, "Definition:land_True_True", LeftToRight));
     Proposition::Current->append(block, true);
     Proposition::addProposition(description);
     
@@ -123,14 +123,14 @@ void set()
     block->append(input({}, "Proposition:equality_substitution_equality", TrueToP, sub));
     block->append(input({}, "Proposition:implies_forall_distributivity", RightToLeft));
     block->append(input({2,1,1}, "Proposition:equality_symmetric", LeftToRight));
-    block->append(input({2,1,2}, "Proposition:equality_symmetric", LeftToRight, true));
+    block->append(input({2,1,2}, "Proposition:equality_symmetric", LeftToRight));
     Proposition::Current->append(block);
     
     block = new proof_block("2", Proposition("", SET, "\\forall a \\forall b ((\\forall c ((c = a) \\iff (c = b))) \\implies (a = b))"), deduction_LeftToRight);
     block->append(input({}, expression::createFromLatex("a", SET)));
     block->append(input({1}, "Proposition:equality_reflexive", PToTrue));
     block->append(input({}, "Proposition:iff_symmetric", LeftToRight));
-    block->append(input({}, "Proposition:true_statement", LeftToRight, true));
+    block->append(input({}, "Proposition:true_statement", LeftToRight));
     Proposition::Current->append(block);
     
     block = new proof_block(backward);
@@ -138,7 +138,7 @@ void set()
     block->set_split_point({{2}});
     block->append(input({1}, "Local:1", PToTrue));
     block->append(input({2}, "Local:2", PToTrue));
-    block->append(input({}, "Definition:land_True_True", LeftToRight, true));
+    block->append(input({}, "Definition:land_True_True", LeftToRight));
     Proposition::Current->append(block, true);
     Proposition::addProposition(description);
     
@@ -161,7 +161,7 @@ void set()
         d = expression::createFromLatex("d = c", SET);
         sub.push_back(new substitution(var, d));
     }
-    block->append(input({1}, "Proposition:iff_substitution_lor", LeftToRight, sub, true));
+    block->append(input({1}, "Proposition:iff_substitution_lor", LeftToRight, sub));
     Proposition::Current->append(block);
     
     block = new proof_block("2", Proposition("", SET, "\\forall a \\forall b \\forall c ((\\forall d (((d = a) \\lor (d = c)) \\iff ((d = b) \\lor (d = c)))) \\implies (a = b))"), deduction_LeftToRight);
@@ -188,7 +188,7 @@ void set()
     block->append(input({}, "Proposition:lor_land_distributivity_1", RightToLeft));
     block->append(input({2,2}, "Proposition:equality_symmetric", LeftToRight));
     block->append(input({2}, "Proposition:equality_transitive", LeftToRight));
-    block->append(input({}, "Proposition:lor_idempotence", LeftToRight, true));
+    block->append(input({}, "Proposition:lor_idempotence", LeftToRight));
     Proposition::Current->append(block);
     
     block = new proof_block(backward);
@@ -197,7 +197,7 @@ void set()
     block->append(input({1}, "Local:1", PToTrue));
     block->set_split_point({{2}});
     block->append(input({2}, "Local:2", PToTrue));
-    block->append(input({}, "Definition:land_True_True", LeftToRight, true));
+    block->append(input({}, "Definition:land_True_True", LeftToRight));
     Proposition::Current->append(block, true);
     Proposition::addProposition(description);
     
@@ -214,7 +214,7 @@ void set()
     block->append(input({1,1}, "Definition:notin", LeftToRight));
     block->append(input({1,2}, "Definition:notin", LeftToRight));
     block->append(input({1}, "Proposition:iff_substitution_lnot", RightToLeft));
-    block->append(input({}, "Definition:equality", RightToLeft, true));
+    block->append(input({}, "Definition:equality", RightToLeft));
     Proposition::Current->append(block, true);
     Proposition::addProposition(description);
     
@@ -228,7 +228,7 @@ void set()
     block->append(input({1}, "Definition:neq", RightToLeft));
     block->append(input({2}, "Proposition:De_Morgan_1", LeftToRight));
     block->append(input({2,1,1}, "Definition:notin", LeftToRight));
-    block->append(input({2,1}, "Proposition:double_negation", LeftToRight, true));
+    block->append(input({2,1}, "Proposition:double_negation", LeftToRight));
     Proposition::Current->append(block, true);
     Proposition::addProposition(description);
     
@@ -249,7 +249,7 @@ void set()
     block->append(input({1,2}, "Proposition:iff_symmetric", LeftToRight));
     block->set_split_point({{1,2}});
     block->append(input({1}, "Proposition:iff_transitive", LeftToRight));
-    block->append(input({}, "Definition:equality", RightToLeft, true));
+    block->append(input({}, "Definition:equality", RightToLeft));
     Proposition::Current->append(block, true);
     Proposition::addProposition(description);
     
@@ -259,7 +259,7 @@ void set()
     block->append(input({}, "Definition:equality", LeftToRight));
     block->append(input({1,1}, "Axiom:existence_of_pair_set", LeftToRight));
     block->append(input({1,2}, "Axiom:existence_of_pair_set", LeftToRight));
-    block->append(input({}, "Proposition:equality_property_2", RightToLeft, true));
+    block->append(input({}, "Proposition:equality_property_2", RightToLeft));
     Proposition::Current->append(block, true);
     Proposition::addProposition(description);
     
@@ -273,7 +273,7 @@ void set()
     block = new proof_block(deduction_LeftToRight);
     block->append(input({2}, "Definition:singleton_set", LeftToRight));
     block->append(input({}, "Axiom:existence_of_pair_set", LeftToRight));
-    block->append(input({}, "Proposition:lor_idempotence", LeftToRight, true));
+    block->append(input({}, "Proposition:lor_idempotence", LeftToRight));
     Proposition::Current->append(block, true);
     Proposition::addProposition(description);
     
@@ -290,7 +290,7 @@ void set()
     block->append(input({1,2}, "Proposition:iff_symmetric", LeftToRight));
     block->set_split_point({{1,2}});
     block->append(input({1}, "Proposition:iff_transitive", LeftToRight));
-    block->append(input({}, "Definition:equality", RightToLeft, true));
+    block->append(input({}, "Definition:equality", RightToLeft));
     Proposition::Current->append(block, true);
     Proposition::addProposition(description);
     
@@ -304,7 +304,7 @@ void set()
     block->append(input({1,2}, "Axiom:existence_of_pair_set", LeftToRight));
     block->append(input({1,1}, "Proposition:lor_idempotence", LeftToRight));
     block->append(input({1,2}, "Proposition:lor_idempotence", LeftToRight));
-    block->append(input({}, "Proposition:equality_property_1", RightToLeft, true));
+    block->append(input({}, "Proposition:equality_property_1", RightToLeft));
     Proposition::Current->append(block, true);
     Proposition::addProposition(description);
     
@@ -325,7 +325,7 @@ void set()
     block->append(input({1,2}, "Proposition:iff_symmetric", LeftToRight));
     block->set_split_point({{1,2}});
     block->append(input({1}, "Proposition:iff_transitive", LeftToRight));
-    block->append(input({}, "Definition:equality", RightToLeft, true));
+    block->append(input({}, "Definition:equality", RightToLeft));
     Proposition::Current->append(block, true);
     Proposition::addProposition(description);
     
@@ -349,7 +349,7 @@ void set()
     block->append(input({1}, "Proposition:iff_substitution_exists_2", LeftToRight));
     block->append(input({1,1}, "Axiom:existence_of_union_set", RightToLeft));
     block->append(input({1,2}, "Axiom:existence_of_union_set", RightToLeft));
-    block->append(input({}, "Definition:equality", RightToLeft, true));
+    block->append(input({}, "Definition:equality", RightToLeft));
     Proposition::Current->append(block, true);
     Proposition::addProposition(description);
     
@@ -369,7 +369,7 @@ void set()
     block->append(input({1,1}, "Proposition:land_commutativity", LeftToRight));
     block->append(input({2,1}, "Proposition:land_commutativity", LeftToRight));
     block->append(input({1}, "Axiom:axiom_of_existence", RightToLeft));
-    block->append(input({2}, "Axiom:axiom_of_existence", RightToLeft, true));
+    block->append(input({2}, "Axiom:axiom_of_existence", RightToLeft));
     Proposition::Current->append(block, true);
     Proposition::addProposition(description);
     
@@ -384,7 +384,7 @@ void set()
     block->append(input({1}, "Proposition:iff_substitution_lor", LeftToRight, sub));
     block->append(input({1,1}, "Proposition:pairwise_union_property", RightToLeft));
     block->append(input({1,2}, "Proposition:pairwise_union_property", RightToLeft));
-    block->append(input({}, "Definition:equality", RightToLeft, true));
+    block->append(input({}, "Definition:equality", RightToLeft));
     Proposition::Current->append(block, true);
     Proposition::addProposition(description);
     
@@ -396,7 +396,7 @@ void set()
     block->append(input({1,2}, "Proposition:pairwise_union_property", LeftToRight));
     block->append(input({1,2}, "Proposition:lor_commutativity", LeftToRight));
     block->append(input({1}, "Proposition:iff_reflexive", PToTrue));
-    block->append(input({}, "Axiom:forall_independent_variable", LeftToRight, true));
+    block->append(input({}, "Axiom:forall_independent_variable", LeftToRight));
     Proposition::Current->append(block, true);
     Proposition::addProposition(description);
     
@@ -411,7 +411,7 @@ void set()
     block->append(input({1,1,2}, "Definition:lnot_True", LeftToRight));
     block->append(input({1,1}, "Proposition:lor_identity_1", LeftToRight));
     block->append(input({1}, "Proposition:iff_reflexive", PToTrue));
-    block->append(input({}, "Axiom:forall_independent_variable", LeftToRight, true));
+    block->append(input({}, "Axiom:forall_independent_variable", LeftToRight));
     Proposition::Current->append(block, true);
     Proposition::addProposition(description);
     
@@ -435,7 +435,7 @@ void set()
     block->append(input({1}, "Definition:zero", LeftToRight));
     block->append(input({}, "Definition:successor", LeftToRight));
     block->append(input({}, "Proposition:pairwise_union_commutativity", LeftToRight));
-    block->append(input({}, "Proposition:pairwise_union_identity", LeftToRight, true));
+    block->append(input({}, "Proposition:pairwise_union_identity", LeftToRight));
     Proposition::Current->append(block, true);
     Proposition::addProposition(description);
     

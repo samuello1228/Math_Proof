@@ -91,7 +91,6 @@ class input
 {
 public:
     vector<int> relative_path;
-    bool isFinished;
     bool isPrint;
     
     //for binary operator
@@ -105,11 +104,11 @@ public:
     //for forall substitution
     expression* forall_substitution;
     
-    input(vector<int> relative_path, string law_label, direction dir, bool isFinished = false, bool isPrint = false);
-    input(vector<int> relative_path, string law_label, direction dir, vector<vector<int> > sub, bool isFinished = false, bool isPrint = false);
-    input(vector<int> relative_path, string law_label, direction dir, vector<substitution*> sub, bool isFinished = false, bool isPrint = false);
+    input(vector<int> relative_path, string law_label, direction dir, bool isPrint = false);
+    input(vector<int> relative_path, string law_label, direction dir, vector<vector<int> > sub, bool isPrint = false);
+    input(vector<int> relative_path, string law_label, direction dir, vector<substitution*> sub, bool isPrint = false);
     
-    input(vector<int> relative_path, expression* forall_substitution, bool isFinished = false, bool isPrint = false);
+    input(vector<int> relative_path, expression* forall_substitution, bool isPrint = false);
 };
 
 struct Print_Info

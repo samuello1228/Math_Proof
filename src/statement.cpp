@@ -619,10 +619,9 @@ void Axiom::addAxiom(string description)
     fout<<endl;
 }
 
-input::input(vector<int> new_relative_path, string new_law_label, direction new_dir, bool new_isFinished, bool new_isPrint)
+input::input(vector<int> new_relative_path, string new_law_label, direction new_dir, bool new_isPrint)
 {
     relative_path = new_relative_path;
-    isFinished = new_isFinished;
     isPrint = new_isPrint;
     
     law = nullptr;
@@ -633,10 +632,9 @@ input::input(vector<int> new_relative_path, string new_law_label, direction new_
     forall_substitution = nullptr;
 }
 
-input::input(vector<int> new_relative_path, string new_law_label, direction new_dir, vector<vector<int> > sub, bool new_isFinished, bool new_isPrint)
+input::input(vector<int> new_relative_path, string new_law_label, direction new_dir, vector<vector<int> > sub, bool new_isPrint)
 {
     relative_path = new_relative_path;
-    isFinished = new_isFinished;
     isPrint = new_isPrint;
     
     law = nullptr;
@@ -648,10 +646,9 @@ input::input(vector<int> new_relative_path, string new_law_label, direction new_
     forall_substitution = nullptr;
 }
 
-input::input(vector<int> new_relative_path, string new_law_label, direction new_dir, vector<substitution*> sub, bool new_isFinished, bool new_isPrint)
+input::input(vector<int> new_relative_path, string new_law_label, direction new_dir, vector<substitution*> sub, bool new_isPrint)
 {
     relative_path = new_relative_path;
-    isFinished = new_isFinished;
     isPrint = new_isPrint;
     
     law = nullptr;
@@ -663,13 +660,12 @@ input::input(vector<int> new_relative_path, string new_law_label, direction new_
     forall_substitution = nullptr;
 }
 
-input::input(vector<int> new_relative_path, expression* forall_sub, bool new_isFinished, bool new_isPrint)
+input::input(vector<int> new_relative_path, expression* forall_sub, bool new_isPrint)
 {
     law = nullptr;
     law_label = "forall_substitution";
     
     relative_path = new_relative_path;
-    isFinished = new_isFinished;
     isPrint = new_isPrint;
     
     forall_substitution = forall_sub;
@@ -1545,9 +1541,6 @@ void proof_block::append(input x)
         }
     }
     
-    //check_finished
-    if(x.isFinished) check_finished(x.law);
-    
     //fill print_info
     if(reference.ref_type == "")
     {
@@ -1695,6 +1688,8 @@ void Proposition::addProposition(string description)
 
 void Proposition::append(proof_block* x, bool isFinished)
 {
+    x->check_finished(x->chain_of_deductive[x->chain_of_deductive.size()-1]);
+    
     if(isFinished)
     {
         if(!x->target->content->isEqual(content))
