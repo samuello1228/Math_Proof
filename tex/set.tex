@@ -822,7 +822,37 @@ Proof of Proposition \ref{Proposition:pairwise_union_identity}
 \end{align*}
 \end{prop}
 
-\subsection{Integer}
+\begin{prop}
+\label{Proposition:pair_pairwise_union_singleton}
+\begin{align*}
+& \forall a \forall b ( \\
+& & & \{ a , b \} \\
+& & = & \{ a \} \cup \{ b \} \\
+& )
+\end{align*}
+Proof of Proposition \ref{Proposition:pair_pairwise_union_singleton}
+\begin{align*}
+& \forall a \forall b ( \\
+& & & \{ a , b \} = (\{ a \} \cup \{ b \}) \\
+& & \overset{\operatorname{def}}{\iff} & \forall c ((c \in \{ a , b \}) \iff (c \in (\{ a \} \cup \{ b \})))
+& & \text{Definition \ref{Definition:equality}} \\
+& & \iff & \forall c ((c \in \{ a , b \}) \iff ((c \in \{ a \}) \lor (c \in \{ b \})))
+& & \text{Proposition \ref{Proposition:pairwise_union_property}} \\
+& & \iff & \forall c ((c \in \{ a , b \}) \iff ((c = a) \lor (c \in \{ b \})))
+& & \text{Proposition \ref{Proposition:singleton_set_property}} \\
+& & \iff & \forall c ((c \in \{ a , b \}) \iff ((c = a) \lor (c = b)))
+& & \text{Proposition \ref{Proposition:singleton_set_property}} \\
+& & \iff & \forall c (((c = a) \lor (c = b)) \iff ((c = a) \lor (c = b)))
+& & \text{Axiom \ref{Axiom:existence_of_pair_set}} \\
+& & \iff & \forall c (\text{True})
+& & \text{Proposition \ref{Proposition:iff_reflexive}} \\
+& & \iff & \text{True}
+& & \text{Axiom \ref{Axiom:forall_independent_variable}} \\
+& )
+\end{align*}
+\end{prop}
+
+\subsection{Peano axioms}
 \begin{defn}
 \label{Definition:zero}
 Definition of 0.

@@ -415,7 +415,20 @@ void set()
     Proposition::Current->append(block);
     Proposition::addProposition(description);
     
-    fout<<"\\subsection{Integer}"<<endl;
+    Proposition::Current = new Proposition("pair_pairwise_union_singleton", SET, "\\forall a \\forall b (\\{ a , b \\} = (\\{ a \\} \\cup \\{ b \\}))");
+    block = new proof_block(backward);
+    block->append(input({}, "Definition:equality", LeftToRight));
+    block->append(input({1,2}, "Proposition:pairwise_union_property", LeftToRight));
+    block->append(input({1,2,1}, "Proposition:singleton_set_property", LeftToRight));
+    block->append(input({1,2,2}, "Proposition:singleton_set_property", LeftToRight));
+    block->append(input({1,1}, "Axiom:existence_of_pair_set", LeftToRight));
+    block->append(input({1}, "Proposition:iff_reflexive", PToTrue));
+    block->append(input({}, "Axiom:forall_independent_variable", LeftToRight));
+    Proposition::Current->append(block);
+    Proposition::addProposition();
+    
+    //Peano axioms
+    fout<<"\\subsection{Peano axioms}"<<endl;
     //zero
     Definition::Current = new Definition("zero", SET, "0 = \\emptyset");
     Definition::addDefinition("Definition of 0.");
