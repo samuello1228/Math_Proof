@@ -66,8 +66,9 @@ public:
     statement* getCopy();
     
     static vector<Definition*> All_Definition;
+    static Definition* Current;
     static Definition* FindByRef(string);
-    static void addDefinition(Definition*, string description = "");
+    static void addDefinition(string description = "");
 };
 
 class Axiom : public statement

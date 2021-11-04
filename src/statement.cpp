@@ -455,6 +455,7 @@ void statement::upgrade_to_true(direction dir, long depth)
 }
 
 vector<Definition*> Definition::All_Definition;
+Definition* Definition::Current;
 Definition::Definition(string newLabel, variable_type new_var_type, string x, bool isPrint) : statement(newLabel, new_var_type, x, isPrint)
 {
 }
@@ -485,51 +486,51 @@ Definition* Definition::FindByRef(string Name)
     return nullptr;
 }
 
-void Definition::addDefinition(Definition* x, string description)
+void Definition::addDefinition(string description)
 {
     //check whether the label is distinct
     for(long i=0;i<All_Definition.size();i++)
     {
-        if(x->label == All_Definition[i]->label)
+        if(Current->label == All_Definition[i]->label)
         {
-            cout<<"Error: the label is not distinct: "<<x->label<<endl;
+            cout<<"Error: the label is not distinct: "<<Current->label<<endl;
             return;
         }
     }
     
     //check variable
-    if(!x->content->check_variable({}))
+    if(!Current->content->check_variable({}))
     {
         cout<<"Error: Check fail for variable."<<endl;
-        cout<<x->content->getLatex().getNormal()<<endl;
+        cout<<Current->content->getLatex().getNormal()<<endl;
     }
     
     vector<variable*> all_dependence;
-    x->content->getInternalDependence(all_dependence);
+    Current->content->getInternalDependence(all_dependence);
     for(long i=0;i<all_dependence.size();i++)
     {
-        if(!x->content->contain_variable(all_dependence[i]))
+        if(!Current->content->contain_variable(all_dependence[i]))
         {
             if(true)
             {
-                cout<<x->label<<endl;
+                cout<<Current->label<<endl;
                 cout<<"Error: A quantifier is unused: "<<all_dependence[i]->getLatex().getNormal()<<endl;
             }
         }
     }
     
-    All_Definition.push_back(x);
+    All_Definition.push_back(Current);
     
-    cout<< "Definition:" << x->label <<endl;
-    cout<< x->content->getLatex().getNormal() <<endl;
+    cout<< "Definition:" << Current->label <<endl;
+    cout<< Current->content->getLatex().getNormal() <<endl;
     cout<<endl;
     
     //write to file
     fout<<"\\begin{defn}"<<endl;
-    fout<<"\\label{Definition:"<<x->label<<"}"<<endl;
+    fout<<"\\label{Definition:"<<Current->label<<"}"<<endl;
     if(description != "") fout<< description <<endl;
     fout<<"\\begin{align*}"<<endl;
-    fout<< x->getLatex();
+    fout<< Current->getLatex();
     fout<<"\\end{align*}"<<endl;
     fout<<"\\end{defn}"<<endl;
     fout<<endl;
