@@ -672,12 +672,15 @@ input::input(vector<int> new_relative_path, expression* forall_sub, bool new_isF
     forall_substitution = forall_sub;
 }
 
-proof_block::proof_block(string newLabel, statement* x, proof_method new_method)
+proof_block::proof_block(proof_method new_method, string option)
 {
-    label = newLabel;
-    target = x->getCopy();
-    method = new_method;
-    forall_variable_proof = target->forall_variable;
+    if(option == "this")
+    {
+        label = Proposition::Current->label;
+        target = Proposition::Current->getCopy();
+        method = new_method;
+        forall_variable_proof = target->forall_variable;
+    }
     
     //check variable
     if(!target->content->check_variable({}))

@@ -64,7 +64,7 @@ void logic()
     Proposition::addProposition(fout, new Proposition("De_Morgan_lor", LOGIC, "\\forall a \\forall b ((\\lnot (a \\lor b)) \\iff ((\\lnot a) \\land (\\lnot b)))"));
     
     Proposition::Current = new Proposition("De_Morgan_land", LOGIC, "\\forall a \\forall b ((\\lnot (a \\land b)) \\iff ((\\lnot a) \\lor (\\lnot b)))");
-    block = new proof_block("De_Morgan_land", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({1,1}, "Proposition:double_negation", RightToLeft));
     block->append(input({1,2}, "Proposition:double_negation", RightToLeft));
     block->append(input({1}, "Proposition:De_Morgan_lor", RightToLeft));
@@ -78,7 +78,7 @@ void logic()
     
     fout<<"\\subsection{Associativity of $\\land$}"<<endl;
     Proposition::Current = new Proposition("land_associativity", LOGIC, "\\forall a \\forall b \\forall c (((a \\land b) \\land c) \\iff (a \\land (b \\land c)))");
-    block = new proof_block("land_associativity", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({1,1}, "Proposition:double_negation", RightToLeft));
     block->append(input({1,2}, "Proposition:double_negation", RightToLeft));
     block->append(input({1}, "Proposition:De_Morgan_lor", RightToLeft));
@@ -99,7 +99,7 @@ void logic()
     
     fout<<"\\subsection{Commutativity of $\\land$}"<<endl;
     Proposition::Current = new Proposition("land_commutativity", LOGIC, "\\forall a \\forall b ((a \\land b) \\iff (b \\land a))");
-    block = new proof_block("land_commutativity", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({1}, "Proposition:double_negation", RightToLeft));
     block->append(input({2}, "Proposition:double_negation", RightToLeft));
     block->append(input({}, "Proposition:De_Morgan_lor", RightToLeft));
@@ -115,7 +115,7 @@ void logic()
     Proposition::addProposition(fout, new Proposition("lor_identity_1", LOGIC, "\\forall a ((a \\lor (\\text{False})) \\iff a)"));
     
     Proposition::Current = new Proposition("lor_identity_2", LOGIC, "\\forall a (((\\text{False}) \\lor a) \\iff a)");
-    block = new proof_block("lor_identity_2", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({}, "Proposition:lor_commutativity", LeftToRight));
     block->append(input({}, "Proposition:lor_identity_1", LeftToRight, true));
     Proposition::Current->append(block, true);
@@ -123,7 +123,7 @@ void logic()
     
     fout<<"\\subsection{Identity of $\\land$}"<<endl;
     Proposition::Current = new Proposition("land_identity_1", LOGIC, "\\forall a ((a \\land (\\text{True})) \\iff a)");
-    block = new proof_block("land_identity_1", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({1}, "Proposition:double_negation", RightToLeft));
     block->append(input({2}, "Definition:lnot_False", RightToLeft));
     block->append(input({}, "Proposition:De_Morgan_lor", RightToLeft));
@@ -133,7 +133,7 @@ void logic()
     Proposition::addProposition(fout, Proposition::Current);
     
     Proposition::Current = new Proposition("land_identity_2", LOGIC, "\\forall a (((\\text{True}) \\land a) \\iff a)");
-    block = new proof_block("land_identity_2", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({}, "Proposition:land_commutativity", LeftToRight));
     block->append(input({}, "Proposition:land_identity_1", LeftToRight, true));
     Proposition::Current->append(block, true);
@@ -144,7 +144,7 @@ void logic()
     Proposition::addProposition(fout, new Proposition("lor_annihilator_1", LOGIC, "\\forall a ((a \\lor (\\text{True})) \\iff (\\text{True}))"));
     
     Proposition::Current = new Proposition("lor_annihilator_2", LOGIC, "\\forall a (((\\text{True}) \\lor a) \\iff (\\text{True}))");
-    block = new proof_block("lor_annihilator_2", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({}, "Proposition:lor_commutativity", LeftToRight));
     block->append(input({}, "Proposition:lor_annihilator_1", LeftToRight, true));
     Proposition::Current->append(block, true);
@@ -152,7 +152,7 @@ void logic()
     
     fout<<"\\subsection{Annihilator of $\\land$}"<<endl;
     Proposition::Current = new Proposition("land_annihilator_1", LOGIC, "\\forall a ((a \\land (\\text{False})) \\iff (\\text{False}))");
-    block = new proof_block("land_annihilator_1", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({1}, "Proposition:double_negation", RightToLeft));
     block->append(input({2}, "Definition:lnot_True", RightToLeft));
     block->append(input({}, "Proposition:De_Morgan_lor", RightToLeft));
@@ -162,7 +162,7 @@ void logic()
     Proposition::addProposition(fout, Proposition::Current);
     
     Proposition::Current = new Proposition("land_annihilator_2", LOGIC, "\\forall a (((\\text{False}) \\land a) \\iff (\\text{False}))");
-    block = new proof_block("land_annihilator_2", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({}, "Proposition:land_commutativity", LeftToRight));
     block->append(input({}, "Proposition:land_annihilator_1", LeftToRight, true));
     Proposition::Current->append(block, true);
@@ -174,7 +174,7 @@ void logic()
     
     fout<<"\\subsection{Idempotence of $\\land$}"<<endl;
     Proposition::Current = new Proposition("land_idempotence", LOGIC, "\\forall a ((a \\land a) \\iff a)");
-    block = new proof_block("land_idempotence", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({1}, "Proposition:double_negation", RightToLeft));
     block->append(input({2}, "Proposition:double_negation", RightToLeft));
     block->append(input({}, "Proposition:De_Morgan_lor", RightToLeft));
@@ -187,7 +187,7 @@ void logic()
     fout<<"\\subsection{Complement of $\\lor$}"<<endl;
     Proposition::addProposition(fout, new Proposition("lor_complement_1", LOGIC, "\\forall a ((a \\lor (\\lnot a)) \\iff (\\text{True}))"));
     Proposition::Current = new Proposition("lor_complement_2", LOGIC, "\\forall a (((\\lnot a) \\lor a) \\iff (\\text{True}))");
-    block = new proof_block("lor_complement_2", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({}, "Proposition:lor_commutativity", LeftToRight));
     block->append(input({}, "Proposition:lor_complement_1", LeftToRight, true));
     Proposition::Current->append(block, true);
@@ -195,7 +195,7 @@ void logic()
     
     fout<<"\\subsection{Complement of $\\land$}"<<endl;
     Proposition::Current = new Proposition("land_complement_1", LOGIC, "\\forall a ((a \\land (\\lnot a)) \\iff (\\text{False}))");
-    block = new proof_block("land_complement_1", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({1}, "Proposition:double_negation", RightToLeft));
     block->append(input({}, "Proposition:De_Morgan_lor", RightToLeft));
     block->append(input({1}, "Proposition:lor_complement_2", LeftToRight));
@@ -204,7 +204,7 @@ void logic()
     Proposition::addProposition(fout, Proposition::Current);
     
     Proposition::Current = new Proposition("land_complement_2", LOGIC, "\\forall a (((\\lnot a) \\land a) \\iff (\\text{False}))");
-    block = new proof_block("land_complement_2", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({}, "Proposition:land_commutativity", LeftToRight));
     block->append(input({}, "Proposition:land_complement_1", LeftToRight, true));
     Proposition::Current->append(block, true);
@@ -215,7 +215,7 @@ void logic()
     Proposition::addProposition(fout, new Proposition("lor_land_distributivity_1", LOGIC, "\\forall a \\forall b \\forall c ((a \\lor (b \\land c)) \\iff ((a \\lor b) \\land (a \\lor c)))"));
     
     Proposition::Current = new Proposition("lor_land_distributivity_2", LOGIC, "\\forall a \\forall b \\forall c (((a \\land b) \\lor c) \\iff ((a \\lor c) \\land (b \\lor c)))");
-    block = new proof_block("lor_land_distributivity_2", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({}, "Proposition:lor_commutativity", LeftToRight));
     block->append(input({}, "Proposition:lor_land_distributivity_1", LeftToRight));
     block->append(input({1}, "Proposition:lor_commutativity", LeftToRight));
@@ -225,7 +225,7 @@ void logic()
     
     fout<<"\\subsection{Distributivity of $\\land$ over $\\lor$}"<<endl;
     Proposition::Current = new Proposition("land_lor_distributivity_1", LOGIC, "\\forall a \\forall b \\forall c ((a \\land (b \\lor c)) \\iff ((a \\land b) \\lor (a \\land c)))");
-    block = new proof_block("land_lor_distributivity_1", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({2,1}, "Proposition:double_negation", RightToLeft));
     block->append(input({2,2}, "Proposition:double_negation", RightToLeft));
     block->append(input({2}, "Proposition:De_Morgan_land", RightToLeft));
@@ -243,7 +243,7 @@ void logic()
     Proposition::addProposition(fout, Proposition::Current);
     
     Proposition::Current = new Proposition("land_lor_distributivity_2", LOGIC, "\\forall a \\forall b \\forall c (((a \\lor b) \\land c) \\iff ((a \\land c) \\lor (b \\land c)))");
-    block = new proof_block("land_lor_distributivity_2", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({}, "Proposition:land_commutativity", LeftToRight));
     block->append(input({}, "Proposition:land_lor_distributivity_1", LeftToRight));
     block->append(input({1}, "Proposition:land_commutativity", LeftToRight));
@@ -254,7 +254,7 @@ void logic()
     //Absorption
     fout<<"\\subsection{Absorption of $\\lor$ over $\\land$}"<<endl;
     Proposition::Current = new Proposition("lor_land_absorption", LOGIC, "\\forall a \\forall b ((a \\lor (a \\land b)) \\iff a)");
-    block = new proof_block("lor_land_absorption", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({1}, "Proposition:land_identity_1", RightToLeft));
     sub.clear(); sub.push_back(new substitution("a", "b", LOGIC));
     block->append(input({1,2}, "Proposition:lor_complement_1", RightToLeft, sub));
@@ -270,7 +270,7 @@ void logic()
     
     fout<<"\\subsection{Absorption of $\\land$ over $\\lor$}"<<endl;
     Proposition::Current = new Proposition("land_lor_absorption", LOGIC, "\\forall a \\forall b ((a \\land (a \\lor b)) \\iff a)");
-    block = new proof_block("land_lor_absorption", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({}, "Proposition:land_lor_distributivity_1", LeftToRight));
     block->append(input({1}, "Proposition:land_idempotence", LeftToRight));
     block->append(input({}, "Proposition:lor_land_absorption", LeftToRight, true));
@@ -283,7 +283,7 @@ void logic()
     //a_lor_b_complement
     fout<<"\\subsection{Complement of a $\\lor$ b}"<<endl;
     Proposition::Current = new Proposition("a_lor_b_complement_1", LOGIC, "\\forall a \\forall b (((a \\land (\\lnot b)) \\lor b) \\iff (a \\lor b))");
-    block = new proof_block("a_lor_b_complement_1", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({}, "Proposition:lor_land_distributivity_2", LeftToRight));
     block->append(input({2}, "Proposition:lor_complement_2", LeftToRight));
     block->append(input({}, "Proposition:land_identity_1", LeftToRight, true));
@@ -291,7 +291,7 @@ void logic()
     Proposition::addProposition(fout, Proposition::Current);
     
     Proposition::Current = new Proposition("a_lor_b_complement_2", LOGIC, "\\forall a \\forall b (((a \\land b) \\lor (\\lnot b)) \\iff (a \\lor (\\lnot b)))");
-    block = new proof_block("a_lor_b_complement_2", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({}, "Proposition:lor_land_distributivity_2", LeftToRight));
     block->append(input({2}, "Proposition:lor_complement_1", LeftToRight));
     block->append(input({}, "Proposition:land_identity_1", LeftToRight, true));
@@ -302,7 +302,7 @@ void logic()
     fout<<"\\subsection{Multiple condition}"<<endl;
     Proposition::Current = new Proposition("multiple_condition", LOGIC, "\\forall a \\forall b \\forall c ((a \\implies (b \\implies c)) \\iff ((a \\land b) \\implies c))");
     description = "Multiple condition.";
-    block = new proof_block("multiple_condition", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({2}, "Definition:implies", LeftToRight));
     block->append(input({}, "Definition:implies", LeftToRight));
     block->append(input({}, "Proposition:lor_associativity", RightToLeft));
@@ -314,7 +314,7 @@ void logic()
     //Condition satisfied
     fout<<"\\subsection{Condition satisfied}"<<endl;
     Proposition::Current = new Proposition("a_implies_a_lor_b", LOGIC, "\\forall a \\forall b (a \\implies (a \\lor b))");
-    block = new proof_block("a_implies_a_lor_b", Proposition::Current, backward);
+    block = new proof_block(backward);
     block->append(input({}, "Definition:implies", LeftToRight));
     block->append(input({}, "Proposition:lor_associativity", RightToLeft));
     block->append(input({1}, "Proposition:lor_complement_2", LeftToRight));
@@ -323,7 +323,7 @@ void logic()
     Proposition::addProposition(fout, Proposition::Current);
     
     Proposition::Current = new Proposition("a_land_b_implies_a", LOGIC, "\\forall a \\forall b ((a \\land b) \\implies a)");
-    block = new proof_block("a_land_b_implies_a", Proposition::Current, backward);
+    block = new proof_block(backward);
     block->append(input({}, "Definition:implies", LeftToRight));
     block->append(input({1}, "Proposition:De_Morgan_land", LeftToRight));
     block->append(input({}, "Proposition:lor_commutativity", LeftToRight));
@@ -335,7 +335,7 @@ void logic()
     
     Proposition::Current = new Proposition("implies_satisfied", LOGIC, "\\forall a \\forall b ((a \\land (a \\implies b)) \\implies b)");
     description = "Condition satisfied for $\\implies$.";
-    block = new proof_block("implies_satisfied", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({2}, "Definition:implies", LeftToRight));
     block->append(input({}, "Proposition:land_lor_distributivity_1", LeftToRight));
     block->append(input({1}, "Proposition:land_complement_1", LeftToRight));
@@ -348,7 +348,7 @@ void logic()
     fout<<"\\subsection{Associativity and Commutativity}"<<endl;
     Proposition::Current = new Proposition("lor_commutativity_2_2", LOGIC, "\\forall a \\forall b \\forall c \\forall d (((a \\lor b) \\lor (c \\lor d)) \\iff ((a \\lor c) \\lor (b \\lor d)))");
     description = "Commutativity of $\\lor$.";
-    block = new proof_block("lor_commutativity_2_2", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({}, "Proposition:lor_associativity", RightToLeft));
     block->append(input({1}, "Proposition:lor_associativity", LeftToRight));
     block->append(input({1,2}, "Proposition:lor_commutativity", LeftToRight));
@@ -359,7 +359,7 @@ void logic()
     
     Proposition::Current = new Proposition("land_commutativity_2_2", LOGIC, "\\forall a \\forall b \\forall c \\forall d (((a \\land b) \\land (c \\land d)) \\iff ((a \\land c) \\land (b \\land d)))");
     description = "Commutativity of $\\land$.";
-    block = new proof_block("land_commutativity_2_2", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({}, "Proposition:land_associativity", RightToLeft));
     block->append(input({1}, "Proposition:land_associativity", LeftToRight));
     block->append(input({1,2}, "Proposition:land_commutativity", LeftToRight));
@@ -373,7 +373,7 @@ void logic()
     
     //true statement
     Proposition::Current = new Proposition("true_statement", LOGIC, "\\forall a ((a \\iff (\\text{True})) \\iff a)");
-    block = new proof_block("true_statement", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({}, "Definition:iff", LeftToRight));
     block->append(input({2,2}, "Definition:lnot_True", LeftToRight));
     block->append(input({1}, "Proposition:land_identity_1", LeftToRight));
@@ -386,7 +386,7 @@ void logic()
     fout<<"\\subsection{Transitive property of $\\implies$}"<<endl;
     Proposition::Current = new Proposition("implies_transitive", LOGIC, "\\forall a \\forall b \\forall c (((a \\implies b) \\land (b \\implies c)) \\implies (a \\implies c))");
     description = "Transitive property of $\\implies$.";
-    block = new proof_block("implies_transitive", Proposition::Current, backward);
+    block = new proof_block(backward);
     block->append(input({1,1}, "Definition:implies", LeftToRight));
     block->append(input({1,2}, "Definition:implies", LeftToRight));
     block->append(input({2}, "Definition:implies", LeftToRight));
@@ -409,7 +409,7 @@ void logic()
     fout<<"\\subsection{Axiom of Substitution for $\\implies$}"<<endl;
     Proposition::Current = new Proposition("implies_substitution_lor", LOGIC, "\\forall a \\forall b \\forall c ((a \\implies b) \\implies ((a \\lor c) \\implies (b \\lor c)))");
     description = "Substitution of $\\implies$ for $\\lor$.";
-    block = new proof_block("implies_substitution_lor", Proposition::Current, backward);
+    block = new proof_block(backward);
     block->append(input({1}, "Definition:implies", LeftToRight));
     block->append(input({2}, "Definition:implies", LeftToRight));
     block->append(input({}, "Definition:implies", LeftToRight));
@@ -430,7 +430,7 @@ void logic()
     
     Proposition::Current = new Proposition("implies_substitution_land", LOGIC, "\\forall a \\forall b \\forall c ((a \\implies b) \\implies ((a \\land c) \\implies (b \\land c)))");
     description = "Substitution of $\\implies$ for $\\land$.";
-    block = new proof_block("implies_substitution_land", Proposition::Current, backward);
+    block = new proof_block(backward);
     block->append(input({1}, "Definition:implies", LeftToRight));
     block->append(input({2}, "Definition:implies", LeftToRight));
     block->append(input({}, "Definition:implies", LeftToRight));
@@ -451,7 +451,7 @@ void logic()
     
     Proposition::Current = new Proposition("implies_substitution_implies", LOGIC, "\\forall a \\forall b \\forall c ((a \\implies b) \\implies ((c \\implies a) \\implies (c \\implies b)))");
     description = "Substitution of $\\implies$ for $\\implies$.";
-    block = new proof_block("implies_substitution_implies", Proposition::Current, direct);
+    block = new proof_block(direct);
     sub.clear();
     sub.push_back(new substitution("a", "c", LOGIC));
     sub.push_back(new substitution("b", "a", LOGIC));
@@ -466,7 +466,7 @@ void logic()
     fout<<"\\subsection{Contrapositive}"<<endl;
     Proposition::Current = new Proposition("contrapositive", LOGIC, "\\forall a \\forall b ((a \\implies b) \\iff ((\\lnot b) \\implies (\\lnot a)))");
     description = "Contrapositive.";
-    block = new proof_block("contrapositive", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({}, "Definition:implies", LeftToRight));
     block->append(input({}, "Proposition:lor_commutativity", LeftToRight));
     block->append(input({1}, "Proposition:double_negation", RightToLeft));
@@ -477,7 +477,7 @@ void logic()
     fout<<"\\subsection{Properties of $\\iff$}"<<endl;
     //iff and implies
     Proposition::Current = new Proposition("iff_implies", LOGIC, "\\forall a \\forall b ((a \\iff b) \\iff ((a \\implies b) \\land (b \\implies a)))");
-    block = new proof_block("iff_implies", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({}, "Definition:iff", LeftToRight));
     block->append(input({}, "Proposition:lor_land_distributivity_2", LeftToRight));
     block->append(input({1}, "Proposition:lor_land_distributivity_1", LeftToRight));
@@ -496,7 +496,7 @@ void logic()
     
     Proposition::Current = new Proposition("iff_symmetric", LOGIC, "\\forall a \\forall b ((a \\iff b) \\iff (b \\iff a))");
     description = "Symmetric property of $\\iff$.";
-    block = new proof_block("iff_symmetric", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({}, "Definition:iff", LeftToRight));
     block->append(input({1}, "Proposition:land_commutativity", LeftToRight));
     block->append(input({2}, "Proposition:land_commutativity", LeftToRight));
@@ -506,7 +506,7 @@ void logic()
     
     Proposition::Current = new Proposition("iff_transitive", LOGIC, "\\forall a \\forall b \\forall c (((a \\iff b) \\land (b \\iff c)) \\implies (a \\iff c))");
     description = "Transitive property of $\\iff$.";
-    block = new proof_block("iff_transitive", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({1}, "Proposition:iff_implies", LeftToRight));
     block->append(input({2}, "Proposition:iff_implies", LeftToRight));
     block->append(input({}, "Proposition:land_commutativity_2_2", LeftToRight));
@@ -519,7 +519,7 @@ void logic()
     
     Proposition::Current = new Proposition("iff_satisfied", LOGIC, "\\forall a \\forall b ((a \\land (a \\iff b)) \\implies b)");
     description = "Condition satisfied for $\\iff$.";
-    block = new proof_block("iff_satisfied", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({2}, "Proposition:iff_implies", LeftToRight));
     block->append(input({}, "Proposition:land_associativity", RightToLeft));
     block->append(input({}, "Proposition:a_land_b_implies_a", LeftToRight));
@@ -530,7 +530,7 @@ void logic()
     fout<<"\\subsection{Axiom of Substitution for $\\iff$}"<<endl;
     Proposition::Current = new Proposition("iff_substitution_lor", LOGIC, "\\forall a \\forall b \\forall c ((a \\iff b) \\implies ((a \\lor c) \\iff (b \\lor c)))");
     description = "Substitution of $\\iff$ for $\\lor$.";
-    block = new proof_block("iff_substitution_lor", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({}, "Proposition:iff_implies", LeftToRight));
     sub.clear();
     sub.push_back(new substitution("a", "a", LOGIC));
@@ -548,7 +548,7 @@ void logic()
     
     Proposition::Current = new Proposition("iff_substitution_land", LOGIC, "\\forall a \\forall b \\forall c ((a \\iff b) \\implies ((a \\land c) \\iff (b \\land c)))");
     description = "Substitution of $\\iff$ for $\\land$.";
-    block = new proof_block("iff_substitution_land", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({}, "Proposition:iff_implies", LeftToRight));
     sub.clear();
     sub.push_back(new substitution("a", "a", LOGIC));
@@ -566,7 +566,7 @@ void logic()
     
     Proposition::Current = new Proposition("iff_substitution_lnot", LOGIC, "\\forall a \\forall b ((a \\iff b) \\iff ((\\lnot a) \\iff (\\lnot b)))");
     description = "Substitution of $\\iff$ for $\\lnot$.";
-    block = new proof_block("iff_substitution_lnot", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({}, "Definition:iff", LeftToRight));
     block->append(input({1,1}, "Proposition:double_negation", RightToLeft));
     block->append(input({1,2}, "Proposition:double_negation", RightToLeft));
@@ -577,7 +577,7 @@ void logic()
     
     Proposition::Current = new Proposition("iff_substitution_implies_1", LOGIC, "\\forall a \\forall b \\forall c ((a \\iff b) \\implies ((a \\implies c) \\iff (b \\implies c)))");
     description = "Substitution of $\\iff$ for $\\implies$.";
-    block = new proof_block("iff_substitution_implies_1", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({}, "Proposition:iff_substitution_lnot", LeftToRight));
     sub.clear();
     sub.push_back(new substitution("a", "\\lnot a", LOGIC));
@@ -591,7 +591,7 @@ void logic()
     
     Proposition::Current = new Proposition("iff_substitution_implies_2", LOGIC, "\\forall a \\forall b \\forall c ((a \\iff b) \\implies ((c \\implies a) \\iff (c \\implies b)))");
     description = "Substitution of $\\iff$ for $\\implies$.";
-    block = new proof_block("iff_substitution_implies_2", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     sub.clear();
     sub.push_back(new substitution("a", "a", LOGIC));
     sub.push_back(new substitution("b", "b", LOGIC));
@@ -672,7 +672,7 @@ void logic()
     block->append(input({2}, "Proposition:iff_symmetric", LeftToRight, true));
     Proposition::Current->append(block);
     
-    block = new proof_block("iff_substitution_iff", Proposition::Current, deduction_RightToLeft);
+    block = new proof_block(deduction_RightToLeft);
     block->append(input({}, "Definition:iff", LeftToRight));
     block->append(input({2,1}, "Local:3", LeftToRight));
     block->append(input({2,2}, "Local:3", LeftToRight));
@@ -696,7 +696,7 @@ void logic()
     block->append(input({2}, "Proposition:implies_satisfied", LeftToRight, true));
     Proposition::Current->append(block);
     
-    block = new proof_block("implies_substitution_forall_1", Proposition::Current, backward);
+    block = new proof_block(backward);
     block->append(input({}, "Proposition:multiple_condition", LeftToRight));
     block->append(input({}, "Local:1", PToTrue, true));
     Proposition::Current->append(block, true);
@@ -716,7 +716,7 @@ void logic()
     block->append(input({2}, "Proposition:implies_satisfied", LeftToRight, true));
     Proposition::Current->append(block);
     
-    block = new proof_block("implies_substitution_exists_1", Proposition::Current, backward);
+    block = new proof_block(backward);
     block->append(input({}, "Proposition:multiple_condition", LeftToRight));
     block->append(input({}, "Local:1", PToTrue, true));
     Proposition::Current->append(block, true);
@@ -724,7 +724,7 @@ void logic()
     
     Proposition::Current = new Proposition("iff_substitution_forall_1", LOGIC, "\\forall a \\forall b \\forall c \\forall d (((a \\iff b) \\land (c \\iff d)) \\implies ((a \\land c) \\iff (b \\land d)))");
     description = "Substitution of $\\iff$ for $\\forall$.";
-    block = new proof_block("iff_substitution_forall_1", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({1}, "Proposition:iff_implies", LeftToRight));
     block->append(input({2}, "Proposition:iff_implies", LeftToRight));
     block->append(input({}, "Proposition:land_commutativity_2_2", RightToLeft));
@@ -736,7 +736,7 @@ void logic()
     
     Proposition::Current = new Proposition("iff_substitution_exists_1", LOGIC, "\\forall a \\forall b \\forall c \\forall d (((a \\iff b) \\land (c \\iff d)) \\implies ((a \\lor c) \\iff (b \\lor d)))");
     description = "Substitution of $\\iff$ for $\\exists$.";
-    block = new proof_block("iff_substitution_exists_1", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({1}, "Proposition:iff_implies", LeftToRight));
     block->append(input({2}, "Proposition:iff_implies", LeftToRight));
     block->append(input({}, "Proposition:land_commutativity_2_2", RightToLeft));
@@ -1030,7 +1030,7 @@ void logic()
         
         Proposition::Current = new Proposition("implies_forall_distributivity", ua);
     }
-    block = new proof_block("implies_forall_distributivity", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({}, "Definition:implies", LeftToRight));
     block->append(input({}, "Proposition:lor_forall_distributivity", LeftToRight));
     block->append(input({1}, "Definition:implies", RightToLeft, true));
@@ -1318,7 +1318,7 @@ void logic()
     //Reflexive Property of implies
     Proposition::Current = new Proposition("implies_reflexive", LOGIC, "\\forall a (a \\implies a)");
     description = "Reflexive property of $\\implies$.";
-    block = new proof_block("implies_reflexive", Proposition::Current, backward);
+    block = new proof_block(backward);
     block->append(input({}, "Definition:implies", LeftToRight));
     block->append(input({}, "Proposition:lor_complement_2", LeftToRight, true));
     Proposition::Current->append(block, true);
@@ -1327,7 +1327,7 @@ void logic()
     //Reflexive Property of iff
     Proposition::Current = new Proposition("iff_reflexive", LOGIC, "\\forall a (a \\iff a)");
     description = "Reflexive property of $\\iff$.";
-    block = new proof_block("iff_reflexive", Proposition::Current, backward);
+    block = new proof_block(backward);
     block->append(input({}, "Definition:iff", LeftToRight));
     block->append(input({1}, "Proposition:land_idempotence", LeftToRight));
     block->append(input({2}, "Proposition:land_idempotence", LeftToRight));
@@ -1337,7 +1337,7 @@ void logic()
     
     //lemma_substitution
     Proposition::Current = new Proposition("lemma_substitution", LOGIC, "\\forall a \\forall b \\forall c ((a \\implies (b \\iff c)) \\iff (((a \\land b) \\implies c) \\land ((a \\land c) \\implies b)))");
-    block = new proof_block("lemma_substitution", Proposition::Current, deduction_LeftToRight);
+    block = new proof_block(deduction_LeftToRight);
     block->append(input({2}, "Proposition:iff_implies", LeftToRight));
     block->append(input({}, "Definition:implies", LeftToRight));
     block->append(input({}, "Proposition:lor_land_distributivity_1", LeftToRight));
@@ -1350,7 +1350,7 @@ void logic()
     
     Proposition::Current = new Proposition("lor_iff_distributivity", LOGIC, "\\forall a \\forall b \\forall c ((a \\lor (b \\iff c)) \\iff ((a \\lor b) \\iff (a \\lor c)))");
     description = "Distributivity of $\\lor$ over $\\iff$";
-    block = new proof_block("lor_iff_distributivity", Proposition::Current, deduction_RightToLeft);
+    block = new proof_block(deduction_RightToLeft);
     block->append(input({}, "Definition:iff", LeftToRight));
     block->append(input({1}, "Proposition:lor_land_distributivity_1", RightToLeft));
     block->append(input({2,1}, "Proposition:De_Morgan_lor", LeftToRight));
