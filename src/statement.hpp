@@ -158,7 +158,7 @@ public:
     ~Proposition();
     
     statement* getCopy();
-    void append(proof_block*, bool isFinished = false);
+    void append(proof_block*);
     
     static vector<Proposition*> All_Proposition;
     static Proposition* Current;

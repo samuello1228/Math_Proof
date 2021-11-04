@@ -1649,6 +1649,42 @@ void Proposition::addProposition(string description)
         }
     }
     
+    //Check whether the proof exists
+    bool isFound = false;
+    for(long i=0;i<Current->proof.size();i++)
+    {
+        if(Current->proof[i]->label == Current->label)
+        {
+            isFound = true;
+        }
+    }
+    
+    if(!isFound)
+    {
+        if(Current->label != "double_negation" &&
+           Current->label != "De_Morgan_lor" &&
+           Current->label != "lor_associativity" &&
+           Current->label != "lor_commutativity" &&
+           Current->label != "lor_identity_1" &&
+           Current->label != "lor_annihilator_1" &&
+           Current->label != "lor_idempotence" &&
+           Current->label != "lor_complement_1" &&
+           Current->label != "lor_land_distributivity_1" &&
+           Current->label != "forall_land_commutativity" &&
+           Current->label != "exists_lor_commutativity" &&
+           Current->label != "lor_forall_distributivity" &&
+           Current->label != "land_exists_distributivity" &&
+           Current->label != "De_Morgan_1" &&
+           Current->label != "De_Morgan_2" &&
+           Current->label != "implies_substitution_forall_2" &&
+           Current->label != "implies_substitution_exists_2" &&
+           Current->label != "iff_substitution_forall_2" &&
+           Current->label != "iff_substitution_exists_2")
+        {
+            cout<<"Error: The proof of "<<Current->label<<" is not found."<<endl;
+        }
+    }
+    
     All_Proposition.push_back(Current);
     
     cout<< "Proposition:" << Current->label <<endl;
@@ -1689,22 +1725,8 @@ void Proposition::addProposition(string description)
     fout<<endl;
 }
 
-void Proposition::append(proof_block* x, bool isFinished)
+void Proposition::append(proof_block* x)
 {
     x->check_finished();
-    
-    if(isFinished)
-    {
-        if(!x->target->content->isEqual(content))
-        {
-            cout<<"Error: The proof does not matched the content."<<endl;
-        }
-        
-        if(x->label != label)
-        {
-            cout<<"Error: The label does not matched the content."<<endl;
-        }
-    }
-    
     proof.push_back(x);
 }
