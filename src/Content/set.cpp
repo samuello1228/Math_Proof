@@ -53,7 +53,7 @@ void set()
     block->append(input({1}, "Proposition:iff_reflexive", PToTrue));
     block->append(input({}, "Axiom:forall_independent_variable", LeftToRight, true));
     Proposition::Current->append(block, true);
-    Proposition::addProposition(fout, Proposition::Current, description);
+    Proposition::addProposition(fout, description);
     
     Proposition::Current = new Proposition("equality_symmetric", SET, "\\forall a \\forall b ((a = b) \\iff (b = a))");
     description = "Symmetric property of equality.";
@@ -62,7 +62,7 @@ void set()
     block->append(input({1}, "Proposition:iff_symmetric", LeftToRight));
     block->append(input({}, "Definition:equality", RightToLeft, true));
     Proposition::Current->append(block, true);
-    Proposition::addProposition(fout, Proposition::Current, description);
+    Proposition::addProposition(fout, description);
     
     Proposition::Current = new Proposition("equality_transitive", SET, "\\forall a \\forall b \\forall c (((a = b) \\land (b = c)) \\implies (a = c))");
     description = "Transitive property of equality.";
@@ -73,7 +73,7 @@ void set()
     block->append(input({1}, "Proposition:iff_transitive", LeftToRight));
     block->append(input({}, "Definition:equality", RightToLeft, true));
     Proposition::Current->append(block, true);
-    Proposition::addProposition(fout, Proposition::Current, description);
+    Proposition::addProposition(fout, description);
     
     axiom = new Axiom("extensionality", SET, "\\forall a \\forall b ((a = b) \\implies (\\forall c ((a \\in c) \\iff (b \\in c))))");
     Axiom::addAxiom(fout, axiom, "Axiom of extensionality");
@@ -85,7 +85,7 @@ void set()
     block->append(input({}, "Definition:equality", LeftToRight));
     block->append(input({}, expression::createFromLatex("c", SET), true));
     Proposition::Current->append(block, true);
-    Proposition::addProposition(fout, Proposition::Current, description);
+    Proposition::addProposition(fout, description);
     
     Proposition::Current = new Proposition("equality_substitution_in_2", SET, "\\forall a \\forall b \\forall c ((a = b) \\implies ((a \\in c) \\iff (b \\in c)))");
     description = "Substitution of $=$ for $\\in$.";
@@ -93,7 +93,7 @@ void set()
     block->append(input({}, "Axiom:extensionality", LeftToRight));
     block->append(input({}, expression::createFromLatex("c", SET), true));
     Proposition::Current->append(block, true);
-    Proposition::addProposition(fout, Proposition::Current, description);
+    Proposition::addProposition(fout, description);
     
     fout<<"\\subsection{Axiom of Substitution for $=$}"<<endl;
     Proposition::Current = new Proposition("equality_substitution_equality", SET, "\\forall a \\forall b \\forall c ((a = b) \\implies ((a = c) \\iff (b = c)))");
@@ -108,7 +108,7 @@ void set()
     block->append(input({2}, "Proposition:equality_transitive", PToTrue));
     block->append(input({}, "Definition:land_True_True", LeftToRight, true));
     Proposition::Current->append(block, true);
-    Proposition::addProposition(fout, Proposition::Current, description);
+    Proposition::addProposition(fout, description);
     
     fout<<"\\subsection{Basic Propositions}"<<endl;
     Proposition::Current = new Proposition("equality_property_1", SET, "\\forall a \\forall b ((a = b) \\iff (\\forall c ((c = a) \\iff (c = b))))");
@@ -138,7 +138,7 @@ void set()
     block->append(input({2}, "Local:2", PToTrue));
     block->append(input({}, "Definition:land_True_True", LeftToRight, true));
     Proposition::Current->append(block, true);
-    Proposition::addProposition(fout, Proposition::Current, description);
+    Proposition::addProposition(fout, description);
     
     Proposition::Current = new Proposition("equality_property_2", SET, "\\forall a \\forall b \\forall c ((a = b) \\iff (\\forall d (((d = a) \\lor (d = c)) \\iff ((d = b) \\lor (d = c)))))");
     description = "Property of $=$.";
@@ -197,7 +197,7 @@ void set()
     block->append(input({2}, "Local:2", PToTrue));
     block->append(input({}, "Definition:land_True_True", LeftToRight, true));
     Proposition::Current->append(block, true);
-    Proposition::addProposition(fout, Proposition::Current, description);
+    Proposition::addProposition(fout, description);
     
     fout<<"\\subsection{Empty set}"<<endl;
     axiom = new Axiom("existence_of_empty_set", SET, "\\forall a (a \\notin \\emptyset)");
@@ -214,7 +214,7 @@ void set()
     block->append(input({1}, "Proposition:iff_substitution_lnot", RightToLeft));
     block->append(input({}, "Definition:equality", RightToLeft, true));
     Proposition::Current->append(block, true);
-    Proposition::addProposition(fout, Proposition::Current, description);
+    Proposition::addProposition(fout, description);
     
     Proposition::Current = new Proposition("single_choice", SET, "\\forall a ((a \\neq \\emptyset) \\iff (\\exists b (b \\in a)))");
     description = "Single choice";
@@ -228,7 +228,7 @@ void set()
     block->append(input({2,1,1}, "Definition:notin", LeftToRight));
     block->append(input({2,1}, "Proposition:double_negation", LeftToRight, true));
     Proposition::Current->append(block, true);
-    Proposition::addProposition(fout, Proposition::Current, description);
+    Proposition::addProposition(fout, description);
     
     fout<<"\\subsection{Pair set}"<<endl;
     axiom = new Axiom("existence_of_pair_set", SET, "\\forall a \\forall b \\forall c ((c \\in \\{ a , b \\}) \\iff ((c = a) \\lor (c = b)))");
@@ -249,7 +249,7 @@ void set()
     block->append(input({1}, "Proposition:iff_transitive", LeftToRight));
     block->append(input({}, "Definition:equality", RightToLeft, true));
     Proposition::Current->append(block, true);
-    Proposition::addProposition(fout, Proposition::Current, description);
+    Proposition::addProposition(fout, description);
     
     Proposition::Current = new Proposition("equality_substitution_pair_set", SET, "\\forall a \\forall b \\forall c ((a = b) \\iff (\\{ a , c \\} = \\{ b , c \\}))");
     description = "Axiom of Substitution for pair set.";
@@ -259,7 +259,7 @@ void set()
     block->append(input({1,2}, "Axiom:existence_of_pair_set", LeftToRight));
     block->append(input({}, "Proposition:equality_property_2", RightToLeft, true));
     Proposition::Current->append(block, true);
-    Proposition::addProposition(fout, Proposition::Current, description);
+    Proposition::addProposition(fout, description);
     
     fout<<"\\subsection{Singleton set}"<<endl;
     Definition::addDefinition(fout, new Definition("singleton_set", SET, "\\forall a (\\{ a \\} = \\{ a , a \\})"), "Definition of singleton set.");
@@ -272,7 +272,7 @@ void set()
     block->append(input({}, "Axiom:existence_of_pair_set", LeftToRight));
     block->append(input({}, "Proposition:lor_idempotence", LeftToRight, true));
     Proposition::Current->append(block, true);
-    Proposition::addProposition(fout, Proposition::Current, description);
+    Proposition::addProposition(fout, description);
     
     //Uniqueness of singleton set
     Proposition::Current = new Proposition("uniqueness_of_singleton_set", SET, "\\forall a \\forall b ((\\forall c ((c \\in b) \\iff (c = a))) \\implies (b = \\{ a \\}))");
@@ -289,7 +289,7 @@ void set()
     block->append(input({1}, "Proposition:iff_transitive", LeftToRight));
     block->append(input({}, "Definition:equality", RightToLeft, true));
     Proposition::Current->append(block, true);
-    Proposition::addProposition(fout, Proposition::Current, description);
+    Proposition::addProposition(fout, description);
     
     Proposition::Current = new Proposition("equality_substitution_singleton_set", SET, "\\forall a \\forall b ((a = b) \\iff (\\{ a \\} = \\{ b \\}))");
     description = "Axiom of Substitution for singleton set.";
@@ -303,7 +303,7 @@ void set()
     block->append(input({1,2}, "Proposition:lor_idempotence", LeftToRight));
     block->append(input({}, "Proposition:equality_property_1", RightToLeft, true));
     Proposition::Current->append(block, true);
-    Proposition::addProposition(fout, Proposition::Current, description);
+    Proposition::addProposition(fout, description);
     
     fout<<"\\subsection{Union set}"<<endl;
     axiom = new Axiom("existence_of_union_set", SET, "\\forall a \\forall b ((b \\in (\\bigcup a)) \\iff (\\exists c ((b \\in c) \\land (c \\in a))))");
@@ -324,7 +324,7 @@ void set()
     block->append(input({1}, "Proposition:iff_transitive", LeftToRight));
     block->append(input({}, "Definition:equality", RightToLeft, true));
     Proposition::Current->append(block, true);
-    Proposition::addProposition(fout, Proposition::Current, description);
+    Proposition::addProposition(fout, description);
     
     Proposition::Current = new Proposition("equality_substitution_union_set", SET, "\\forall a \\forall b ((a = b) \\implies ((\\bigcup a) = (\\bigcup b)))");
     description = "Axiom of Substitution for union set.";
@@ -348,7 +348,7 @@ void set()
     block->append(input({1,2}, "Axiom:existence_of_union_set", RightToLeft));
     block->append(input({}, "Definition:equality", RightToLeft, true));
     Proposition::Current->append(block, true);
-    Proposition::addProposition(fout, Proposition::Current, description);
+    Proposition::addProposition(fout, description);
     
     fout<<"\\subsection{Pairwise union}"<<endl;
     Definition::addDefinition(fout, new Definition("pairwise_union", SET, "\\forall a \\forall b ((a \\cup b) = (\\bigcup \\{ a , b \\}))"), "Definition of pairwise union $a \\cup b$.");
@@ -367,7 +367,7 @@ void set()
     block->append(input({1}, "Axiom:axiom_of_existence", RightToLeft));
     block->append(input({2}, "Axiom:axiom_of_existence", RightToLeft, true));
     Proposition::Current->append(block, true);
-    Proposition::addProposition(fout, Proposition::Current, description);
+    Proposition::addProposition(fout, description);
     
     Proposition::Current = new Proposition("equality_substitution_pairwise_union", SET, "\\forall a \\forall b \\forall c ((a = b) \\implies ((a \\cup c) = (b \\cup c)))");
     description = "Axiom of Substitution for pairwise union.";
@@ -382,7 +382,7 @@ void set()
     block->append(input({1,2}, "Proposition:pairwise_union_property", RightToLeft));
     block->append(input({}, "Definition:equality", RightToLeft, true));
     Proposition::Current->append(block, true);
-    Proposition::addProposition(fout, Proposition::Current, description);
+    Proposition::addProposition(fout, description);
     
     Proposition::Current = new Proposition("pairwise_union_commutativity", SET, "\\forall a \\forall b ((a \\cup b) = (b \\cup a))");
     description = "Commutativity of $\\cup$.";
@@ -394,7 +394,7 @@ void set()
     block->append(input({1}, "Proposition:iff_reflexive", PToTrue));
     block->append(input({}, "Axiom:forall_independent_variable", LeftToRight, true));
     Proposition::Current->append(block, true);
-    Proposition::addProposition(fout, Proposition::Current, description);
+    Proposition::addProposition(fout, description);
     
     Proposition::Current = new Proposition("pairwise_union_identity", SET, "\\forall a ((a \\cup \\emptyset) = a)");
     description = "Identity of $\\cup$.";
@@ -409,7 +409,7 @@ void set()
     block->append(input({1}, "Proposition:iff_reflexive", PToTrue));
     block->append(input({}, "Axiom:forall_independent_variable", LeftToRight, true));
     Proposition::Current->append(block, true);
-    Proposition::addProposition(fout, Proposition::Current, description);
+    Proposition::addProposition(fout, description);
     
     fout<<"\\subsection{Integer}"<<endl;
     //zero
@@ -430,7 +430,7 @@ void set()
     block->append(input({}, "Proposition:pairwise_union_commutativity", LeftToRight));
     block->append(input({}, "Proposition:pairwise_union_identity", LeftToRight, true));
     Proposition::Current->append(block, true);
-    Proposition::addProposition(fout, Proposition::Current, description);
+    Proposition::addProposition(fout, description);
     
     fout.close();
 }

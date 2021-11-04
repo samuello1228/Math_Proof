@@ -1607,82 +1607,82 @@ Proposition* Proposition::FindByRef(string Name)
     return nullptr;
 }
 
-void Proposition::addProposition(ofstream& fout, Proposition* x, string description)
+void Proposition::addProposition(ofstream& fout, string description)
 {
     //check whether the label is distinct
     for(long i=0;i<All_Proposition.size();i++)
     {
-        if(x->label == All_Proposition[i]->label)
+        if(Current->label == All_Proposition[i]->label)
         {
-            cout<<"Error: the label is not distinct: "<<x->label<<endl;
+            cout<<"Error: the label is not distinct: "<<Current->label<<endl;
             return;
         }
     }
     
     //check variable
-    if(!x->content->check_variable({}))
+    if(!Current->content->check_variable({}))
     {
         cout<<"Error: Check fail for variable."<<endl;
-        cout<<x->content->getLatex().getNormal()<<endl;
+        cout<<Current->content->getLatex().getNormal()<<endl;
     }
     
     vector<variable*> all_dependence;
-    x->content->getInternalDependence(all_dependence);
+    Current->content->getInternalDependence(all_dependence);
     for(long i=0;i<all_dependence.size();i++)
     {
-        if(!x->content->contain_variable(all_dependence[i]))
+        if(!Current->content->contain_variable(all_dependence[i]))
         {
-            if(x->label != "forall_land_commutativity" &&
-               x->label != "exists_lor_commutativity" &&
-               x->label != "lor_forall_distributivity" &&
-               x->label != "land_exists_distributivity" &&
-               x->label != "implies_forall_distributivity" &&
-               x->label != "De_Morgan_1" &&
-               x->label != "De_Morgan_2" &&
-               x->label != "implies_substitution_forall_2" &&
-               x->label != "implies_substitution_exists_2" &&
-               x->label != "iff_substitution_forall_2" &&
-               x->label != "iff_substitution_exists_2" )
+            if(Current->label != "forall_land_commutativity" &&
+               Current->label != "exists_lor_commutativity" &&
+               Current->label != "lor_forall_distributivity" &&
+               Current->label != "land_exists_distributivity" &&
+               Current->label != "implies_forall_distributivity" &&
+               Current->label != "De_Morgan_1" &&
+               Current->label != "De_Morgan_2" &&
+               Current->label != "implies_substitution_forall_2" &&
+               Current->label != "implies_substitution_exists_2" &&
+               Current->label != "iff_substitution_forall_2" &&
+               Current->label != "iff_substitution_exists_2" )
             {
-                cout<<x->label<<endl;
+                cout<<Current->label<<endl;
                 cout<<"Error: A quantifier is unused: "<<all_dependence[i]->getLatex().getNormal()<<endl;
             }
         }
     }
     
-    All_Proposition.push_back(x);
+    All_Proposition.push_back(Current);
     
-    cout<< "Proposition:" << x->label <<endl;
-    cout<< x->content->getLatex().getNormal() <<endl;
+    cout<< "Proposition:" << Current->label <<endl;
+    cout<< Current->content->getLatex().getNormal() <<endl;
     cout<<endl;
     
     //write to file
     fout<<"\\begin{prop}"<<endl;
-    fout<<"\\label{Proposition:"<<x->label<<"}"<<endl;
+    fout<<"\\label{Proposition:"<<Current->label<<"}"<<endl;
     if(description != "") fout<< description <<endl;
     fout<<"\\begin{align*}"<<endl;
-    fout<< x->getLatex();
+    fout<< Current->getLatex();
     fout<<"\\end{align*}"<<endl;
     
     //Proof
-    for(long i=0;i<x->proof.size();i++)
+    for(long i=0;i<Current->proof.size();i++)
     {
-        if(x->proof[i]->target->label != "")
+        if(Current->proof[i]->target->label != "")
         {
-            fout<< "Proof of Proposition \\ref{Proposition:" << x->proof[i]->target->label << "}" <<endl;
+            fout<< "Proof of Proposition \\ref{Proposition:" << Current->proof[i]->target->label << "}" <<endl;
         }
         else
         {
-            fout<< "Proposition (" << x->proof[i]->label << ")" <<endl;
+            fout<< "Proposition (" << Current->proof[i]->label << ")" <<endl;
             fout<<"\\begin{align*}"<<endl;
-            fout<< x->proof[i]->target->getLatex();
+            fout<< Current->proof[i]->target->getLatex();
             fout<<"\\end{align*}"<<endl;
-            fout<< "Proof of Proposition (" << x->proof[i]->label << ")" <<endl;
+            fout<< "Proof of Proposition (" << Current->proof[i]->label << ")" <<endl;
         }
         
         fout<<"\\begin{align*}"<<endl;
-        fout<<x->proof[i]->getLatex();
-        cout<<x->proof[i]->getLatex()<<endl;
+        fout<<Current->proof[i]->getLatex();
+        cout<<Current->proof[i]->getLatex()<<endl;
         fout<<"\\end{align*}"<<endl;
     }
     

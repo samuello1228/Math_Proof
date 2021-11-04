@@ -161,7 +161,7 @@ public:
     static vector<Proposition*> All_Proposition;
     static Proposition* Current;
     static Proposition* FindByRef(string);
-    static void addProposition(ofstream&, Proposition*, string description = "");
+    static void addProposition(ofstream&, string description = "");
 };
 
 #endif /* statement_hpp */
