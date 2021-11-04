@@ -427,6 +427,41 @@ void set()
     Proposition::Current->append(block);
     Proposition::addProposition();
     
+    //subset
+    fout<<"\\subsection{Subset}"<<endl;
+    Definition::Current = new Definition("subset", SET, "\\forall a \\forall b ((a \\subseteq b) \\iff (\\forall c ((c \\in a) \\implies (c \\in b))))");
+    Definition::addDefinition("Definition of $\\subseteq$.");
+    
+    Proposition::Current = new Proposition("equality_substitution_subset_1", SET, "\\forall a \\forall b \\forall c ((a = b) \\implies ((a \\subseteq c) \\iff (b \\subseteq c)))");
+    description = "Axiom of Substitution for subset.";
+    block = new proof_block(deduction_LeftToRight);
+    block->append(input({}, "Definition:equality", LeftToRight));
+    sub.clear();
+    sub.push_back(new substitution("a", "d \\in a", SET));
+    sub.push_back(new substitution("b", "d \\in b", SET));
+    sub.push_back(new substitution("c", "d \\in c", SET));
+    block->append(input({1}, "Proposition:iff_substitution_implies_1", LeftToRight, sub));
+    block->append(input({}, "Proposition:iff_substitution_forall_2", LeftToRight));
+    block->append(input({1}, "Definition:subset", RightToLeft));
+    block->append(input({2}, "Definition:subset", RightToLeft));
+    Proposition::Current->append(block);
+    Proposition::addProposition(description);
+    
+    Proposition::Current = new Proposition("equality_substitution_subset_2", SET, "\\forall a \\forall b \\forall c ((a = b) \\implies ((c \\subseteq a) \\iff (c \\subseteq b)))");
+    description = "Axiom of Substitution for subset.";
+    block = new proof_block(deduction_LeftToRight);
+    block->append(input({}, "Definition:equality", LeftToRight));
+    sub.clear();
+    sub.push_back(new substitution("a", "d \\in a", SET));
+    sub.push_back(new substitution("b", "d \\in b", SET));
+    sub.push_back(new substitution("c", "d \\in c", SET));
+    block->append(input({1}, "Proposition:iff_substitution_implies_2", LeftToRight, sub));
+    block->append(input({}, "Proposition:iff_substitution_forall_2", LeftToRight));
+    block->append(input({1}, "Definition:subset", RightToLeft));
+    block->append(input({2}, "Definition:subset", RightToLeft));
+    Proposition::Current->append(block);
+    Proposition::addProposition(description);
+    
     //Peano axioms
     fout<<"\\subsection{Peano axioms}"<<endl;
     //zero

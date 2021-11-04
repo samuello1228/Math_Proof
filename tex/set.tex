@@ -852,6 +852,72 @@ Proof of Proposition \ref{Proposition:pair_pairwise_union_singleton}
 \end{align*}
 \end{prop}
 
+\subsection{Subset}
+\begin{defn}
+\label{Definition:subset}
+Definition of $\subseteq$.
+\begin{align*}
+& \forall a \forall b ( \\
+& & & a \subseteq b \\
+& & \overset{\operatorname{def}}{\iff} & \forall c ((c \in a) \implies (c \in b)) \\
+& )
+\end{align*}
+\end{defn}
+
+\begin{prop}
+\label{Proposition:equality_substitution_subset_1}
+Axiom of Substitution for subset.
+\begin{align*}
+& \forall a \forall b \forall c ( \\
+& & & a = b \\
+& & \implies & (a \subseteq c) \iff (b \subseteq c) \\
+& )
+\end{align*}
+Proof of Proposition \ref{Proposition:equality_substitution_subset_1}
+\begin{align*}
+& \forall a \forall b \forall c ( \\
+& & & a = b \\
+& & \overset{\operatorname{def}}{\iff} & \forall d ((d \in a) \iff (d \in b))
+& & \text{Definition \ref{Definition:equality}} \\
+& & \implies & \forall d (((d \in a) \implies (d \in c)) \iff ((d \in b) \implies (d \in c)))
+& & \text{Proposition \ref{Proposition:iff_substitution_implies_1}} \\
+& & \implies & (\forall d ((d \in a) \implies (d \in c))) \iff (\forall d ((d \in b) \implies (d \in c)))
+& & \text{Proposition \ref{Proposition:iff_substitution_forall_2}} \\
+& & \overset{\operatorname{def}}{\iff} & (a \subseteq c) \iff (\forall d ((d \in b) \implies (d \in c)))
+& & \text{Definition \ref{Definition:subset}} \\
+& & \overset{\operatorname{def}}{\iff} & (a \subseteq c) \iff (b \subseteq c)
+& & \text{Definition \ref{Definition:subset}} \\
+& )
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:equality_substitution_subset_2}
+Axiom of Substitution for subset.
+\begin{align*}
+& \forall a \forall b \forall c ( \\
+& & & a = b \\
+& & \implies & (c \subseteq a) \iff (c \subseteq b) \\
+& )
+\end{align*}
+Proof of Proposition \ref{Proposition:equality_substitution_subset_2}
+\begin{align*}
+& \forall a \forall b \forall c ( \\
+& & & a = b \\
+& & \overset{\operatorname{def}}{\iff} & \forall d ((d \in a) \iff (d \in b))
+& & \text{Definition \ref{Definition:equality}} \\
+& & \implies & \forall d (((d \in c) \implies (d \in a)) \iff ((d \in c) \implies (d \in b)))
+& & \text{Proposition \ref{Proposition:iff_substitution_implies_2}} \\
+& & \implies & (\forall d ((d \in c) \implies (d \in a))) \iff (\forall d ((d \in c) \implies (d \in b)))
+& & \text{Proposition \ref{Proposition:iff_substitution_forall_2}} \\
+& & \overset{\operatorname{def}}{\iff} & (c \subseteq a) \iff (\forall d ((d \in c) \implies (d \in b)))
+& & \text{Definition \ref{Definition:subset}} \\
+& & \overset{\operatorname{def}}{\iff} & (c \subseteq a) \iff (c \subseteq b)
+& & \text{Definition \ref{Definition:subset}} \\
+& )
+\end{align*}
+\end{prop}
+
 \subsection{Peano axioms}
 \begin{defn}
 \label{Definition:zero}

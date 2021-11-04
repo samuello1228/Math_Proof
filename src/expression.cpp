@@ -581,7 +581,8 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
         else if(elements[1] == "\\in" ||
                 elements[1] == "\\notin" ||
                 elements[1] == "=" ||
-                elements[1] == "\\neq"
+                elements[1] == "\\neq" ||
+                elements[1] == "\\subseteq"
                 )
         {
             Set* operand1 = dynamic_cast<Set*>(expression::createFromLatex(elements[0], var_type, isPrint));
@@ -876,7 +877,8 @@ bool expression::assemble(statement* step, expression* source_part, int p)
         condition_equality = condition_equality && (source_part_copy->operator_latex == "\\in" ||
                                                     source_part_copy->operator_latex == "\\notin" ||
                                                     source_part_copy->operator_latex == "=" ||
-                                                    source_part_copy->operator_latex == "\\neq");
+                                                    source_part_copy->operator_latex == "\\neq" ||
+                                                    source_part_copy->operator_latex == "\\subseteq");
         
         if((p==1 || p==2) && condition_equality)
         {
@@ -1597,7 +1599,8 @@ Print_Output logic_binary_operator_set_set::getLatex(vector<vector<int> > split_
     if(operator_latex == "\\in" ||
        operator_latex == "\\notin" ||
        operator_latex == "=" ||
-       operator_latex == "\\neq"
+       operator_latex == "\\neq" ||
+       operator_latex == "\\subseteq"
        )
     {
         prefix_1 = "";
