@@ -536,6 +536,7 @@ void Definition::addDefinition(Definition* x, string description)
 }
 
 vector<Axiom*> Axiom::All_Axiom;
+Axiom* Axiom::Current;
 Axiom::Axiom(string newLabel, variable_type new_var_type, string x, bool isPrint) : statement(newLabel, new_var_type, x, isPrint)
 {
 }
@@ -566,52 +567,52 @@ Axiom* Axiom::FindByRef(string Name)
     return nullptr;
 }
 
-void Axiom::addAxiom(ofstream& fout, Axiom* x, string description)
+void Axiom::addAxiom(string description)
 {
     //check whether the label is distinct
     for(long i=0;i<All_Axiom.size();i++)
     {
-        if(x->label == All_Axiom[i]->label)
+        if(Current->label == All_Axiom[i]->label)
         {
-            cout<<"Error: the label is not distinct: "<<x->label<<endl;
+            cout<<"Error: the label is not distinct: "<<Current->label<<endl;
             return;
         }
     }
     
     //check variable
-    if(!x->content->check_variable({}))
+    if(!Current->content->check_variable({}))
     {
         cout<<"Error: Check fail for variable."<<endl;
-        cout<<x->content->getLatex().getNormal()<<endl;
+        cout<<Current->content->getLatex().getNormal()<<endl;
     }
     
     vector<variable*> all_dependence;
-    x->content->getInternalDependence(all_dependence);
+    Current->content->getInternalDependence(all_dependence);
     for(long i=0;i<all_dependence.size();i++)
     {
-        if(!x->content->contain_variable(all_dependence[i]))
+        if(!Current->content->contain_variable(all_dependence[i]))
         {
-            if(x->label != "forall_independent_variable" &&
-               x->label != "exists_independent_variable" )
+            if(Current->label != "forall_independent_variable" &&
+               Current->label != "exists_independent_variable" )
             {
-                cout<<x->label<<endl;
+                cout<<Current->label<<endl;
                 cout<<"Error: A quantifier is unused: "<<all_dependence[i]->getLatex().getNormal()<<endl;
             }
         }
     }
     
-    All_Axiom.push_back(x);
+    All_Axiom.push_back(Current);
     
-    cout<< "Axiom:" << x->label <<endl;
-    cout<< x->content->getLatex().getNormal() <<endl;
+    cout<< "Axiom:" << Current->label <<endl;
+    cout<< Current->content->getLatex().getNormal() <<endl;
     cout<<endl;
     
     //write to file
     fout<<"\\begin{axm}"<<endl;
-    fout<<"\\label{Axiom:"<<x->label<<"}"<<endl;
+    fout<<"\\label{Axiom:"<<Current->label<<"}"<<endl;
     if(description != "") fout<< description <<endl;
     fout<<"\\begin{align*}"<<endl;
-    fout<< x->getLatex();
+    fout<< Current->getLatex();
     fout<<"\\end{align*}"<<endl;
     fout<<"\\end{axm}"<<endl;
     fout<<endl;

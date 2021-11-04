@@ -50,7 +50,6 @@ void logic()
     Definition::addDefinition(new Definition("implies", LOGIC, "\\forall a \\forall b ((a \\implies b) \\iff ((\\lnot a) \\lor b))"));
     
     //Boolean algebra
-    Axiom* axiom = nullptr;
     proof_block* block = nullptr;
     vector<substitution*> sub;
     string description;
@@ -801,9 +800,9 @@ void logic()
         a = new logic_variable("a");
         universal_quantifier* u0 = new universal_quantifier(a, iff);
         
-        axiom = new Axiom("forall_independent_variable", u0);
+        Axiom::Current = new Axiom("forall_independent_variable", u0);
     }
-    Axiom::addAxiom(fout, axiom, "$a$ is independent of $b$.");
+    Axiom::addAxiom("$a$ is independent of $b$.");
     
     {
         logic_variable* a = new logic_variable("a");
@@ -817,9 +816,9 @@ void logic()
         a = new logic_variable("a");
         universal_quantifier* u0 = new universal_quantifier(a, iff);
         
-        axiom = new Axiom("exists_independent_variable", u0);
+        Axiom::Current = new Axiom("exists_independent_variable", u0);
     }
-    Axiom::addAxiom(fout, axiom, "$a$ is independent of $b$.");
+    Axiom::addAxiom("$a$ is independent of $b$.");
     
     fout<<"\\subsection{Boolean algebra for quantifier}"<<endl;
     {

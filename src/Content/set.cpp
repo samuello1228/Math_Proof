@@ -16,7 +16,6 @@ void set()
     fout<<"Set theory have one primitive notion, called set, and one binary relation, called set membership, denoted by $\\in$."<<endl;
     fout<<endl;
     
-    Axiom* axiom = nullptr;
     proof_block* block = nullptr;
     vector<substitution*> sub;
     string description;
@@ -75,8 +74,8 @@ void set()
     Proposition::Current->append(block, true);
     Proposition::addProposition(description);
     
-    axiom = new Axiom("extensionality", SET, "\\forall a \\forall b ((a = b) \\implies (\\forall c ((a \\in c) \\iff (b \\in c))))");
-    Axiom::addAxiom(fout, axiom, "Axiom of extensionality");
+    Axiom::Current = new Axiom("extensionality", SET, "\\forall a \\forall b ((a = b) \\implies (\\forall c ((a \\in c) \\iff (b \\in c))))");
+    Axiom::addAxiom("Axiom of extensionality");
     
     fout<<"\\subsection{Axiom of Substitution for $\\in$}"<<endl;
     Proposition::Current = new Proposition("equality_substitution_in_1", SET, "\\forall a \\forall b \\forall c ((a = b) \\implies ((c \\in a) \\iff (c \\in b)))");
@@ -200,8 +199,8 @@ void set()
     Proposition::addProposition(description);
     
     fout<<"\\subsection{Empty set}"<<endl;
-    axiom = new Axiom("existence_of_empty_set", SET, "\\forall a (a \\notin \\emptyset)");
-    Axiom::addAxiom(fout, axiom, "Existence of empty set");
+    Axiom::Current = new Axiom("existence_of_empty_set", SET, "\\forall a (a \\notin \\emptyset)");
+    Axiom::addAxiom("Existence of empty set");
     
     Proposition::Current = new Proposition("uniqueness_of_empty_set", SET, "\\forall a ((\\forall b (b \\notin a)) \\iff (a = \\emptyset))");
     description = "Uniqueness of $\\emptyset$";
@@ -231,8 +230,8 @@ void set()
     Proposition::addProposition(description);
     
     fout<<"\\subsection{Pair set}"<<endl;
-    axiom = new Axiom("existence_of_pair_set", SET, "\\forall a \\forall b \\forall c ((c \\in \\{ a , b \\}) \\iff ((c = a) \\lor (c = b)))");
-    Axiom::addAxiom(fout, axiom, "Existence of pair set");
+    Axiom::Current = new Axiom("existence_of_pair_set", SET, "\\forall a \\forall b \\forall c ((c \\in \\{ a , b \\}) \\iff ((c = a) \\lor (c = b)))");
+    Axiom::addAxiom("Existence of pair set");
     
     Proposition::Current = new Proposition("uniqueness_of_pair_set", SET, "\\forall a \\forall b \\forall c ((\\forall d ((d \\in c) \\iff ((d = a) \\lor (d = b)))) \\implies (c = \\{ a , b \\}))");
     description = "Uniqueness of pair set";
@@ -306,8 +305,8 @@ void set()
     Proposition::addProposition(description);
     
     fout<<"\\subsection{Union set}"<<endl;
-    axiom = new Axiom("existence_of_union_set", SET, "\\forall a \\forall b ((b \\in (\\bigcup a)) \\iff (\\exists c ((b \\in c) \\land (c \\in a))))");
-    Axiom::addAxiom(fout, axiom, "Existence of union set.");
+    Axiom::Current = new Axiom("existence_of_union_set", SET, "\\forall a \\forall b ((b \\in (\\bigcup a)) \\iff (\\exists c ((b \\in c) \\land (c \\in a))))");
+    Axiom::addAxiom("Existence of union set.");
     
     //Uniqueness of union set
     Proposition::Current = new Proposition("uniqueness_of_union_set", SET, "\\forall a \\forall b ((\\forall c ((c \\in b) \\iff (\\exists d ((c \\in d) \\land (d \\in a))))) \\implies (b = (\\bigcup a)))");
