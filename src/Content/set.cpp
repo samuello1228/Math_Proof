@@ -679,5 +679,26 @@ void set()
     Definition::Current = new Definition("addition_s", SET, "\\forall a \\forall b (((a \\in \\mathbb{N}) \\land (b \\in \\mathbb{N})) \\implies ((a + (S(b))) = (S(a + b))))");
     Definition::addDefinition("Definition of +.");
     
+    //Properties of addition
+    Proposition::Current = new Proposition("zero_plus_a", SET, "\\forall a ((a \\in \\mathbb{N}) \\implies ((0 + a) = a))");
+    description = "$0 + a = a$";
+    block = new proof_block("1", Proposition("", SET, "\\forall a ((a \\in \\mathbb{N}) \\implies ((0 + (S(a))) = (S(0 + a))))"), deduction_LeftToRight);
+    block->append(input({}, "Proposition:land_identity_2", RightToLeft));
+    block->append(input({1}, "Axiom:zero_is_natural_number", TrueToP));
+    block->append(input({}, "Definition:addition_s", LeftToRight));
+    Proposition::Current->append(block);
+    
+    block = new proof_block(direct, "MI_0");
+    block->append(input({}, "Axiom:zero_is_natural_number", TrueToP));
+    block->append(input({}, "Definition:addition_0", LeftToRight));
+    Proposition::Current->append(block);
+    
+    block = new proof_block(deduction_LeftToRight, "MI_k");
+    block->append(input({1}, "Local:1", LeftToRight));
+    block->append(input({2}, "Proposition:equality_substitution_successor", LeftToRight));
+    block->append(input({}, "Proposition:equality_transitive", LeftToRight));
+    Proposition::Current->append(block);
+    Proposition::addProposition(description);
+    
     fout.close();
 }

@@ -674,12 +674,75 @@ input::input(vector<int> new_relative_path, expression* forall_sub, bool new_isP
 
 proof_block::proof_block(proof_method new_method, string option)
 {
+    method = new_method;
+    
     if(option == "this")
     {
         label = Proposition::Current->label;
         target = Proposition::Current->getCopy();
-        method = new_method;
         forall_variable_proof = target->forall_variable;
+    }
+    else if(option == "MI_0" || option == "MI_k")
+    {
+        label = option;
+        target = Proposition::Current->getCopy();
+        
+        string error_msg = "Error: It is not natural number. cannot proved by MI.";
+        universal_quantifier* u = dynamic_cast<universal_quantifier*>(target->content);
+        if(!u) cout<<error_msg<<endl;
+        set_variable* var = dynamic_cast<set_variable*>(u->var->getCopy());
+        
+        logic_binary_operator_logic_logic* implies = dynamic_cast<logic_binary_operator_logic_logic*>(u->operand);
+        if(!implies) cout<<error_msg<<endl;
+        
+        logic_binary_operator_set_set* in = dynamic_cast<logic_binary_operator_set_set*>(implies->operand1);
+        if(!in) cout<<error_msg<<endl;
+        if(!in->operand1->isEqual(var)) cout<<error_msg<<endl;
+        
+        set_element* N = dynamic_cast<set_element*>(in->operand2);
+        if(!N) cout<<error_msg<<endl;
+        if(N->latex != "\\mathbb{N}") cout<<error_msg<<endl;
+        
+        if(option == "MI_0")
+        {
+            //do substitution
+            vector<substitution*> sub;
+            sub.push_back(new substitution(var, expression::createFromLatex("0", SET)));
+            expression* x = expression::substitute_forall_variable(target->content, sub);
+            target->content = implies->operand2;
+            
+            //delete
+            implies->operand2 = dynamic_cast<logic_value*>(expression::createFromLatex("\\text{True}", LOGIC));
+            delete x;
+            delete sub[0];
+        }
+        else if(option == "MI_k")
+        {
+            //find all paths of var in P_s
+            logic_value* P_s = dynamic_cast<logic_value*>(implies->operand2->getCopy());
+            vector<vector<int> > all_path;
+            P_s->find_path_of_variable(var, {}, all_path);
+            
+            //replace all var by s_var
+            set_unary_operator_set* s_var = new set_unary_operator_set("successor", var);
+            for(long i=0;i<all_path.size();i++)
+            {
+                expression::replace_by_set(P_s, all_path[i], s_var);
+            }
+            //cout<<s->getLatex().getNormal()<<endl;
+            
+            //construct target->content
+            implies->operand1 = new logic_binary_operator_logic_logic("\\land", in, implies->operand2);
+            implies->operand2 = P_s;
+            
+            //delete
+            delete s_var;
+        }
+        
+        //rebuild target
+        target->constructor_aux();
+        forall_variable_proof = target->forall_variable;
+        //cout<<target->content->getLatex().getNormal()<<endl;
     }
     
     //check variable
@@ -1659,13 +1722,16 @@ void Proposition::addProposition(string description)
     
     //Check whether the proof exists
     bool isFound = false;
+    bool isFound_MI_0 = false;
+    bool isFound_MI_k = false;
     for(long i=0;i<Current->proof.size();i++)
     {
-        if(Current->proof[i]->label == Current->label)
-        {
-            isFound = true;
-        }
+        if(Current->proof[i]->label == Current->label) isFound = true;
+        else if(Current->proof[i]->label == "MI_0") isFound_MI_0 = true;
+        else if(Current->proof[i]->label == "MI_k") isFound_MI_k = true;
     }
+    
+    isFound = isFound || (isFound_MI_0 && isFound_MI_k);
     
     if(!isFound)
     {
@@ -1712,7 +1778,22 @@ void Proposition::addProposition(string description)
     {
         if(Current->proof[i]->target->label != "")
         {
-            fout<< "Proof of Proposition \\ref{Proposition:" << Current->proof[i]->target->label << "}" <<endl;
+            if(Current->proof[i]->label == "MI_0" ||
+               Current->proof[i]->label == "MI_k" )
+            {
+                if(Current->proof[i]->label == "MI_0") fout<<"Statement to prove for n = 0:"<<endl;
+                if(Current->proof[i]->label == "MI_k") fout<<"Statement to prove for n = k:"<<endl;
+                fout<<"\\begin{align*}"<<endl;
+                fout<< Current->proof[i]->target->getLatex();
+                fout<<"\\end{align*}"<<endl;
+                
+                if(Current->proof[i]->label == "MI_0") fout<<"Proof by MI for the case that n = 0."<<endl;
+                else if(Current->proof[i]->label == "MI_k") fout<<"Proof by MI for the case that n = k."<<endl;
+            }
+            else
+            {
+                fout<< "Proof of Proposition \\ref{Proposition:" << Current->proof[i]->target->label << "}" <<endl;
+            }
         }
         else
         {

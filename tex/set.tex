@@ -1392,3 +1392,65 @@ Definition of +.
 \end{align*}
 \end{defn}
 
+\begin{prop}
+\label{Proposition:zero_plus_a}
+$0 + a = a$
+\begin{align*}
+& \forall a ( \\
+& & & a \in \mathbb{N} \\
+& & \implies & (0 + a) = a \\
+& )
+\end{align*}
+Proposition (1)
+\begin{align*}
+& \forall a ( \\
+& & & a \in \mathbb{N} \\
+& & \implies & (0 + (S(a))) = (S(0 + a)) \\
+& )
+\end{align*}
+Proof of Proposition (1)
+\begin{align*}
+& \forall a ( \\
+& & & a \in \mathbb{N} \\
+& & \iff & (\text{True}) \land (a \in \mathbb{N})
+& & \text{Proposition \ref{Proposition:land_identity_2}} \\
+& & \iff & (0 \in \mathbb{N}) \land (a \in \mathbb{N})
+& & \text{Axiom \ref{Axiom:zero_is_natural_number}} \\
+& & \implies & (0 + (S(a))) = (S(0 + a))
+& & \text{Definition \ref{Definition:addition_s}} \\
+& )
+\end{align*}
+Statement to prove for n = 0:
+\begin{align*}
+& 0 + 0 \\
+= & 0
+\end{align*}
+Proof by MI for the case that n = 0.
+\begin{align*}
+& \text{True} \\
+\iff & 0 \in \mathbb{N}
+& & \text{Axiom \ref{Axiom:zero_is_natural_number}} \\
+\implies & (0 + 0) = 0
+& & \text{Definition \ref{Definition:addition_0}} \\
+\end{align*}
+Statement to prove for n = k:
+\begin{align*}
+& \forall a ( \\
+& & & (a \in \mathbb{N}) \land ((0 + a) = a) \\
+& & \implies & (0 + (S(a))) = (S(a)) \\
+& )
+\end{align*}
+Proof by MI for the case that n = k.
+\begin{align*}
+& \forall a ( \\
+& & & (a \in \mathbb{N}) \land ((0 + a) = a) \\
+& & \implies & ((0 + (S(a))) = (S(0 + a))) \land ((0 + a) = a)
+& & \text{Proposition (1)} \\
+& & \iff & ((0 + (S(a))) = (S(0 + a))) \land ((S(0 + a)) = (S(a)))
+& & \text{Proposition \ref{Proposition:equality_substitution_successor}} \\
+& & \implies & (0 + (S(a))) = (S(a))
+& & \text{Proposition \ref{Proposition:equality_transitive}} \\
+& )
+\end{align*}
+\end{prop}
+
