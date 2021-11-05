@@ -598,7 +598,8 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
             expression* output = new logic_binary_operator_set_set(elements[1], operand1, operand2);
             return output;
         }
-        else if(elements[1] == "\\cup")
+        else if(elements[1] == "\\cup" ||
+                elements[1] == "+")
         {
             Set* operand1 = dynamic_cast<Set*>(expression::createFromLatex(elements[0], var_type, isPrint));
             Set* operand2 = dynamic_cast<Set*>(expression::createFromLatex(elements[2], var_type, isPrint));
@@ -952,7 +953,8 @@ bool expression::assemble(statement* step, expression* source_part, int p)
     {
         bool condition_equality = (step->get_binary_operator_latex() == "=");
         condition_equality = condition_equality && (source_part_copy->operator_latex == "pair_set" ||
-                                                    source_part_copy->operator_latex == "\\cup");
+                                                    source_part_copy->operator_latex == "\\cup" ||
+                                                    source_part_copy->operator_latex == "+");
         
         if(p==1 && condition_equality)
         {
@@ -1778,7 +1780,8 @@ Print_Output set_binary_operator_set_set::getLatex(vector<vector<int> > split_po
         suffix_1 = " ,";
         suffix_2 = " \\}";
     }
-    else if(operator_latex == "\\cup")
+    else if(operator_latex == "\\cup" ||
+            operator_latex == "+")
     {
         prefix_2 = operator_latex + " ";
     }

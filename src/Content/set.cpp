@@ -672,5 +672,12 @@ void set()
     Axiom::Current = new Axiom("induction", SET, "\\forall a (((0 \\in a) \\land (\\forall b (((b \\in \\mathbb{N}) \\land (b \\in a)) \\implies ((S(b)) \\in a)))) \\implies (\\mathbb{N} \\subseteq a))");
     Axiom::addAxiom("Axiom of induction.");
     
+    //Addition
+    Definition::Current = new Definition("addition_0", SET, "\\forall a ((a \\in \\mathbb{N}) \\implies ((a + 0) = a))");
+    Definition::addDefinition("Definition of +. $a + 0 = a$");
+    
+    Definition::Current = new Definition("addition_s", SET, "\\forall a \\forall b (((a \\in \\mathbb{N}) \\land (b \\in \\mathbb{N})) \\implies ((a + (S(b))) = (S(a + b))))");
+    Definition::addDefinition("Definition of +.");
+    
     fout.close();
 }
