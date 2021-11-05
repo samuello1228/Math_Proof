@@ -669,6 +669,27 @@ void set()
     Axiom::Current = new Axiom("successor_is_natural_number", SET, "\\forall a ((a \\in \\mathbb{N}) \\implies ((S(a)) \\in \\mathbb{N}))");
     Axiom::addAxiom("Successor is a natural number.");
     
+    Proposition::Current = new Proposition("successor_zero", SET, "\\forall a ((S(a)) \\neq 0)");
+    description = "There is no natural number whose successor is 0.";
+    block = new proof_block(direct);
+    sub.clear(); sub.push_back(new substitution("a", "a", SET));
+    block->append(input({}, "Proposition:equality_reflexive", TrueToP, sub));
+    block->append(input({}, "Axiom:axiom_of_existence", LeftToRight, {{1},{2}}));
+    block->append(input({1,2}, "Proposition:equality_reflexive", PToTrue));
+    block->append(input({1}, "Proposition:land_identity_1", LeftToRight));
+    sub.clear();
+    sub.push_back(new substitution("a", "b = a", SET));
+    sub.push_back(new substitution("b", "b \\in a", SET));
+    block->append(input({1}, "Proposition:a_implies_a_lor_b", LeftToRight, sub));
+    block->append(input({1}, "Proposition:lor_commutativity", LeftToRight));
+    block->append(input({1,2}, "Proposition:singleton_set_property", RightToLeft));
+    block->append(input({1}, "Proposition:pairwise_union_property", RightToLeft));
+    block->append(input({}, "Proposition:single_choice", RightToLeft));
+    block->append(input({1}, "Definition:successor", RightToLeft));
+    block->append(input({2}, "Definition:zero", RightToLeft));
+    Proposition::Current->append(block);
+    Proposition::addProposition(description);
+    
     Axiom::Current = new Axiom("induction", SET, "\\forall a (((0 \\in a) \\land (\\forall b (((b \\in \\mathbb{N}) \\land (b \\in a)) \\implies ((S(b)) \\in a)))) \\implies (\\mathbb{N} \\subseteq a))");
     Axiom::addAxiom("Axiom of induction.");
     

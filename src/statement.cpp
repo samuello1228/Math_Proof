@@ -1064,7 +1064,8 @@ void proof_block::apply_binary_operator(input& in, expression* source, Print_Inf
     //Swap for direction Right to Left
     if(in.dir == RightToLeft)
     {
-        if(in.law->get_binary_operator_latex() == "\\iff")
+        if(in.law->get_binary_operator_latex() == "\\iff" ||
+           in.law->get_binary_operator_latex() == "=" )
         {
             //swap
             if(in.law->binary_operator_type == LOGIC)
@@ -1386,7 +1387,7 @@ void proof_block::apply_axiom_of_existence(input& in, expression* source)
             cout<<endl<<endl;
         }
         
-        //get the variable b for the existential quantifier
+        //get the variable b for the existential quantifier, by exclusion of all_dependence_source_part.
         set_variable original_b = set_variable("b");
         vector<variable*> vector_b;
         vector_b.push_back(&original_b);

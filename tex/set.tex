@@ -1359,6 +1359,44 @@ Successor is a natural number.
 \end{align*}
 \end{axm}
 
+\begin{prop}
+\label{Proposition:successor_zero}
+There is no natural number whose successor is 0.
+\begin{align*}
+& \forall a ( \\
+& & (S(a)) \neq 0 \\
+& )
+\end{align*}
+Proof of Proposition \ref{Proposition:successor_zero}
+\begin{align*}
+& \forall a ( \\
+& & & \text{True} \\
+& & \iff & a = a
+& & \text{Proposition \ref{Proposition:equality_reflexive}} \\
+& & \iff & \exists b ((b = a) \land (b = b))
+& & \text{Axiom \ref{Axiom:axiom_of_existence}} \\
+& & \iff & \exists b ((b = a) \land (\text{True}))
+& & \text{Proposition \ref{Proposition:equality_reflexive}} \\
+& & \iff & \exists b (b = a)
+& & \text{Proposition \ref{Proposition:land_identity_1}} \\
+& & \implies & \exists b ((b = a) \lor (b \in a))
+& & \text{Proposition \ref{Proposition:a_implies_a_lor_b}} \\
+& & \iff & \exists b ((b \in a) \lor (b = a))
+& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
+& & \iff & \exists b ((b \in a) \lor (b \in \{ a \}))
+& & \text{Proposition \ref{Proposition:singleton_set_property}} \\
+& & \iff & \exists b (b \in (a \cup \{ a \}))
+& & \text{Proposition \ref{Proposition:pairwise_union_property}} \\
+& & \iff & (a \cup \{ a \}) \neq \emptyset
+& & \text{Proposition \ref{Proposition:single_choice}} \\
+& & \overset{\operatorname{def}}{\iff} & (S(a)) \neq \emptyset
+& & \text{Definition \ref{Definition:successor}} \\
+& & \overset{\operatorname{def}}{\iff} & (S(a)) \neq 0
+& & \text{Definition \ref{Definition:zero}} \\
+& )
+\end{align*}
+\end{prop}
+
 \begin{axm}
 \label{Axiom:induction}
 Axiom of induction.
