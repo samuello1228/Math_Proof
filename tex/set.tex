@@ -509,6 +509,35 @@ Proof of Proposition \ref{Proposition:equality_substitution_pair_set}
 \end{align*}
 \end{prop}
 
+\begin{prop}
+\label{Proposition:pair_set_commutativity}
+Commutativity of pair set.
+\begin{align*}
+& \forall a \forall b ( \\
+& & & \{ a , b \} \\
+& & = & \{ b , a \} \\
+& )
+\end{align*}
+Proof of Proposition \ref{Proposition:pair_set_commutativity}
+\begin{align*}
+& \forall a \forall b ( \\
+& & & \{ a , b \} = \{ b , a \} \\
+& & \overset{\operatorname{def}}{\iff} & \forall c ((c \in \{ a , b \}) \iff (c \in \{ b , a \}))
+& & \text{Definition \ref{Definition:equality}} \\
+& & \iff & \forall c (((c = a) \lor (c = b)) \iff (c \in \{ b , a \}))
+& & \text{Axiom \ref{Axiom:existence_of_pair_set}} \\
+& & \iff & \forall c (((c = a) \lor (c = b)) \iff ((c = b) \lor (c = a)))
+& & \text{Axiom \ref{Axiom:existence_of_pair_set}} \\
+& & \iff & \forall c (((c = a) \lor (c = b)) \iff ((c = a) \lor (c = b)))
+& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
+& & \iff & \forall c (\text{True})
+& & \text{Proposition \ref{Proposition:iff_reflexive}} \\
+& & \iff & \text{True}
+& & \text{Axiom \ref{Axiom:forall_independent_variable}} \\
+& )
+\end{align*}
+\end{prop}
+
 \subsection{Singleton set}
 \begin{defn}
 \label{Definition:singleton_set}

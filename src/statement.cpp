@@ -110,6 +110,7 @@ statement::statement(string newLabel, expression* x)
 void statement::constructor_aux()
 {
     //set the forall_variable
+    forall_variable.clear();
     logic_value* x = content;
     while(true)
     {
@@ -818,7 +819,14 @@ expression* proof_block::get_next_source()
 
 void proof_block::check_finished()
 {
-    statement* final_step = chain_of_deductive[chain_of_deductive.size()-1];
+    long size = chain_of_deductive.size();
+    if(size==0)
+    {
+        cout<<"Error: No proof exists."<<endl;
+        return;
+    }
+    
+    statement* final_step = chain_of_deductive[size-1];
     expression* operand2 = final_step->get_oeprand(2);
     
     if(method == deduction_LeftToRight)

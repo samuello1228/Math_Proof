@@ -263,6 +263,18 @@ void set()
     Proposition::Current->append(block);
     Proposition::addProposition(description);
     
+    Proposition::Current = new Proposition("pair_set_commutativity", SET, "\\forall a \\forall b (\\{ a , b \\} = \\{ b , a \\})");
+    description = "Commutativity of pair set.";
+    block = new proof_block(backward);
+    block->append(input({}, "Definition:equality", LeftToRight));
+    block->append(input({1,1}, "Axiom:existence_of_pair_set", LeftToRight));
+    block->append(input({1,2}, "Axiom:existence_of_pair_set", LeftToRight));
+    block->append(input({1,2}, "Proposition:lor_commutativity", LeftToRight));
+    block->append(input({1}, "Proposition:iff_reflexive", PToTrue));
+    block->append(input({}, "Axiom:forall_independent_variable", LeftToRight));
+    Proposition::Current->append(block);
+    Proposition::addProposition(description);
+    
     fout<<"\\subsection{Singleton set}"<<endl;
     Definition::Current = new Definition("singleton_set", SET, "\\forall a (\\{ a \\} = \\{ a , a \\})");
     Definition::addDefinition("Definition of singleton set.");
