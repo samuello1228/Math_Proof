@@ -439,6 +439,135 @@ void set()
     Proposition::Current->append(block);
     Proposition::addProposition();
     
+    //Axiom of regularity
+    fout<<"\\subsection{Axiom of regularity}"<<endl;
+    Axiom::Current = new Axiom("axiom_of_regularity", SET, "\\forall a ((a \\neq \\emptyset) \\implies (\\exists b ((b \\in a) \\land ((b \\cup a) = \\emptyset))))");
+    Axiom::addAxiom("Axiom of regularity.");
+    
+    Proposition::Current = new Proposition("in_property_1", SET, "\\forall a (a \\notin a)");
+    description = "Property of $\\in$.";
+    block = new proof_block(direct);
+    sub.clear(); sub.push_back(new substitution("a", "a", SET));
+    block->append(input({}, "Proposition:equality_reflexive", TrueToP, sub));
+    block->append(input({}, "Proposition:singleton_set_property", RightToLeft));
+    block->append(input({}, "Axiom:axiom_of_existence", LeftToRight, {{1}}));
+    block->append(input({1}, "Proposition:land_commutativity", LeftToRight));
+    block->append(input({1}, "Proposition:a_land_b_implies_a", LeftToRight));
+    block->append(input({}, "Proposition:single_choice", RightToLeft));
+    block->append(input({}, "Axiom:axiom_of_regularity", LeftToRight));
+    block->append(input({1,1}, "Proposition:singleton_set_property", LeftToRight));
+    block->append(input({}, "Axiom:axiom_of_existence", RightToLeft));
+    block->append(input({}, "Proposition:uniqueness_of_empty_set", RightToLeft));
+    block->append(input({1}, "Definition:notin", LeftToRight));
+    block->append(input({1,1}, "Proposition:pairwise_union_property", LeftToRight));
+    block->append(input({}, expression::createFromLatex("a", SET)));
+    block->append(input({}, "Proposition:De_Morgan_lor", LeftToRight));
+    block->append(input({}, "Proposition:a_land_b_implies_a", LeftToRight));
+    block->append(input({}, "Definition:notin", RightToLeft));
+    Proposition::Current->append(block);
+    Proposition::addProposition(description);
+    
+    Proposition::Current = new Proposition("in_property_2", SET, "\\forall a \\forall b ((a \\notin b) \\lor (b \\notin a))");
+    description = "Property of $\\in$.";
+    
+    block = new proof_block("1", Proposition("", SET, "\\forall a \\forall b (((a \\cup \\{ a , b \\}) = \\emptyset) \\implies (b \\notin a))"), deduction_LeftToRight);
+    block->append(input({}, "Proposition:uniqueness_of_empty_set", RightToLeft));
+    block->append(input({1}, "Definition:notin", LeftToRight));
+    block->append(input({1,1}, "Proposition:pairwise_union_property", LeftToRight));
+    block->append(input({}, expression::createFromLatex("b", SET)));
+    block->append(input({}, "Proposition:De_Morgan_lor", LeftToRight));
+    block->append(input({}, "Proposition:a_land_b_implies_a", LeftToRight));
+    block->append(input({}, "Definition:notin", RightToLeft));
+    Proposition::Current->append(block);
+    
+    block = new proof_block(direct);
+    sub.clear(); sub.push_back(new substitution("a", "a = b", SET));
+    block->append(input({}, "Proposition:lor_annihilator_2", RightToLeft, sub));
+    sub.clear(); sub.push_back(new substitution("a", "a", SET));
+    block->append(input({1}, "Proposition:equality_reflexive", TrueToP, sub));
+    block->append(input({}, "Axiom:existence_of_pair_set", RightToLeft));
+    block->append(input({}, "Axiom:axiom_of_existence", LeftToRight, {{1}}));
+    block->append(input({1}, "Proposition:land_commutativity", LeftToRight));
+    block->append(input({1}, "Proposition:a_land_b_implies_a", LeftToRight));
+    block->append(input({}, "Proposition:single_choice", RightToLeft));
+    block->append(input({}, "Axiom:axiom_of_regularity", LeftToRight));
+    block->append(input({1,1}, "Axiom:existence_of_pair_set", LeftToRight));
+    block->append(input({1}, "Proposition:land_lor_distributivity_2", LeftToRight));
+    block->set_split_point({{1,2}});
+    block->append(input({}, "Proposition:exists_lor_commutativity", RightToLeft));
+    block->set_split_point({{2}});
+    block->append(input({1}, "Axiom:axiom_of_existence", RightToLeft));
+    block->set_split_point({{2}});
+    block->append(input({2}, "Axiom:axiom_of_existence", RightToLeft));
+    block->append(input({1}, "Local:1", LeftToRight));
+    block->append(input({2,1,2}, "Proposition:pair_set_commutativity", LeftToRight));
+    block->append(input({2}, "Local:1", LeftToRight));
+    block->append(input({}, "Proposition:lor_commutativity", LeftToRight));
+    Proposition::Current->append(block);
+    Proposition::addProposition(description);
+    
+    Proposition::Current = new Proposition("equality_property_3", SET, "\\forall a \\forall b ((a = b) \\iff (\\forall c (((c \\in a) \\lor (c = a)) \\iff ((c \\in b) \\lor (c = b)))))");
+    description = "Property of $=$.";
+    
+    block = new proof_block("1", Proposition("", SET, "\\forall a \\forall b ((a = b) \\implies (\\forall c (((c \\in a) \\lor (c = a)) \\iff ((c \\in b) \\lor (c = b)))))"), deduction_LeftToRight);
+    block->append(input({}, "Axiom:forall_independent_variable", RightToLeft));
+    block->append(input({1}, "Proposition:land_idempotence", RightToLeft));
+    sub.clear();
+    sub.push_back(new substitution("a", "a", SET));
+    sub.push_back(new substitution("b", "b", SET));
+    sub.push_back(new substitution("c", "c", SET));
+    block->append(input({1,1}, "Proposition:equality_substitution_in_1", LeftToRight, sub));
+    sub.clear();
+    sub.push_back(new substitution("a", "a", SET));
+    sub.push_back(new substitution("b", "b", SET));
+    sub.push_back(new substitution("c", "c", SET));
+    block->append(input({1,2}, "Proposition:equality_substitution_equality", LeftToRight, sub));
+    block->append(input({1}, "Proposition:iff_substitution_exists_1", LeftToRight));
+    block->append(input({1,1,2}, "Proposition:equality_symmetric", LeftToRight));
+    block->append(input({1,2,2}, "Proposition:equality_symmetric", LeftToRight));
+    Proposition::Current->append(block);
+    
+    block = new proof_block("2", Proposition("", SET, "\\forall a \\forall b ((\\forall c (((c \\in a) \\lor (c = a)) \\iff ((c \\in b) \\lor (c = b)))) \\implies (a = b))"), deduction_LeftToRight);
+    block->append(input({}, "Proposition:land_idempotence", RightToLeft));
+    block->set_split_point({{2}});
+    block->append(input({1}, expression::createFromLatex("a", SET)));
+    block->set_split_point({{2}});
+    block->append(input({2}, expression::createFromLatex("b", SET)));
+    block->set_split_point({{2}});
+    block->append(input({1,1,2}, "Proposition:equality_reflexive", PToTrue));
+    block->set_split_point({{2}});
+    block->append(input({1,1}, "Proposition:lor_annihilator_1", LeftToRight));
+    block->set_split_point({{2}});
+    block->append(input({1}, "Proposition:iff_symmetric", LeftToRight));
+    block->set_split_point({{2}});
+    block->append(input({1}, "Proposition:true_statement", LeftToRight));
+    block->set_split_point({{2}});
+    block->append(input({2,2,2}, "Proposition:equality_reflexive", PToTrue));
+    block->set_split_point({{2}});
+    block->append(input({2,2}, "Proposition:lor_annihilator_1", LeftToRight));
+    block->set_split_point({{2}});
+    block->append(input({2}, "Proposition:true_statement", LeftToRight));
+    block->append(input({2,2}, "Proposition:equality_symmetric", LeftToRight));
+    block->append(input({}, "Proposition:lor_land_distributivity_2", RightToLeft));
+    block->append(input({1}, "Proposition:double_negation", RightToLeft));
+    block->append(input({1,1}, "Proposition:De_Morgan_land", LeftToRight));
+    block->append(input({1,1,1}, "Definition:notin", RightToLeft));
+    block->append(input({1,1,2}, "Definition:notin", RightToLeft));
+    block->append(input({1,1}, "Proposition:in_property_2", PToTrue));
+    block->append(input({1}, "Definition:lnot_True", LeftToRight));
+    block->append(input({}, "Proposition:lor_identity_2", LeftToRight));
+    Proposition::Current->append(block);
+    
+    block = new proof_block(backward);
+    block->append(input({}, "Proposition:iff_implies", LeftToRight));
+    block->set_split_point({{2}});
+    block->append(input({1}, "Local:1", PToTrue));
+    block->set_split_point({{2}});
+    block->append(input({2}, "Local:2", PToTrue));
+    block->append(input({}, "Definition:land_True_True", LeftToRight));
+    Proposition::Current->append(block);
+    Proposition::addProposition(description);
+    
     //subset
     fout<<"\\subsection{Subset}"<<endl;
     Definition::Current = new Definition("subset", SET, "\\forall a \\forall b ((a \\subseteq b) \\iff (\\forall c ((c \\in a) \\implies (c \\in b))))");

@@ -881,6 +881,260 @@ Proof of Proposition \ref{Proposition:pair_pairwise_union_singleton}
 \end{align*}
 \end{prop}
 
+\subsection{Axiom of regularity}
+\begin{axm}
+\label{Axiom:axiom_of_regularity}
+Axiom of regularity.
+\begin{align*}
+& \forall a ( \\
+& & & a \neq \emptyset \\
+& & \implies & \exists b ((b \in a) \land ((b \cup a) = \emptyset)) \\
+& )
+\end{align*}
+\end{axm}
+
+\begin{prop}
+\label{Proposition:in_property_1}
+Property of $\in$.
+\begin{align*}
+& \forall a ( \\
+& & a \notin a \\
+& )
+\end{align*}
+Proof of Proposition \ref{Proposition:in_property_1}
+\begin{align*}
+& \forall a ( \\
+& & & \text{True} \\
+& & \iff & a = a
+& & \text{Proposition \ref{Proposition:equality_reflexive}} \\
+& & \iff & a \in \{ a \}
+& & \text{Proposition \ref{Proposition:singleton_set_property}} \\
+& & \iff & \exists b ((b = a) \land (b \in \{ a \}))
+& & \text{Axiom \ref{Axiom:axiom_of_existence}} \\
+& & \iff & \exists b ((b \in \{ a \}) \land (b = a))
+& & \text{Proposition \ref{Proposition:land_commutativity}} \\
+& & \implies & \exists b (b \in \{ a \})
+& & \text{Proposition \ref{Proposition:a_land_b_implies_a}} \\
+& & \iff & \{ a \} \neq \emptyset
+& & \text{Proposition \ref{Proposition:single_choice}} \\
+& & \implies & \exists b ((b \in \{ a \}) \land ((b \cup \{ a \}) = \emptyset))
+& & \text{Axiom \ref{Axiom:axiom_of_regularity}} \\
+& & \iff & \exists b ((b = a) \land ((b \cup \{ a \}) = \emptyset))
+& & \text{Proposition \ref{Proposition:singleton_set_property}} \\
+& & \iff & (a \cup \{ a \}) = \emptyset
+& & \text{Axiom \ref{Axiom:axiom_of_existence}} \\
+& & \iff & \forall b (b \notin (a \cup \{ a \}))
+& & \text{Proposition \ref{Proposition:uniqueness_of_empty_set}} \\
+& & \overset{\operatorname{def}}{\iff} & \forall b (\lnot (b \in (a \cup \{ a \})))
+& & \text{Definition \ref{Definition:notin}} \\
+& & \iff & \forall b (\lnot ((b \in a) \lor (b \in \{ a \})))
+& & \text{Proposition \ref{Proposition:pairwise_union_property}} \\
+& & \implies & \lnot ((a \in a) \lor (a \in \{ a \}))
+& & \text{Substitution for b} \\
+& & \iff & (\lnot (a \in a)) \land (\lnot (a \in \{ a \}))
+& & \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
+& & \implies & \lnot (a \in a)
+& & \text{Proposition \ref{Proposition:a_land_b_implies_a}} \\
+& & \overset{\operatorname{def}}{\iff} & a \notin a
+& & \text{Definition \ref{Definition:notin}} \\
+& )
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:in_property_2}
+Property of $\in$.
+\begin{align*}
+& \forall a \forall b ( \\
+& & (a \notin b) \lor (b \notin a) \\
+& )
+\end{align*}
+Proposition (1)
+\begin{align*}
+& \forall a \forall b ( \\
+& & & (a \cup \{ a , b \}) = \emptyset \\
+& & \implies & b \notin a \\
+& )
+\end{align*}
+Proof of Proposition (1)
+\begin{align*}
+& \forall a \forall b ( \\
+& & & (a \cup \{ a , b \}) = \emptyset \\
+& & \iff & \forall c (c \notin (a \cup \{ a , b \}))
+& & \text{Proposition \ref{Proposition:uniqueness_of_empty_set}} \\
+& & \overset{\operatorname{def}}{\iff} & \forall c (\lnot (c \in (a \cup \{ a , b \})))
+& & \text{Definition \ref{Definition:notin}} \\
+& & \iff & \forall c (\lnot ((c \in a) \lor (c \in \{ a , b \})))
+& & \text{Proposition \ref{Proposition:pairwise_union_property}} \\
+& & \implies & \lnot ((b \in a) \lor (b \in \{ a , b \}))
+& & \text{Substitution for c} \\
+& & \iff & (\lnot (b \in a)) \land (\lnot (b \in \{ a , b \}))
+& & \text{Proposition \ref{Proposition:De_Morgan_lor}} \\
+& & \implies & \lnot (b \in a)
+& & \text{Proposition \ref{Proposition:a_land_b_implies_a}} \\
+& & \overset{\operatorname{def}}{\iff} & b \notin a
+& & \text{Definition \ref{Definition:notin}} \\
+& )
+\end{align*}
+Proof of Proposition \ref{Proposition:in_property_2}
+\begin{align*}
+& \forall a \forall b ( \\
+& & & \text{True} \\
+& & \iff & (\text{True}) \lor (a = b)
+& & \text{Proposition \ref{Proposition:lor_annihilator_2}} \\
+& & \iff & (a = a) \lor (a = b)
+& & \text{Proposition \ref{Proposition:equality_reflexive}} \\
+& & \iff & a \in \{ a , b \}
+& & \text{Axiom \ref{Axiom:existence_of_pair_set}} \\
+& & \iff & \exists c ((c = a) \land (c \in \{ a , b \}))
+& & \text{Axiom \ref{Axiom:axiom_of_existence}} \\
+& & \iff & \exists c ((c \in \{ a , b \}) \land (c = a))
+& & \text{Proposition \ref{Proposition:land_commutativity}} \\
+& & \implies & \exists c (c \in \{ a , b \})
+& & \text{Proposition \ref{Proposition:a_land_b_implies_a}} \\
+& & \iff & \{ a , b \} \neq \emptyset
+& & \text{Proposition \ref{Proposition:single_choice}} \\
+& & \implies & \exists c ((c \in \{ a , b \}) \land ((c \cup \{ a , b \}) = \emptyset))
+& & \text{Axiom \ref{Axiom:axiom_of_regularity}} \\
+& & \iff & \exists c (((c = a) \lor (c = b)) \land ((c \cup \{ a , b \}) = \emptyset))
+& & \text{Axiom \ref{Axiom:existence_of_pair_set}} \\
+& & \iff & \exists c (((c = a) \land ((c \cup \{ a , b \}) = \emptyset)) \\
+& & & \phantom{\exists c (} \lor ((c = b) \land ((c \cup \{ a , b \}) = \emptyset)))
+& & \text{Proposition \ref{Proposition:land_lor_distributivity_2}} \\
+& & \iff & (\exists c ((c = a) \land ((c \cup \{ a , b \}) = \emptyset))) \\
+& & & \lor (\exists c ((c = b) \land ((c \cup \{ a , b \}) = \emptyset)))
+& & \text{Proposition \ref{Proposition:exists_lor_commutativity}} \\
+& & \iff & ((a \cup \{ a , b \}) = \emptyset) \\
+& & & \lor (\exists c ((c = b) \land ((c \cup \{ a , b \}) = \emptyset)))
+& & \text{Axiom \ref{Axiom:axiom_of_existence}} \\
+& & \iff & ((a \cup \{ a , b \}) = \emptyset) \lor ((b \cup \{ a , b \}) = \emptyset)
+& & \text{Axiom \ref{Axiom:axiom_of_existence}} \\
+& & \implies & (b \notin a) \lor ((b \cup \{ a , b \}) = \emptyset)
+& & \text{Proposition (1)} \\
+& & \iff & (b \notin a) \lor ((b \cup \{ b , a \}) = \emptyset)
+& & \text{Proposition \ref{Proposition:pair_set_commutativity}} \\
+& & \implies & (b \notin a) \lor (a \notin b)
+& & \text{Proposition (1)} \\
+& & \iff & (a \notin b) \lor (b \notin a)
+& & \text{Proposition \ref{Proposition:lor_commutativity}} \\
+& )
+\end{align*}
+\end{prop}
+
+\begin{prop}
+\label{Proposition:equality_property_3}
+Property of $=$.
+\begin{align*}
+& \forall a \forall b ( \\
+& & & a = b \\
+& & \iff & \forall c (((c \in a) \lor (c = a)) \iff ((c \in b) \lor (c = b))) \\
+& )
+\end{align*}
+Proposition (1)
+\begin{align*}
+& \forall a \forall b ( \\
+& & & a = b \\
+& & \implies & \forall c (((c \in a) \lor (c = a)) \iff ((c \in b) \lor (c = b))) \\
+& )
+\end{align*}
+Proof of Proposition (1)
+\begin{align*}
+& \forall a \forall b ( \\
+& & & a = b \\
+& & \iff & \forall c (a = b)
+& & \text{Axiom \ref{Axiom:forall_independent_variable}} \\
+& & \iff & \forall c ((a = b) \land (a = b))
+& & \text{Proposition \ref{Proposition:land_idempotence}} \\
+& & \implies & \forall c (((c \in a) \iff (c \in b)) \land (a = b))
+& & \text{Proposition \ref{Proposition:equality_substitution_in_1}} \\
+& & \implies & \forall c (((c \in a) \iff (c \in b)) \land ((a = c) \iff (b = c)))
+& & \text{Proposition \ref{Proposition:equality_substitution_equality}} \\
+& & \implies & \forall c (((c \in a) \lor (a = c)) \iff ((c \in b) \lor (b = c)))
+& & \text{Proposition \ref{Proposition:iff_substitution_exists_1}} \\
+& & \iff & \forall c (((c \in a) \lor (c = a)) \iff ((c \in b) \lor (b = c)))
+& & \text{Proposition \ref{Proposition:equality_symmetric}} \\
+& & \iff & \forall c (((c \in a) \lor (c = a)) \iff ((c \in b) \lor (c = b)))
+& & \text{Proposition \ref{Proposition:equality_symmetric}} \\
+& )
+\end{align*}
+Proposition (2)
+\begin{align*}
+& \forall a \forall b ( \\
+& & & \forall c (((c \in a) \lor (c = a)) \iff ((c \in b) \lor (c = b))) \\
+& & \implies & a = b \\
+& )
+\end{align*}
+Proof of Proposition (2)
+\begin{align*}
+& \forall a \forall b ( \\
+& & & \forall c (((c \in a) \lor (c = a)) \iff ((c \in b) \lor (c = b))) \\
+& & \iff & (\forall c (((c \in a) \lor (c = a)) \iff ((c \in b) \lor (c = b)))) \\
+& & & \land (\forall c (((c \in a) \lor (c = a)) \iff ((c \in b) \lor (c = b))))
+& & \text{Proposition \ref{Proposition:land_idempotence}} \\
+& & \implies & (((a \in a) \lor (a = a)) \iff ((a \in b) \lor (a = b))) \\
+& & & \land (\forall c (((c \in a) \lor (c = a)) \iff ((c \in b) \lor (c = b))))
+& & \text{Substitution for c} \\
+& & \implies & (((a \in a) \lor (a = a)) \iff ((a \in b) \lor (a = b))) \\
+& & & \land (((b \in a) \lor (b = a)) \iff ((b \in b) \lor (b = b)))
+& & \text{Substitution for c} \\
+& & \iff & (((a \in a) \lor (\text{True})) \iff ((a \in b) \lor (a = b))) \\
+& & & \land (((b \in a) \lor (b = a)) \iff ((b \in b) \lor (b = b)))
+& & \text{Proposition \ref{Proposition:equality_reflexive}} \\
+& & \iff & ((\text{True}) \iff ((a \in b) \lor (a = b))) \\
+& & & \land (((b \in a) \lor (b = a)) \iff ((b \in b) \lor (b = b)))
+& & \text{Proposition \ref{Proposition:lor_annihilator_1}} \\
+& & \iff & (((a \in b) \lor (a = b)) \iff (\text{True})) \\
+& & & \land (((b \in a) \lor (b = a)) \iff ((b \in b) \lor (b = b)))
+& & \text{Proposition \ref{Proposition:iff_symmetric}} \\
+& & \iff & ((a \in b) \lor (a = b)) \\
+& & & \land (((b \in a) \lor (b = a)) \iff ((b \in b) \lor (b = b)))
+& & \text{Proposition \ref{Proposition:true_statement}} \\
+& & \iff & ((a \in b) \lor (a = b)) \\
+& & & \land (((b \in a) \lor (b = a)) \iff ((b \in b) \lor (\text{True})))
+& & \text{Proposition \ref{Proposition:equality_reflexive}} \\
+& & \iff & ((a \in b) \lor (a = b)) \\
+& & & \land (((b \in a) \lor (b = a)) \iff (\text{True}))
+& & \text{Proposition \ref{Proposition:lor_annihilator_1}} \\
+& & \iff & ((a \in b) \lor (a = b)) \land ((b \in a) \lor (b = a))
+& & \text{Proposition \ref{Proposition:true_statement}} \\
+& & \iff & ((a \in b) \lor (a = b)) \land ((b \in a) \lor (a = b))
+& & \text{Proposition \ref{Proposition:equality_symmetric}} \\
+& & \iff & ((a \in b) \land (b \in a)) \lor (a = b)
+& & \text{Proposition \ref{Proposition:lor_land_distributivity_2}} \\
+& & \iff & (\lnot (\lnot ((a \in b) \land (b \in a)))) \lor (a = b)
+& & \text{Proposition \ref{Proposition:double_negation}} \\
+& & \iff & (\lnot ((\lnot (a \in b)) \lor (\lnot (b \in a)))) \lor (a = b)
+& & \text{Proposition \ref{Proposition:De_Morgan_land}} \\
+& & \overset{\operatorname{def}}{\iff} & (\lnot ((a \notin b) \lor (\lnot (b \in a)))) \lor (a = b)
+& & \text{Definition \ref{Definition:notin}} \\
+& & \overset{\operatorname{def}}{\iff} & (\lnot ((a \notin b) \lor (b \notin a))) \lor (a = b)
+& & \text{Definition \ref{Definition:notin}} \\
+& & \iff & (\lnot (\text{True})) \lor (a = b)
+& & \text{Proposition \ref{Proposition:in_property_2}} \\
+& & \overset{\operatorname{def}}{\iff} & (\text{False}) \lor (a = b)
+& & \text{Definition \ref{Definition:lnot_True}} \\
+& & \iff & a = b
+& & \text{Proposition \ref{Proposition:lor_identity_2}} \\
+& )
+\end{align*}
+Proof of Proposition \ref{Proposition:equality_property_3}
+\begin{align*}
+& \forall a \forall b ( \\
+& & & (a = b) \iff (\forall c (((c \in a) \lor (c = a)) \iff ((c \in b) \lor (c = b)))) \\
+& & \iff & ((a = b) \implies (\forall c (((c \in a) \lor (c = a)) \iff ((c \in b) \lor (c = b))))) \\
+& & & \land ((\forall c (((c \in a) \lor (c = a)) \iff ((c \in b) \lor (c = b)))) \implies (a = b))
+& & \text{Proposition \ref{Proposition:iff_implies}} \\
+& & \iff & (\text{True}) \\
+& & & \land ((\forall c (((c \in a) \lor (c = a)) \iff ((c \in b) \lor (c = b)))) \implies (a = b))
+& & \text{Proposition (1)} \\
+& & \iff & (\text{True}) \land (\text{True})
+& & \text{Proposition (2)} \\
+& & \overset{\operatorname{def}}{\iff} & \text{True}
+& & \text{Definition \ref{Definition:land_True_True}} \\
+& )
+\end{align*}
+\end{prop}
+
 \subsection{Subset}
 \begin{defn}
 \label{Definition:subset}
