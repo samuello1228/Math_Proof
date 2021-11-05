@@ -634,6 +634,20 @@ void set()
     Definition::Current = new Definition("successor", SET, "\\forall a ((S(a)) = (a \\cup \\{ a \\}))");
     Definition::addDefinition("Definition of successor $S(x)$.");
     
+    Proposition::Current = new Proposition("equality_substitution_successor", SET, "\\forall a \\forall b ((a = b) \\iff ((S(a)) = (S(b))))");
+    description = "Axiom of Substitution for successor.";
+    block = new proof_block(deduction_RightToLeft);
+    block->append(input({}, "Definition:equality", LeftToRight));
+    block->append(input({1,1,2}, "Definition:successor", LeftToRight));
+    block->append(input({1,2,2}, "Definition:successor", LeftToRight));
+    block->append(input({1,1}, "Proposition:pairwise_union_property", LeftToRight));
+    block->append(input({1,2}, "Proposition:pairwise_union_property", LeftToRight));
+    block->append(input({1,1,2}, "Proposition:singleton_set_property", LeftToRight));
+    block->append(input({1,2,2}, "Proposition:singleton_set_property", LeftToRight));
+    block->append(input({}, "Proposition:equality_property_3", RightToLeft));
+    Proposition::Current->append(block);
+    Proposition::addProposition(description);
+    
     //one
     Definition::Current = new Definition("one", SET, "1 = (S(0))");
     Definition::addDefinition("Definition of 1.");

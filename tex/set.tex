@@ -1275,6 +1275,39 @@ Definition of successor $S(x)$.
 \end{align*}
 \end{defn}
 
+\begin{prop}
+\label{Proposition:equality_substitution_successor}
+Axiom of Substitution for successor.
+\begin{align*}
+& \forall a \forall b ( \\
+& & & a = b \\
+& & \iff & (S(a)) = (S(b)) \\
+& )
+\end{align*}
+Proof of Proposition \ref{Proposition:equality_substitution_successor}
+\begin{align*}
+& \forall a \forall b ( \\
+& & & (S(a)) = (S(b)) \\
+& & \overset{\operatorname{def}}{\iff} & \forall c ((c \in (S(a))) \iff (c \in (S(b))))
+& & \text{Definition \ref{Definition:equality}} \\
+& & \overset{\operatorname{def}}{\iff} & \forall c ((c \in (a \cup \{ a \})) \iff (c \in (S(b))))
+& & \text{Definition \ref{Definition:successor}} \\
+& & \overset{\operatorname{def}}{\iff} & \forall c ((c \in (a \cup \{ a \})) \iff (c \in (b \cup \{ b \})))
+& & \text{Definition \ref{Definition:successor}} \\
+& & \iff & \forall c (((c \in a) \lor (c \in \{ a \})) \iff (c \in (b \cup \{ b \})))
+& & \text{Proposition \ref{Proposition:pairwise_union_property}} \\
+& & \iff & \forall c (((c \in a) \lor (c \in \{ a \})) \iff ((c \in b) \lor (c \in \{ b \})))
+& & \text{Proposition \ref{Proposition:pairwise_union_property}} \\
+& & \iff & \forall c (((c \in a) \lor (c = a)) \iff ((c \in b) \lor (c \in \{ b \})))
+& & \text{Proposition \ref{Proposition:singleton_set_property}} \\
+& & \iff & \forall c (((c \in a) \lor (c = a)) \iff ((c \in b) \lor (c = b)))
+& & \text{Proposition \ref{Proposition:singleton_set_property}} \\
+& & \iff & a = b
+& & \text{Proposition \ref{Proposition:equality_property_3}} \\
+& )
+\end{align*}
+\end{prop}
+
 \begin{defn}
 \label{Definition:one}
 Definition of 1.
