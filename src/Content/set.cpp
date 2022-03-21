@@ -18,6 +18,10 @@ void set()
     
     proof_block* block = nullptr;
     vector<substitution*> sub;
+    
+    vector<vector<int> > source_specified_sub;
+    vector<int> absolute_path;
+    
     string description;
     
     //notin
@@ -450,7 +454,10 @@ void set()
     sub.clear(); sub.push_back(new substitution("a", "a", SET));
     block->append(input({}, "Proposition:equality_reflexive", TrueToP, sub));
     block->append(input({}, "Proposition:singleton_set_property", RightToLeft));
-    block->append(input({}, "Axiom:axiom_of_existence", LeftToRight, {{1}}));
+    source_specified_sub.clear();
+    absolute_path = {1};
+    source_specified_sub.push_back(absolute_path);
+    block->append(input({}, "Axiom:axiom_of_existence", LeftToRight, source_specified_sub));
     block->append(input({1}, "Proposition:land_commutativity", LeftToRight));
     block->append(input({1}, "Proposition:a_land_b_implies_a", LeftToRight));
     block->append(input({}, "Proposition:single_choice", RightToLeft));
@@ -486,7 +493,10 @@ void set()
     sub.clear(); sub.push_back(new substitution("a", "a", SET));
     block->append(input({1}, "Proposition:equality_reflexive", TrueToP, sub));
     block->append(input({}, "Axiom:existence_of_pair_set", RightToLeft));
-    block->append(input({}, "Axiom:axiom_of_existence", LeftToRight, {{1}}));
+    source_specified_sub.clear();
+    absolute_path = {1};
+    source_specified_sub.push_back(absolute_path);
+    block->append(input({}, "Axiom:axiom_of_existence", LeftToRight, source_specified_sub));
     block->append(input({1}, "Proposition:land_commutativity", LeftToRight));
     block->append(input({1}, "Proposition:a_land_b_implies_a", LeftToRight));
     block->append(input({}, "Proposition:single_choice", RightToLeft));
