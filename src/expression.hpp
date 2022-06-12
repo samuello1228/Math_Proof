@@ -52,21 +52,21 @@ public:
     static bool needParenthesis(expression*);
     static Print_Output getLatex_aux_1_operand(vector<vector<int> >, expression*, string, string, bool);
     static Print_Output getLatex_aux_2_operand(vector<vector<int> >, expression*, expression*, string, string, string, string);
-    virtual Print_Output getLatex(vector<vector<int> > split_point = {})=0;
+    virtual Print_Output getLatex(vector<vector<int> > split_point = {}) = 0;
     static expression* createFromLatex(string, variable_type, bool isPrint = false);
     
-    virtual bool isEqual(expression*)=0;
-    virtual expression* getCopy()=0;
-    virtual void replace_variable(vector<substitution*>)=0;
+    virtual bool isEqual(expression*) = 0;
+    virtual expression* getCopy() = 0;
+    virtual void replace_variable(vector<substitution*>) = 0;
     static expression* substitute_forall_variable(expression*, vector<substitution*>);
     static void replace_by_set(logic_value*, vector<int>, Set*);
     
-    virtual bool check_variable(vector<variable*>)=0;
-    virtual expression* getPart(vector<int>)=0;
-    virtual void getPartExternalDependence(vector<int>, vector<variable*>&)=0;
-    virtual void getInternalDependence(vector<variable*>&)=0;
-    virtual void find_path_of_variable(variable*, vector<int>, vector<vector<int> >&)=0;
-    virtual bool contain_variable(variable*)=0;
+    virtual bool check_variable(vector<variable*>) = 0;
+    virtual expression* getPart(vector<int>) = 0;
+    virtual void getPartExternalDependence(vector<int>, vector<variable*>&) = 0;
+    virtual void getInternalDependence(vector<variable*>&) = 0;
+    virtual void find_path_of_variable(variable*, vector<int>, vector<vector<int> >&) = 0;
+    virtual bool contain_variable(variable*) = 0;
     
     static bool assemble(statement*, expression*, int);
 };
@@ -93,9 +93,9 @@ public:
 class elementary_logic : public logic_value
 {
 public:
-    expression* getPart(vector<int>) {return this;}
+    expression* getPart(vector<int>) { return this; }
     void getPartExternalDependence(vector<int>, vector<variable*>&) {}
-    void getInternalDependence(vector<variable*>&) {return;}
+    void getInternalDependence(vector<variable*>&) { return; }
 };
 
 class logic_element : public elementary_logic
@@ -108,11 +108,11 @@ public:
     Print_Output getLatex(vector<vector<int> > split_point = {});
     bool isEqual(expression*);
     expression* getCopy();
-    void replace_variable(vector<substitution*>) {return;}
+    void replace_variable(vector<substitution*>) { return; }
     
-    bool check_variable(vector<variable*>) {return true;}
-    void find_path_of_variable(variable*, vector<int>, vector<vector<int> >&) {return;}
-    bool contain_variable(variable*) {return false;}
+    bool check_variable(vector<variable*>) { return true; }
+    void find_path_of_variable(variable*, vector<int>, vector<vector<int> >&) { return; }
+    bool contain_variable(variable*) { return false; }
 };
 
 class logic_variable : public elementary_logic, public variable
@@ -138,9 +138,9 @@ public:
 class elementary_set : public Set
 {
 public:
-    expression* getPart(vector<int>) {return this;}
+    expression* getPart(vector<int>) { return this; }
     void getPartExternalDependence(vector<int>, vector<variable*>&) {}
-    void getInternalDependence(vector<variable*>&) {return;}
+    void getInternalDependence(vector<variable*>&) { return; }
 };
 
 class set_element : public elementary_set
@@ -153,11 +153,11 @@ public:
     Print_Output getLatex(vector<vector<int> > split_point = {});
     bool isEqual(expression*);
     expression* getCopy();
-    void replace_variable(vector<substitution*>) {return;}
+    void replace_variable(vector<substitution*>) { return; }
     
-    bool check_variable(vector<variable*>) {return true;}
-    void find_path_of_variable(variable*, vector<int>, vector<vector<int> >&) {return;}
-    bool contain_variable(variable*) {return false;}
+    bool check_variable(vector<variable*>) { return true; }
+    void find_path_of_variable(variable*, vector<int>, vector<vector<int> >&) { return; }
+    bool contain_variable(variable*) { return false; }
 };
 
 class set_variable : public elementary_set, public variable
