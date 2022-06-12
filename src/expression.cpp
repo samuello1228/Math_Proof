@@ -15,7 +15,7 @@ substitution::substitution(variable* new_x, expression* new_y)
         logic_value* z = dynamic_cast<logic_value*>(new_y);
         if(!z)
         {
-            cout<<"Error: the variable type is not matched."<<endl;
+            cout << "Error: the variable type is not matched." << endl;
             x = nullptr;
             y = nullptr;
             return;
@@ -26,7 +26,7 @@ substitution::substitution(variable* new_x, expression* new_y)
         Set* z = dynamic_cast<Set*>(new_y);
         if(!z)
         {
-            cout<<"Error: the variable type is not matched."<<endl;
+            cout << "Error: the variable type is not matched." << endl;
             x = nullptr;
             y = nullptr;
             return;
@@ -51,7 +51,7 @@ substitution::substitution(string x_latex, string y_latex, variable_type var_typ
     
     if(!x)
     {
-        cout<<"Error: The substitution is not variable."<<endl;
+        cout << "Error: The substitution is not variable." << endl;
     }
 }
 
@@ -77,7 +77,7 @@ bool isEnglishLetter(string x)
 
 bool eraseParenthesis(string& latex)
 {
-    if(latex[0] != '(' || latex[latex.size()-1] != ')') return false;
+    if(latex[0] != '(' || latex[latex.size() - 1] != ')') return false;
     
     bool isErase = false;
     unsigned int index = 0;
@@ -90,16 +90,16 @@ bool eraseParenthesis(string& latex)
             parenthesisLevel--;
             if(parenthesisLevel == 0)
             {
-                if(index+1 == latex.size()) isErase = true;
+                if(index + 1 == latex.size()) isErase = true;
                 else isErase = false;
                 
                 break;
             }
         }
         
-        if(index+1 == latex.size())
+        if(index + 1 == latex.size())
         {
-            cout<<"Error: Impossible case"<<endl;
+            cout << "Error: Impossible case" << endl;
             break;
         }
         else index++;
@@ -107,8 +107,8 @@ bool eraseParenthesis(string& latex)
     
     if(isErase)
     {
-        latex.erase(0,1);
-        latex.erase(latex.size()-1,1);
+        latex.erase(0, 1);
+        latex.erase(latex.size() - 1, 1);
     }
     
     return isErase;
@@ -122,13 +122,13 @@ void eraseSpaceParenthesis(string& latex)
         bool isErased = false;
         if(latex[0] == ' ')
         {
-            latex.erase(0,1);
+            latex.erase(0, 1);
             isErased = true;
         }
         
-        if(latex[latex.size()-1] == ' ')
+        if(latex[latex.size() - 1] == ' ')
         {
-            latex.erase(latex.size()-1,1);
+            latex.erase(latex.size() - 1, 1);
             isErased = true;
         }
         
@@ -170,11 +170,11 @@ bool expression::needParenthesis(expression* operand)
 
 Print_Output expression::getLatex_aux_1_operand(vector<vector<int> > split_point, expression* operand, string prefix, string suffix, bool add_parenthesis)
 {
-    for(long i=0;i<split_point.size();i++)
+    for(long i = 0; i < split_point.size(); i++)
     {
         if(split_point[i].size() == 1)
         {
-            cout<<"Error: Cannot split the operand "<<split_point[i][0]<<"."<<endl;
+            cout << "Error: Cannot split the operand " << split_point[i][0] << "." << endl;
         }
         else
         {
@@ -182,7 +182,7 @@ Print_Output expression::getLatex_aux_1_operand(vector<vector<int> > split_point
             {
                 split_point[i].erase(split_point[i].begin());
             }
-            else cout<<"Error: Impossible path."<<endl;
+            else cout << "Error: Impossible path." << endl;
         }
     }
     
@@ -194,11 +194,11 @@ Print_Output expression::getLatex_aux_1_operand(vector<vector<int> > split_point
     
     Print_Output operand_latex = operand->getLatex(split_point);
     operand_latex.all_visible[0] = prefix + operand_latex.all_visible[0];
-    for(long i=1;i<operand_latex.all_phantom.size();i++)
+    for(long i = 1; i < operand_latex.all_phantom.size(); i++)
     {
         operand_latex.all_phantom[i] = prefix + operand_latex.all_phantom[i];
     }
-    operand_latex.all_visible[operand_latex.all_visible.size()-1] += suffix;
+    operand_latex.all_visible[operand_latex.all_visible.size() - 1] += suffix;
     return operand_latex;
 }
 
@@ -207,12 +207,12 @@ Print_Output expression::getLatex_aux_2_operand(vector<vector<int> > split_point
     bool is_split_operand_2 = false;
     vector<vector<int> > split_point_1;
     vector<vector<int> > split_point_2;
-    for(long i=0;i<split_point.size();i++)
+    for(long i = 0; i < split_point.size(); i++)
     {
         if(split_point[i].size() == 1)
         {
             if(split_point[i][0] == 2) is_split_operand_2 = true;
-            else cout<<"Error: Cannot split the operand "<<split_point[i][0]<<"."<<endl;
+            else cout << "Error: Cannot split the operand " << split_point[i][0] << "." << endl;
         }
         else
         {
@@ -226,7 +226,7 @@ Print_Output expression::getLatex_aux_2_operand(vector<vector<int> > split_point
                 split_point[i].erase(split_point[i].begin());
                 split_point_2.push_back(split_point[i]);
             }
-            else cout<<"Error: Impossible path."<<endl;
+            else cout << "Error: Impossible path." << endl;
         }
     }
     
@@ -244,29 +244,29 @@ Print_Output expression::getLatex_aux_2_operand(vector<vector<int> > split_point
     
     Print_Output operand1_latex = operand1->getLatex(split_point_1);
     operand1_latex.all_visible[0] = prefix_1 + operand1_latex.all_visible[0];
-    for(long i=1;i<operand1_latex.all_phantom.size();i++)
+    for(long i = 1; i < operand1_latex.all_phantom.size(); i++)
     {
         operand1_latex.all_phantom[i] = prefix_1 + operand1_latex.all_phantom[i];
     }
-    operand1_latex.all_visible[operand1_latex.all_visible.size()-1] += suffix_1;
+    operand1_latex.all_visible[operand1_latex.all_visible.size() - 1] += suffix_1;
     
     Print_Output operand2_latex = operand2->getLatex(split_point_2);
-    operand2_latex.all_visible[operand2_latex.all_visible.size()-1] += suffix_2;
+    operand2_latex.all_visible[operand2_latex.all_visible.size() - 1] += suffix_2;
     if(is_split_operand_2)
     {
         operand2_latex.all_visible[0] = prefix_2 + operand2_latex.all_visible[0];
-        for(long i=1;i<operand2_latex.all_phantom.size();i++)
+        for(long i = 1; i < operand2_latex.all_phantom.size(); i++)
         {
             operand2_latex.all_phantom[i] = prefix_2 + operand2_latex.all_phantom[i];
         }
     }
     else
     {
-        string phantom_add = operand1_latex.all_phantom[operand1_latex.all_phantom.size()-1] + operand1_latex.all_visible[operand1_latex.all_visible.size()-1] + " " + prefix_2;
+        string phantom_add = operand1_latex.all_phantom[operand1_latex.all_phantom.size() - 1] + operand1_latex.all_visible[operand1_latex.all_visible.size() - 1] + " " + prefix_2;
         
-        operand1_latex.all_visible[operand1_latex.all_visible.size()-1] += " " + prefix_2 + operand2_latex.all_visible[0];
+        operand1_latex.all_visible[operand1_latex.all_visible.size() - 1] += " " + prefix_2 + operand2_latex.all_visible[0];
         
-        for(long i=1;i<operand2_latex.all_phantom.size();i++)
+        for(long i = 1; i < operand2_latex.all_phantom.size(); i++)
         {
             operand2_latex.all_phantom[i] = phantom_add + operand2_latex.all_phantom[i];
         }
@@ -275,7 +275,7 @@ Print_Output expression::getLatex_aux_2_operand(vector<vector<int> > split_point
         operand2_latex.all_phantom.erase(operand2_latex.all_phantom.begin());
     }
     
-    for(long i=0;i<operand2_latex.all_visible.size();i++)
+    for(long i = 0; i < operand2_latex.all_visible.size(); i++)
     {
         operand1_latex.all_visible.push_back(operand2_latex.all_visible[i]);
         operand1_latex.all_phantom.push_back(operand2_latex.all_phantom[i]);
@@ -291,11 +291,11 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
     
     if(latex.size() == 0)
     {
-        cout<<"Syntax Error: the expression is empty"<<endl;
+        cout << "Syntax Error: the expression is empty" << endl;
         return nullptr;
     }
     
-    if(isPrint) cout<<latex<<endl;
+    if(isPrint) cout << latex << endl;
     
     //split the expression by whitespace and parenthesis, at the topmost parenthesis level
     vector<string> elements;
@@ -326,11 +326,11 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
                 }
                 else if(latex[index] == ')')
                 {
-                    cout<<"Error: the number of closing parenthesis is more than expected."<<endl;
-                    cout<<latex<<endl;
+                    cout << "Error: the number of closing parenthesis is more than expected." << endl;
+                    cout << latex << endl;
                     return nullptr;
                 }
-                else if(latex[index] == '\\' && latex[index+1] == '{')
+                else if(latex[index] == '\\' && latex[index + 1] == '{')
                 {
                     if(element.size() != 0)
                     {
@@ -340,9 +340,9 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
                     index++;
                     parenthesisLevel++;
                 }
-                else if(latex[index] == '\\' && latex[index+1] == '}')
+                else if(latex[index] == '\\' && latex[index + 1] == '}')
                 {
-                    cout<<"Error: Impossible case"<<endl;
+                    cout << "Error: Impossible case" << endl;
                     return nullptr;
                 }
                 else element += latex[index];
@@ -356,7 +356,7 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
                 }
                 parenthesisLevel--;
             }
-            else if(latex[index] == '\\' && latex[index+1] == '}' && parenthesisLevel == 1)
+            else if(latex[index] == '\\' && latex[index + 1] == '}' && parenthesisLevel == 1)
             {
                 element += "\\}";
                 index++;
@@ -374,13 +374,13 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
                 else if(latex[index] == ')') parenthesisLevel--;
                 if(latex[index] == '\\')
                 {
-                    if(latex[index+1] == '{')
+                    if(latex[index + 1] == '{')
                     {
                         index++;
                         element += latex[index];
                         parenthesisLevel++;
                     }
-                    else if(latex[index+1] == '}')
+                    else if(latex[index + 1] == '}')
                     {
                         index++;
                         element += latex[index];
@@ -389,11 +389,11 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
                 }
             }
             
-            if(index == latex.size()-1)
+            if(index == latex.size() - 1)
             {
                 if(parenthesisLevel != 0)
                 {
-                    cout<<"Error: "<< parenthesisLevel <<" closing parenthesis is missing."<<endl;
+                    cout << "Error: " << parenthesisLevel << " closing parenthesis is missing." << endl;
                     return nullptr;
                 }
                 
@@ -410,14 +410,14 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
     
     if(isPrint)
     {
-        for(long i=0; i<elements.size(); i++)
+        for(long i = 0; i < elements.size(); i++)
         {
-            cout<<i<<": "<<elements[i]<<endl;
+            cout << i << ": " << elements[i] << endl;
         }
-        cout<<endl;
+        cout << endl;
     }
     
-    for(long i=0; i<elements.size(); i++) eraseSpaceParenthesis(elements[i]);
+    for(long i = 0; i < elements.size(); i++) eraseSpaceParenthesis(elements[i]);
     
     if(elements.size() == 1)
     {
@@ -463,7 +463,7 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
         {
             bool is_pair_set = false;
             long comma_index = -1;
-            for(long i=2;i<=elements[0].size()-3;i++)
+            for(long i = 2; i <= elements[0].size() - 3; i++)
             {
                 if(elements[0][i] == ',')
                 {
@@ -477,13 +477,13 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
             {
                 //For pair_set
                 string operand1_latex = "";
-                for(long i=2;i<=comma_index-1;i++)
+                for(long i = 2; i <= comma_index - 1; i++)
                 {
                     operand1_latex += elements[0][i];
                 }
                 
                 string operand2_latex = "";
-                for(long i=comma_index+1;i<=elements[0].size()-3;i++)
+                for(long i = comma_index + 1; i <= elements[0].size() - 3; i++)
                 {
                     operand2_latex += elements[0][i];
                 }
@@ -492,8 +492,8 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
                 Set* operand2 = dynamic_cast<Set*>(expression::createFromLatex(operand2_latex, var_type, isPrint));
                 if(!operand1 || !operand2)
                 {
-                    cout<<"Type Error: the two operands are not set: "<<operand1_latex<<endl;
-                    cout<<operand2_latex<<endl;
+                    cout << "Type Error: the two operands are not set: " << operand1_latex << endl;
+                    cout << operand2_latex << endl;
                     return nullptr;
                 }
                 
@@ -504,7 +504,7 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
             {
                 //For singleton_set
                 string operand_latex = "";
-                for(long i=2;i<=elements[0].size()-3;i++)
+                for(long i = 2; i <= elements[0].size() - 3; i++)
                 {
                     operand_latex += elements[0][i];
                 }
@@ -512,7 +512,7 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
                 Set* operand = dynamic_cast<Set*>(expression::createFromLatex(operand_latex, var_type, isPrint));
                 if(!operand)
                 {
-                    cout<<"Type Error: the operand are not set: "<<operand_latex<<endl;
+                    cout << "Type Error: the operand are not set: " << operand_latex << endl;
                     return nullptr;
                 }
                 
@@ -529,7 +529,7 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
             logic_value* operand = dynamic_cast<logic_value*>(expression::createFromLatex(elements[1], var_type, isPrint));
             if(!operand)
             {
-                cout<<"Type Error: the operand is not logic value: "<<elements[1]<<endl;
+                cout << "Type Error: the operand is not logic value: " << elements[1] << endl;
                 return nullptr;
             }
             
@@ -541,7 +541,7 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
             Set* operand = dynamic_cast<Set*>(expression::createFromLatex(elements[1], var_type, isPrint));
             if(!operand)
             {
-                cout<<"Type Error: the operand is not set: "<<elements[1]<<endl;
+                cout << "Type Error: the operand is not set: " << elements[1] << endl;
                 return nullptr;
             }
             
@@ -553,7 +553,7 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
             Set* operand = dynamic_cast<Set*>(expression::createFromLatex(elements[1], var_type, isPrint));
             if(!operand)
             {
-                cout<<"Type Error: the operand is not set: "<<elements[1]<<endl;
+                cout << "Type Error: the operand is not set: " << elements[1] << endl;
                 return nullptr;
             }
             
@@ -573,8 +573,8 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
             logic_value* operand2 = dynamic_cast<logic_value*>(expression::createFromLatex(elements[2], var_type, isPrint));
             if(!operand1 || !operand2)
             {
-                cout<<"Type Error: the two operands are not logic values: "<<elements[0]<<endl;
-                cout<<elements[2]<<endl;
+                cout << "Type Error: the two operands are not logic values: " << elements[0] << endl;
+                cout << elements[2] << endl;
                 return nullptr;
             }
             expression* output = new logic_binary_operator_logic_logic(elements[1], operand1, operand2);
@@ -591,8 +591,8 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
             Set* operand2 = dynamic_cast<Set*>(expression::createFromLatex(elements[2], var_type, isPrint));
             if(!operand1 || !operand2)
             {
-                cout<<"Type Error: the two operands are not set: "<<elements[0]<<endl;
-                cout<<elements[2]<<endl;
+                cout << "Type Error: the two operands are not set: " << elements[0] << endl;
+                cout << elements[2] << endl;
                 return nullptr;
             }
             expression* output = new logic_binary_operator_set_set(elements[1], operand1, operand2);
@@ -605,8 +605,8 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
             Set* operand2 = dynamic_cast<Set*>(expression::createFromLatex(elements[2], var_type, isPrint));
             if(!operand1 || !operand2)
             {
-                cout<<"Type Error: the two operands are not set: "<<elements[0]<<endl;
-                cout<<elements[2]<<endl;
+                cout << "Type Error: the two operands are not set: " << elements[0] << endl;
+                cout << elements[2] << endl;
                 return nullptr;
             }
             expression* output = new set_binary_operator_set_set(elements[1], operand1, operand2);
@@ -618,9 +618,9 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
     if(elements.size() >= 3 && elements.size() % 2 == 1)
     {
         bool isQuantifier = true;
-        for(long i=0;i<= elements.size()-2;i++)
+        for(long i = 0; i <= elements.size() - 2; i++)
         {
-            if(i%2==0)
+            if(i % 2 == 0)
             {
                 if(elements[i] != "\\forall" && elements[i] != "\\exists") isQuantifier = false;
             }
@@ -630,9 +630,9 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
         {
             vector<string> quantifier_list;
             vector<variable*> var_list;
-            for(long i=0;i<= elements.size()-2;i++)
+            for(long i = 0; i <= elements.size() - 2; i++)
             {
-                if(i%2==0)
+                if(i % 2 == 0)
                 {
                     quantifier_list.push_back(elements[i]);
                 }
@@ -641,7 +641,7 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
                     variable* var = nullptr;
                     if(!isEnglishLetter(elements[i]))
                     {
-                        cout<<"Variale Error: the variable for the quantifier is not English letter: "<<elements[i]<<endl;
+                        cout << "Variale Error: the variable for the quantifier is not English letter: " << elements[i] << endl;
                         return nullptr;
                     }
                     else
@@ -653,20 +653,19 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
                 }
             }
             
-            logic_value* operand = dynamic_cast<logic_value*>(expression::createFromLatex(elements[elements.size()-1], var_type, isPrint));
+            logic_value* operand = dynamic_cast<logic_value*>(expression::createFromLatex(elements[elements.size() - 1], var_type, isPrint));
             if(!operand)
             {
-                cout<<"Type Error: the operand is not logic value: "<<elements[elements.size()-1]<<endl;
+                cout << "Type Error: the operand is not logic value: " << elements[elements.size() - 1] << endl;
                 return nullptr;
             }
             
-            long index = quantifier_list.size() -1;
+            long index = quantifier_list.size() - 1;
             while(true)
             {
                 if(quantifier_list[index] == "\\forall")
                 {
                     operand = new universal_quantifier(var_list[index], operand);
-                    
                 }
                 else if(quantifier_list[index] == "\\exists")
                 {
@@ -674,14 +673,14 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
                 }
                 
                 if(index == 0) break;
-                else index --;
+                else index--;
             }
             
             return operand;
         }
     }
     
-    cout<<"Syntax Error: the expression cannot be processed: "<<latex<<endl;
+    cout << "Syntax Error: the expression cannot be processed: " << latex << endl;
     return nullptr;
 }
 
@@ -689,7 +688,7 @@ expression* expression::substitute_forall_variable(expression* x, vector<substit
 {
     if(variable* y = dynamic_cast<variable*>(x))
     {
-        for(long i=0;i<sub.size();i++)
+        for(long i = 0; i < sub.size(); i++)
         {
             if(y->isEqual(sub[i]->x))
             {
@@ -701,7 +700,7 @@ expression* expression::substitute_forall_variable(expression* x, vector<substit
     }
     else if(universal_quantifier* y = dynamic_cast<universal_quantifier*>(x))
     {
-        for(long i=0;i<sub.size();i++)
+        for(long i = 0; i < sub.size(); i++)
         {
             if(y->var->isEqual(sub[i]->x))
             {
@@ -749,7 +748,7 @@ void expression::replace_by_set(logic_value* x, vector<int> path, Set* y)
 {
     if(path.size() == 0)
     {
-        cout<<"Error: it is not allowed. The part must be set, not logic value."<<endl;
+        cout << "Error: it is not allowed. The part must be set, not logic value." << endl;
         return;
     }
     
@@ -759,44 +758,44 @@ void expression::replace_by_set(logic_value* x, vector<int> path, Set* y)
     expression* z = x->getPart(path);
     if(logic_binary_operator_set_set* z_copy = dynamic_cast<logic_binary_operator_set_set*>(z))
     {
-        if(p==1)
+        if(p == 1)
         {
             delete z_copy->operand1;
             z_copy->operand1 = dynamic_cast<Set*>(y->getCopy());
         }
-        else if(p==2)
+        else if(p == 2)
         {
             delete z_copy->operand2;
             z_copy->operand2 = dynamic_cast<Set*>(y->getCopy());
         }
-        else cout<<"Error: The path for binary operator is not 1 or 2."<<endl;
+        else cout << "Error: The path for binary operator is not 1 or 2." << endl;
     }
     else if(set_unary_operator_set* z_copy = dynamic_cast<set_unary_operator_set*>(z))
     {
-        if(p==1)
+        if(p == 1)
         {
             delete z_copy->operand;
             z_copy->operand = dynamic_cast<Set*>(y->getCopy());
         }
-        else cout<<"Error: The path for unary operator is not 1."<<endl;
+        else cout << "Error: The path for unary operator is not 1." << endl;
     }
     else if(set_binary_operator_set_set* z_copy = dynamic_cast<set_binary_operator_set_set*>(z))
     {
-        if(p==1)
+        if(p == 1)
         {
             delete z_copy->operand1;
             z_copy->operand1 = dynamic_cast<Set*>(y->getCopy());
         }
-        else if(p==2)
+        else if(p == 2)
         {
             delete z_copy->operand2;
             z_copy->operand2 = dynamic_cast<Set*>(y->getCopy());
         }
-        else cout<<"Error: The path for binary operator is not 1 or 2."<<endl;
+        else cout << "Error: The path for binary operator is not 1 or 2." << endl;
     }
     else
     {
-        cout<<"Error: it is not allowed. The part must be set, not logic value."<<endl;
+        cout << "Error: it is not allowed. The part must be set, not logic value." << endl;
     }
 }
 
@@ -857,7 +856,7 @@ bool expression::assemble(statement* step, expression* source_part, int p)
         //Counter example for \\implies and p == 1
         //(F \\implies T) \implies ( (F \\implies F) \implies (T \\implies F) )
         
-        if(p==1 && (condition_iff || condition_implies_1))
+        if(p == 1 && (condition_iff || condition_implies_1))
         {
             logic_value* copy1 = dynamic_cast<logic_value*>(source_part_copy->operand2->getCopy());
             logic_value* copy2 = dynamic_cast<logic_value*>(source_part_copy->operand2->getCopy());
@@ -865,7 +864,7 @@ bool expression::assemble(statement* step, expression* source_part, int p)
             step->binary_operator_logic->operand2 = new logic_binary_operator_logic_logic(source_part_copy->operator_latex, step->binary_operator_logic->operand2, copy2);
             return true;
         }
-        else if(p==2 && (condition_iff || condition_implies_1 || condition_implies_2))
+        else if(p == 2 && (condition_iff || condition_implies_1 || condition_implies_2))
         {
             logic_value* copy1 = dynamic_cast<logic_value*>(source_part_copy->operand1->getCopy());
             logic_value* copy2 = dynamic_cast<logic_value*>(source_part_copy->operand1->getCopy());
@@ -883,7 +882,7 @@ bool expression::assemble(statement* step, expression* source_part, int p)
                                                     source_part_copy->operator_latex == "\\neq" ||
                                                     source_part_copy->operator_latex == "\\subseteq");
         
-        if((p==1 || p==2) && condition_equality)
+        if((p == 1 || p == 2) && condition_equality)
         {
             universal_quantifier* x = nullptr;
             universal_quantifier* y = dynamic_cast<universal_quantifier*>(step->content);
@@ -899,14 +898,14 @@ bool expression::assemble(statement* step, expression* source_part, int p)
             
             logic_value* operand1 = nullptr;
             logic_value* operand2 = nullptr;
-            if(p==1)
+            if(p == 1)
             {
                 Set* copy1 = dynamic_cast<Set*>(source_part_copy->operand2->getCopy());
                 Set* copy2 = dynamic_cast<Set*>(source_part_copy->operand2->getCopy());
                 operand1 = new logic_binary_operator_set_set(source_part_copy->operator_latex, step->binary_operator_set->operand1, copy1);
                 operand2 = new logic_binary_operator_set_set(source_part_copy->operator_latex, step->binary_operator_set->operand2, copy2);
             }
-            else if(p==2)
+            else if(p == 2)
             {
                 Set* copy1 = dynamic_cast<Set*>(source_part_copy->operand1->getCopy());
                 Set* copy2 = dynamic_cast<Set*>(source_part_copy->operand1->getCopy());
@@ -956,7 +955,7 @@ bool expression::assemble(statement* step, expression* source_part, int p)
                                                     source_part_copy->operator_latex == "\\cup" ||
                                                     source_part_copy->operator_latex == "+");
         
-        if(p==1 && condition_equality)
+        if(p == 1 && condition_equality)
         {
             Set* copy1 = dynamic_cast<Set*>(source_part_copy->operand2->getCopy());
             Set* copy2 = dynamic_cast<Set*>(source_part_copy->operand2->getCopy());
@@ -964,7 +963,7 @@ bool expression::assemble(statement* step, expression* source_part, int p)
             step->binary_operator_set->operand2 = new set_binary_operator_set_set(source_part_copy->operator_latex, step->binary_operator_set->operand2, copy2);
             return true;
         }
-        else if(p==2 && condition_equality)
+        else if(p == 2 && condition_equality)
         {
             Set* copy1 = dynamic_cast<Set*>(source_part_copy->operand1->getCopy());
             Set* copy2 = dynamic_cast<Set*>(source_part_copy->operand1->getCopy());
@@ -975,7 +974,7 @@ bool expression::assemble(statement* step, expression* source_part, int p)
     }
     else
     {
-        cout<<"Error: it is not allowed."<<endl;
+        cout << "Error: it is not allowed." << endl;
         return false;
     }
     
@@ -989,7 +988,7 @@ variable::variable(const string& newLatex)
 
 void variable::replace_variable(vector<substitution*> replacement)
 {
-    for(long i=0;i<replacement.size();i++)
+    for(long i = 0; i < replacement.size(); i++)
     {
         if(replacement[i]->x->isEqual(this))
         {
@@ -1002,7 +1001,7 @@ void variable::replace_variable(vector<substitution*> replacement)
 
 bool variable::check_variable(vector<variable*> var_list)
 {
-    for(long i=0;i<var_list.size();i++)
+    for(long i = 0; i < var_list.size(); i++)
     {
         if(isEqual(var_list[i]))
         {
@@ -1010,7 +1009,7 @@ bool variable::check_variable(vector<variable*> var_list)
         }
     }
     
-    cout<<"Error: variable "<<getLatex().getNormal()<<" is not declared in the quantifier."<<endl;
+    cout << "Error: variable " << getLatex().getNormal() << " is not declared in the quantifier." << endl;
     return false;
 }
 
@@ -1155,9 +1154,9 @@ Print_Output quantifier::getLatex(vector<vector<int> > split_point)
             prefix += "\\forall " + y->var->getLatex().getNormal() + " ";
             x = y->operand;
             
-            for(long i=0;i<split_point.size();i++)
+            for(long i = 0; i < split_point.size(); i++)
             {
-                if(split_point[i][0] != 1) cout<<"Error: Impossible path."<<endl;
+                if(split_point[i][0] != 1) cout << "Error: Impossible path." << endl;
                 split_point[i].erase(split_point[i].begin());
             }
         }
@@ -1166,9 +1165,9 @@ Print_Output quantifier::getLatex(vector<vector<int> > split_point)
             prefix += "\\exists " + y->var->getLatex().getNormal() + " ";
             x = y->operand;
             
-            for(long i=0;i<split_point.size();i++)
+            for(long i = 0; i < split_point.size(); i++)
             {
-                if(split_point[i][0] != 1) cout<<"Error: Impossible path."<<endl;
+                if(split_point[i][0] != 1) cout << "Error: Impossible path." << endl;
                 split_point[i].erase(split_point[i].begin());
             }
         }
@@ -1178,17 +1177,17 @@ Print_Output quantifier::getLatex(vector<vector<int> > split_point)
     
     Print_Output operand_latex = x->getLatex(split_point);
     operand_latex.all_visible[0] = prefix + operand_latex.all_visible[0];
-    for(long i=1;i<operand_latex.all_phantom.size();i++)
+    for(long i = 1; i < operand_latex.all_phantom.size(); i++)
     {
         operand_latex.all_phantom[i] = prefix + operand_latex.all_phantom[i];
     }
-    operand_latex.all_visible[operand_latex.all_visible.size()-1] += ")";
+    operand_latex.all_visible[operand_latex.all_visible.size() - 1] += ")";
     return operand_latex;
 }
 
 void quantifier::replace_variable(vector<substitution*> replacement)
 {
-    for(long i=0;i<replacement.size();i++)
+    for(long i = 0; i < replacement.size(); i++)
     {
         if(replacement[i]->x->isEqual(var))
         {
@@ -1204,11 +1203,11 @@ void quantifier::replace_variable(vector<substitution*> replacement)
 bool quantifier::check_variable(vector<variable*> var_list)
 {
     //check whether the variable name is distinct
-    for(long i=0;i<var_list.size();i++)
+    for(long i = 0; i < var_list.size(); i++)
     {
         if(var_list[i]->isEqual(var))
         {
-            cout<<"Error: Two quantifiers have the same variable name."<<endl;
+            cout << "Error: Two quantifiers have the same variable name." << endl;
             return false;
         }
     }
@@ -1224,7 +1223,7 @@ expression* quantifier::getPart(vector<int> path)
     
     if(path[0] != 1)
     {
-        cout<<"Error: The path for quantifier is not 1."<<endl;
+        cout << "Error: The path for quantifier is not 1." << endl;
     }
     
     path.erase(path.begin());
@@ -1243,7 +1242,7 @@ void quantifier::getPartExternalDependence(vector<int> path, vector<variable*>& 
 void quantifier::getInternalDependence(vector<variable*>& dependence)
 {
     bool duplicate = false;
-    for(long i=0;i<dependence.size();i++)
+    for(long i = 0; i < dependence.size(); i++)
     {
         if(var->isEqual(dependence[i]))
         {
@@ -1267,7 +1266,7 @@ bool quantifier::contain_variable(variable* x)
     return operand->contain_variable(x);
 }
 
-universal_quantifier::universal_quantifier(variable* x, logic_value* y) : quantifier(x,y)
+universal_quantifier::universal_quantifier(variable* x, logic_value* y) : quantifier(x, y)
 {
 }
 
@@ -1288,7 +1287,7 @@ expression* universal_quantifier::getCopy()
     return x;
 }
 
-existential_quantifier::existential_quantifier(variable* x, logic_value* y) : quantifier(x,y)
+existential_quantifier::existential_quantifier(variable* x, logic_value* y) : quantifier(x, y)
 {
 }
 
@@ -1310,7 +1309,7 @@ expression* existential_quantifier::getCopy()
 }
 
 template <class T>
-bool isEqual_1_operand (T* x, expression* y)
+bool isEqual_1_operand(T* x, expression* y)
 {
     T* z = dynamic_cast<T*>(y);
     if(!z) return false;
@@ -1320,7 +1319,7 @@ bool isEqual_1_operand (T* x, expression* y)
 }
 
 template <class T>
-bool isEqual_2_operand (T* x, expression* y)
+bool isEqual_2_operand(T* x, expression* y)
 {
     T* z = dynamic_cast<T*>(y);
     if(!z) return false;
@@ -1354,7 +1353,7 @@ expression* getPart_1_operand(T* x, vector<int>& path)
     
     if(path[0] != 1)
     {
-        cout<<"Error: The path for unary operator is not 1."<<endl;
+        cout << "Error: The path for unary operator is not 1." << endl;
     }
     
     path.erase(path.begin());
@@ -1373,7 +1372,7 @@ expression* getPart_2_operand(T* x, vector<int>& path)
     else if(p == 2) return x->operand2->getPart(path);
     else
     {
-        cout<<"Error: The path for binary operator is not 1 or 2."<<endl;
+        cout << "Error: The path for binary operator is not 1 or 2." << endl;
         return nullptr;
     }
 }
@@ -1441,7 +1440,7 @@ Print_Output logic_unary_operator_logic::getLatex(vector<vector<int> > split_poi
     }
     else
     {
-        cout<<"Syntax Error: the operator cannot be processed: "<<operator_latex<<endl;
+        cout << "Syntax Error: the operator cannot be processed: " << operator_latex << endl;
         Print_Output output;
         return output;
     }
@@ -1526,7 +1525,7 @@ Print_Output logic_binary_operator_logic_logic::getLatex(vector<vector<int> > sp
     }
     else
     {
-        cout<<"Syntax Error: the operator cannot be processed: "<<operator_latex<<endl;
+        cout << "Syntax Error: the operator cannot be processed: " << operator_latex << endl;
         Print_Output output;
         return output;
     }
@@ -1614,7 +1613,7 @@ Print_Output logic_binary_operator_set_set::getLatex(vector<vector<int> > split_
     }
     else
     {
-        cout<<"Syntax Error: the operator cannot be processed: "<<operator_latex<<endl;
+        cout << "Syntax Error: the operator cannot be processed: " << operator_latex << endl;
         Print_Output output;
         return output;
     }
@@ -1702,7 +1701,7 @@ Print_Output set_unary_operator_set::getLatex(vector<vector<int> > split_point)
     }
     else
     {
-        cout<<"Syntax Error: the operator cannot be processed: "<<operator_latex<<endl;
+        cout << "Syntax Error: the operator cannot be processed: " << operator_latex << endl;
         Print_Output output;
         return output;
     }
@@ -1787,7 +1786,7 @@ Print_Output set_binary_operator_set_set::getLatex(vector<vector<int> > split_po
     }
     else
     {
-        cout<<"Syntax Error: the operator cannot be processed: "<<operator_latex<<endl;
+        cout << "Syntax Error: the operator cannot be processed: " << operator_latex << endl;
         Print_Output output;
         return output;
     }
