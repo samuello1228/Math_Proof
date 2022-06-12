@@ -9,21 +9,21 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Build the library:
-add_library(expression src/expression.hpp src/expression.cpp)
-target_include_directories(expression PUBLIC src)
+add_library(expression ${CMAKE_CURRENT_SOURCE_DIR}/src/expression.hpp ${CMAKE_CURRENT_SOURCE_DIR}/src/expression.cpp)
+target_include_directories(expression PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-add_library(statement src/statement.hpp src/statement.cpp)
-target_include_directories(statement PUBLIC src)
+add_library(statement src/statement.hpp ${CMAKE_CURRENT_SOURCE_DIR}/src/statement.cpp)
+target_include_directories(statement PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 target_link_libraries(expression statement)
 target_link_libraries(statement expression)
 
-add_library(logic src/Content/logic.hpp src/Content/logic.cpp)
-target_include_directories(logic PUBLIC src/Content)
+add_library(logic ${CMAKE_CURRENT_SOURCE_DIR}/src/Content/logic.hpp ${CMAKE_CURRENT_SOURCE_DIR}/src/Content/logic.cpp)
+target_include_directories(logic PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src/Content)
 target_link_libraries(logic statement)
 
-add_library(set src/Content/set.hpp src/Content/set.cpp)
-target_include_directories(set PUBLIC src/Content)
+add_library(set ${CMAKE_CURRENT_SOURCE_DIR}/src/Content/set.hpp ${CMAKE_CURRENT_SOURCE_DIR}/src/Content/set.cpp)
+target_include_directories(set PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src/Content)
 target_link_libraries(set statement)
 
 # Add the executable:
