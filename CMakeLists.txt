@@ -27,6 +27,6 @@ target_include_directories(set PUBLIC src/Content)
 target_link_libraries(set statement)
 
 # Add the executable:
-add_executable(Math_Proof src/main.cpp)
-target_link_libraries(Math_Proof logic)
-target_link_libraries(Math_Proof set)
+add_executable(main src/main.cpp)
+target_link_libraries(main logic)
+target_link_libraries(main set)
