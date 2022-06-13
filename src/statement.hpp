@@ -19,7 +19,7 @@ class Proposition;
 
 enum direction {LeftToRight, RightToLeft, TrueToP, PToTrue};
 vector<substitution*> createReplacement(vector<variable*>, vector<variable*>);
-vector<substitution*> createSubstitution(vector<variable*> ,expression*, vector<vector<int> >);
+vector<substitution*> createSubstitution(vector<variable*>, expression*, vector<vector<int> >);
 
 class statement
 {
@@ -51,7 +51,7 @@ public:
     
     static ofstream fout;
     string getLatex();
-    virtual statement* getCopy()=0;
+    virtual statement* getCopy() = 0;
     void delete_the_last_universal_quantifier();
     void upgrade_to_true(direction, long);
 };
