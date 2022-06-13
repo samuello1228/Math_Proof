@@ -843,11 +843,11 @@ void logic()
     {
         logic_variable* a = new logic_variable("a");
         set_variable* c = new set_variable("c");
-        universal_quantifier* u1 = new universal_quantifier(c,a);
+        universal_quantifier* u1 = new universal_quantifier(c, a);
 
         c = new set_variable("c");
         logic_variable* b = new logic_variable("b");
-        universal_quantifier* u2 = new universal_quantifier(c,b);
+        universal_quantifier* u2 = new universal_quantifier(c, b);
 
         logic_binary_operator_logic_logic* u1_and_u2 = new logic_binary_operator_logic_logic("\\land", u1, u2);
 
@@ -895,11 +895,11 @@ void logic()
     {
         logic_variable* a = new logic_variable("a");
         set_variable* c = new set_variable("c");
-        existential_quantifier* e1 = new existential_quantifier(c,a);
+        existential_quantifier* e1 = new existential_quantifier(c, a);
 
         c = new set_variable("c");
         logic_variable* b = new logic_variable("b");
-        existential_quantifier* e2 = new existential_quantifier(c,b);
+        existential_quantifier* e2 = new existential_quantifier(c, b);
 
         logic_binary_operator_logic_logic* e1_or_e2 = new logic_binary_operator_logic_logic("\\lor", e1, e2);
 
@@ -948,7 +948,7 @@ void logic()
         logic_variable* a = new logic_variable("a");
         set_variable* c = new set_variable("c");
         logic_variable* b = new logic_variable("b");
-        universal_quantifier* u1 = new universal_quantifier(c,b);
+        universal_quantifier* u1 = new universal_quantifier(c, b);
         logic_binary_operator_logic_logic* a_or_u1 = new logic_binary_operator_logic_logic("\\lor", a, u1);
 
         a = new logic_variable("a");
@@ -994,7 +994,7 @@ void logic()
         logic_variable* a = new logic_variable("a");
         set_variable* c = new set_variable("c");
         logic_variable* b = new logic_variable("b");
-        existential_quantifier* e1 = new existential_quantifier(c,b);
+        existential_quantifier* e1 = new existential_quantifier(c, b);
         logic_binary_operator_logic_logic* a_and_e1 = new logic_binary_operator_logic_logic("\\land", a, e1);
 
         a = new logic_variable("a");
@@ -1040,7 +1040,7 @@ void logic()
         logic_variable* a = new logic_variable("a");
         set_variable* c = new set_variable("c");
         logic_variable* b = new logic_variable("b");
-        universal_quantifier* u1 = new universal_quantifier(c,b);
+        universal_quantifier* u1 = new universal_quantifier(c, b);
         logic_binary_operator_logic_logic* a_implies_u1 = new logic_binary_operator_logic_logic("\\implies", a, u1);
 
         a = new logic_variable("a");
