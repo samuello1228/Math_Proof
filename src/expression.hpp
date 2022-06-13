@@ -13,7 +13,13 @@
 #include <vector>
 using namespace std;
 
-enum variable_type {LOGIC, SET, None};
+enum variable_type
+{
+    LOGIC,
+    SET,
+    None
+};
+
 class substitution;
 class expression;
 class variable;

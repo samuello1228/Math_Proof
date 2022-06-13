@@ -17,7 +17,14 @@ class Proposition;
 
 #include "expression.hpp"
 
-enum direction {LeftToRight, RightToLeft, TrueToP, PToTrue};
+enum direction
+{
+    LeftToRight,
+    RightToLeft,
+    TrueToP,
+    PToTrue
+};
+
 vector<substitution*> createReplacement(vector<variable*>, vector<variable*>);
 vector<substitution*> createSubstitution(vector<variable*>, expression*, vector<vector<int> >);
 
@@ -86,7 +93,13 @@ public:
     static void addAxiom(string description = "");
 };
 
-enum substitution_type {automatic, source_specified, full};
+enum substitution_type
+{
+    automatic,
+    source_specified,
+    full
+};
+
 class input
 {
 public:
@@ -118,7 +131,14 @@ struct Print_Info
     vector<vector<int> > split_point;
 };
 
-enum proof_method {direct, backward, deduction_LeftToRight, deduction_RightToLeft};
+enum proof_method
+{
+    direct,
+    backward,
+    deduction_LeftToRight,
+    deduction_RightToLeft
+};
+
 class proof_block
 {
 public:
