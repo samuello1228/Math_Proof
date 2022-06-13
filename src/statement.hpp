@@ -26,17 +26,17 @@ class statement
 public:
     string label;
     logic_value* content;
-    
+
     //for \\forall quantifier
     vector<variable*> forall_variable;
-    
+
     //for binary operator with transitive property: \\iff, \\implies, =
     variable_type binary_operator_type;
     logic_binary_operator_logic_logic* binary_operator_logic;
     logic_binary_operator_set_set* binary_operator_set;
     vector<vector<int> > path_of_variable_operand1;
     vector<vector<int> > path_of_variable_operand2;
-    
+
     statement(string, variable_type, string, bool isPrint = false);
     statement(string, expression*);
     void constructor_aux();
@@ -44,11 +44,11 @@ public:
     logic_value* get_expression_without_forall_variable();
     void find_all_path_of_variable(bool);
     virtual ~statement();
-    
+
     logic_value* get_binary_operator();
     string get_binary_operator_latex();
     expression* get_oeprand(int);
-    
+
     static ofstream fout;
     string getLatex();
     virtual statement* getCopy() = 0;
@@ -62,9 +62,9 @@ public:
     Definition(string, variable_type, string, bool isPrint = false);
     Definition(string, expression*);
     ~Definition();
-    
+
     statement* getCopy();
-    
+
     static vector<Definition*> All_Definition;
     static Definition* Current;
     static Definition* FindByRef(string);
@@ -77,9 +77,9 @@ public:
     Axiom(string, variable_type, string, bool isPrint = false);
     Axiom(string, expression*);
     ~Axiom();
-    
+
     statement* getCopy();
-    
+
     static vector<Axiom*> All_Axiom;
     static Axiom* Current;
     static Axiom* FindByRef(string);
@@ -92,7 +92,7 @@ class input
 public:
     vector<int> relative_path;
     bool isPrint;
-    
+
     //for binary operator
     statement* law;
     string law_label;
@@ -100,14 +100,14 @@ public:
     substitution_type sub_type;
     vector<vector<int> > source_specified_substitution;
     vector<substitution*> full_substitution;
-    
+
     //for forall substitution
     expression* forall_substitution;
-    
+
     input(vector<int> relative_path, string law_label, direction dir, bool isPrint = false);
     input(vector<int> relative_path, string law_label, direction dir, vector<vector<int> > sub, bool isPrint = false);
     input(vector<int> relative_path, string law_label, direction dir, vector<substitution*> sub, bool isPrint = false);
-    
+
     input(vector<int> relative_path, expression* forall_substitution, bool isPrint = false);
 };
 
@@ -126,25 +126,25 @@ public:
     statement* target;
     vector<variable*> forall_variable_proof;
     proof_method method;
-    
+
     vector<Print_Info> print_info;
     vector<statement*> chain_of_deductive;
-    
+
     proof_block(proof_method, string option = "this");
     proof_block(string, Proposition, proof_method);
     ~proof_block();
-    
+
     void set_split_point(vector<vector<int> >);
     string getLatex();
-    
+
     void set_target_forall_variable(long);
     expression* get_next_source();
     void check_finished();
-    
+
     void apply_binary_operator(input&, expression*, Print_Info&);
     void apply_forall_substitution(input&, expression*, Print_Info&);
     void apply_axiom_of_existence(input&, expression*);
-    
+
     void append(input x);
 };
 
@@ -152,14 +152,14 @@ class Proposition : public statement
 {
 public:
     vector<proof_block*> proof;
-    
+
     Proposition(string, variable_type, string, bool isPrint = false);
     Proposition(string, expression*);
     ~Proposition();
-    
+
     statement* getCopy();
     void append(proof_block*);
-    
+
     static vector<Proposition*> All_Proposition;
     static Proposition* Current;
     static Proposition* FindByRef(string);
