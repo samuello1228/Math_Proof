@@ -595,7 +595,7 @@ void Axiom::addAxiom(string description)
         if(!Current->content->contain_variable(all_dependence[i]))
         {
             if(Current->label != "forall_independent_variable" &&
-               Current->label != "exists_independent_variable" )
+               Current->label != "exists_independent_variable")
             {
                 cout << Current->label << endl;
                 cout << "Error: A quantifier is unused: " << all_dependence[i]->getLatex().getNormal() << endl;
@@ -816,7 +816,7 @@ string proof_block::getLatex()
                 if(Definition* x = dynamic_cast<Definition*>(chain_of_deductive[i]))
                 {
                     if(operator_latex == "\\iff" ||
-                       operator_latex == "=" )
+                       operator_latex == "=")
                     {
                         operator_latex = "\\overset{\\operatorname{def}}{" + operator_latex + "}";
                     }
@@ -1065,7 +1065,7 @@ void proof_block::apply_binary_operator(input& in, expression* source, Print_Inf
     if(in.dir == RightToLeft)
     {
         if(in.law->get_binary_operator_latex() == "\\iff" ||
-           in.law->get_binary_operator_latex() == "=" )
+           in.law->get_binary_operator_latex() == "=")
         {
             //swap
             if(in.law->binary_operator_type == LOGIC)
@@ -1243,7 +1243,7 @@ void proof_block::apply_binary_operator(input& in, expression* source, Print_Inf
 
     //check whether a is independent of b.
     if(in.law_label == "Axiom:forall_independent_variable" ||
-       in.law_label == "Axiom:exists_independent_variable" )
+       in.law_label == "Axiom:exists_independent_variable")
     {
         logic_binary_operator_logic_logic* iff = dynamic_cast<logic_binary_operator_logic_logic*>(in.law->content);
         universal_quantifier* ub = nullptr;
@@ -1273,7 +1273,7 @@ void proof_block::apply_binary_operator(input& in, expression* source, Print_Inf
     //check whether a is independent of c.
     if(in.law_label == "Proposition:lor_forall_distributivity" ||
        in.law_label == "Proposition:land_exists_distributivity" ||
-       in.law_label == "Proposition:implies_forall_distributivity" )
+       in.law_label == "Proposition:implies_forall_distributivity")
     {
         logic_binary_operator_logic_logic* iff = dynamic_cast<logic_binary_operator_logic_logic*>(in.law->content);
         logic_binary_operator_logic_logic* lor = nullptr;
@@ -1713,7 +1713,7 @@ void Proposition::addProposition(string description)
                Current->label != "implies_substitution_forall_2" &&
                Current->label != "implies_substitution_exists_2" &&
                Current->label != "iff_substitution_forall_2" &&
-               Current->label != "iff_substitution_exists_2" )
+               Current->label != "iff_substitution_exists_2")
             {
                 cout << Current->label << endl;
                 cout << "Error: A quantifier is unused: " << all_dependence[i]->getLatex().getNormal() << endl;
@@ -1780,7 +1780,7 @@ void Proposition::addProposition(string description)
         if(Current->proof[i]->target->label != "")
         {
             if(Current->proof[i]->label == "MI_0" ||
-               Current->proof[i]->label == "MI_k" )
+               Current->proof[i]->label == "MI_k")
             {
                 if(Current->proof[i]->label == "MI_0") fout << "Statement to prove for n = 0:" << endl;
                 if(Current->proof[i]->label == "MI_k") fout << "Statement to prove for n = k:" << endl;

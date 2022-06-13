@@ -150,7 +150,7 @@ bool expression::needParenthesis(expression* operand)
         condition_set_element = (x->latex == "\\emptyset" ||
                                  x->latex == "\\mathbb{N}" ||
                                  x->latex == "0" ||
-                                 x->latex == "1" );
+                                 x->latex == "1");
     }
     condition = condition || condition_set_element;
 
@@ -458,8 +458,8 @@ expression* expression::createFromLatex(string latex, variable_type var_type, bo
         if(elements[0].size() >= 4 &&
            elements[0][0] == '\\' &&
            elements[0][1] == '{' &&
-           elements[0][elements[0].size()-2] == '\\' &&
-           elements[0][elements[0].size()-1] == '}' )
+           elements[0][elements[0].size() - 2] == '\\' &&
+           elements[0][elements[0].size() - 1] == '}')
         {
             bool is_pair_set = false;
             long comma_index = -1;
@@ -847,7 +847,7 @@ bool expression::assemble(statement* step, expression* source_part, int p)
 
         bool condition_implies_1 = (step->get_binary_operator_latex() == "\\implies");
         condition_implies_1 = condition_implies_1 && (source_part_copy->operator_latex == "\\lor" ||
-                                                      source_part_copy->operator_latex == "\\land" );
+                                                      source_part_copy->operator_latex == "\\land");
         //Counter example for \\iff
         //(F \\implies T) \implies ( (F \\iff F) \implies (T \\iff F) )
 
@@ -939,7 +939,7 @@ bool expression::assemble(statement* step, expression* source_part, int p)
         bool condition_equality = (step->get_binary_operator_latex() == "=");
         condition_equality = condition_equality && (source_part_copy->operator_latex == "singleton_set" ||
                                                     source_part_copy->operator_latex == "\\bigcup" ||
-                                                    source_part_copy->operator_latex == "successor" );
+                                                    source_part_copy->operator_latex == "successor");
 
         if(condition_equality)
         {
