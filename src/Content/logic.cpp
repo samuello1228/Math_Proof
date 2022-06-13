@@ -810,7 +810,7 @@ void logic()
     {
         logic_variable* a = new logic_variable("a");
         set_variable* b = new set_variable("b");
-        universal_quantifier* u1 = new universal_quantifier(b,a);
+        universal_quantifier* u1 = new universal_quantifier(b, a);
 
         a = new logic_variable("a");
 
@@ -826,7 +826,7 @@ void logic()
     {
         logic_variable* a = new logic_variable("a");
         set_variable* b = new set_variable("b");
-        existential_quantifier* e1 = new existential_quantifier(b,a);
+        existential_quantifier* e1 = new existential_quantifier(b, a);
 
         a = new logic_variable("a");
 
