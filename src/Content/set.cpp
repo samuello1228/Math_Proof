@@ -12,9 +12,10 @@ void set()
 {
     ofstream& fout = statement::fout;
     fout.open("../tex/set.tex");
-    fout<<"\\chapter{Set theory}"<<endl;
-    fout<<"Set theory have one primitive notion, called set, and one binary relation, called set membership, denoted by $\\in$."<<endl;
-    fout<<endl;
+
+    fout << "\\chapter{Set theory}" << endl;
+    fout << "Set theory have one primitive notion, called set, and one binary relation, called set membership, denoted by $\\in$." << endl;
+    fout << endl;
 
     proof_block* block = nullptr;
     vector<substitution*> sub;
@@ -28,24 +29,24 @@ void set()
     Definition::Current = new Definition("notin", SET, "\\forall a \\forall b ((a \\notin b) \\iff (\\lnot (a \\in b)))");
     Definition::addDefinition("Definition of $\\notin$.");
 
-    fout<<"\\begin{defn}"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& \\forall a \\in S, P(a) \\\\"<<endl;
-    fout<<"\\overset{\\operatorname{def}}{\\iff} & \\forall a ((a \\in S) \\implies (P(a)))"<<endl;
-    fout<<"\\end{align*}"<<endl;
-    fout<<"\\end{defn}"<<endl;
-    fout<<endl;
+    fout << "\\begin{defn}" << endl;
+    fout << "\\begin{align*}" << endl;
+    fout << "& \\forall a \\in S, P(a) \\\\" << endl;
+    fout << "\\overset{\\operatorname{def}}{\\iff} & \\forall a ((a \\in S) \\implies (P(a)))" << endl;
+    fout << "\\end{align*}" << endl;
+    fout << "\\end{defn}" << endl;
+    fout << endl;
 
-    fout<<"\\begin{defn}"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& \\exists a \\in S, P(a) \\\\"<<endl;
-    fout<<"\\overset{\\operatorname{def}}{\\iff} & \\exists a ((a \\in S) \\land (P(a)))"<<endl;
-    fout<<"\\end{align*}"<<endl;
-    fout<<"\\end{defn}"<<endl;
-    fout<<endl;
+    fout << "\\begin{defn}" << endl;
+    fout << "\\begin{align*}" << endl;
+    fout << "& \\exists a \\in S, P(a) \\\\" << endl;
+    fout << "\\overset{\\operatorname{def}}{\\iff} & \\exists a ((a \\in S) \\land (P(a)))" << endl;
+    fout << "\\end{align*}" << endl;
+    fout << "\\end{defn}" << endl;
+    fout << endl;
 
     //Equality
-    fout<<"\\section{Equality of sets}"<<endl;
+    fout << "\\section{Equality of sets}" << endl;
     Definition::Current = new Definition("equality", SET, "\\forall a \\forall b ((a = b) \\iff (\\forall c ((c \\in a) \\iff (c \\in b))))");
     Definition::addDefinition("Definition of $=$.");
 
@@ -84,7 +85,7 @@ void set()
     Axiom::Current = new Axiom("extensionality", SET, "\\forall a \\forall b ((a = b) \\implies (\\forall c ((a \\in c) \\iff (b \\in c))))");
     Axiom::addAxiom("Axiom of extensionality");
 
-    fout<<"\\subsection{Axiom of Substitution for $\\in$}"<<endl;
+    fout << "\\subsection{Axiom of Substitution for $\\in$}" << endl;
     Proposition::Current = new Proposition("equality_substitution_in_1", SET, "\\forall a \\forall b \\forall c ((a = b) \\implies ((c \\in a) \\iff (c \\in b)))");
     description = "Substitution of $=$ for $\\in$.";
     block = new proof_block(deduction_LeftToRight);
@@ -101,7 +102,7 @@ void set()
     Proposition::Current->append(block);
     Proposition::addProposition(description);
 
-    fout<<"\\subsection{Axiom of Substitution for $=$}"<<endl;
+    fout << "\\subsection{Axiom of Substitution for $=$}" << endl;
     Proposition::Current = new Proposition("equality_substitution_equality", SET, "\\forall a \\forall b \\forall c ((a = b) \\implies ((a = c) \\iff (b = c)))");
     description = "Substitution of $=$ for $=$.";
     block = new proof_block(backward);
@@ -116,7 +117,7 @@ void set()
     Proposition::Current->append(block);
     Proposition::addProposition(description);
 
-    fout<<"\\subsection{Basic Propositions}"<<endl;
+    fout << "\\subsection{Basic Propositions}" << endl;
     Proposition::Current = new Proposition("equality_property_1", SET, "\\forall a \\forall b ((a = b) \\iff (\\forall c ((c = a) \\iff (c = b))))");
     description = "Property of $=$.";
 
@@ -205,7 +206,7 @@ void set()
     Proposition::Current->append(block);
     Proposition::addProposition(description);
 
-    fout<<"\\subsection{Empty set}"<<endl;
+    fout << "\\subsection{Empty set}" << endl;
     Axiom::Current = new Axiom("existence_of_empty_set", SET, "\\forall a (a \\notin \\emptyset)");
     Axiom::addAxiom("Existence of empty set");
 
@@ -236,7 +237,7 @@ void set()
     Proposition::Current->append(block);
     Proposition::addProposition(description);
 
-    fout<<"\\subsection{Pair set}"<<endl;
+    fout << "\\subsection{Pair set}" << endl;
     Axiom::Current = new Axiom("existence_of_pair_set", SET, "\\forall a \\forall b \\forall c ((c \\in \\{ a , b \\}) \\iff ((c = a) \\lor (c = b)))");
     Axiom::addAxiom("Existence of pair set");
 
@@ -279,7 +280,7 @@ void set()
     Proposition::Current->append(block);
     Proposition::addProposition(description);
 
-    fout<<"\\subsection{Singleton set}"<<endl;
+    fout << "\\subsection{Singleton set}" << endl;
     Definition::Current = new Definition("singleton_set", SET, "\\forall a (\\{ a \\} = \\{ a , a \\})");
     Definition::addDefinition("Definition of singleton set.");
 
@@ -324,7 +325,7 @@ void set()
     Proposition::Current->append(block);
     Proposition::addProposition(description);
 
-    fout<<"\\subsection{Union set}"<<endl;
+    fout << "\\subsection{Union set}" << endl;
     Axiom::Current = new Axiom("existence_of_union_set", SET, "\\forall a \\forall b ((b \\in (\\bigcup a)) \\iff (\\exists c ((b \\in c) \\land (c \\in a))))");
     Axiom::addAxiom("Existence of union set.");
 
@@ -369,7 +370,7 @@ void set()
     Proposition::Current->append(block);
     Proposition::addProposition(description);
 
-    fout<<"\\subsection{Pairwise union}"<<endl;
+    fout << "\\subsection{Pairwise union}" << endl;
     Definition::Current = new Definition("pairwise_union", SET, "\\forall a \\forall b ((a \\cup b) = (\\bigcup \\{ a , b \\}))");
     Definition::addDefinition("Definition of pairwise union $a \\cup b$.");
 
@@ -444,7 +445,7 @@ void set()
     Proposition::addProposition();
 
     //Axiom of regularity
-    fout<<"\\subsection{Axiom of regularity}"<<endl;
+    fout << "\\subsection{Axiom of regularity}" << endl;
     Axiom::Current = new Axiom("axiom_of_regularity", SET, "\\forall a ((a \\neq \\emptyset) \\implies (\\exists b ((b \\in a) \\land ((b \\cup a) = \\emptyset))))");
     Axiom::addAxiom("Axiom of regularity.");
 
@@ -579,7 +580,7 @@ void set()
     Proposition::addProposition(description);
 
     //subset
-    fout<<"\\subsection{Subset}"<<endl;
+    fout << "\\subsection{Subset}" << endl;
     Definition::Current = new Definition("subset", SET, "\\forall a \\forall b ((a \\subseteq b) \\iff (\\forall c ((c \\in a) \\implies (c \\in b))))");
     Definition::addDefinition("Definition of $\\subseteq$.");
 
@@ -635,7 +636,7 @@ void set()
     Proposition::addProposition();
 
     //Peano axioms
-    fout<<"\\subsection{Peano axioms}"<<endl;
+    fout << "\\subsection{Peano axioms}" << endl;
     //zero
     Definition::Current = new Definition("zero", SET, "0 = \\emptyset");
     Definition::addDefinition("Definition of 0.");

@@ -14,16 +14,16 @@ void logic()
     fout.open("../tex/logic.tex");
 
     //Definition of Proposition
-    fout<<"\\chapter{Logic}"<<endl;
-    fout<<"\\begin{defn}"<<endl;
-    fout<<"Proposition is a statement that is either true or false, but not both."<<endl;
-    fout<<"\\end{defn}"<<endl;
-    fout<<endl;
+    fout << "\\chapter{Logic}" << endl;
+    fout << "\\begin{defn}" << endl;
+    fout << "Proposition is a statement that is either true or false, but not both." << endl;
+    fout << "\\end{defn}" << endl;
+    fout << endl;
 
     //Logical operations
-    fout<<"\\section{Logical operations}"<<endl;
+    fout << "\\section{Logical operations}" << endl;
     //Definition of NOT
-    fout<<"\\subsection{Definition of $\\lnot$}"<<endl;
+    fout << "\\subsection{Definition of $\\lnot$}" << endl;
     Definition::Current = new Definition("lnot_True", LOGIC, "(\\lnot (\\text{True})) \\iff (\\text{False})");
     Definition::addDefinition();
 
@@ -31,7 +31,7 @@ void logic()
     Definition::addDefinition();
 
     //Definition of OR
-    fout<<"\\subsection{Definition of $\\lor$}"<<endl;
+    fout << "\\subsection{Definition of $\\lor$}" << endl;
     Definition::Current = new Definition("lor_True_True", LOGIC, "((\\text{True}) \\lor (\\text{True})) \\iff (\\text{True})");
     Definition::addDefinition();
 
@@ -45,7 +45,7 @@ void logic()
     Definition::addDefinition();
 
     //Definition of AND
-    fout<<"\\subsection{Definition of $\\land$}"<<endl;
+    fout << "\\subsection{Definition of $\\land$}" << endl;
     Definition::Current = new Definition("land_True_True", LOGIC, "((\\text{True}) \\land (\\text{True})) \\iff (\\text{True})");
     Definition::addDefinition();
 
@@ -59,12 +59,12 @@ void logic()
     Definition::addDefinition();
 
     //Definition of iff
-    fout<<"\\subsection{Definition of $\\iff$}"<<endl;
+    fout << "\\subsection{Definition of $\\iff$}" << endl;
     Definition::Current = new Definition("iff", LOGIC, "\\forall a \\forall b ((a \\iff b) \\iff ((a \\land b) \\lor ((\\lnot a) \\land (\\lnot b))))");
     Definition::addDefinition();
 
     //Definition of implies
-    fout<<"\\subsection{Definition of $\\implies$}"<<endl;
+    fout << "\\subsection{Definition of $\\implies$}" << endl;
     Definition::Current = new Definition("implies", LOGIC, "\\forall a \\forall b ((a \\implies b) \\iff ((\\lnot a) \\lor b))");
     Definition::addDefinition();
 
@@ -72,14 +72,14 @@ void logic()
     proof_block* block = nullptr;
     vector<substitution*> sub;
     string description;
-    fout<<"\\section{Boolean algebra}"<<endl;
+    fout << "\\section{Boolean algebra}" << endl;
     //Double negation
-    fout<<"\\subsection{Double negation}"<<endl;
+    fout << "\\subsection{Double negation}" << endl;
     Proposition::Current = new Proposition("double_negation", LOGIC, "\\forall a ((\\lnot (\\lnot a)) \\iff a)");
     Proposition::addProposition();
 
     //De Morgan's laws
-    fout<<"\\subsection{De Morgan's laws}"<<endl;
+    fout << "\\subsection{De Morgan's laws}" << endl;
     Proposition::Current = new Proposition("De_Morgan_lor", LOGIC, "\\forall a \\forall b ((\\lnot (a \\lor b)) \\iff ((\\lnot a) \\land (\\lnot b)))");
     Proposition::addProposition();
 
@@ -93,11 +93,11 @@ void logic()
     Proposition::addProposition();
 
     //Associativity
-    fout<<"\\subsection{Associativity of $\\lor$}"<<endl;
+    fout << "\\subsection{Associativity of $\\lor$}" << endl;
     Proposition::Current = new Proposition("lor_associativity", LOGIC, "\\forall a \\forall b \\forall c (((a \\lor b) \\lor c) \\iff (a \\lor (b \\lor c)))");
     Proposition::addProposition();
 
-    fout<<"\\subsection{Associativity of $\\land$}"<<endl;
+    fout << "\\subsection{Associativity of $\\land$}" << endl;
     Proposition::Current = new Proposition("land_associativity", LOGIC, "\\forall a \\forall b \\forall c (((a \\land b) \\land c) \\iff (a \\land (b \\land c)))");
     block = new proof_block(deduction_LeftToRight);
     block->append(input({1,1}, "Proposition:double_negation", RightToLeft));
@@ -115,11 +115,11 @@ void logic()
     Proposition::addProposition();
 
     //Commutativity
-    fout<<"\\subsection{Commutativity of $\\lor$}"<<endl;
+    fout << "\\subsection{Commutativity of $\\lor$}" << endl;
     Proposition::Current = new Proposition("lor_commutativity", LOGIC, "\\forall a \\forall b ((a \\lor b) \\iff (b \\lor a))");
     Proposition::addProposition();
 
-    fout<<"\\subsection{Commutativity of $\\land$}"<<endl;
+    fout << "\\subsection{Commutativity of $\\land$}" << endl;
     Proposition::Current = new Proposition("land_commutativity", LOGIC, "\\forall a \\forall b ((a \\land b) \\iff (b \\land a))");
     block = new proof_block(deduction_LeftToRight);
     block->append(input({1}, "Proposition:double_negation", RightToLeft));
@@ -133,7 +133,7 @@ void logic()
     Proposition::addProposition();
 
     //Identity
-    fout<<"\\subsection{Identity of $\\lor$}"<<endl;
+    fout << "\\subsection{Identity of $\\lor$}" << endl;
     Proposition::Current = new Proposition("lor_identity_1", LOGIC, "\\forall a ((a \\lor (\\text{False})) \\iff a)");
     Proposition::addProposition();
 
@@ -144,7 +144,7 @@ void logic()
     Proposition::Current->append(block);
     Proposition::addProposition();
 
-    fout<<"\\subsection{Identity of $\\land$}"<<endl;
+    fout << "\\subsection{Identity of $\\land$}" << endl;
     Proposition::Current = new Proposition("land_identity_1", LOGIC, "\\forall a ((a \\land (\\text{True})) \\iff a)");
     block = new proof_block(deduction_LeftToRight);
     block->append(input({1}, "Proposition:double_negation", RightToLeft));
@@ -163,7 +163,7 @@ void logic()
     Proposition::addProposition();
 
     //Annihilator
-    fout<<"\\subsection{Annihilator of $\\lor$}"<<endl;
+    fout << "\\subsection{Annihilator of $\\lor$}" << endl;
     Proposition::Current = new Proposition("lor_annihilator_1", LOGIC, "\\forall a ((a \\lor (\\text{True})) \\iff (\\text{True}))");
     Proposition::addProposition();
 
@@ -174,7 +174,7 @@ void logic()
     Proposition::Current->append(block);
     Proposition::addProposition();
 
-    fout<<"\\subsection{Annihilator of $\\land$}"<<endl;
+    fout << "\\subsection{Annihilator of $\\land$}" << endl;
     Proposition::Current = new Proposition("land_annihilator_1", LOGIC, "\\forall a ((a \\land (\\text{False})) \\iff (\\text{False}))");
     block = new proof_block(deduction_LeftToRight);
     block->append(input({1}, "Proposition:double_negation", RightToLeft));
@@ -193,11 +193,11 @@ void logic()
     Proposition::addProposition();
 
     //Idempotence
-    fout<<"\\subsection{Idempotence of $\\lor$}"<<endl;
+    fout << "\\subsection{Idempotence of $\\lor$}" << endl;
     Proposition::Current = new Proposition("lor_idempotence", LOGIC, "\\forall a ((a \\lor a) \\iff a)");
     Proposition::addProposition();
 
-    fout<<"\\subsection{Idempotence of $\\land$}"<<endl;
+    fout << "\\subsection{Idempotence of $\\land$}" << endl;
     Proposition::Current = new Proposition("land_idempotence", LOGIC, "\\forall a ((a \\land a) \\iff a)");
     block = new proof_block(deduction_LeftToRight);
     block->append(input({1}, "Proposition:double_negation", RightToLeft));
@@ -209,7 +209,7 @@ void logic()
     Proposition::addProposition();
 
     //Complement
-    fout<<"\\subsection{Complement of $\\lor$}"<<endl;
+    fout << "\\subsection{Complement of $\\lor$}" << endl;
     Proposition::Current = new Proposition("lor_complement_1", LOGIC, "\\forall a ((a \\lor (\\lnot a)) \\iff (\\text{True}))");
     Proposition::addProposition();
 
@@ -220,7 +220,7 @@ void logic()
     Proposition::Current->append(block);
     Proposition::addProposition();
 
-    fout<<"\\subsection{Complement of $\\land$}"<<endl;
+    fout << "\\subsection{Complement of $\\land$}" << endl;
     Proposition::Current = new Proposition("land_complement_1", LOGIC, "\\forall a ((a \\land (\\lnot a)) \\iff (\\text{False}))");
     block = new proof_block(deduction_LeftToRight);
     block->append(input({1}, "Proposition:double_negation", RightToLeft));
@@ -238,7 +238,7 @@ void logic()
     Proposition::addProposition();
 
     //Distributivity
-    fout<<"\\subsection{Distributivity of $\\lor$ over $\\land$}"<<endl;
+    fout << "\\subsection{Distributivity of $\\lor$ over $\\land$}" << endl;
     Proposition::Current = new Proposition("lor_land_distributivity_1", LOGIC, "\\forall a \\forall b \\forall c ((a \\lor (b \\land c)) \\iff ((a \\lor b) \\land (a \\lor c)))");
     Proposition::addProposition();
 
@@ -251,7 +251,7 @@ void logic()
     Proposition::Current->append(block);
     Proposition::addProposition();
 
-    fout<<"\\subsection{Distributivity of $\\land$ over $\\lor$}"<<endl;
+    fout << "\\subsection{Distributivity of $\\land$ over $\\lor$}" << endl;
     Proposition::Current = new Proposition("land_lor_distributivity_1", LOGIC, "\\forall a \\forall b \\forall c ((a \\land (b \\lor c)) \\iff ((a \\land b) \\lor (a \\land c)))");
     block = new proof_block(deduction_LeftToRight);
     block->append(input({2,1}, "Proposition:double_negation", RightToLeft));
@@ -280,7 +280,7 @@ void logic()
     Proposition::addProposition();
 
     //Absorption
-    fout<<"\\subsection{Absorption of $\\lor$ over $\\land$}"<<endl;
+    fout << "\\subsection{Absorption of $\\lor$ over $\\land$}" << endl;
     Proposition::Current = new Proposition("lor_land_absorption", LOGIC, "\\forall a \\forall b ((a \\lor (a \\land b)) \\iff a)");
     block = new proof_block(deduction_LeftToRight);
     block->append(input({1}, "Proposition:land_identity_1", RightToLeft));
@@ -296,7 +296,7 @@ void logic()
     Proposition::Current->append(block);
     Proposition::addProposition();
 
-    fout<<"\\subsection{Absorption of $\\land$ over $\\lor$}"<<endl;
+    fout << "\\subsection{Absorption of $\\land$ over $\\lor$}" << endl;
     Proposition::Current = new Proposition("land_lor_absorption", LOGIC, "\\forall a \\forall b ((a \\land (a \\lor b)) \\iff a)");
     block = new proof_block(deduction_LeftToRight);
     block->append(input({}, "Proposition:land_lor_distributivity_1", LeftToRight));
@@ -306,10 +306,10 @@ void logic()
     Proposition::addProposition();
 
     //Basic Proposition
-    fout<<"\\section{Basic Proposition}"<<endl;
+    fout << "\\section{Basic Proposition}" << endl;
 
     //a_lor_b_complement
-    fout<<"\\subsection{Complement of a $\\lor$ b}"<<endl;
+    fout << "\\subsection{Complement of a $\\lor$ b}" << endl;
     Proposition::Current = new Proposition("a_lor_b_complement_1", LOGIC, "\\forall a \\forall b (((a \\land (\\lnot b)) \\lor b) \\iff (a \\lor b))");
     block = new proof_block(deduction_LeftToRight);
     block->append(input({}, "Proposition:lor_land_distributivity_2", LeftToRight));
@@ -327,7 +327,7 @@ void logic()
     Proposition::addProposition();
 
     //Multiple condition
-    fout<<"\\subsection{Multiple condition}"<<endl;
+    fout << "\\subsection{Multiple condition}" << endl;
     Proposition::Current = new Proposition("multiple_condition", LOGIC, "\\forall a \\forall b \\forall c ((a \\implies (b \\implies c)) \\iff ((a \\land b) \\implies c))");
     description = "Multiple condition.";
     block = new proof_block(deduction_LeftToRight);
@@ -340,7 +340,7 @@ void logic()
     Proposition::addProposition(description);
 
     //Condition satisfied
-    fout<<"\\subsection{Condition satisfied}"<<endl;
+    fout << "\\subsection{Condition satisfied}" << endl;
     Proposition::Current = new Proposition("a_implies_a_lor_b", LOGIC, "\\forall a \\forall b (a \\implies (a \\lor b))");
     block = new proof_block(backward);
     block->append(input({}, "Definition:implies", LeftToRight));
@@ -373,7 +373,7 @@ void logic()
     Proposition::Current->append(block);
     Proposition::addProposition(description);
 
-    fout<<"\\subsection{Associativity and Commutativity}"<<endl;
+    fout << "\\subsection{Associativity and Commutativity}" << endl;
     Proposition::Current = new Proposition("lor_commutativity_2_2", LOGIC, "\\forall a \\forall b \\forall c \\forall d (((a \\lor b) \\lor (c \\lor d)) \\iff ((a \\lor c) \\lor (b \\lor d)))");
     description = "Commutativity of $\\lor$.";
     block = new proof_block(deduction_LeftToRight);
@@ -397,7 +397,7 @@ void logic()
     Proposition::addProposition(description);
 
     //Proof technique
-    fout<<"\\section{Proof technique}"<<endl;
+    fout << "\\section{Proof technique}" << endl;
 
     //true statement
     Proposition::Current = new Proposition("true_statement", LOGIC, "\\forall a ((a \\iff (\\text{True})) \\iff a)");
@@ -411,7 +411,7 @@ void logic()
     Proposition::addProposition();
 
     //Transitive property of implies
-    fout<<"\\subsection{Transitive property of $\\implies$}"<<endl;
+    fout << "\\subsection{Transitive property of $\\implies$}" << endl;
     Proposition::Current = new Proposition("implies_transitive", LOGIC, "\\forall a \\forall b \\forall c (((a \\implies b) \\land (b \\implies c)) \\implies (a \\implies c))");
     description = "Transitive property of $\\implies$.";
     block = new proof_block(backward);
@@ -434,7 +434,7 @@ void logic()
     Proposition::Current->append(block);
     Proposition::addProposition(description);
 
-    fout<<"\\subsection{Axiom of Substitution for $\\implies$}"<<endl;
+    fout << "\\subsection{Axiom of Substitution for $\\implies$}" << endl;
     Proposition::Current = new Proposition("implies_substitution_lor", LOGIC, "\\forall a \\forall b \\forall c ((a \\implies b) \\implies ((a \\lor c) \\implies (b \\lor c)))");
     description = "Substitution of $\\implies$ for $\\lor$.";
     block = new proof_block(backward);
@@ -491,7 +491,7 @@ void logic()
     Proposition::addProposition(description);
 
     //Contrapositive
-    fout<<"\\subsection{Contrapositive}"<<endl;
+    fout << "\\subsection{Contrapositive}" << endl;
     Proposition::Current = new Proposition("contrapositive", LOGIC, "\\forall a \\forall b ((a \\implies b) \\iff ((\\lnot b) \\implies (\\lnot a)))");
     description = "Contrapositive.";
     block = new proof_block(deduction_LeftToRight);
@@ -502,7 +502,7 @@ void logic()
     Proposition::Current->append(block);
     Proposition::addProposition(description);
 
-    fout<<"\\subsection{Properties of $\\iff$}"<<endl;
+    fout << "\\subsection{Properties of $\\iff$}" << endl;
     //iff and implies
     Proposition::Current = new Proposition("iff_implies", LOGIC, "\\forall a \\forall b ((a \\iff b) \\iff ((a \\implies b) \\land (b \\implies a)))");
     block = new proof_block(deduction_LeftToRight);
@@ -555,7 +555,7 @@ void logic()
     Proposition::Current->append(block);
     Proposition::addProposition(description);
 
-    fout<<"\\subsection{Axiom of Substitution for $\\iff$}"<<endl;
+    fout << "\\subsection{Axiom of Substitution for $\\iff$}" << endl;
     Proposition::Current = new Proposition("iff_substitution_lor", LOGIC, "\\forall a \\forall b \\forall c ((a \\iff b) \\implies ((a \\lor c) \\iff (b \\lor c)))");
     description = "Substitution of $\\iff$ for $\\lor$.";
     block = new proof_block(deduction_LeftToRight);
@@ -713,7 +713,7 @@ void logic()
     Proposition::Current->append(block);
     Proposition::addProposition(description);
 
-    fout<<"\\subsection{Axiom of Substitution for quantifiers}"<<endl;
+    fout << "\\subsection{Axiom of Substitution for quantifiers}" << endl;
     Proposition::Current = new Proposition("implies_substitution_forall_1", LOGIC, "\\forall a \\forall b \\forall c \\forall d (((a \\implies b) \\land (c \\implies d)) \\implies ((a \\land c) \\implies (b \\land d)))");
     description = "Substitution of $\\implies$ for $\\forall$.";
 
@@ -775,37 +775,37 @@ void logic()
     Proposition::addProposition(description);
 
     //Quantifiers
-    fout<<"\\section{Quantifiers}"<<endl;
+    fout << "\\section{Quantifiers}" << endl;
 
     //Universal quantifier
-    fout<<"\\begin{defn}"<<endl;
-    fout<<"Universal quantifier is denoted by $\\forall$."<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& \\forall x (P(x)) \\\\"<<endl;
-    fout<<"\\overset{\\operatorname{def}}{\\iff} & (P(x_1) \\land P(x_2) \\land \\dots)"<<endl;
-    fout<<"\\end{align*}"<<endl;
-    fout<<"\\end{defn}"<<endl;
-    fout<<endl;
+    fout << "\\begin{defn}" << endl;
+    fout << "Universal quantifier is denoted by $\\forall$." << endl;
+    fout << "\\begin{align*}" << endl;
+    fout << "& \\forall x (P(x)) \\\\" << endl;
+    fout << "\\overset{\\operatorname{def}}{\\iff} & (P(x_1) \\land P(x_2) \\land \\dots)" << endl;
+    fout << "\\end{align*}" << endl;
+    fout << "\\end{defn}" << endl;
+    fout << endl;
 
     //Existential quantifier
-    fout<<"\\begin{defn}"<<endl;
-    fout<<"Existential quantifier is denoted by $\\exists$."<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& \\exists x (P(x)) \\\\"<<endl;
-    fout<<"\\overset{\\operatorname{def}}{\\iff} & (P(x_1) \\lor P(x_2) \\lor \\dots)"<<endl;
-    fout<<"\\end{align*}"<<endl;
-    fout<<"\\end{defn}"<<endl;
-    fout<<endl;
+    fout << "\\begin{defn}" << endl;
+    fout << "Existential quantifier is denoted by $\\exists$." << endl;
+    fout << "\\begin{align*}" << endl;
+    fout << "& \\exists x (P(x)) \\\\" << endl;
+    fout << "\\overset{\\operatorname{def}}{\\iff} & (P(x_1) \\lor P(x_2) \\lor \\dots)" << endl;
+    fout << "\\end{align*}" << endl;
+    fout << "\\end{defn}" << endl;
+    fout << endl;
 
-    fout<<"\\begin{defn}"<<endl;
-    fout<<"\\label{Definition:uniqueness_quantifier}"<<endl;
-    fout<<"Uniqueness quantifier is denoted by $!\\exists$."<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& !\\exists x (P(x)) \\\\"<<endl;
-    fout<<"\\overset{\\operatorname{def}}{\\iff} & (\\exists x (P(x))) \\land (\\forall x \\forall y ((P(x) \\land P(y)) \\implies (x = y)))"<<endl;
-    fout<<"\\end{align*}"<<endl;
-    fout<<"\\end{defn}"<<endl;
-    fout<<endl;
+    fout << "\\begin{defn}" << endl;
+    fout << "\\label{Definition:uniqueness_quantifier}" << endl;
+    fout << "Uniqueness quantifier is denoted by $!\\exists$." << endl;
+    fout << "\\begin{align*}" << endl;
+    fout << "& !\\exists x (P(x)) \\\\" << endl;
+    fout << "\\overset{\\operatorname{def}}{\\iff} & (\\exists x (P(x))) \\land (\\forall x \\forall y ((P(x) \\land P(y)) \\implies (x = y)))" << endl;
+    fout << "\\end{align*}" << endl;
+    fout << "\\end{defn}" << endl;
+    fout << endl;
 
     {
         logic_variable* a = new logic_variable("a");
@@ -839,7 +839,7 @@ void logic()
     }
     Axiom::addAxiom("$a$ is independent of $b$.");
 
-    fout<<"\\subsection{Boolean algebra for quantifier}"<<endl;
+    fout << "\\subsection{Boolean algebra for quantifier}" << endl;
     {
         logic_variable* a = new logic_variable("a");
         set_variable* c = new set_variable("c");
@@ -868,29 +868,29 @@ void logic()
     }
     Proposition::addProposition();
 
-    fout<<"Proof of Proposition \\ref{Proposition:forall_land_commutativity} \\\\"<<endl;
-    fout<<"For n = 2,"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& (a_1 \\land a_2) \\land (b_1 \\land b_2) \\\\"<<endl;
-    fout<<"\\iff & (a_1 \\land b_1) \\land (a_2 \\land b_2)"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:land_commutativity_2_2}} \\\\"<<endl;
-    fout<<"\\end{align*}"<<endl;
+    fout << "Proof of Proposition \\ref{Proposition:forall_land_commutativity} \\\\" << endl;
+    fout << "For n = 2," << endl;
+    fout << "\\begin{align*}" << endl;
+    fout << "& (a_1 \\land a_2) \\land (b_1 \\land b_2) \\\\" << endl;
+    fout << "\\iff & (a_1 \\land b_1) \\land (a_2 \\land b_2)" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:land_commutativity_2_2}} \\\\" << endl;
+    fout << "\\end{align*}" << endl;
 
-    fout<<"For n = k+1,"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& ((( \\dots (a_1 \\land a_2) \\dots ) \\land a_k) \\land a_{k+1}) \\land ((( \\dots (b_1 \\land b_2) \\dots ) \\land b_k ) \\land b_{k+1}) \\\\"<<endl;
-    fout<<"\\iff & (( \\dots (a_1 \\land a_2) \\dots ) \\land (a_k \\land a_{k+1})) \\land ((( \\dots (b_1 \\land b_2) \\dots ) \\land b_k ) \\land b_{k+1})"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:land_associativity}} \\\\"<<endl;
-    fout<<"\\iff & (( \\dots (a_1 \\land a_2) \\dots ) \\land (a_k \\land a_{k+1})) \\land (( \\dots (b_1 \\land b_2) \\dots ) \\land (b_k \\land b_{k+1}))"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:land_associativity}} \\\\"<<endl;
-    fout<<"\\iff & ( \\dots ((a_1 \\land b_1) \\land (a_2 \\land b_2)) \\dots ) \\land ((a_k \\land a_{k+1}) \\land (b_k \\land b_{k+1}))"<<endl;
-    fout<<"& & \\text{Assumption for n=k} \\\\"<<endl;
-    fout<<"\\iff & ( \\dots ((a_1 \\land b_1) \\land (a_2 \\land b_2)) \\dots ) \\land ((a_k \\land b_k) \\land (a_{k+1} \\land b_{k+1}))"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:land_commutativity_2_2}} \\\\"<<endl;
-    fout<<"\\iff & (( \\dots ((a_1 \\land b_1) \\land (a_2 \\land b_2)) \\dots ) \\land (a_k \\land b_k)) \\land (a_{k+1} \\land b_{k+1})"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:land_associativity}} \\\\"<<endl;
-    fout<<"\\end{align*}"<<endl;
-    fout<<endl;
+    fout << "For n = k+1," << endl;
+    fout << "\\begin{align*}" << endl;
+    fout << "& ((( \\dots (a_1 \\land a_2) \\dots ) \\land a_k) \\land a_{k+1}) \\land ((( \\dots (b_1 \\land b_2) \\dots ) \\land b_k ) \\land b_{k+1}) \\\\" << endl;
+    fout << "\\iff & (( \\dots (a_1 \\land a_2) \\dots ) \\land (a_k \\land a_{k+1})) \\land ((( \\dots (b_1 \\land b_2) \\dots ) \\land b_k ) \\land b_{k+1})" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:land_associativity}} \\\\" << endl;
+    fout << "\\iff & (( \\dots (a_1 \\land a_2) \\dots ) \\land (a_k \\land a_{k+1})) \\land (( \\dots (b_1 \\land b_2) \\dots ) \\land (b_k \\land b_{k+1}))" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:land_associativity}} \\\\" << endl;
+    fout << "\\iff & ( \\dots ((a_1 \\land b_1) \\land (a_2 \\land b_2)) \\dots ) \\land ((a_k \\land a_{k+1}) \\land (b_k \\land b_{k+1}))" << endl;
+    fout << "& & \\text{Assumption for n=k} \\\\" << endl;
+    fout << "\\iff & ( \\dots ((a_1 \\land b_1) \\land (a_2 \\land b_2)) \\dots ) \\land ((a_k \\land b_k) \\land (a_{k+1} \\land b_{k+1}))" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:land_commutativity_2_2}} \\\\" << endl;
+    fout << "\\iff & (( \\dots ((a_1 \\land b_1) \\land (a_2 \\land b_2)) \\dots ) \\land (a_k \\land b_k)) \\land (a_{k+1} \\land b_{k+1})" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:land_associativity}} \\\\" << endl;
+    fout << "\\end{align*}" << endl;
+    fout << endl;
 
     {
         logic_variable* a = new logic_variable("a");
@@ -920,29 +920,29 @@ void logic()
     }
     Proposition::addProposition();
 
-    fout<<"Proof of Proposition \\ref{Proposition:exists_lor_commutativity} \\\\"<<endl;
-    fout<<"For n = 2,"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& (a_1 \\lor a_2) \\lor (b_1 \\lor b_2) \\\\"<<endl;
-    fout<<"\\iff & (a_1 \\lor b_1) \\lor (a_2 \\lor b_2)"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:lor_commutativity_2_2}} \\\\"<<endl;
-    fout<<"\\end{align*}"<<endl;
+    fout << "Proof of Proposition \\ref{Proposition:exists_lor_commutativity} \\\\" << endl;
+    fout << "For n = 2," << endl;
+    fout << "\\begin{align*}" << endl;
+    fout << "& (a_1 \\lor a_2) \\lor (b_1 \\lor b_2) \\\\" << endl;
+    fout << "\\iff & (a_1 \\lor b_1) \\lor (a_2 \\lor b_2)" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:lor_commutativity_2_2}} \\\\" << endl;
+    fout << "\\end{align*}" << endl;
 
-    fout<<"For n = k+1,"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& ((( \\dots (a_1 \\lor a_2) \\dots ) \\lor a_k) \\lor a_{k+1}) \\lor ((( \\dots (b_1 \\lor b_2) \\dots ) \\lor b_k ) \\lor b_{k+1}) \\\\"<<endl;
-    fout<<"\\iff & (( \\dots (a_1 \\lor a_2) \\dots ) \\lor (a_k \\lor a_{k+1})) \\lor ((( \\dots (b_1 \\lor b_2) \\dots ) \\lor b_k ) \\lor b_{k+1})"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:lor_associativity}} \\\\"<<endl;
-    fout<<"\\iff & (( \\dots (a_1 \\lor a_2) \\dots ) \\lor (a_k \\lor a_{k+1})) \\lor (( \\dots (b_1 \\lor b_2) \\dots ) \\lor (b_k \\lor b_{k+1}))"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:lor_associativity}} \\\\"<<endl;
-    fout<<"\\iff & ( \\dots ((a_1 \\lor b_1) \\lor (a_2 \\lor b_2)) \\dots ) \\lor ((a_k \\lor a_{k+1}) \\lor (b_k \\lor b_{k+1}))"<<endl;
-    fout<<"& & \\text{Assumption for n=k} \\\\"<<endl;
-    fout<<"\\iff & ( \\dots ((a_1 \\lor b_1) \\lor (a_2 \\lor b_2)) \\dots ) \\lor ((a_k \\lor b_k) \\lor (a_{k+1} \\lor b_{k+1}))"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:lor_commutativity_2_2}} \\\\"<<endl;
-    fout<<"\\iff & (( \\dots ((a_1 \\lor b_1) \\lor (a_2 \\lor b_2)) \\dots ) \\lor (a_k \\lor b_k)) \\lor (a_{k+1} \\lor b_{k+1})"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:lor_associativity}} \\\\"<<endl;
-    fout<<"\\end{align*}"<<endl;
-    fout<<endl;
+    fout << "For n = k+1," << endl;
+    fout << "\\begin{align*}" << endl;
+    fout << "& ((( \\dots (a_1 \\lor a_2) \\dots ) \\lor a_k) \\lor a_{k+1}) \\lor ((( \\dots (b_1 \\lor b_2) \\dots ) \\lor b_k ) \\lor b_{k+1}) \\\\" << endl;
+    fout << "\\iff & (( \\dots (a_1 \\lor a_2) \\dots ) \\lor (a_k \\lor a_{k+1})) \\lor ((( \\dots (b_1 \\lor b_2) \\dots ) \\lor b_k ) \\lor b_{k+1})" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:lor_associativity}} \\\\" << endl;
+    fout << "\\iff & (( \\dots (a_1 \\lor a_2) \\dots ) \\lor (a_k \\lor a_{k+1})) \\lor (( \\dots (b_1 \\lor b_2) \\dots ) \\lor (b_k \\lor b_{k+1}))" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:lor_associativity}} \\\\" << endl;
+    fout << "\\iff & ( \\dots ((a_1 \\lor b_1) \\lor (a_2 \\lor b_2)) \\dots ) \\lor ((a_k \\lor a_{k+1}) \\lor (b_k \\lor b_{k+1}))" << endl;
+    fout << "& & \\text{Assumption for n=k} \\\\" << endl;
+    fout << "\\iff & ( \\dots ((a_1 \\lor b_1) \\lor (a_2 \\lor b_2)) \\dots ) \\lor ((a_k \\lor b_k) \\lor (a_{k+1} \\lor b_{k+1}))" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:lor_commutativity_2_2}} \\\\" << endl;
+    fout << "\\iff & (( \\dots ((a_1 \\lor b_1) \\lor (a_2 \\lor b_2)) \\dots ) \\lor (a_k \\lor b_k)) \\lor (a_{k+1} \\lor b_{k+1})" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:lor_associativity}} \\\\" << endl;
+    fout << "\\end{align*}" << endl;
+    fout << endl;
 
     {
         logic_variable* a = new logic_variable("a");
@@ -968,27 +968,27 @@ void logic()
     }
     Proposition::addProposition("$a$ is independent of $c$.");
 
-    fout<<"Proof of Proposition \\ref{Proposition:lor_forall_distributivity} \\\\"<<endl;
-    fout<<"For n = 2,"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& a \\lor (b_1 \\land b_2) \\\\"<<endl;
-    fout<<"\\iff & (a \\lor b_1) \\land (a \\lor b_2)"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:lor_land_distributivity_1}} \\\\"<<endl;
-    fout<<"\\end{align*}"<<endl;
+    fout << "Proof of Proposition \\ref{Proposition:lor_forall_distributivity} \\\\" << endl;
+    fout << "For n = 2," << endl;
+    fout << "\\begin{align*}" << endl;
+    fout << "& a \\lor (b_1 \\land b_2) \\\\" << endl;
+    fout << "\\iff & (a \\lor b_1) \\land (a \\lor b_2)" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:lor_land_distributivity_1}} \\\\" << endl;
+    fout << "\\end{align*}" << endl;
 
-    fout<<"For n = k+1,"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& a \\lor ((( \\dots (b_1 \\land b_2) \\dots ) \\land b_k ) \\land b_{k+1}) \\\\"<<endl;
-    fout<<"\\iff & a \\lor (( \\dots (b_1 \\land b_2) \\dots ) \\land ( b_k \\land b_{k+1}))"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:land_associativity}} \\\\"<<endl;
-    fout<<"\\iff & ( \\dots ((a \\lor b_1) \\land (a \\lor b_2)) \\dots ) \\land (a \\lor (b_k \\land b_{k+1}))"<<endl;
-    fout<<"& & \\text{Assumption for n=k} \\\\"<<endl;
-    fout<<"\\iff & ( \\dots ((a \\lor b_1) \\land (a \\lor b_2)) \\dots ) \\land ((a \\lor b_k) \\land (a \\lor b_{k+1}))"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:lor_land_distributivity_1}} \\\\"<<endl;
-    fout<<"\\iff & (( \\dots ((a \\lor b_1) \\land (a \\lor b_2)) \\dots ) \\land (a \\lor b_k)) \\land (a \\lor b_{k+1})"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:land_associativity}} \\\\"<<endl;
-    fout<<"\\end{align*}"<<endl;
-    fout<<endl;
+    fout << "For n = k+1," << endl;
+    fout << "\\begin{align*}" << endl;
+    fout << "& a \\lor ((( \\dots (b_1 \\land b_2) \\dots ) \\land b_k ) \\land b_{k+1}) \\\\" << endl;
+    fout << "\\iff & a \\lor (( \\dots (b_1 \\land b_2) \\dots ) \\land ( b_k \\land b_{k+1}))" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:land_associativity}} \\\\" << endl;
+    fout << "\\iff & ( \\dots ((a \\lor b_1) \\land (a \\lor b_2)) \\dots ) \\land (a \\lor (b_k \\land b_{k+1}))" << endl;
+    fout << "& & \\text{Assumption for n=k} \\\\" << endl;
+    fout << "\\iff & ( \\dots ((a \\lor b_1) \\land (a \\lor b_2)) \\dots ) \\land ((a \\lor b_k) \\land (a \\lor b_{k+1}))" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:lor_land_distributivity_1}} \\\\" << endl;
+    fout << "\\iff & (( \\dots ((a \\lor b_1) \\land (a \\lor b_2)) \\dots ) \\land (a \\lor b_k)) \\land (a \\lor b_{k+1})" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:land_associativity}} \\\\" << endl;
+    fout << "\\end{align*}" << endl;
+    fout << endl;
 
     {
         logic_variable* a = new logic_variable("a");
@@ -1014,27 +1014,27 @@ void logic()
     }
     Proposition::addProposition("$a$ is independent of $c$.");
 
-    fout<<"Proof of Proposition \\ref{Proposition:land_exists_distributivity} \\\\"<<endl;
-    fout<<"For n = 2,"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& a \\land (b_1 \\lor b_2) \\\\"<<endl;
-    fout<<"\\iff & (a \\land b_1) \\lor (a \\land b_2)"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:land_lor_distributivity_1}} \\\\"<<endl;
-    fout<<"\\end{align*}"<<endl;
+    fout << "Proof of Proposition \\ref{Proposition:land_exists_distributivity} \\\\" << endl;
+    fout << "For n = 2," << endl;
+    fout << "\\begin{align*}" << endl;
+    fout << "& a \\land (b_1 \\lor b_2) \\\\" << endl;
+    fout << "\\iff & (a \\land b_1) \\lor (a \\land b_2)" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:land_lor_distributivity_1}} \\\\" << endl;
+    fout << "\\end{align*}" << endl;
 
-    fout<<"For n = k+1,"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& a \\land ((( \\dots (b_1 \\lor b_2) \\dots ) \\lor b_k ) \\lor b_{k+1}) \\\\"<<endl;
-    fout<<"\\iff & a \\land (( \\dots (b_1 \\lor b_2) \\dots ) \\lor ( b_k \\lor b_{k+1}))"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:lor_associativity}} \\\\"<<endl;
-    fout<<"\\iff & ( \\dots ((a \\land b_1) \\lor (a \\land b_2)) \\dots ) \\lor (a \\land (b_k \\lor b_{k+1}))"<<endl;
-    fout<<"& & \\text{Assumption for n=k} \\\\"<<endl;
-    fout<<"\\iff & ( \\dots ((a \\land b_1) \\lor (a \\land b_2)) \\dots ) \\lor ((a \\land b_k) \\lor (a \\land b_{k+1}))"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:land_lor_distributivity_1}} \\\\"<<endl;
-    fout<<"\\iff & (( \\dots ((a \\land b_1) \\lor (a \\land b_2)) \\dots ) \\lor (a \\land b_k)) \\lor (a \\land b_{k+1})"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:lor_associativity}} \\\\"<<endl;
-    fout<<"\\end{align*}"<<endl;
-    fout<<endl;
+    fout << "For n = k+1," << endl;
+    fout << "\\begin{align*}" << endl;
+    fout << "& a \\land ((( \\dots (b_1 \\lor b_2) \\dots ) \\lor b_k ) \\lor b_{k+1}) \\\\" << endl;
+    fout << "\\iff & a \\land (( \\dots (b_1 \\lor b_2) \\dots ) \\lor ( b_k \\lor b_{k+1}))" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:lor_associativity}} \\\\" << endl;
+    fout << "\\iff & ( \\dots ((a \\land b_1) \\lor (a \\land b_2)) \\dots ) \\lor (a \\land (b_k \\lor b_{k+1}))" << endl;
+    fout << "& & \\text{Assumption for n=k} \\\\" << endl;
+    fout << "\\iff & ( \\dots ((a \\land b_1) \\lor (a \\land b_2)) \\dots ) \\lor ((a \\land b_k) \\lor (a \\land b_{k+1}))" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:land_lor_distributivity_1}} \\\\" << endl;
+    fout << "\\iff & (( \\dots ((a \\land b_1) \\lor (a \\land b_2)) \\dots ) \\lor (a \\land b_k)) \\lor (a \\land b_{k+1})" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:lor_associativity}} \\\\" << endl;
+    fout << "\\end{align*}" << endl;
+    fout << endl;
 
     {
         logic_variable* a = new logic_variable("a");
@@ -1085,27 +1085,27 @@ void logic()
     }
     Proposition::addProposition("De Morgan's law");
 
-    fout<<"Proof of Proposition \\ref{Proposition:De_Morgan_1} \\\\"<<endl;
-    fout<<"For n = 2,"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& \\lnot (a_1 \\land a_2) \\\\"<<endl;
-    fout<<"\\iff & (\\lnot a_1) \\lor (\\lnot a_2)"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:De_Morgan_land}} \\\\"<<endl;
-    fout<<"\\end{align*}"<<endl;
+    fout << "Proof of Proposition \\ref{Proposition:De_Morgan_1} \\\\" << endl;
+    fout << "For n = 2," << endl;
+    fout << "\\begin{align*}" << endl;
+    fout << "& \\lnot (a_1 \\land a_2) \\\\" << endl;
+    fout << "\\iff & (\\lnot a_1) \\lor (\\lnot a_2)" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:De_Morgan_land}} \\\\" << endl;
+    fout << "\\end{align*}" << endl;
 
-    fout<<"For n = k+1,"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& \\lnot ((( \\dots (a_1 \\land a_2) \\dots ) \\land a_k ) \\land a_{k+1}) \\\\"<<endl;
-    fout<<"\\iff & \\lnot (( \\dots (a_1 \\land a_2) \\dots ) \\land ( a_k \\land a_{k+1}))"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:land_associativity}} \\\\"<<endl;
-    fout<<"\\iff & ( \\dots ((\\lnot a_1) \\lor (\\lnot a_2)) \\dots ) \\lor (\\lnot (a_k \\land a_{k+1}))"<<endl;
-    fout<<"& & \\text{Assumption for n=k} \\\\"<<endl;
-    fout<<"\\iff & ( \\dots ((\\lnot a_1) \\lor (\\lnot a_2)) \\dots ) \\lor ((\\lnot a_k) \\lor (\\lnot a_{k+1}))"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:De_Morgan_land}} \\\\"<<endl;
-    fout<<"\\iff & (( \\dots ((\\lnot a_1) \\lor (\\lnot a_2)) \\dots ) \\lor (\\lnot a_k)) \\lor (\\lnot a_{k+1})"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:lor_associativity}} \\\\"<<endl;
-    fout<<"\\end{align*}"<<endl;
-    fout<<endl;
+    fout << "For n = k+1," << endl;
+    fout << "\\begin{align*}" << endl;
+    fout << "& \\lnot ((( \\dots (a_1 \\land a_2) \\dots ) \\land a_k ) \\land a_{k+1}) \\\\" << endl;
+    fout << "\\iff & \\lnot (( \\dots (a_1 \\land a_2) \\dots ) \\land ( a_k \\land a_{k+1}))" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:land_associativity}} \\\\" << endl;
+    fout << "\\iff & ( \\dots ((\\lnot a_1) \\lor (\\lnot a_2)) \\dots ) \\lor (\\lnot (a_k \\land a_{k+1}))" << endl;
+    fout << "& & \\text{Assumption for n=k} \\\\" << endl;
+    fout << "\\iff & ( \\dots ((\\lnot a_1) \\lor (\\lnot a_2)) \\dots ) \\lor ((\\lnot a_k) \\lor (\\lnot a_{k+1}))" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:De_Morgan_land}} \\\\" << endl;
+    fout << "\\iff & (( \\dots ((\\lnot a_1) \\lor (\\lnot a_2)) \\dots ) \\lor (\\lnot a_k)) \\lor (\\lnot a_{k+1})" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:lor_associativity}} \\\\" << endl;
+    fout << "\\end{align*}" << endl;
+    fout << endl;
 
     {
         logic_variable* a = new logic_variable("a");
@@ -1127,29 +1127,29 @@ void logic()
     }
     Proposition::addProposition("De Morgan's law");
 
-    fout<<"Proof of Proposition \\ref{Proposition:De_Morgan_2} \\\\"<<endl;
-    fout<<"For n = 2,"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& \\lnot (a_1 \\lor a_2) \\\\"<<endl;
-    fout<<"\\iff & (\\lnot a_1) \\land (\\lnot a_2)"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:De_Morgan_lor}} \\\\"<<endl;
-    fout<<"\\end{align*}"<<endl;
+    fout << "Proof of Proposition \\ref{Proposition:De_Morgan_2} \\\\" << endl;
+    fout << "For n = 2," << endl;
+    fout << "\\begin{align*}" << endl;
+    fout << "& \\lnot (a_1 \\lor a_2) \\\\" << endl;
+    fout << "\\iff & (\\lnot a_1) \\land (\\lnot a_2)" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:De_Morgan_lor}} \\\\" << endl;
+    fout << "\\end{align*}" << endl;
 
-    fout<<"For n = k+1,"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& \\lnot ((( \\dots (a_1 \\lor a_2) \\dots ) \\lor a_k ) \\lor a_{k+1}) \\\\"<<endl;
-    fout<<"\\iff & \\lnot (( \\dots (a_1 \\lor a_2) \\dots ) \\lor ( a_k \\lor a_{k+1}))"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:lor_associativity}} \\\\"<<endl;
-    fout<<"\\iff & ( \\dots ((\\lnot a_1) \\land (\\lnot a_2)) \\dots ) \\land (\\lnot (a_k \\lor a_{k+1}))"<<endl;
-    fout<<"& & \\text{Assumption for n=k} \\\\"<<endl;
-    fout<<"\\iff & ( \\dots ((\\lnot a_1) \\land (\\lnot a_2)) \\dots ) \\land ((\\lnot a_k) \\land (\\lnot a_{k+1}))"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:De_Morgan_lor}} \\\\"<<endl;
-    fout<<"\\iff & (( \\dots ((\\lnot a_1) \\land (\\lnot a_2)) \\dots ) \\land (\\lnot a_k)) \\land (\\lnot a_{k+1})"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:land_associativity}} \\\\"<<endl;
-    fout<<"\\end{align*}"<<endl;
-    fout<<endl;
+    fout << "For n = k+1," << endl;
+    fout << "\\begin{align*}" << endl;
+    fout << "& \\lnot ((( \\dots (a_1 \\lor a_2) \\dots ) \\lor a_k ) \\lor a_{k+1}) \\\\" << endl;
+    fout << "\\iff & \\lnot (( \\dots (a_1 \\lor a_2) \\dots ) \\lor ( a_k \\lor a_{k+1}))" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:lor_associativity}} \\\\" << endl;
+    fout << "\\iff & ( \\dots ((\\lnot a_1) \\land (\\lnot a_2)) \\dots ) \\land (\\lnot (a_k \\lor a_{k+1}))" << endl;
+    fout << "& & \\text{Assumption for n=k} \\\\" << endl;
+    fout << "\\iff & ( \\dots ((\\lnot a_1) \\land (\\lnot a_2)) \\dots ) \\land ((\\lnot a_k) \\land (\\lnot a_{k+1}))" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:De_Morgan_lor}} \\\\" << endl;
+    fout << "\\iff & (( \\dots ((\\lnot a_1) \\land (\\lnot a_2)) \\dots ) \\land (\\lnot a_k)) \\land (\\lnot a_{k+1})" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:land_associativity}} \\\\" << endl;
+    fout << "\\end{align*}" << endl;
+    fout << endl;
 
-    fout<<"\\subsection{Axiom of Substitution for quantifiers}"<<endl;
+    fout << "\\subsection{Axiom of Substitution for quantifiers}" << endl;
 
     {
         logic_variable* a = new logic_variable("a");
@@ -1177,23 +1177,23 @@ void logic()
     }
     Proposition::addProposition();
 
-    fout<<"Proof of Proposition \\ref{Proposition:implies_substitution_forall_2} \\\\"<<endl;
-    fout<<"For n = 2,"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& (a_1 \\implies b_1) \\land (a_2 \\implies b_2) \\\\"<<endl;
-    fout<<"\\implies & (a_1 \\land a_2) \\implies (b_1 \\land b_2)"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:implies_substitution_forall_1}} \\\\"<<endl;
-    fout<<"\\end{align*}"<<endl;
+    fout << "Proof of Proposition \\ref{Proposition:implies_substitution_forall_2} \\\\" << endl;
+    fout << "For n = 2," << endl;
+    fout << "\\begin{align*}" << endl;
+    fout << "& (a_1 \\implies b_1) \\land (a_2 \\implies b_2) \\\\" << endl;
+    fout << "\\implies & (a_1 \\land a_2) \\implies (b_1 \\land b_2)" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:implies_substitution_forall_1}} \\\\" << endl;
+    fout << "\\end{align*}" << endl;
 
-    fout<<"For n = k+1,"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& (( \\dots ((a_1 \\implies b_1) \\land (a_2 \\implies b_2)) \\dots ) \\land (a_k \\implies b_k)) \\land (a_{k+1} \\implies b_{k+1}) \\\\"<<endl;
-    fout<<"\\implies & ((( \\dots (a_1 \\land a_2) \\dots ) \\land a_k) \\implies (( \\dots (b_1 \\land b_2) \\dots ) \\land b_k)) \\land (a_{k+1} \\implies b_{k+1})"<<endl;
-    fout<<"& & \\text{Assumption for n=k} \\\\"<<endl;
-    fout<<"\\implies & ((( \\dots (a_1 \\land a_2) \\dots ) \\land a_k) \\land a_{k+1}) \\implies ((( \\dots (b_1 \\land b_2) \\dots ) \\land b_k) \\land b_{k+1})"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:implies_substitution_forall_1}} \\\\"<<endl;
-    fout<<"\\end{align*}"<<endl;
-    fout<<endl;
+    fout << "For n = k+1," << endl;
+    fout << "\\begin{align*}" << endl;
+    fout << "& (( \\dots ((a_1 \\implies b_1) \\land (a_2 \\implies b_2)) \\dots ) \\land (a_k \\implies b_k)) \\land (a_{k+1} \\implies b_{k+1}) \\\\" << endl;
+    fout << "\\implies & ((( \\dots (a_1 \\land a_2) \\dots ) \\land a_k) \\implies (( \\dots (b_1 \\land b_2) \\dots ) \\land b_k)) \\land (a_{k+1} \\implies b_{k+1})" << endl;
+    fout << "& & \\text{Assumption for n=k} \\\\" << endl;
+    fout << "\\implies & ((( \\dots (a_1 \\land a_2) \\dots ) \\land a_k) \\land a_{k+1}) \\implies ((( \\dots (b_1 \\land b_2) \\dots ) \\land b_k) \\land b_{k+1})" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:implies_substitution_forall_1}} \\\\" << endl;
+    fout << "\\end{align*}" << endl;
+    fout << endl;
 
     {
         logic_variable* a = new logic_variable("a");
@@ -1221,23 +1221,23 @@ void logic()
     }
     Proposition::addProposition();
 
-    fout<<"Proof of Proposition \\ref{Proposition:implies_substitution_exists_2} \\\\"<<endl;
-    fout<<"For n = 2,"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& (a_1 \\implies b_1) \\land (a_2 \\implies b_2) \\\\"<<endl;
-    fout<<"\\implies & (a_1 \\lor a_2) \\implies (b_1 \\lor b_2)"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:implies_substitution_exists_1}} \\\\"<<endl;
-    fout<<"\\end{align*}"<<endl;
+    fout << "Proof of Proposition \\ref{Proposition:implies_substitution_exists_2} \\\\" << endl;
+    fout << "For n = 2," << endl;
+    fout << "\\begin{align*}" << endl;
+    fout << "& (a_1 \\implies b_1) \\land (a_2 \\implies b_2) \\\\" << endl;
+    fout << "\\implies & (a_1 \\lor a_2) \\implies (b_1 \\lor b_2)" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:implies_substitution_exists_1}} \\\\" << endl;
+    fout << "\\end{align*}" << endl;
 
-    fout<<"For n = k+1,"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& (( \\dots ((a_1 \\implies b_1) \\land (a_2 \\implies b_2)) \\dots ) \\land (a_k \\implies b_k)) \\land (a_{k+1} \\implies b_{k+1}) \\\\"<<endl;
-    fout<<"\\implies & ((( \\dots (a_1 \\lor a_2) \\dots ) \\lor a_k) \\implies (( \\dots (b_1 \\lor b_2) \\dots ) \\lor b_k)) \\land (a_{k+1} \\implies b_{k+1})"<<endl;
-    fout<<"& & \\text{Assumption for n=k} \\\\"<<endl;
-    fout<<"\\implies & ((( \\dots (a_1 \\lor a_2) \\dots ) \\lor a_k) \\lor a_{k+1}) \\implies ((( \\dots (b_1 \\lor b_2) \\dots ) \\lor b_k) \\lor b_{k+1})"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:implies_substitution_exists_1}} \\\\"<<endl;
-    fout<<"\\end{align*}"<<endl;
-    fout<<endl;
+    fout << "For n = k+1," << endl;
+    fout << "\\begin{align*}" << endl;
+    fout << "& (( \\dots ((a_1 \\implies b_1) \\land (a_2 \\implies b_2)) \\dots ) \\land (a_k \\implies b_k)) \\land (a_{k+1} \\implies b_{k+1}) \\\\" << endl;
+    fout << "\\implies & ((( \\dots (a_1 \\lor a_2) \\dots ) \\lor a_k) \\implies (( \\dots (b_1 \\lor b_2) \\dots ) \\lor b_k)) \\land (a_{k+1} \\implies b_{k+1})" << endl;
+    fout << "& & \\text{Assumption for n=k} \\\\" << endl;
+    fout << "\\implies & ((( \\dots (a_1 \\lor a_2) \\dots ) \\lor a_k) \\lor a_{k+1}) \\implies ((( \\dots (b_1 \\lor b_2) \\dots ) \\lor b_k) \\lor b_{k+1})" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:implies_substitution_exists_1}} \\\\" << endl;
+    fout << "\\end{align*}" << endl;
+    fout << endl;
 
     {
         logic_variable* a = new logic_variable("a");
@@ -1265,23 +1265,23 @@ void logic()
     }
     Proposition::addProposition();
 
-    fout<<"Proof of Proposition \\ref{Proposition:iff_substitution_forall_2} \\\\"<<endl;
-    fout<<"For n = 2,"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& (a_1 \\iff b_1) \\land (a_2 \\iff b_2) \\\\"<<endl;
-    fout<<"\\implies & (a_1 \\land a_2) \\iff (b_1 \\land b_2)"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:iff_substitution_forall_1}} \\\\"<<endl;
-    fout<<"\\end{align*}"<<endl;
+    fout << "Proof of Proposition \\ref{Proposition:iff_substitution_forall_2} \\\\" << endl;
+    fout << "For n = 2," << endl;
+    fout << "\\begin{align*}" << endl;
+    fout << "& (a_1 \\iff b_1) \\land (a_2 \\iff b_2) \\\\" << endl;
+    fout << "\\implies & (a_1 \\land a_2) \\iff (b_1 \\land b_2)" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:iff_substitution_forall_1}} \\\\" << endl;
+    fout << "\\end{align*}" << endl;
 
-    fout<<"For n = k+1,"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& (( \\dots ((a_1 \\iff b_1) \\land (a_2 \\iff b_2)) \\dots ) \\land (a_k \\iff b_k)) \\land (a_{k+1} \\iff b_{k+1}) \\\\"<<endl;
-    fout<<"\\implies & ((( \\dots (a_1 \\land a_2) \\dots ) \\land a_k) \\iff (( \\dots (b_1 \\land b_2) \\dots ) \\land b_k)) \\land (a_{k+1} \\iff b_{k+1})"<<endl;
-    fout<<"& & \\text{Assumption for n=k} \\\\"<<endl;
-    fout<<"\\implies & ((( \\dots (a_1 \\land a_2) \\dots ) \\land a_k) \\land a_{k+1}) \\iff ((( \\dots (b_1 \\land b_2) \\dots ) \\land b_k) \\land b_{k+1})"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:iff_substitution_forall_1}} \\\\"<<endl;
-    fout<<"\\end{align*}"<<endl;
-    fout<<endl;
+    fout << "For n = k+1," << endl;
+    fout << "\\begin{align*}" << endl;
+    fout << "& (( \\dots ((a_1 \\iff b_1) \\land (a_2 \\iff b_2)) \\dots ) \\land (a_k \\iff b_k)) \\land (a_{k+1} \\iff b_{k+1}) \\\\" << endl;
+    fout << "\\implies & ((( \\dots (a_1 \\land a_2) \\dots ) \\land a_k) \\iff (( \\dots (b_1 \\land b_2) \\dots ) \\land b_k)) \\land (a_{k+1} \\iff b_{k+1})" << endl;
+    fout << "& & \\text{Assumption for n=k} \\\\" << endl;
+    fout << "\\implies & ((( \\dots (a_1 \\land a_2) \\dots ) \\land a_k) \\land a_{k+1}) \\iff ((( \\dots (b_1 \\land b_2) \\dots ) \\land b_k) \\land b_{k+1})" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:iff_substitution_forall_1}} \\\\" << endl;
+    fout << "\\end{align*}" << endl;
+    fout << endl;
 
     {
         logic_variable* a = new logic_variable("a");
@@ -1309,39 +1309,39 @@ void logic()
     }
     Proposition::addProposition();
 
-    fout<<"Proof of Proposition \\ref{Proposition:iff_substitution_exists_2} \\\\"<<endl;
-    fout<<"For n = 2,"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& (a_1 \\iff b_1) \\land (a_2 \\iff b_2) \\\\"<<endl;
-    fout<<"\\implies & (a_1 \\lor a_2) \\iff (b_1 \\lor b_2)"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:iff_substitution_exists_1}} \\\\"<<endl;
-    fout<<"\\end{align*}"<<endl;
+    fout << "Proof of Proposition \\ref{Proposition:iff_substitution_exists_2} \\\\" << endl;
+    fout << "For n = 2," << endl;
+    fout << "\\begin{align*}" << endl;
+    fout << "& (a_1 \\iff b_1) \\land (a_2 \\iff b_2) \\\\" << endl;
+    fout << "\\implies & (a_1 \\lor a_2) \\iff (b_1 \\lor b_2)" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:iff_substitution_exists_1}} \\\\" << endl;
+    fout << "\\end{align*}" << endl;
 
-    fout<<"For n = k+1,"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& (( \\dots ((a_1 \\iff b_1) \\land (a_2 \\iff b_2)) \\dots ) \\land (a_k \\iff b_k)) \\land (a_{k+1} \\iff b_{k+1}) \\\\"<<endl;
-    fout<<"\\implies & ((( \\dots (a_1 \\lor a_2) \\dots ) \\lor a_k) \\iff (( \\dots (b_1 \\lor b_2) \\dots ) \\lor b_k)) \\land (a_{k+1} \\iff b_{k+1})"<<endl;
-    fout<<"& & \\text{Assumption for n=k} \\\\"<<endl;
-    fout<<"\\implies & ((( \\dots (a_1 \\lor a_2) \\dots ) \\lor a_k) \\lor a_{k+1}) \\iff ((( \\dots (b_1 \\lor b_2) \\dots ) \\lor b_k) \\lor b_{k+1})"<<endl;
-    fout<<"& & \\text{Proposition \\ref{Proposition:iff_substitution_exists_1}} \\\\"<<endl;
-    fout<<"\\end{align*}"<<endl;
-    fout<<endl;
+    fout << "For n = k+1," << endl;
+    fout << "\\begin{align*}" << endl;
+    fout << "& (( \\dots ((a_1 \\iff b_1) \\land (a_2 \\iff b_2)) \\dots ) \\land (a_k \\iff b_k)) \\land (a_{k+1} \\iff b_{k+1}) \\\\" << endl;
+    fout << "\\implies & ((( \\dots (a_1 \\lor a_2) \\dots ) \\lor a_k) \\iff (( \\dots (b_1 \\lor b_2) \\dots ) \\lor b_k)) \\land (a_{k+1} \\iff b_{k+1})" << endl;
+    fout << "& & \\text{Assumption for n=k} \\\\" << endl;
+    fout << "\\implies & ((( \\dots (a_1 \\lor a_2) \\dots ) \\lor a_k) \\lor a_{k+1}) \\iff ((( \\dots (b_1 \\lor b_2) \\dots ) \\lor b_k) \\lor b_{k+1})" << endl;
+    fout << "& & \\text{Proposition \\ref{Proposition:iff_substitution_exists_1}} \\\\" << endl;
+    fout << "\\end{align*}" << endl;
+    fout << endl;
 
-    fout<<"\\subsection{Axiom of Existence}"<<endl;
-    fout<<"\\begin{axm}"<<endl;
-    fout<<"\\label{Axiom:axiom_of_existence}"<<endl;
-    fout<<"Axiom of Existence"<<endl;
-    fout<<"\\begin{align*}"<<endl;
-    fout<<"& \\forall a ( \\\\"<<endl;
-    fout<<"& & & P(a,a) \\\\"<<endl;
-    fout<<"& & \\iff & \\exists b ((b = a) \\land (P(a,b))) \\\\"<<endl;
-    fout<<"& )"<<endl;
-    fout<<"\\end{align*}"<<endl;
-    fout<<"\\end{axm}"<<endl;
-    fout<<endl;
+    fout << "\\subsection{Axiom of Existence}" << endl;
+    fout << "\\begin{axm}" << endl;
+    fout << "\\label{Axiom:axiom_of_existence}" << endl;
+    fout << "Axiom of Existence" << endl;
+    fout << "\\begin{align*}" << endl;
+    fout << "& \\forall a ( \\\\" << endl;
+    fout << "& & & P(a,a) \\\\" << endl;
+    fout << "& & \\iff & \\exists b ((b = a) \\land (P(a,b))) \\\\" << endl;
+    fout << "& )" << endl;
+    fout << "\\end{align*}" << endl;
+    fout << "\\end{axm}" << endl;
+    fout << endl;
 
     //Logic proposition
-    fout<<"\\section{Logic proposition}"<<endl;
+    fout << "\\section{Logic proposition}" << endl;
 
     //Reflexive Property of implies
     Proposition::Current = new Proposition("implies_reflexive", LOGIC, "\\forall a (a \\implies a)");
